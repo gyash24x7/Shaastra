@@ -34,5 +34,5 @@
 			]
 		}
 	},
-	"defaultProject": "services-workforce"
+	"defaultProject": "@shaastra/workforce"
 }

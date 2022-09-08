@@ -2,10 +2,12 @@
 	"$schema": "./node_modules/nx/schemas/workspace-schema.json",
 	"version": 2,
 	"projects": {
+		"@shaastra/auth": "libs/auth",
+		"@shaastra/consul": "libs/consul",
 		"@shaastra/gateway": "apps/gateway",
-		"@shaastra/auth": "libs/common/auth",
-		"@shaastra/consul": "libs/common/consul",
-		"@shaastra/health": "libs/common/health",
-		"@shaastra/workforce": "services/workforce"
+		"@shaastra/health": "libs/health",
+		"@shaastra/workforce": "services/workforce",
+		"@shaastra/prisma": "libs/prisma",
+		"@shaastra/utils": "libs/utils"
 	}
 }

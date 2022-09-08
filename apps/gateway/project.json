@@ -5,39 +5,30 @@
 	"targets": {
 		"build": {
 			"executor": "@nrwl/node:webpack",
-			"outputs": [
-				"{options.outputPath}"
-			],
+			"outputs": [ "{options.outputPath}" ],
 			"options": {
 				"outputPath": "dist/apps/gateway",
 				"main": "apps/gateway/src/main.ts",
 				"tsConfig": "apps/gateway/tsconfig.app.json",
-				"assets": [
-					"apps/gateway/src/assets"
-				]
+				"assets": [ ]
 			},
 			"configurations": {
 				"production": {
 					"optimization": true,
 					"extractLicenses": true,
 					"inspect": false,
-					"fileReplacements": [
-						{
-							"replace": "apps/gateway/src/environments/environment.ts",
-							"with": "apps/gateway/src/environments/environment.prod.ts"
-						}
-					]
+					"fileReplacements": [ ]
 				}
 			}
 		},
 		"serve": {
 			"executor": "@nrwl/node:node",
 			"options": {
-				"buildTarget": "apps-gateway:build"
+				"buildTarget": "@shaastra/gateway:build"
 			},
 			"configurations": {
 				"production": {
-					"buildTarget": "apps-gateway:build:production"
+					"buildTarget": "@shaastra/gateway:build:production"
 				}
 			}
 		}

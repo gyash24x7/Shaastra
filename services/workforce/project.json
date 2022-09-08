@@ -1,55 +1,35 @@
 {
-	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/services/workforce/src",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "services/workforce/src",
 	"projectType": "application",
 	"targets": {
 		"build": {
 			"executor": "@nrwl/node:webpack",
-			"outputs": [
-				"{options.outputPath}"
-			],
+			"outputs": [ "{options.outputPath}" ],
 			"options": {
-				"outputPath": "dist/apps/services/workforce",
-				"main": "apps/services/workforce/src/main.ts",
-				"tsConfig": "apps/services/workforce/tsconfig.app.json",
-				"assets": [
-					"apps/services/workforce/src/assets"
-				]
+				"outputPath": "dist/services/workforce",
+				"main": "services/workforce/src/main.ts",
+				"tsConfig": "services/workforce/tsconfig.app.json",
+				"assets": [ ]
 			},
 			"configurations": {
 				"production": {
 					"optimization": true,
 					"extractLicenses": true,
 					"inspect": false,
-					"fileReplacements": [
-						{
-							"replace": "apps/services/workforce/src/environments/environment.ts",
-							"with": "apps/services/workforce/src/environments/environment.prod.ts"
-						}
-					]
+					"fileReplacements": [ ]
 				}
 			}
 		},
 		"serve": {
 			"executor": "@nrwl/node:node",
 			"options": {
-				"buildTarget": "services-workforce:build"
+				"buildTarget": "@shaastra/workforce:build"
 			},
 			"configurations": {
 				"production": {
-					"buildTarget": "services-workforce:build:production"
+					"buildTarget": "@shaastra/workforce:build:production"
 				}
-			}
-		},
-		"lint": {
-			"executor": "@nrwl/linter:eslint",
-			"outputs": [
-				"{options.outputFile}"
-			],
-			"options": {
-				"lintFilePatterns": [
-					"apps/services/workforce/**/*.ts"
-				]
 			}
 		}
 	},

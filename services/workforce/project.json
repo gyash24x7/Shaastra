@@ -4,19 +4,15 @@
 	"projectType": "application",
 	"targets": {
 		"migrate": {
-			"executor": "nx:run-commands",
+			"executor": "./tools/executors/prisma:migrate",
 			"options": {
-				"commands": [
-					{ "command": "prisma migrate dev --schema services/workforce/src/prisma/schema.prisma" }
-				]
+				"schemaPath": "services/workforce/src/prisma/schema.prisma"
 			}
 		},
 		"generate": {
-			"executor": "nx:run-commands",
+			"executor": "./tools/executors/prisma:generate",
 			"options": {
-				"commands": [
-					{ "command": "prisma generate --schema services/workforce/src/prisma/schema.prisma" }
-				]
+				"schemaPath": "services/workforce/src/prisma/schema.prisma"
 			}
 		},
 		"build": {

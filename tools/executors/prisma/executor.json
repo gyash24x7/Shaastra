@@ -1,0 +1,14 @@
+{
+	"executors": {
+		"generate": {
+			"implementation": "./generate",
+			"schema": "./schema.json",
+			"description": "Generates Prisma Client"
+		},
+		"migrate": {
+			"implementation": "./migrate",
+			"schema": "./schema.json",
+			"description": "Generates Prisma Migrations"
+		}
+	}
+}

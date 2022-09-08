@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/schema",
+	"type": "object",
+	"cli": "nx",
+	"properties": {
+		"schemaPath": {
+			"type": "string",
+			"description": "Path from repository root to prisma schema"
+		}
+	}
+}

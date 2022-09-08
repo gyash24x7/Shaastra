@@ -1,12 +1,12 @@
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { MemberCreatedEvent, MemberEnabledEvent } from "./member.events";
 import { CreateMemberCommand, EnableMemberCommand } from "./member.commands";
-import { PrismaService } from "../prisma/prisma.service";
+import { WorkforcePrismaService } from "@shaastra/prisma";
 
 @CommandHandler( CreateMemberCommand )
 export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberCommand> {
 	constructor(
-		private readonly prismaService: PrismaService,
+		private readonly prismaService: WorkforcePrismaService,
 		private readonly eventBus: EventBus
 	) {}
 
@@ -22,7 +22,7 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 @CommandHandler( EnableMemberCommand )
 export class EnableMemberCommandHandler implements ICommandHandler<EnableMemberCommand> {
 	constructor(
-		private readonly prismaService: PrismaService,
+		private readonly prismaService: WorkforcePrismaService,
 		private readonly eventBus: EventBus
 	) {}
 

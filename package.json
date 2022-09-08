@@ -9,6 +9,8 @@
 	},
 	"private": true,
 	"devDependencies": {
+		"@nestjs/schematics": "9.0.3",
+		"@nestjs/testing": "9.0.11",
 		"@nrwl/cli": "14.6.5",
 		"@nrwl/devkit": "14.6.5",
 		"@nrwl/nest": "14.6.5",

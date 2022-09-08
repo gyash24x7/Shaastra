@@ -6,13 +6,13 @@
 		"migrate": {
 			"executor": "./tools/executors/prisma:migrate",
 			"options": {
-				"schemaPath": "services/workforce/src/prisma/schema.prisma"
+				"schemaPath": "services/workforce/prisma/schema.prisma"
 			}
 		},
 		"generate": {
 			"executor": "./tools/executors/prisma:generate",
 			"options": {
-				"schemaPath": "services/workforce/src/prisma/schema.prisma"
+				"schemaPath": "services/workforce/prisma/schema.prisma"
 			}
 		},
 		"build": {

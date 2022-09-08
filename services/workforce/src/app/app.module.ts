@@ -1,4 +1,4 @@
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { Module } from "@nestjs/common";
 import { AuthModule } from "@shaastra/auth";
 import { HealthModule } from "@shaastra/health";
@@ -8,13 +8,27 @@ import { MercuriusFederationDriver, MercuriusFederationDriverConfig } from "@nes
 import type { FastifyRequest } from "fastify";
 import appConfig from "./app.config";
 import { MemberModule } from "../member/member.module";
+import { PrismaModule } from "@shaastra/prisma";
 
 @Module( {
 	imports: [
-		ConfigModule.forRoot( { load: [ appConfig ] } ),
+		ConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } ),
 		AuthModule,
 		ConsulModule,
 		HealthModule,
+		PrismaModule.forRootAsync( {
+			isGlobal: true,
+			imports: [ ConfigModule ],
+			inject: [ ConfigService ],
+			useFactory: ( configService: ConfigService ) => ( {
+				log: [ "query" ],
+				datasources: {
+					db: {
+						url: configService.get<string>( "WORKFORCE_DB_URL" )
+					}
+				}
+			} )
+		} ),
 		GraphQLModule.forRoot<MercuriusFederationDriverConfig>( {
 			driver: MercuriusFederationDriver,
 			federationMetadata: true,

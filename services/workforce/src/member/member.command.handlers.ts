@@ -26,9 +26,9 @@ export class EnableMemberCommandHandler implements ICommandHandler<EnableMemberC
 		private readonly eventBus: EventBus
 	) {}
 
-	async execute( { memberId }: EnableMemberCommand ) {
+	async execute( { data }: EnableMemberCommand ) {
 		const member = await this.prismaService.member.update( {
-			where: { id: memberId },
+			where: { id: data.memberId },
 			data: { enabled: true }
 		} );
 

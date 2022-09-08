@@ -12,6 +12,11 @@ export class CreateMemberInput {
 }
 
 @InputType()
+export class EnableMemberInput {
+	@Field() memberId: string;
+}
+
+@InputType()
 export class GetMembersInput {
 	@Field( { nullable: true } ) team?: string;
 	@Field( () => Department, { nullable: true } ) department?: Department;

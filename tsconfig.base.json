@@ -10,25 +10,11 @@
 		"importHelpers": true,
 		"baseUrl": ".",
 		"paths": {
-			"@shaastra/auth": [
-				"libs/auth/src/index.ts"
-			],
-			"@shaastra/consul": [
-				"libs/consul/src/index.ts"
-			],
-			"@shaastra/health": [
-				"libs/health/src/index.ts"
-			],
-			"@shaastra/utils": [
-				"libs/utils/src/index.ts"
-			],
-			"@shaastra/prisma/workforce": [
-				"libs/utils/src/workforce/index.ts"
-			]
+			"@shaastra/auth": [ "libs/auth/src/index.ts" ],
+			"@shaastra/consul": [ "libs/consul/src/index.ts" ],
+			"@shaastra/health": [ "libs/health/src/index.ts" ],
+			"@shaastra/utils": [ "libs/utils/src/index.ts" ]
 		}
 	},
-	"exclude": [
-		"node_modules",
-		"tmp"
-	]
+	"exclude": [ "node_modules", "tmp" ]
 }

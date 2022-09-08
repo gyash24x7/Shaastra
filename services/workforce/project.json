@@ -7,7 +7,7 @@
 			"executor": "nx:run-commands",
 			"options": {
 				"commands": [
-					{ "command": "prisma migrate dev --schema prisma/workforce/schema.prisma" }
+					{ "command": "prisma migrate dev --schema services/workforce/src/prisma/schema.prisma" }
 				]
 			}
 		},
@@ -15,7 +15,7 @@
 			"executor": "nx:run-commands",
 			"options": {
 				"commands": [
-					{ "command": "prisma generate --schema prisma/workforce/schema.prisma" }
+					{ "command": "prisma generate --schema services/workforce/src/prisma/schema.prisma" }
 				]
 			}
 		},

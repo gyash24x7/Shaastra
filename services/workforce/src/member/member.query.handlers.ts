@@ -1,12 +1,11 @@
-import type { IQueryHandler } from "@nestjs/cqrs";
-import { QueryHandler } from "@nestjs/cqrs";
-import { GetMembersQuery } from "../queries/get-members";
-import type { MemberModel } from "../models/member.model";
-import { WorkforcePrismaService } from "../app/prisma.service";
+import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
+import { GetMembersQuery } from "./member.queries";
+import type { MemberModel } from "./member.model";
+import { PrismaService } from "../prisma/prisma.service";
 
 @QueryHandler( GetMembersQuery )
 export class GetMembersQueryHandler implements IQueryHandler<GetMembersQuery> {
-	constructor( private readonly prismaService: WorkforcePrismaService ) {}
+	constructor( private readonly prismaService: PrismaService ) {}
 
 	execute( { data }: GetMembersQuery ): Promise<MemberModel[]> {
 		return this.prismaService.member.findMany( {

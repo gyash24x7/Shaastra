@@ -1,11 +1,9 @@
 import { INestApplication, Injectable, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { PrismaClient } from "@workforce/prisma"
-
-export * from "@workforce/prisma";
+import { PrismaClient } from "@prisma/client/workforce"
 
 @Injectable()
-export class WorkforcePrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService extends PrismaClient implements OnModuleInit {
 	constructor( configService: ConfigService ) {
 		super( {
 			log: [ "query" ],

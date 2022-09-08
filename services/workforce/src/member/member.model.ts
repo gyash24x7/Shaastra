@@ -1,5 +1,5 @@
 import { Directive, Field, ID, ObjectType, registerEnumType } from "@nestjs/graphql";
-import { Department, Member, MemberRole } from "@shaastra/prisma";
+import { Department, Member, MemberRole } from "@prisma/client/workforce";
 
 registerEnumType( Department, { name: "Department" } );
 registerEnumType( MemberRole, { name: "MemberRole" } );

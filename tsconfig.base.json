@@ -1,0 +1,14 @@
+{
+	"compileOnSave": false,
+	"extends": "@tsconfig/node16-strictest",
+	"compilerOptions": {
+		"rootDir": ".",
+		"strictPropertyInitialization": false,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"baseUrl": ".",
+		"paths": { }
+	},
+	"exclude": [ "node_modules", "tmp" ]
+}

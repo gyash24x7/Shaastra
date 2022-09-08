@@ -1,2 +1,2 @@
-export * from './lib/common-health.module';
-
+export * from "./health.module";
+export * from "./health.controller";

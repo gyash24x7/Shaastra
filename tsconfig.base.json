@@ -8,7 +8,20 @@
 		"experimentalDecorators": true,
 		"importHelpers": true,
 		"baseUrl": ".",
-		"paths": { }
+		"paths": {
+			"@shaastra/common/auth": [
+				"libs/common/auth/src/index.ts"
+			],
+			"@shaastra/common/consul": [
+				"libs/common/consul/src/index.ts"
+			],
+			"@shaastra/common/health": [
+				"libs/common/health/src/index.ts"
+			]
+		}
 	},
-	"exclude": [ "node_modules", "tmp" ]
+	"exclude": [
+		"node_modules",
+		"tmp"
+	]
 }

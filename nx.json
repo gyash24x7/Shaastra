@@ -4,6 +4,9 @@
 	"affected": {
 		"defaultBase": "main"
 	},
+	"workspaceLayout": {
+		"appsDir": ""
+	},
 	"implicitDependencies": {
 		"package.json": {
 			"dependencies": "*",
@@ -30,5 +33,6 @@
 				"^build"
 			]
 		}
-	}
+	},
+	"defaultProject": "services-workforce"
 }

@@ -1,2 +1,2 @@
-export * from './lib/common-consul.module';
-
+export * from "./consul.module";
+export * from "./consul.service";

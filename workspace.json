@@ -7,7 +7,6 @@
 		"@shaastra/gateway": "apps/gateway",
 		"@shaastra/health": "libs/health",
 		"@shaastra/workforce": "services/workforce",
-		"@shaastra/prisma": "libs/prisma",
 		"@shaastra/utils": "libs/utils"
 	}
 }

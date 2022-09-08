@@ -18,9 +18,7 @@ export class HealthController {
 	@Get( "/check" )
 	@HealthCheck()
 	healthCheck() {
-		const hostname = this.configService.get<string>( "app.address" );
-		const port = this.configService.get<number>( "app.port" );
-		const url = `http://${ hostname }:${ port }/api/health`;
+		const url = `${ this.configService.get<string>( "app.url" ) }/api/health`;
 		return this.healthCheckService.check( [
 			() => this.httpHealthIndicator.pingCheck( "health-ping-check", url )
 		] );

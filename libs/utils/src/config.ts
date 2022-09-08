@@ -17,6 +17,7 @@ export type PrismaConfig = {
 export type AppConfig = {
 	id: string;
 	name: string;
+	url: string;
 	pkg: string;
 	port: number;
 	address: string;

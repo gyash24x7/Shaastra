@@ -1,8 +1,8 @@
 import type { IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
 import { GetMembersQuery } from "../queries/get-members";
-import { WorkforcePrismaService } from "@shaastra/prisma";
 import type { MemberModel } from "../models/member.model";
+import { WorkforcePrismaService } from "../app/prisma.service";
 
 @QueryHandler( GetMembersQuery )
 export class GetMembersQueryHandler implements IQueryHandler<GetMembersQuery> {

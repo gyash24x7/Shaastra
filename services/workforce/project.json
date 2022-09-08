@@ -3,6 +3,22 @@
 	"sourceRoot": "services/workforce/src",
 	"projectType": "application",
 	"targets": {
+		"migrate": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": [
+					{ "command": "prisma migrate dev --schema prisma/workforce/schema.prisma" }
+				]
+			}
+		},
+		"generate": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": [
+					{ "command": "prisma generate --schema prisma/workforce/schema.prisma" }
+				]
+			}
+		},
 		"build": {
 			"executor": "@nrwl/node:webpack",
 			"outputs": [ "{options.outputPath}" ],

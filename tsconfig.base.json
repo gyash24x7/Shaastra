@@ -19,9 +19,6 @@
 			"@shaastra/health": [
 				"libs/health/src/index.ts"
 			],
-			"@shaastra/prisma": [
-				"libs/prisma/src/index.ts"
-			],
 			"@shaastra/utils": [
 				"libs/utils/src/index.ts"
 			],

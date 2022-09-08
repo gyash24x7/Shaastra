@@ -33,12 +33,13 @@ export class ConsulService implements OnModuleInit, BeforeApplicationShutdown {
 		const name = this.configService.get<string>( "app.name" )!;
 		const port = this.configService.get<number>( "app.port" )!;
 		const address = this.configService.get<string>( "app.address" )!;
+		const url = this.configService.get<string>( "app.url" )!;
 		const meta = { pkg: this.configService.get<string>( "app.pkg" )! };
 
 		const check = {
 			id: `${ id }-health-check`,
 			name: `${ name } API Health Check`,
-			http: `http://${ address }:${ port }/api/health/check`,
+			http: `${ url }/api/health/check`,
 			method: "GET",
 			header: { "Content-Type": [ "application/json" ] },
 			interval: "10s",

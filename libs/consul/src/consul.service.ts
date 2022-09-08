@@ -1,7 +1,7 @@
-import { BeforeApplicationShutdown, Injectable, OnModuleInit } from "@nestjs/common";
+import { BeforeApplicationShutdown, Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import type { Consul as ConsulType } from "consul";
 import Consul from "consul";
-import { ConfigService } from "@nestjs/config";
+import type { ConsulServiceOptions } from "./consul.options";
 
 type ConsulRegisteredService = {
 	ID: string;
@@ -15,12 +15,11 @@ type ConsulRegisteredService = {
 @Injectable()
 export class ConsulService implements OnModuleInit, BeforeApplicationShutdown {
 	private readonly consul: ConsulType;
+	private readonly options: ConsulServiceOptions;
 
-	constructor( private readonly configService: ConfigService ) {
-		this.consul = new Consul( {
-			host: this.configService.get( "app.consul.host" ),
-			port: this.configService.get( "app.consul.port" )
-		} );
+	constructor( @Inject( "CONSUL_SERVICE_OPTIONS" ) options: ConsulServiceOptions ) {
+		this.options = options;
+		this.consul = new Consul( { host: options.host, port: options.port } );
 	}
 
 	async getRegisteredServices( appId: string ) {
@@ -29,12 +28,8 @@ export class ConsulService implements OnModuleInit, BeforeApplicationShutdown {
 	}
 
 	async onModuleInit() {
-		const id = this.configService.get<string>( "app.id" )!;
-		const name = this.configService.get<string>( "app.name" )!;
-		const port = this.configService.get<number>( "app.port" )!;
-		const address = this.configService.get<string>( "app.address" )!;
-		const url = this.configService.get<string>( "app.url" )!;
-		const meta = { pkg: this.configService.get<string>( "app.pkg" )! };
+		const { id, name, port, address, meta } = this.options.registerOptions;
+		const url = `http://${ address }:${ port }`;
 
 		const check = {
 			id: `${ id }-health-check`,
@@ -50,7 +45,7 @@ export class ConsulService implements OnModuleInit, BeforeApplicationShutdown {
 	}
 
 	async beforeApplicationShutdown() {
-		await this.consul.agent.service.deregister( this.configService.get( "app.id" )! );
+		await this.consul.agent.service.deregister( this.options.registerOptions.id! );
 	}
 }
 

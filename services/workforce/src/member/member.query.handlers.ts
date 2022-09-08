@@ -15,5 +15,6 @@ export class GetMembersQueryHandler implements IQueryHandler<GetMembersQuery> {
 			}
 		} );
 	}
-
 }
+
+export const queryHandlers = [ GetMembersQueryHandler ];

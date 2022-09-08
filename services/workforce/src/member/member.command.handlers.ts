@@ -35,3 +35,5 @@ export class EnableMemberCommandHandler implements ICommandHandler<EnableMemberC
 		this.eventBus.publish( new MemberEnabledEvent( member ) );
 	}
 }
+
+export const commandHandlers = [ EnableMemberCommandHandler, CreateMemberCommandHandler ];

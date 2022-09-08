@@ -1,4 +1,4 @@
-import { DynamicModule, Module, Provider } from "@nestjs/common";
+import { DynamicModule, Module } from "@nestjs/common";
 import type { PrismaModuleAsyncOptions, PrismaModuleOptions } from "./prisma.options";
 import { WorkforcePrismaService } from "./workforce.prisma.service";
 
@@ -20,17 +20,13 @@ export class PrismaModule {
 			global: options.isGlobal,
 			module: PrismaModule,
 			imports: options.imports || [],
-			providers: this.createAsyncProviders( options ),
+			providers: [
+				{
+					provide: "PRISMA_SERVICE_OPTIONS",
+					useFactory: options.useFactory!,
+					inject: options.inject || []
+				}
+			]
 		};
-	}
-
-	private static createAsyncProviders( options: PrismaModuleAsyncOptions, ): Provider[] {
-		return [
-			{
-				provide: "PRISMA_SERVICE_OPTIONS",
-				useFactory: options.useFactory!,
-				inject: options.inject || []
-			}
-		];
 	}
 }

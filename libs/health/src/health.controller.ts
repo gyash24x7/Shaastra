@@ -1,11 +1,10 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Inject } from "@nestjs/common";
 import { HealthCheck, HealthCheckService, HttpHealthIndicator } from "@nestjs/terminus";
-import { ConfigService } from "@nestjs/config";
 
 @Controller( "/api/health" )
 export class HealthController {
 	constructor(
-		private readonly configService: ConfigService,
+		@Inject( "HEALTH_CONTROLLER_OPTIONS" ) private readonly options: { baseUrl: string },
 		private readonly healthCheckService: HealthCheckService,
 		private readonly httpHealthIndicator: HttpHealthIndicator
 	) {}
@@ -18,7 +17,7 @@ export class HealthController {
 	@Get( "/check" )
 	@HealthCheck()
 	healthCheck() {
-		const url = `${ this.configService.get<string>( "app.url" ) }/api/health`;
+		const url = `${ this.options.baseUrl }/api/health`;
 		return this.healthCheckService.check( [
 			() => this.httpHealthIndicator.pingCheck( "health-ping-check", url )
 		] );

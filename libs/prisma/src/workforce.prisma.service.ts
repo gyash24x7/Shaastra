@@ -1,11 +1,20 @@
 import { INestApplication, Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client/workforce"
-import type { PrismaServiceOptions } from "./prisma.options";
+import type { PrismaOptions } from "./prisma.options";
+import { PRISMA_OPTIONS } from "./prisma.module";
 
 @Injectable()
 export class WorkforcePrismaService extends PrismaClient implements OnModuleInit {
-	constructor( @Inject( "PRISMA_SERVICE_OPTIONS" ) prismaOptions: PrismaServiceOptions ) {
-		super( { ...prismaOptions } );
+	constructor( @Inject( PRISMA_OPTIONS ) options: PrismaOptions ) {
+		super( {
+			datasources: {
+				db: {
+					url: options.workforce.url
+				}
+			}
+		} );
+
+		options.workforce.middlewares?.forEach( super.$use );
 	}
 
 	async onModuleInit() {

@@ -14,14 +14,20 @@ export type Middleware<T = any> = (
 	next: ( params: MiddlewareParams ) => Promise<T>
 ) => Promise<T>
 
+export type SERVICE_NAME = "workforce" | "equip"
+
 export interface PrismaModuleOptions {
 	isGlobal?: boolean;
 	options?: PrismaServiceOptions;
 }
 
-export interface PrismaServiceOptions extends WorkforcePrisma.PrismaClientOptions {
+export interface PrismaServiceOptions {
 	middlewares?: Array<Middleware>;
+	name: SERVICE_NAME;
+	url: string;
 }
+
+export type PrismaOptions = Record<SERVICE_NAME, PrismaServiceOptions>;
 
 export interface PrismaModuleAsyncOptions extends Pick<ModuleMetadata, "imports"> {
 	isGlobal?: boolean;

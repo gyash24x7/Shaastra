@@ -47,17 +47,13 @@ import { PrismaModule } from "@shaastra/prisma";
 				baseUrl: configService.get<string>( "app.url" )!
 			} )
 		} ),
-		PrismaModule.forRootAsync( {
+		PrismaModule.forServiceAsync( "workforce", {
 			isGlobal: true,
 			imports: [ ConfigModule ],
 			inject: [ ConfigService ],
 			useFactory: ( configService: ConfigService ) => ( {
-				log: [ "query" ],
-				datasources: {
-					db: {
-						url: configService.get<string>( "WORKFORCE_DB_URL" )
-					}
-				}
+				name: "workforce",
+				url: configService.get<string>( "WORKFORCE_DB_URL" )!
 			} )
 		} ),
 		GraphQLModule.forRoot<MercuriusFederationDriverConfig>( {

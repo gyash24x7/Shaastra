@@ -1,7 +1,13 @@
-import { BeforeApplicationShutdown, Inject, Injectable, OnModuleInit } from "@nestjs/common";
+import { BeforeApplicationShutdown, Injectable, OnModuleInit } from "@nestjs/common";
 import type { Consul as ConsulType } from "consul";
 import Consul from "consul";
-import type { ConsulServiceOptions } from "./consul.options";
+import { ConfigService } from "@nestjs/config";
+
+interface ConsulServiceOptions {
+	host: string,
+	port: string,
+	registerOptions: Consul.Agent.Service.RegisterOptions
+}
 
 type ConsulRegisteredService = {
 	ID: string;
@@ -17,9 +23,19 @@ export class ConsulService implements OnModuleInit, BeforeApplicationShutdown {
 	private readonly consul: ConsulType;
 	private readonly options: ConsulServiceOptions;
 
-	constructor( @Inject( "CONSUL_SERVICE_OPTIONS" ) options: ConsulServiceOptions ) {
-		this.options = options;
-		this.consul = new Consul( { host: options.host, port: options.port } );
+	constructor( private readonly configService: ConfigService ) {
+		this.options = {
+			host: this.configService.get( "app.consul.host" )!,
+			port: this.configService.get( "app.consul.port" )!,
+			registerOptions: {
+				id: this.configService.get<string>( "app.id" )!,
+				name: this.configService.get<string>( "app.name" )!,
+				port: this.configService.get<number>( "app.port" )!,
+				address: this.configService.get<string>( "app.address" )!,
+				meta: { pkg: this.configService.get<string>( "app.pkg" )! }
+			}
+		};
+		this.consul = new Consul( { host: this.options.host, port: this.options.port } );
 	}
 
 	async getRegisteredServices( appId: string ) {

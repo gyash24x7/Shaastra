@@ -9,6 +9,6 @@
 		"@shaastra/utils": "libs/utils",
 		"@shaastra/workforce": "services/workforce",
 		"@shaastra/prime-web": "apps/web/prime",
-		"prisma": "libs/prisma"
+		"@shaastra/prisma": "libs/prisma"
 	}
 }

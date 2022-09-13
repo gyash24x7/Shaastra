@@ -1,0 +1,48 @@
+{
+	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/web/prime",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/next:build",
+			"outputs": [ "{options.outputPath}" ],
+			"defaultConfiguration": "production",
+			"options": {
+				"root": "apps/web/prime",
+				"outputPath": "dist/apps/web/prime"
+			},
+			"configurations": {
+				"development": {
+					"outputPath": "apps/web/prime"
+				},
+				"production": { }
+			}
+		},
+		"serve": {
+			"executor": "@nrwl/next:server",
+			"defaultConfiguration": "development",
+			"options": {
+				"buildTarget": "@shaastra/prime-web:build",
+				"dev": true
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "@shaastra/prime-web:build:development",
+					"dev": true,
+					"port": 3000
+				},
+				"production": {
+					"buildTarget": "@shaastra/prime-web:build:production",
+					"dev": false
+				}
+			}
+		},
+		"export": {
+			"executor": "@nrwl/next:export",
+			"options": {
+				"buildTarget": "@shaastra/prime-web:build:production"
+			}
+		}
+	},
+	"tags": [ ]
+}

@@ -29,13 +29,8 @@
 	},
 	"defaultProject": "@shaastra/workforce",
 	"generators": {
-		"@nrwl/react": {
-			"application": { "style": "none", "linter": "eslint", "babel": true },
-			"component": { "style": "none" },
-			"library": { "style": "none", "linter": "eslint" }
+		"@nrwl/next": {
+			"application": { "style": "@emotion/styled", "linter": "eslint" }
 		}
-	},
-	"cli": {
-		"defaultCollection": "@nxext/vite"
 	}
 }

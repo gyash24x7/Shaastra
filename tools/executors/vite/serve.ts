@@ -1,13 +1,13 @@
 import { exec } from "child_process";
 
-export default async function generateExecutor( _, context ) {
-	console.info( `Executing "prisma generate"...` );
+export default async function serveExecutor( _, context ) {
+	console.info( `Executing "vite preview"...` );
 
 	const projectDir = context.workspace.projects[ context.projectName ].root;
 
 	return new Promise( ( resolve, reject ) => {
 		const devProcess = exec(
-			`prisma generate --schema ${ projectDir }/prisma/schema.prisma`,
+			`vite preview --config ${ projectDir }/vite.config.js --port 3000`,
 			function ( error, stdout, stderr ) {
 				if ( error ) {
 					reject( error );

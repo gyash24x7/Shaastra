@@ -5,15 +5,11 @@
 	"targets": {
 		"migrate": {
 			"executor": "./tools/executors/prisma:migrate",
-			"options": {
-				"schemaPath": "services/workforce/prisma/schema.prisma"
-			}
+			"options": { }
 		},
 		"generate": {
 			"executor": "./tools/executors/prisma:generate",
-			"options": {
-				"schemaPath": "services/workforce/prisma/schema.prisma"
-			}
+			"options": { }
 		},
 		"build": {
 			"executor": "@nrwl/node:webpack",

@@ -1,20 +1,25 @@
 import { exec } from "child_process";
-import { promisify } from "util";
 
-export interface PrismaExecutorOptions {
-	schemaPath: string;
-}
-
-export default async function migrateExecutor( options: PrismaExecutorOptions ) {
+export default async function migrateExecutor( _, context ) {
 	console.info( `Executing "prisma migrate dev"...` );
-	console.info( `Options: ${ JSON.stringify( options, null, 2 ) }` );
 
-	const { stdout, stderr } = await promisify( exec )(
-		`prisma migrate dev --schema ${ options.schemaPath }`
-	);
-	console.log( stdout );
-	console.error( stderr );
+	const projectDir = context.workspace.projects[ context.projectName ].root;
 
-	const success = !stderr;
-	return { success };
+	return new Promise( ( resolve, reject ) => {
+		const devProcess = exec(
+			`prisma migrate dev --schema ${ projectDir }/prisma/schema.prisma`,
+			function ( error, stdout, stderr ) {
+				if ( error ) {
+					reject( error );
+				}
+				resolve( { success: !stderr } );
+			}
+		);
+
+		devProcess.stdout.setEncoding( "utf8" );
+		devProcess.stdout.on( "data", console.log );
+
+		devProcess.stderr.setEncoding( "utf8" );
+		devProcess.stderr.on( "data", console.error );
+	} );
 }

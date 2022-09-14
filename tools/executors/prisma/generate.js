@@ -37,23 +37,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var child_process_1 = require("child_process");
-var util_1 = require("util");
-function generateExecutor(options) {
+function generateExecutor(_, context) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, stdout, stderr, success;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    console.info("Executing \"prisma generate\"...");
-                    console.info("Options: ".concat(JSON.stringify(options, null, 2)));
-                    return [4 /*yield*/, (0, util_1.promisify)(child_process_1.exec)("prisma generate --schema ".concat(options.schemaPath))];
-                case 1:
-                    _a = _b.sent(), stdout = _a.stdout, stderr = _a.stderr;
-                    console.log(stdout);
-                    console.error(stderr);
-                    success = !stderr;
-                    return [2 /*return*/, { success: success }];
-            }
+        var projectDir;
+        return __generator(this, function (_a) {
+            console.info("Executing \"prisma generate\"...");
+            projectDir = context.workspace.projects[context.projectName].root;
+            return [2 /*return*/, new Promise(function (resolve, reject) {
+                    var devProcess = (0, child_process_1.exec)("prisma generate --schema ".concat(projectDir, "/prisma/schema.prisma"), function (error, stdout, stderr) {
+                        if (error) {
+                            reject(error);
+                        }
+                        resolve({ success: !stderr });
+                    });
+                    devProcess.stdout.setEncoding("utf8");
+                    devProcess.stdout.on("data", console.log);
+                    devProcess.stderr.setEncoding("utf8");
+                    devProcess.stderr.on("data", console.error);
+                })];
         });
     });
 }

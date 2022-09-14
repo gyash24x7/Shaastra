@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var child_process_1 = require("child_process");
-function migrateExecutor(_, context) {
+function buildExecutor(_, context) {
     return __awaiter(this, void 0, void 0, function () {
         var projectDir;
         return __generator(this, function (_a) {
-            console.info("Executing \"prisma migrate dev\"...");
+            console.info("Executing \"vite build\"...");
             projectDir = context.workspace.projects[context.projectName].root;
             return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var devProcess = (0, child_process_1.exec)("prisma migrate dev --schema ".concat(projectDir, "/prisma/schema.prisma"), function (error, stdout, stderr) {
+                    var devProcess = (0, child_process_1.exec)("tsc -p ".concat(projectDir, "/tsconfig.app.json && vite build --config ").concat(projectDir, "/vite.config.js"), function (error, stdout, stderr) {
                         if (error) {
                             reject(error);
                         }
@@ -58,4 +58,4 @@ function migrateExecutor(_, context) {
         });
     });
 }
-exports["default"] = migrateExecutor;
+exports["default"] = buildExecutor;

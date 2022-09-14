@@ -1,0 +1,20 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/prime/src",
+	"projectType": "application",
+	"targets": {
+		"dev": {
+			"executor": "./tools/executors/vite:dev",
+			"options": { }
+		},
+		"build": {
+			"executor": "./tools/executors/vite:build",
+			"options": { }
+		},
+		"serve": {
+			"executor": "./tools/executors/vite:serve",
+			"options": { }
+		}
+	},
+	"tags": [ ]
+}

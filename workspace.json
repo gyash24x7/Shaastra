@@ -8,6 +8,7 @@
 		"@shaastra/health": "libs/health",
 		"@shaastra/utils": "libs/utils",
 		"@shaastra/workforce": "services/workforce",
+		"@shaastra/prime-web": "apps/prime-web",
 		"@shaastra/prisma": "libs/prisma"
 	}
 }

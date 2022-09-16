@@ -1,0 +1,26 @@
+generator client {
+    provider = "prisma-client-js"
+    output = "../../../node_modules/@prisma/client/identity"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("IDENTITY_DB_URL")
+}
+
+model User {
+    id              String      @id @default(cuid())
+    name            String
+    email           String      @unique
+    verified        Boolean     @default(false)
+    roles           String[]
+    permissions     String[]
+}
+
+model VerificationToken {
+    id              String      @id @default(cuid())
+    token           String
+    userId          String
+    expiry          DateTime
+    createdAt       DateTime    @default(now())
+}

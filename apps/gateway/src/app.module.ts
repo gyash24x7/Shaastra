@@ -30,7 +30,7 @@ const appConfig = registerAs<AppConfig>( "app", () => ( {
 			imports: [ ConsulModule, ConfigModule ],
 			inject: [ ConsulService, ConfigService ],
 			useFactory: async ( consulService: ConsulService, configService: ConfigService ) => {
-				const id = configService.get<string>( "app.id" )!;
+				const id = configService.getOrThrow<string>( "app.id" );
 				const registeredServices = await consulService.getRegisteredServices( id );
 
 				return {

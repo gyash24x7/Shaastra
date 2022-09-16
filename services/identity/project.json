@@ -1,0 +1,45 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "services/identity/src",
+	"projectType": "application",
+	"targets": {
+		"migrate": {
+			"executor": "./tools/executors/prisma:migrate",
+			"options": { }
+		},
+		"generate": {
+			"executor": "./tools/executors/prisma:generate",
+			"options": { }
+		},
+		"build": {
+			"executor": "@nrwl/node:webpack",
+			"outputs": [ "{options.outputPath}" ],
+			"options": {
+				"outputPath": "dist/services/identity",
+				"main": "services/identity/src/main.ts",
+				"tsConfig": "services/identity/tsconfig.app.json",
+				"assets": [ ]
+			},
+			"configurations": {
+				"production": {
+					"optimization": true,
+					"extractLicenses": true,
+					"inspect": false,
+					"fileReplacements": [ ]
+				}
+			}
+		},
+		"serve": {
+			"executor": "@nrwl/node:node",
+			"options": {
+				"buildTarget": "@shaastra/identity:build"
+			},
+			"configurations": {
+				"production": {
+					"buildTarget": "@shaastra/identity:build:production"
+				}
+			}
+		}
+	},
+	"tags": [ ]
+}

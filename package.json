@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"@apollo/gateway": "2.1.1",
-		"@apollo/subgraph": "2.1.1",
+		"@apollo/subgraph": "2.0.2",
 		"@auth0/auth0-react": "1.11.0",
 		"@emotion/react": "11.10.4",
 		"@emotion/server": "11.10.0",
@@ -62,6 +62,7 @@
 		"@nestjs/core": "9.0.11",
 		"@nestjs/cqrs": "9.0.1",
 		"@nestjs/graphql": "10.1.0",
+		"@nestjs/jwt": "9.0.0",
 		"@nestjs/mercurius": "10.1.0",
 		"@nestjs/passport": "9.0.0",
 		"@nestjs/platform-fastify": "9.0.11",

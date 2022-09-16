@@ -28,9 +28,5 @@
 		}
 	},
 	"defaultProject": "@shaastra/workforce",
-	"generators": {
-		"@nrwl/next": {
-			"application": { "style": "@emotion/styled", "linter": "eslint" }
-		}
-	}
+	"generators": { }
 }

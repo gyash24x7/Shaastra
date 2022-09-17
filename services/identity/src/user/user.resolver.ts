@@ -2,8 +2,8 @@ import { Args, Mutation, Query, Resolver, ResolveReference } from "@nestjs/graph
 import { UserModel } from "./user.model";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { GetUserQuery } from "./user.queries";
-import { LoginInput, LoginResponsePayload } from "./user.dtos";
-import { LoginCommand } from "./user.commands";
+import { AuthResponsePayload, CreateUserInput, LoginInput } from "./user.dtos";
+import { CreateUserCommand, LoginCommand } from "./user.commands";
 import type { GqlResolveReferenceData } from "@shaastra/utils";
 
 @Resolver( UserModel.TYPENAME )
@@ -18,9 +18,14 @@ export class UserResolver {
 		return this.queryBus.execute<GetUserQuery, UserModel>( new GetUserQuery( "" ) );
 	}
 
-	@Mutation( () => LoginResponsePayload )
+	@Mutation( () => AuthResponsePayload )
 	login( @Args( "data" ) data: LoginInput ) {
-		return this.commandBus.execute<LoginCommand, LoginResponsePayload>( new LoginCommand( data ) );
+		return this.commandBus.execute<LoginCommand, AuthResponsePayload>( new LoginCommand( data ) );
+	}
+
+	@Mutation( () => AuthResponsePayload )
+	createUser( @Args( "data" ) data: CreateUserInput ) {
+		return this.commandBus.execute<CreateUserCommand, AuthResponsePayload>( new CreateUserCommand( data ) );
 	}
 
 	@ResolveReference()

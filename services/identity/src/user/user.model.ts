@@ -9,7 +9,10 @@ export class UserModel implements User {
 	@Field( () => ID ) id: string;
 	@Field() name: string;
 	@Field() email: string;
+	@Field() username: string;
 	@Field() verified: boolean;
 	@Field( () => [ String ] ) roles: string[];
 	@Field( () => [ String ] ) permissions: string[];
+
+	password: string;
 }

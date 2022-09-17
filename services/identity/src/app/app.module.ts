@@ -5,7 +5,6 @@ import { ConsulModule } from "@shaastra/consul";
 import appConfig from "./app.config";
 import { GraphQLModule as NestGraphQLModule } from "@nestjs/graphql/dist/graphql.module";
 import { MercuriusFederationDriver, MercuriusFederationDriverConfig } from "@nestjs/mercurius";
-import type { FastifyRequest } from "fastify";
 import { UserModule } from "../user/user.module";
 
 const GraphQLModule = NestGraphQLModule.forRoot<MercuriusFederationDriverConfig>( {
@@ -13,7 +12,7 @@ const GraphQLModule = NestGraphQLModule.forRoot<MercuriusFederationDriverConfig>
 	federationMetadata: true,
 	graphiql: true,
 	autoSchemaFile: true,
-	context: ( request: FastifyRequest ) => ( { request } )
+	context: ( request: any ) => ( { request } )
 } );
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );

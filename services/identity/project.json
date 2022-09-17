@@ -18,7 +18,7 @@
 				"outputPath": "dist/services/identity",
 				"main": "services/identity/src/main.ts",
 				"tsConfig": "services/identity/tsconfig.app.json",
-				"assets": [ ]
+				"assets": [ "services/identity/src/assets" ]
 			},
 			"configurations": {
 				"production": {

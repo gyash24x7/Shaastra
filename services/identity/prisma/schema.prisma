@@ -11,7 +11,9 @@ datasource db {
 model User {
     id              String      @id @default(cuid())
     name            String
-    email           String      @unique
+    email           String
+    username        String      @unique
+    password        String
     verified        Boolean     @default(false)
     roles           String[]
     permissions     String[]

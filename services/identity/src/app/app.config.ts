@@ -14,5 +14,11 @@ export default registerAs<AppConfig>( "app", () => ( {
 	},
 	prisma: {
 		dbUrl: process.env[ "IDENTITY_DB_URL" ]!
+	},
+	auth: {
+		audience: process.env[ "AUTH0_AUDIENCE" ]!,
+		domain: process.env[ "AUTH0_DOMAIN" ]!,
+		clientId: "",
+		clientSecret: ""
 	}
 } ) );

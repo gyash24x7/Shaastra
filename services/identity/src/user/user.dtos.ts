@@ -8,7 +8,15 @@ export class LoginInput {
 }
 
 @ObjectType()
-export class LoginResponsePayload {
+export class AuthResponsePayload {
 	@Field() token: string;
 	@Field( () => UserModel ) user: UserModel;
+}
+
+@InputType()
+export class CreateUserInput {
+	@Field() name: string;
+	@Field() email: string;
+	@Field() username: string;
+	@Field() password: string;
 }

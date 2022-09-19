@@ -1,10 +1,11 @@
 import { Args, Mutation, Query, Resolver, ResolveReference } from "@nestjs/graphql";
-import { UserModel } from "./user.model";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { GetUserQuery } from "./user.queries";
-import { AuthResponsePayload, CreateUserInput, LoginInput } from "./user.dtos";
-import { CreateUserCommand, LoginCommand } from "./user.commands";
 import type { GqlResolveReferenceData } from "@shaastra/utils";
+import { UserModel } from "../models/user.model";
+import { GetUserQuery } from "../queries/user/get-user.query";
+import { AuthResponsePayload, CreateUserInput, LoginInput } from "../dtos/user.dtos";
+import { LoginCommand } from "../commands/user/login.command";
+import { CreateUserCommand } from "../commands/user/create-user.command";
 
 @Resolver( UserModel.TYPENAME )
 export class UserResolver {

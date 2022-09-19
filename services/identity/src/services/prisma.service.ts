@@ -1,9 +1,9 @@
 import { INestApplication, Injectable, OnModuleInit } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client/workforce"
 import { ConfigService } from "@nestjs/config";
+import { PrismaClient } from "@prisma/client/identity";
 
 @Injectable()
-export class WorkforcePrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService extends PrismaClient implements OnModuleInit {
 	constructor( configService: ConfigService ) {
 		super( {
 			datasources: {

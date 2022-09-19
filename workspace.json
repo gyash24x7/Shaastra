@@ -1,15 +1,15 @@
 {
-	"$schema": "./node_modules/nx/schemas/workspace-schema.json",
-	"version": 2,
-	"projects": {
-		"@shaastra/auth": "libs/auth",
-		"@shaastra/consul": "libs/consul",
-		"@shaastra/gateway": "apps/gateway",
-		"@shaastra/health": "libs/health",
-		"@shaastra/prime-web": "apps/prime-web",
-		"@shaastra/prisma": "libs/prisma",
-		"@shaastra/utils": "libs/utils",
-		"@shaastra/workforce": "services/workforce",
-		"@shaastra/identity": "services/identity"
-	}
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "@shaastra/auth": "libs/auth",
+    "@shaastra/consul": "libs/consul",
+    "@shaastra/gateway": "apps/gateway",
+    "@shaastra/health": "libs/health",
+    "@shaastra/identity": "services/identity",
+    "@shaastra/prime-web": "apps/prime-web",
+    "@shaastra/utils": "libs/utils",
+    "@shaastra/workforce": "services/workforce",
+    "mail": "libs/mail"
+  }
 }

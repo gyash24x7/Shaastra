@@ -14,5 +14,11 @@ const { publicKey, privateKey } = generateKeyPairSync( "rsa", {
 } );
 
 
-writeFileSync( join( __dirname, "..", "src", "assets", "keys", ".private.key" ), privateKey );
-writeFileSync( join( __dirname, "..", "src", "assets", "keys", ".public.key.pem" ), publicKey );
+writeFileSync(
+	join( __dirname, "..", "..", "services", "identity", "src", "assets", "keys", ".private.key" ),
+	privateKey
+);
+writeFileSync(
+	join( __dirname, "..", "..", "services", "identity", "src", "assets", "keys", ".public.key.pem" ),
+	publicKey
+);

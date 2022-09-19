@@ -1,21 +1,34 @@
 {
-	"compileOnSave": false,
-	"extends": "@tsconfig/node16-strictest",
-	"compilerOptions": {
-		"rootDir": ".",
-		"exactOptionalPropertyTypes": false,
-		"strictPropertyInitialization": false,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"importHelpers": true,
-		"baseUrl": ".",
-		"paths": {
-			"@shaastra/auth": [ "libs/auth/src/index.ts" ],
-			"@shaastra/consul": [ "libs/consul/src/index.ts" ],
-			"@shaastra/health": [ "libs/health/src/index.ts" ],
-			"@shaastra/prisma": [ "libs/prisma/src/index.ts" ],
-			"@shaastra/utils": [ "libs/utils/src/index.ts" ]
-		}
-	},
-	"exclude": [ "node_modules", "tmp" ]
+  "compileOnSave": false,
+  "extends": "@tsconfig/node16-strictest",
+  "compilerOptions": {
+    "rootDir": ".",
+    "exactOptionalPropertyTypes": false,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shaastra/auth": [
+        "libs/auth/src/index.ts"
+      ],
+      "@shaastra/consul": [
+        "libs/consul/src/index.ts"
+      ],
+      "@shaastra/health": [
+        "libs/health/src/index.ts"
+      ],
+      "@shaastra/mail": [
+        "libs/mail/src/index.ts"
+      ],
+      "@shaastra/utils": [
+        "libs/utils/src/index.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

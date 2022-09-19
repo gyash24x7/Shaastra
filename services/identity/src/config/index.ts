@@ -18,7 +18,6 @@ export default registerAs<AppConfig>( "app", () => ( {
 	auth: {
 		audience: process.env[ "AUTH0_AUDIENCE" ]!,
 		domain: process.env[ "AUTH0_DOMAIN" ]!,
-		clientId: "",
-		clientSecret: ""
+		keyId: process.env[ "KEY_ID" ]
 	}
 } ) );

@@ -1,6 +1,6 @@
 {
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "libs/common/health/src",
+	"sourceRoot": "libs/health/src",
 	"projectType": "library",
 	"targets": { },
 	"tags": [ ]

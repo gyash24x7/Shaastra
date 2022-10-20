@@ -10,19 +10,22 @@ export class MailService {
 		this.mailjet = new Mailjet( {
 			apiKey: this.configService.getOrThrow<string>( "app.mail.apiKey" ),
 			apiSecret: this.configService.getOrThrow<string>( "app.mail.apiSecret" )
-		} )
+		} );
 	}
 
-	sendMail() {
-		this.mailjet.post( "send", { version: "v3.1" } ).request( {
+	async sendMail( data: { email: string, name: string, subject: string, content: string } ) {
+		await this.mailjet.post( "send", { version: "v3.1" } ).request( {
 			Messages: [
 				{
 					From: {
 						Email: this.configService.getOrThrow<string>( "app.mail.sender.email" ),
 						Name: this.configService.getOrThrow<string>( "app.mail.sender.name" )
-					}
+					},
+					To: [ { Email: data.email, Name: data.name } ],
+					Subject: data.subject,
+					TextPart: data.content
 				}
 			]
-		} )
+		} );
 	}
 }

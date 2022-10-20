@@ -1,25 +1,28 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { Logger } from "@nestjs/common";
-import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
-import { ConfigService } from "@nestjs/config";
+import { Module } from "@nestjs/common";
+import { ConfigModule as NestConfigModule, ConfigService } from "@nestjs/config";
+import config from "./config";
+import { ConsulModule, ConsulService } from "@shaastra/consul";
+import { HealthModule } from "@shaastra/health";
+import { GraphQLModule as NestGraphQLModule } from "@nestjs/graphql";
+import type { ApolloGatewayDriverConfig } from "@nestjs/apollo";
+import { ApolloGatewayDriver } from "@nestjs/apollo";
+import { CookiePlugin } from "./plugins/cookie.plugin";
+import { GraphQLGatewayFactory } from "@shaastra/utils/graphql";
+import { bootstrap } from "@shaastra/utils/nest";
 
-async function bootstrap() {
-	const app = await NestFactory.create<NestFastifyApplication>( AppModule, new FastifyAdapter() );
+const ConfigModule = NestConfigModule.forRoot( { load: [ config ], isGlobal: true } );
 
-	app.enableCors( {
-		origin: "http://localhost:3000",
-		allowedHeaders: [ "content-type" ],
-		credentials: true
-	} );
+const GraphQLModule = NestGraphQLModule.forRootAsync<ApolloGatewayDriverConfig>( {
+	driver: ApolloGatewayDriver,
+	imports: [ ConsulModule, ConfigModule ],
+	inject: [ ConsulService, ConfigService ],
+	useClass: GraphQLGatewayFactory
+} );
 
-	const configService = app.get( ConfigService );
-	const port = configService.getOrThrow<number>( "app.port" );
-	const name = configService.getOrThrow<number>( "app.name" );
-	await app.listen( port );
+const imports = [ ConfigModule, ConsulModule, HealthModule, GraphQLModule ];
+const providers = [ CookiePlugin ];
 
-	const logger = new Logger( "Bootstrap" );
-	logger.log( `${ name } running on http://localhost:${ port }/graphiql` );
-}
+@Module( { imports, providers } )
+export class AppModule {}
 
-bootstrap().then();
+bootstrap( AppModule ).then();

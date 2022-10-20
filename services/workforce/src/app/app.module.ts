@@ -14,7 +14,11 @@ const GraphQLModule = NestGraphQLModule.forRoot<MercuriusFederationDriverConfig>
 	federationMetadata: true,
 	graphiql: true,
 	autoSchemaFile: true,
-	context: ( ( request: FastifyRequest ) => ( { request } ) ) as any
+	context: (
+		( request: FastifyRequest ) => (
+			{ request }
+		)
+	) as any
 } );
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );

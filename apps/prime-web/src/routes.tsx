@@ -3,5 +3,5 @@ import IndexPage from "./pages/index";
 import ErrorPage from "./pages/error";
 
 export const router = createBrowserRouter( [
-	{ path: "/", element: <IndexPage/>, errorElement: <ErrorPage/> }
+	{ path: "/", element: <IndexPage />, errorElement: <ErrorPage /> }
 ] )

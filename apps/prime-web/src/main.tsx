@@ -15,7 +15,7 @@ ReactDOM.createRoot( document.getElementById( "root" ) as HTMLElement ).render(
 				audience = { import.meta.env[ "VITE_AUTH0_AUDIENCE" ] }
 				useRefreshTokens
 			>
-				<RouterProvider router = { router }/>
+				<RouterProvider router = { router } />
 			</Auth0Provider>
 		</MantineProvider>
 	</React.StrictMode>

@@ -3,10 +3,18 @@ import { Button, Loader } from "@mantine/core";
 import { Fragment } from "react";
 
 export default () => {
-	const { isAuthenticated, isLoading, getAccessTokenSilently, logout, loginWithRedirect, error, user } = useAuth0();
+	const {
+		isAuthenticated,
+		isLoading,
+		getAccessTokenSilently,
+		logout,
+		loginWithRedirect,
+		error,
+		user
+	} = useAuth0();
 
 	if ( isLoading ) {
-		return <Loader/>;
+		return <Loader />;
 	}
 
 	if ( error ) {

@@ -7,18 +7,22 @@ import { HealthModule } from "@shaastra/health";
 import type { FastifyRequest } from "fastify";
 import type { AppConfig } from "@shaastra/utils";
 
-const appConfig = registerAs<AppConfig>( "app", () => ( {
-	id: "gateway",
-	name: "Shaastra Gateway",
-	pkg: "@shaastra/gateway",
-	port: 9000,
-	address: "localhost",
-	url: "http://localhost:9000",
-	consul: {
-		host: process.env[ "CONSUL_HOST" ] || "localhost",
-		port: process.env[ "CONSUL_PORT" ] || "8500"
-	}
-} ) );
+const appConfig = registerAs<AppConfig>( "app",
+	() => (
+		{
+			id: "gateway",
+			name: "Shaastra Gateway",
+			pkg: "@shaastra/gateway",
+			port: 9000,
+			address: "localhost",
+			url: "http://localhost:9000",
+			consul: {
+				host: process.env[ "CONSUL_HOST" ] || "localhost",
+				port: process.env[ "CONSUL_PORT" ] || "8500"
+			}
+		}
+	)
+);
 
 @Module( {
 	imports: [
@@ -36,13 +40,19 @@ const appConfig = registerAs<AppConfig>( "app", () => ( {
 				return {
 					federationMetadata: true,
 					graphiql: true,
-					context: ( request: FastifyRequest ) => ( { request } ),
+					context: ( request: FastifyRequest ) => (
+						{ request }
+					),
 					gateway: {
-						services: registeredServices.map( service => ( {
-							name: service.ID,
-							url: `http://${ service.Address }:${ service.Port }/graphql`,
-							rewriteHeaders: ( { authorization } ) => ( { authorization } )
-						} ) )
+						services: registeredServices.map( service => (
+							{
+								name: service.ID,
+								url: `http://${ service.Address }:${ service.Port }/graphql`,
+								rewriteHeaders: ( { authorization } ) => (
+									{ authorization }
+								)
+							}
+						) )
 					}
 				};
 			}

@@ -13,11 +13,11 @@ export class AuthStrategy extends PassportStrategy( BaseStrategy ) {
 				cache: true,
 				rateLimit: true,
 				jwksRequestsPerMinute: 5,
-				jwksUri: `https://${ configService.get<string>( "app.auth.domain" )! }/.well-known/jwks.json`
+				jwksUri: `http://${ configService.get<string>( "app.auth.domain" )! }/api/keys`
 			} ),
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 			audience: configService.get<string>( "app.auth.audience" )!,
-			issuer: `https://${ configService.get<string>( "app.auth.domain" )! }/`,
+			issuer: `http://${ configService.get<string>( "app.auth.domain" )! }`,
 			algorithms: [ "RS256" ]
 		} );
 	}

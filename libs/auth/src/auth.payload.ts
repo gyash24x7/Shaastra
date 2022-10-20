@@ -6,4 +6,6 @@ export interface AuthPayload {
 	exp?: number;
 	azp?: string;
 	scope?: string;
+	roles?: string[];
+	permissions?: string[]
 }

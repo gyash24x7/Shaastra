@@ -1,7 +1,10 @@
 export type AuthConfig = {
 	domain: string;
 	audience: string;
-	keyId?: string;
+	key?: {
+		id?: string;
+		passphrase?: string;
+	}
 };
 
 export type MailConfig = {

@@ -1,6 +1,6 @@
 generator client {
-    provider = "prisma-client-js"
-    output = "../../../node_modules/@prisma/client/identity"
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/@prisma/client/identity"
 }
 
 datasource db {
@@ -15,11 +15,16 @@ model User {
     username        String      @unique
     password        String
     verified        Boolean     @default(false)
-    roles           String[]
-    permissions     String[]
+    roles           Role[]
 }
 
-model VerificationToken {
+model Role {
+    id              String      @id
+    role            String      @unique
+    users           User[]
+}
+
+model Token {
     id              String      @id @default(cuid())
     token           String
     userId          String

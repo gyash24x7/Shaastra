@@ -5,6 +5,7 @@ CREATE TABLE "User"
     "name"        TEXT    NOT NULL,
     "email"       TEXT    NOT NULL,
     "username"    TEXT    NOT NULL,
+    "password"    TEXT    NOT NULL,
     "verified"    BOOLEAN NOT NULL DEFAULT false,
     "roles"       TEXT[],
     "permissions" TEXT[],
@@ -13,7 +14,7 @@ CREATE TABLE "User"
 );
 
 -- CreateTable
-CREATE TABLE "VerificationToken"
+CREATE TABLE "Token"
 (
     "id"        TEXT         NOT NULL,
     "token"     TEXT         NOT NULL,
@@ -21,7 +22,7 @@ CREATE TABLE "VerificationToken"
     "expiry"    TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "VerificationToken_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Token_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

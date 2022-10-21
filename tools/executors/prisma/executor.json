@@ -9,6 +9,11 @@
 			"implementation": "./migrate",
 			"schema": "./schema.json",
 			"description": "Generates Prisma Migrations"
+		},
+		"db-push": {
+			"implementation": "./db-push",
+			"schema": "./schema.json",
+			"description": "Pushes schema changes to DB"
 		}
 	}
 }

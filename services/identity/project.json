@@ -3,8 +3,8 @@
 	"sourceRoot": "services/identity/src",
 	"projectType": "application",
 	"targets": {
-		"migrate": {
-			"executor": "./tools/executors/prisma:migrate",
+		"db-push": {
+			"executor": "./tools/executors/prisma:db-push",
 			"options": { }
 		},
 		"generate": {

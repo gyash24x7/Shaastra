@@ -7,7 +7,7 @@ export default async function generateExecutor( _, context ) {
 
 	return new Promise( ( resolve, reject ) => {
 		const devProcess = exec(
-			`prisma generate --schema ${ projectDir }/prisma/schema.prisma`,
+			`prisma generate --schema ${ projectDir }/src/prisma/schema.prisma`,
 			function ( error, stdout, stderr ) {
 				if ( error ) {
 					reject( error );

@@ -44,7 +44,7 @@ function generateExecutor(_, context) {
             console.info("Executing \"prisma generate\"...");
             projectDir = context.workspace.projects[context.projectName].root;
             return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var devProcess = (0, child_process_1.exec)("prisma generate --schema ".concat(projectDir, "/prisma/schema.prisma"), function (error, stdout, stderr) {
+                    var devProcess = (0, child_process_1.exec)("prisma generate --schema ".concat(projectDir, "/src/prisma/schema.prisma"), function (error, stdout, stderr) {
                         if (error) {
                             reject(error);
                         }

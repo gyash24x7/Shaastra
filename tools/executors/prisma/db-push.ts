@@ -1,13 +1,13 @@
 import { exec } from "child_process";
 
-export default async function migrateExecutor( _, context ) {
-	console.info( `Executing "prisma migrate dev"...` );
+export default async function dbPushExecutor( _, context ) {
+	console.info( `Executing "prisma db push"...` );
 
 	const projectDir = context.workspace.projects[ context.projectName ].root;
 
 	return new Promise( ( resolve, reject ) => {
 		const devProcess = exec(
-			`prisma migrate dev --schema ${ projectDir }/src/prisma/schema.prisma`,
+			`prisma db push --schema ${ projectDir }/src/prisma/schema.prisma`,
 			function ( error, stdout, stderr ) {
 				if ( error ) {
 					reject( error );

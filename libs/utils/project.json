@@ -1,6 +1,6 @@
 {
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "libs/common/utils/src",
+	"sourceRoot": "libs/utils/src",
 	"projectType": "library",
 	"targets": { },
 	"tags": [ ]

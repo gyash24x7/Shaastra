@@ -1,0 +1,5 @@
+type Role @key(fields: "id") {
+	id: ID!
+	role: String!
+	users: [User!]!
+}

@@ -43,3 +43,5 @@ Thumbs.db
 .next
 
 keys
+.private.key
+.public.key.pem

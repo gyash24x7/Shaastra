@@ -32,11 +32,11 @@
 		"serve": {
 			"executor": "@nrwl/node:node",
 			"options": {
-				"buildTarget": "@shaastra/identity:build"
+				"buildTarget": "identity:build"
 			},
 			"configurations": {
 				"production": {
-					"buildTarget": "@shaastra/identity:build:production"
+					"buildTarget": "identity:build:production"
 				}
 			}
 		}

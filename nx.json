@@ -27,6 +27,6 @@
 			"dependsOn": [ "^build" ]
 		}
 	},
-	"defaultProject": "@shaastra/gateway",
+	"defaultProject": "gateway",
 	"generators": { }
 }

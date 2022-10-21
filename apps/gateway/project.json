@@ -24,11 +24,11 @@
 		"serve": {
 			"executor": "@nrwl/node:node",
 			"options": {
-				"buildTarget": "@shaastra/gateway:build"
+				"buildTarget": "gateway:build"
 			},
 			"configurations": {
 				"production": {
-					"buildTarget": "@shaastra/gateway:build:production"
+					"buildTarget": "gateway:build:production"
 				}
 			}
 		}

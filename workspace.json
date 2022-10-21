@@ -2,14 +2,13 @@
 	"$schema": "./node_modules/nx/schemas/workspace-schema.json",
 	"version": 2,
 	"projects": {
-		"@shaastra/auth": "libs/auth",
-		"@shaastra/consul": "libs/consul",
-		"@shaastra/gateway": "apps/gateway",
-		"@shaastra/health": "libs/health",
-		"@shaastra/identity": "services/identity",
-		"@shaastra/prime-web": "apps/prime-web",
-		"@shaastra/utils": "libs/utils",
-		"@shaastra/workforce": "services/workforce",
-		"@shaastra/mail": "libs/mail"
+		"auth": "libs/auth",
+		"consul": "libs/consul",
+		"gateway": "apps/gateway",
+		"health": "libs/health",
+		"identity": "services/identity",
+		"prime-web": "apps/prime-web",
+		"utils": "libs/utils",
+		"mail": "libs/mail"
 	}
 }

@@ -7,12 +7,12 @@ import { HealthModule } from "@shaastra/health";
 import { AuthModule } from "@shaastra/auth";
 import { Module } from "@nestjs/common";
 import { JwksController } from "./jwks.controller";
-import config from "./config";
+import appConfig from "./app.config";
 import { TokenModule } from "../tokens/token.module";
 import { RoleModule } from "../roles/role.module";
 import { UserModule } from "../users/user.module";
 
-const ConfigModule = NestConfigModule.forRoot( { load: [ config ], isGlobal: true } );
+const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
 const GraphQLModule = NestGraphQLModule.forRoot<ApolloFederationDriverConfig>( apolloServerOptions );
 

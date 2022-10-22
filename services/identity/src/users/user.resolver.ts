@@ -40,6 +40,13 @@ export class UserResolver {
 		return this.commandBus.execute( new VerifyUserCommand( data ) );
 	}
 
+	@UseGuards( AuthGuard )
+	@Mutation()
+	logout( @Context() ctx: GqlContext, @AuthInfo() authInfo: AuthPayload ) {
+		ctx.res.setHeader( "x-logout", authInfo.sub! );
+		return true;
+	}
+
 	@ResolveReference()
 	resolveReference( reference: GqlResolveReferenceData ): Promise<User> {
 		return this.queryBus.execute( new UserQuery( reference.id ) );

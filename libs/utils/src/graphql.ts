@@ -21,6 +21,7 @@ export type GqlContext = {
 	req: Request;
 	res: Response;
 	token?: string;
+	logout?: boolean;
 }
 
 export const apolloServerOptions: ApolloFederationDriverConfig = {
@@ -45,8 +46,13 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GqlContext>
 
 	override async didReceiveResponse( { response, context }: any ) {
 		const token = response.http.headers.get( "x-access-token" );
+		const logout = response.http.headers.get( "x-logout" );
 		if ( !!token ) {
 			context.token = token;
+		}
+
+		if ( !!logout ) {
+			context.logout = true;
 		}
 		return response;
 	}
@@ -64,6 +70,8 @@ export class GraphQLGatewayFactory implements GqlOptionsFactory<ApolloGatewayDri
 		const registeredServices = await this.consulService.getRegisteredServices( id );
 
 		const supergraphSdl = new IntrospectAndCompose( {
+			subgraphHealthCheck: true,
+			pollIntervalInMs: 2000,
 			subgraphs: registeredServices.map( service => (
 				{
 					name: service.ID,

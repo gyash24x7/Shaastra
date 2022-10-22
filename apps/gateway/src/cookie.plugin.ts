@@ -20,6 +20,10 @@ export class CookiePlugin implements ApolloServerPlugin<GqlContext> {
 				if ( context.token ) {
 					context.res.cookie( "identity", context.token, accessTokenCookieOptions );
 				}
+
+				if ( !!context.logout ) {
+					context.res.clearCookie( "identity" );
+				}
 			}
 		}
 	}

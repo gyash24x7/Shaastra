@@ -32,7 +32,8 @@
 		"serve": {
 			"executor": "@nrwl/node:node",
 			"options": {
-				"buildTarget": "identity:build"
+				"buildTarget": "identity:build",
+				"inspect": false
 			},
 			"configurations": {
 				"production": {

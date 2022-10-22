@@ -24,7 +24,8 @@
 		"serve": {
 			"executor": "@nrwl/node:node",
 			"options": {
-				"buildTarget": "gateway:build"
+				"buildTarget": "gateway:build",
+				"inspect": false
 			},
 			"configurations": {
 				"production": {

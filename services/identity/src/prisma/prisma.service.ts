@@ -1,10 +1,9 @@
-import { INestApplicationContext, Injectable, OnModuleInit } from "@nestjs/common";
-import type { PrismaShutdownHook } from "@shaastra/utils/prisma";
+import { BeforeApplicationShutdown, Injectable, OnModuleInit } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client/identity";
 import { ConfigService } from "@nestjs/config";
 
 @Injectable()
-export class PrismaService extends PrismaClient implements PrismaShutdownHook, OnModuleInit {
+export class PrismaService extends PrismaClient implements BeforeApplicationShutdown, OnModuleInit {
 	constructor( configService: ConfigService ) {
 		super( {
 			datasources: {
@@ -17,9 +16,7 @@ export class PrismaService extends PrismaClient implements PrismaShutdownHook, O
 		await this.$connect();
 	}
 
-	enableShutdownHooks( app: INestApplicationContext ) {
-		this.$on( "beforeExit", async () => {
-			await app.close();
-		} );
+	async beforeApplicationShutdown() {
+		await this.$disconnect();
 	}
 }

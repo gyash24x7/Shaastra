@@ -1,4 +1,4 @@
-import { BeforeApplicationShutdown, Injectable, OnModuleInit } from "@nestjs/common";
+import { BeforeApplicationShutdown, Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import type { Consul as ConsulType } from "consul";
 import Consul from "consul";
 import { ConfigService } from "@nestjs/config";
@@ -22,6 +22,7 @@ type ConsulRegisteredService = {
 export class ConsulService implements OnModuleInit, BeforeApplicationShutdown {
 	private readonly consul: ConsulType;
 	private readonly options: ConsulServiceOptions;
+	private readonly logger = new Logger( ConsulService.name );
 
 	constructor( private readonly configService: ConfigService ) {
 		this.options = {
@@ -61,11 +62,7 @@ export class ConsulService implements OnModuleInit, BeforeApplicationShutdown {
 	}
 
 	async beforeApplicationShutdown() {
+		this.logger.debug( "Unregistering app from consul..." );
 		await this.consul.agent.service.deregister( this.options.registerOptions.id! );
 	}
 }
-
-
-
-
-

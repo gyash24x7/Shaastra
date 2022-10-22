@@ -1,24 +1,19 @@
 import { NestFactory } from "@nestjs/core";
 import cookieParser from "cookie-parser";
 import { ConfigService } from "@nestjs/config";
-import { Logger, Type } from "@nestjs/common";
-import type { PrismaShutdownHook } from "@shaastra/utils/prisma";
+import { Logger } from "@nestjs/common";
 
-export async function bootstrap<T>( AppModule: any, prismaServiceClass?: Type<T> ) {
+export async function bootstrap( AppModule: any ) {
 	const app = await NestFactory.create( AppModule );
 	const logger = new Logger( "Bootstrap" );
 
 	app.use( cookieParser() );
 
-	if ( !!prismaServiceClass ) {
-		const prismaService: PrismaShutdownHook = app.get( prismaServiceClass );
-		prismaService?.enableShutdownHooks( app );
-		logger.log( "Prisma Shutdown Hooks enabled!" );
-	}
-
 	const configService = app.get( ConfigService );
 	const port = configService.getOrThrow<number>( "app.port" );
 	const name = configService.getOrThrow<string>( "app.name" );
+
+	app.enableShutdownHooks();
 
 	await app.listen( port );
 

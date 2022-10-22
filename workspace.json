@@ -7,7 +7,6 @@
 		"gateway": "apps/gateway",
 		"health": "libs/health",
 		"identity": "services/identity",
-		"prime-web": "apps/prime-web",
 		"utils": "libs/utils",
 		"mail": "libs/mail"
 	}

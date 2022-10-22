@@ -3,7 +3,7 @@ import { CommandHandler } from "@nestjs/cqrs";
 import * as crypto from "crypto";
 import type { Token } from "@prisma/client/identity";
 import dayjs from "dayjs";
-import type { IdentityPrismaService } from "../../app/identity.prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 
 export type CreateTokenInput = { userId: string, token?: string };
 
@@ -13,7 +13,7 @@ export class CreateTokenCommand implements ICommand {
 
 @CommandHandler( CreateTokenCommand )
 export class CreateTokenCommandHandler implements ICommandHandler<CreateTokenCommand, Token> {
-	constructor( private readonly prismaService: IdentityPrismaService ) {}
+	constructor( private readonly prismaService: PrismaService ) {}
 
 	execute( { data: { userId, token } }: CreateTokenCommand ): Promise<Token> {
 		token = token || crypto.randomBytes( 32 ).toString( "hex" );

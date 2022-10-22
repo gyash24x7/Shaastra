@@ -1,7 +1,7 @@
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
 import dayjs from "dayjs";
-import { IdentityPrismaService } from "../../app/identity.prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 
 export type VerifyUserInput = {
 	userId: string;
@@ -14,7 +14,7 @@ export class VerifyUserCommand implements ICommand {
 
 @CommandHandler( VerifyUserCommand )
 export class VerifyUserCommandHandler implements ICommandHandler<VerifyUserCommand, boolean> {
-	constructor( private readonly prismaService: IdentityPrismaService ) {}
+	constructor( private readonly prismaService: PrismaService ) {}
 
 	async execute( { data }: VerifyUserCommand ) {
 		const user = await this.prismaService.user.findUnique( { where: { id: data.userId } } );

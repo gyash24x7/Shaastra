@@ -3,7 +3,7 @@ import { BadRequestException, NotFoundException } from "@nestjs/common";
 import bcrypt from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
 import { UserMessages } from "../user.messages";
-import { IdentityPrismaService } from "../../app/identity.prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 
 export type LoginInput = {
 	username: string;
@@ -17,7 +17,7 @@ export class LoginCommand implements ICommand {
 @CommandHandler( LoginCommand )
 export class LoginCommandHandler implements ICommandHandler<LoginCommand, string> {
 	constructor(
-		private readonly prismaService: IdentityPrismaService,
+		private readonly prismaService: PrismaService,
 		private readonly jwtService: JwtService
 	) {}
 

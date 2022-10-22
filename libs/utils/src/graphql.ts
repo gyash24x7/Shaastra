@@ -27,10 +27,12 @@ export const apolloServerOptions: ApolloFederationDriverConfig = {
 	path: "/api/graphql",
 	playground: true,
 	cors: true,
-	context: ( { req, res }: GqlContext ): GqlContext => ( { req, res } ),
+	context: ( { req, res }: GqlContext ): GqlContext => (
+		{ req, res }
+	),
 	driver: ApolloFederationDriver,
-	typePaths: [ "apps/identity/src/**/*.graphql" ]
-}
+	typePaths: [ "services/identity/src/**/*.graphql" ]
+};
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GqlContext> {
 
@@ -62,10 +64,12 @@ export class GraphQLGatewayFactory implements GqlOptionsFactory<ApolloGatewayDri
 		const registeredServices = await this.consulService.getRegisteredServices( id );
 
 		const supergraphSdl = new IntrospectAndCompose( {
-			subgraphs: registeredServices.map( service => ( {
-				name: service.ID,
-				url: `http://${ service.Address }:${ service.Port }/api/graphql`
-			} ) )
+			subgraphs: registeredServices.map( service => (
+				{
+					name: service.ID,
+					url: `http://${ service.Address }:${ service.Port }/api/graphql`
+				}
+			) )
 		} );
 
 		const buildService = ( { url }: ServiceEndpointDefinition ) => new AuthenticatedDataSource( { url } );

@@ -4,7 +4,7 @@ import type { GqlContext, GqlResolveReferenceData } from "@shaastra/utils/graphq
 import { UserQuery } from "./queries/user.query";
 import { LoginCommand, LoginInput } from "./commands/login.command";
 import { CreateUserCommand, CreateUserInput } from "./commands/create.user.command";
-import { AuthGuard, AuthPayload, AuthUser } from "@shaastra/auth";
+import { AuthGuard, AuthInfo, AuthPayload } from "@shaastra/auth";
 import { UseGuards } from "@nestjs/common";
 import type { VerifyUserInput } from "./commands/verify.user.command";
 import { VerifyUserCommand } from "./commands/verify.user.command";
@@ -19,13 +19,13 @@ export class UserResolver {
 
 	@UseGuards( AuthGuard )
 	@Query()
-	me( @AuthUser() payload: AuthPayload ): Promise<User> {
+	me( @AuthInfo() payload: AuthPayload ): Promise<User> {
 		return this.queryBus.execute( new UserQuery( payload.sub! ) );
 	}
 
 	@Mutation()
 	async login( @Args( "data" ) data: LoginInput, @Context() ctx: GqlContext ): Promise<boolean> {
-		const token: string = await this.commandBus.execute( new LoginCommand( data ) )
+		const token: string = await this.commandBus.execute( new LoginCommand( data ) );
 		ctx.res.setHeader( "x-access-token", token );
 		return !!token;
 	}

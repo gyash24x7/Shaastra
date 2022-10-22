@@ -3,7 +3,7 @@ import { ConflictException } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import { UserMessages } from "../user.messages";
 import { UserCreatedEvent } from "../events/user.created.event";
-import { IdentityPrismaService } from "../../app/identity.prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 
 export type CreateUserInput = {
 	name: string;
@@ -19,7 +19,7 @@ export class CreateUserCommand implements ICommand {
 @CommandHandler( CreateUserCommand )
 export class CreateUserCommandHandler implements ICommandHandler<CreateUserCommand, boolean> {
 	constructor(
-		private readonly prismaService: IdentityPrismaService,
+		private readonly prismaService: PrismaService,
 		private readonly eventBus: EventBus
 	) {}
 

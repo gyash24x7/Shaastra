@@ -2,6 +2,7 @@
 	"$schema": "./node_modules/nx/schemas/workspace-schema.json",
 	"version": 2,
 	"projects": {
+		"prime": "apps/web/prime",
 		"auth": "libs/auth",
 		"consul": "libs/consul",
 		"gateway": "apps/gateway",

@@ -3,6 +3,12 @@
 	"sourceRoot": "apps/web/prime/src",
 	"projectType": "application",
 	"targets": {
+		"genql": {
+			"executor": "./tools/executors/genql:generate",
+			"options": {
+				"endpoint": "http://localhost:9000/api/graphql"
+			}
+		},
 		"dev": {
 			"executor": "./tools/executors/vite:dev",
 			"options": { }

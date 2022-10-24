@@ -1,0 +1,9 @@
+{
+	"executors": {
+		"generate": {
+			"implementation": "./generate",
+			"schema": "./schema.json",
+			"description": "Generates GenQL Client "
+		}
+	}
+}

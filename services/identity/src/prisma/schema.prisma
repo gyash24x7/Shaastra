@@ -33,21 +33,36 @@ model Token {
     createdAt       DateTime    @default(now())
 }
 
-model Department {
-    id              String      @id @default(cuid())
-    name            String      @unique
-    members         Member[]
+enum Department {
+    WEBOPS
+    SPONSORSHIP_AND_PR
+    SHOWS_AND_EXHIBITIONS
+    EVENTS_AND_WORKSHOPS
+    OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+    EVOLVE
+    ENVISAGE
+    FINANCE
+    CONCEPT_AND_DESIGN
+    PUBLICITY
+    QMS
+}
+
+enum MemberPosition {
+    COORD
+    HEAD
+    CORE
+    COCAS
 }
 
 model Member {
-    id              String      @id @default(cuid())
-    userId          String      @unique
-    user            User        @relation(fields:[userId], references:[id])
-    profilePic      String      @default("")
-    coverPic        String      @default("")
+    id              String          @id @default(cuid())
+    userId          String          @unique
+    user            User            @relation(fields:[userId], references:[id])
+    profilePic      String          @default("")
+    coverPic        String          @default("")
     mobile          String
-    upi             String      @default("")
-    about           String      @default("")
-    department      Department  @relation(fields:[departmentId], references:[id])
-    departmentId    String
+    upi             String          @default("")
+    about           String          @default("")
+    department      Department
+    position        MemberPosition
 }

@@ -7,6 +7,6 @@ type MemberProfile @key(fields:"id") {
     mobile: String!
     upi: String!
     about: String!
-    department: Department!
-    departmentId: String!
+    department: String!
+    position: String!
 }

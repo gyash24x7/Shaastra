@@ -1,5 +1,0 @@
-type Department @key(fields:"id") {
-    id: String!
-    name: String!
-    members: [MemberProfile!]!
-}

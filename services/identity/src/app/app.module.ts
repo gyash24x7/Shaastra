@@ -11,7 +11,6 @@ import appConfig from "./app.config";
 import { TokenModule } from "../tokens/token.module";
 import { RoleModule } from "../roles/role.module";
 import { UserModule } from "../users/user.module";
-import { DepartmentModule } from "../department/department.module";
 import { MemberModule } from "../members/member.module";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
@@ -28,7 +27,6 @@ const GraphQLModule = NestGraphQLModule.forRoot<ApolloFederationDriverConfig>( a
 		TokenModule,
 		RoleModule,
 		UserModule,
-		DepartmentModule,
 		MemberModule
 	],
 	controllers: [ JwksController ]

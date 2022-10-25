@@ -1,7 +1,7 @@
 import { registerAs } from "@nestjs/config";
 import type { AppConfig } from "@shaastra/utils/config";
 
-export default registerAs( "app", (): AppConfig => ( {
+const appConfig: AppConfig = {
 	id: "identity",
 	name: "Shaastra Identity",
 	pkg: "@shaastra/identity",
@@ -28,4 +28,6 @@ export default registerAs( "app", (): AppConfig => ( {
 		apiKey: process.env[ "MAILJET_API_KEY" ]!,
 		apiSecret: process.env[ "MAILJET_API_SECRET" ]!
 	}
-} ) );
+};
+
+export default registerAs( "app", () => appConfig );

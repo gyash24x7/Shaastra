@@ -1,0 +1,12 @@
+type MemberProfile @key(fields:"id") {
+    id: String!
+    user: User!
+    userId: String!
+    profilePic: String!
+    coverPic: String!
+    mobile: String!
+    upi: String!
+    about: String!
+    department: Department!
+    departmentId: String!
+}

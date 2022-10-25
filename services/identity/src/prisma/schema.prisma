@@ -16,6 +16,7 @@ model User {
     password        String
     verified        Boolean     @default(false)
     roles           Role[]
+    member          Member?
 }
 
 model Role {
@@ -30,4 +31,23 @@ model Token {
     userId          String
     expiry          DateTime
     createdAt       DateTime    @default(now())
+}
+
+model Department {
+    id              String      @id @default(cuid())
+    name            String      @unique
+    members         Member[]
+}
+
+model Member {
+    id              String      @id @default(cuid())
+    userId          String      @unique
+    user            User        @relation(fields:[userId], references:[id])
+    profilePic      String      @default("")
+    coverPic        String      @default("")
+    mobile          String
+    upi             String      @default("")
+    about           String      @default("")
+    department      Department  @relation(fields:[departmentId], references:[id])
+    departmentId    String
 }

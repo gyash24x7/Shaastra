@@ -1,5 +1,5 @@
 import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
-import { ConflictException } from "@nestjs/common";
+import { BadRequestException, ConflictException } from "@nestjs/common";
 import { MemberMessages } from "../member.messages";
 import { MemberCreatedEvent } from "../events/member.created.event";
 import { PrismaService } from "../../prisma/prisma.service";
@@ -24,6 +24,12 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 	) {}
 
 	async execute( { data }: CreateMemberCommand ): Promise<boolean> {
+		const existingUser = await this.prismaService.user.findUnique( { where: { id: data.userId } } );
+
+		if ( !existingUser ) {
+			throw new BadRequestException( MemberMessages.USER_NOT_FOUND );
+		}
+
 		const existingMember = await this.prismaService.member.findUnique( {
 			where: { userId: data.userId }
 		} );

@@ -1,4 +1,4 @@
-type MemberProfile @key(fields:"id") {
+type Member @key(fields:"id") {
     id: String!
     user: User!
     userId: String!
@@ -7,6 +7,44 @@ type MemberProfile @key(fields:"id") {
     mobile: String!
     upi: String!
     about: String!
-    department: String!
-    position: String!
+    department: Department!
+    position: MemberPosition!
+    enabled: Boolean!
+}
+
+enum Department {
+    WEBOPS
+    SPONSORSHIP_AND_PR
+    SHOWS_AND_EXHIBITIONS
+    EVENTS_AND_WORKSHOPS
+    OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+    EVOLVE
+    ENVISAGE
+    FINANCE
+    CONCEPT_AND_DESIGN
+    PUBLICITY
+    QMS
+}
+
+enum MemberPosition {
+    COORD
+    HEAD
+    CORE
+    COCAS
+}
+
+input CreateMemberInput {
+    userId: String!
+    department: Department!
+    position: MemberPosition!
+    mobile: String!
+}
+
+input EnableMemberInput {
+    userId: String!
+}
+
+type Mutation {
+    createMember(data: CreateMemberInput!): Boolean!
+    enableMember(data: EnableMemberInput!): Boolean!
 }

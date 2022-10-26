@@ -5,6 +5,7 @@ type User @key(fields: "id") {
     username: String!
     verified: Boolean!
     roles: [Role!]!
+    member: Member
 }
 
 type Query {

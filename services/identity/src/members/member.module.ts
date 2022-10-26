@@ -8,9 +8,10 @@ import { EnableMemberCommandHandler } from "./commands/enable.member.command";
 import { MemberCreatedEventHandler } from "./events/member.created.event";
 import { MemberEnabledEventHandler } from "./events/member.enabled.event";
 import { DeptCoreQueryHandler } from "./queries/dept-core.query";
+import { MailModule } from "@shaastra/mail";
 
 @Module( {
-	imports: [ CqrsModule, PrismaModule ],
+	imports: [ CqrsModule, PrismaModule, MailModule ],
 	providers: [
 		MemberQueryHandler,
 		CreateMemberCommandHandler,

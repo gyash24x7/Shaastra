@@ -8,7 +8,8 @@ export class PrismaService extends PrismaClient implements BeforeApplicationShut
 		super( {
 			datasources: {
 				db: { url: configService.get<string>( "app.prisma.dbUrl" ) }
-			}
+			},
+			log: [ "query" ]
 		} );
 	}
 

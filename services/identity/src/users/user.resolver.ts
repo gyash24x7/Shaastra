@@ -1,4 +1,13 @@
-import { Args, Context, Mutation, Query, Resolver, ResolveReference } from "@nestjs/graphql";
+import {
+	Args,
+	Context,
+	Mutation,
+	Parent,
+	Query,
+	ResolveField,
+	Resolver,
+	ResolveReference
+} from "@nestjs/graphql";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import type { GqlContext, GqlResolveReferenceData } from "@shaastra/utils/graphql";
 import { UserQuery } from "./queries/user.query";
@@ -8,7 +17,8 @@ import { AuthGuard, AuthInfo, AuthPayload } from "@shaastra/auth";
 import { UseGuards } from "@nestjs/common";
 import type { VerifyUserInput } from "./commands/verify.user.command";
 import { VerifyUserCommand } from "./commands/verify.user.command";
-import type { User } from "@prisma/client/identity";
+import type { Member, User } from "@prisma/client/identity";
+import { MemberQuery } from "../members/queries/member.query";
 
 @Resolver( "User" )
 export class UserResolver {
@@ -45,6 +55,11 @@ export class UserResolver {
 	logout( @Context() ctx: GqlContext, @AuthInfo() authInfo: AuthPayload ) {
 		ctx.res.setHeader( "x-logout", authInfo.sub! );
 		return true;
+	}
+
+	@ResolveField()
+	async member( @Parent() { id }: User ): Promise<Member | null> {
+		return this.queryBus.execute( new MemberQuery( id, true ) );
 	}
 
 	@ResolveReference()

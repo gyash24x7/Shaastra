@@ -11,6 +11,7 @@ import { JwtModule as NestJwtModule } from "@nestjs/jwt/dist/jwt.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { JwtConfigFactory } from "@shaastra/utils/jwt";
 import { PrismaModule } from "../prisma/prisma.module";
+import { UserController } from "./user.controller";
 
 const JwtModule = NestJwtModule.registerAsync( {
 	imports: [ ConfigModule ],
@@ -20,6 +21,7 @@ const JwtModule = NestJwtModule.registerAsync( {
 
 @Module( {
 	imports: [ CqrsModule, MailModule, JwtModule, PrismaModule ],
+	controllers: [ UserController ],
 	providers: [
 		LoginCommandHandler,
 		CreateUserCommandHandler,

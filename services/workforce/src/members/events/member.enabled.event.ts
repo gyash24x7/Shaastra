@@ -1,10 +1,10 @@
 import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { EventsHandler } from "@nestjs/cqrs";
 import { MailService } from "@shaastra/mail";
-import type { Member, User } from "@prisma/client/identity";
+import type { Member } from "@prisma/client/workforce";
 
 export class MemberEnabledEvent implements IEvent {
-	constructor( public readonly data: Member & { user: User } ) {}
+	constructor( public readonly data: Member ) {}
 }
 
 @EventsHandler( MemberEnabledEvent )
@@ -13,7 +13,7 @@ export class MemberEnabledEventHandler implements IEventHandler<MemberEnabledEve
 
 	async handle( { data }: MemberEnabledEvent ) {
 		const subject = `Your Shaastra Prime Account is Enabled`;
-		const content = `Hi ${ data.user.name }, You can now use Shaastra Prime.`;
-		await this.mailService.sendMail( { subject, content, email: data.user.email, name: data.user.name } );
+		const content = `Hi ${ data.name }, You can now use Shaastra Prime.`;
+		await this.mailService.sendMail( { subject, content, email: data.email, name: data.name } );
 	}
 }

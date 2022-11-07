@@ -1,27 +1,14 @@
 type User @key(fields: "id") {
     id: ID!
-    name: String!
     email: String!
     username: String!
     verified: Boolean!
-    roles: [Role!]!
-    member: Member
-}
-
-type Query {
-    me: User
+    roles: [String!]!
 }
 
 input LoginInput {
     username: String!
     password: String!
-}
-
-input CreateUserInput {
-    name: String!
-    email: String!
-    password: String!
-    username: String!
 }
 
 input VerifyUserInput {
@@ -31,7 +18,6 @@ input VerifyUserInput {
 
 type Mutation {
     login(data: LoginInput!): Boolean!
-    createUser(data: CreateUserInput!): Boolean!
-    verifyUser(data: VerifyUserInput!): Boolean!
+    verifyUser(data: VerifyUserInput!): String
     logout: Boolean!
 }

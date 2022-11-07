@@ -6,14 +6,13 @@ import { ConsulModule } from "@shaastra/consul";
 import { HealthModule } from "@shaastra/health";
 import { AuthModule } from "@shaastra/auth";
 import { Module } from "@nestjs/common";
-import { JwksController } from "./jwks.controller";
 import appConfig from "./app.config";
-import { TokenModule } from "../tokens/token.module";
-import { UserModule } from "../users/user.module";
+import { MemberModule } from "../members/member.module";
+import { TeamModule } from "../teams/team.module";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
-const apolloServerOptions = getApolloServerOptions( "identity" );
+const apolloServerOptions = getApolloServerOptions( "workforce" );
 const GraphQLModule = NestGraphQLModule.forRoot<ApolloFederationDriverConfig>( apolloServerOptions );
 
 @Module( {
@@ -23,9 +22,8 @@ const GraphQLModule = NestGraphQLModule.forRoot<ApolloFederationDriverConfig>( a
 		HealthModule,
 		GraphQLModule,
 		AuthModule,
-		TokenModule,
-		UserModule
-	],
-	controllers: [ JwksController ]
+		MemberModule,
+		TeamModule
+	]
 } )
 export class AppModule {}

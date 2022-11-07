@@ -11,18 +11,11 @@ datasource db {
 model User {
     id              String      @id @default(cuid())
     name            String
-    email           String
+    email           String      @unique
     username        String      @unique
     password        String
     verified        Boolean     @default(false)
-    roles           Role[]
-    member          Member?
-}
-
-model Role {
-    id              String      @id
-    role            String      @unique
-    users           User[]
+    roles           String[]
 }
 
 model Token {
@@ -31,39 +24,4 @@ model Token {
     userId          String
     expiry          DateTime
     createdAt       DateTime    @default(now())
-}
-
-enum Department {
-    WEBOPS
-    SPONSORSHIP_AND_PR
-    SHOWS_AND_EXHIBITIONS
-    EVENTS_AND_WORKSHOPS
-    OPERATIONS_AND_INFRASTRUCTURE_PLANNING
-    EVOLVE
-    ENVISAGE
-    FINANCE
-    CONCEPT_AND_DESIGN
-    PUBLICITY
-    QMS
-}
-
-enum MemberPosition {
-    COORD
-    HEAD
-    CORE
-    COCAS
-}
-
-model Member {
-    id              String          @id @default(cuid())
-    userId          String          @unique
-    user            User            @relation(fields:[userId], references:[id])
-    profilePic      String          @default("")
-    coverPic        String          @default("")
-    mobile          String
-    upi             String          @default("")
-    about           String          @default("")
-    department      Department
-    position        MemberPosition
-    enabled         Boolean         @default(false)
 }

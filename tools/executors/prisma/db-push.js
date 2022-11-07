@@ -44,7 +44,7 @@ function dbPushExecutor(_, context) {
             console.info("Executing \"prisma db push\"...");
             projectDir = context.workspace.projects[context.projectName].root;
             return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var devProcess = (0, child_process_1.exec)("prisma db push --schema ".concat(projectDir, "/src/prisma/schema.prisma"), function (error, stdout, stderr) {
+                    var devProcess = (0, child_process_1.exec)("prisma db push --schema ".concat(projectDir, "/src/prisma/schema.prisma --accept-data-loss --force-reset"), function (error, stdout, stderr) {
                         if (error) {
                             reject(error);
                         }

@@ -7,7 +7,7 @@ export default async function dbPushExecutor( _, context ) {
 
 	return new Promise( ( resolve, reject ) => {
 		const devProcess = exec(
-			`prisma db push --schema ${ projectDir }/src/prisma/schema.prisma`,
+			`prisma db push --schema ${ projectDir }/src/prisma/schema.prisma --accept-data-loss --force-reset`,
 			function ( error, stdout, stderr ) {
 				if ( error ) {
 					reject( error );

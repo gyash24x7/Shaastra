@@ -13,18 +13,18 @@ export class VerifyUserCommand implements ICommand {
 }
 
 @CommandHandler( VerifyUserCommand )
-export class VerifyUserCommandHandler implements ICommandHandler<VerifyUserCommand, boolean> {
+export class VerifyUserCommandHandler implements ICommandHandler<VerifyUserCommand, string | null> {
 	constructor( private readonly prismaService: PrismaService ) {}
 
 	async execute( { data }: VerifyUserCommand ) {
 		const user = await this.prismaService.user.findUnique( { where: { id: data.userId } } );
 		if ( !user ) {
-			return false;
+			return null;
 		}
 
 		const token = await this.prismaService.token.findUnique( { where: { id: data.tokenId } } );
 		if ( !token || dayjs().isAfter( token.expiry ) ) {
-			return false;
+			return null;
 		}
 
 		await this.prismaService.user.update( {
@@ -34,7 +34,7 @@ export class VerifyUserCommandHandler implements ICommandHandler<VerifyUserComma
 
 		await this.prismaService.token.delete( { where: { id: data.tokenId } } );
 
-		return true;
+		return user.id;
 	}
 
 }

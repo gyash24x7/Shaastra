@@ -8,6 +8,7 @@
 		"gateway": "apps/gateway",
 		"health": "libs/health",
 		"identity": "services/identity",
+		"workforce": "services/workforce",
 		"utils": "libs/utils",
 		"mail": "libs/mail"
 	}

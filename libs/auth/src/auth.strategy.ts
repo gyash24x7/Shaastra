@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy as BaseStrategy } from "passport-jwt";
 import { passportJwtSecret } from "jwks-rsa";
-import type { AuthPayload } from "./auth.payload";
+import type { AuthPayload, UserAuthInfo } from "./auth.payload";
 import { ConfigService } from "@nestjs/config";
 
 @Injectable()
@@ -22,7 +22,15 @@ export class AuthStrategy extends PassportStrategy( BaseStrategy ) {
 		} );
 	}
 
-	validate( payload: AuthPayload ): AuthPayload {
-		return payload;
+	validate( payload: AuthPayload ): UserAuthInfo {
+		console.log( payload );
+		const departmentRole = payload.roles?.find( role => role.startsWith( "MEMBER_" ) )!;
+		const positionRole = payload.roles?.find( role => role.startsWith( "POSITION_" ) )!;
+
+		return {
+			id: payload.sub!,
+			department: departmentRole.substring( 7 ),
+			position: positionRole.substring( 9 )
+		};
 	}
 }

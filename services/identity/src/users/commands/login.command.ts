@@ -23,8 +23,7 @@ export class LoginCommandHandler implements ICommandHandler<LoginCommand, string
 
 	async execute( { data }: LoginCommand ): Promise<string> {
 		const user = await this.prismaService.user.findUnique( {
-			where: { username: data.username },
-			include: { roles: true }
+			where: { username: data.username }
 		} );
 
 		if ( !user ) {

@@ -11,6 +11,6 @@ export class UserQueryHandler implements IQueryHandler<UserQuery, User | null> {
 	constructor( private readonly prismaService: PrismaService ) {}
 
 	execute( { id }: UserQuery ): Promise<User | null> {
-		return this.prismaService.user.findUnique( { where: { id }, include: { roles: true } } );
+		return this.prismaService.user.findUnique( { where: { id } } );
 	}
 }

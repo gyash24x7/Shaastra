@@ -9,9 +9,12 @@ import { MemberCreatedEventHandler } from "./events/member.created.event";
 import { MemberEnabledEventHandler } from "./events/member.enabled.event";
 import { DeptCoreQueryHandler } from "./queries/dept-core.query";
 import { MailModule } from "@shaastra/mail";
+import { HttpModule } from "@nestjs/axios";
+import { ConsulModule } from "@shaastra/consul";
+import { ConfigModule } from "@nestjs/config";
 
 @Module( {
-	imports: [ CqrsModule, PrismaModule, MailModule ],
+	imports: [ CqrsModule, PrismaModule, MailModule, HttpModule, ConsulModule, ConfigModule ],
 	providers: [
 		MemberQueryHandler,
 		CreateMemberCommandHandler,

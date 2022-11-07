@@ -3,7 +3,7 @@ import { MemberEnabledEvent } from "../events/member.enabled.event";
 import { PrismaService } from "../../prisma/prisma.service";
 
 export type EnableMemberInput = {
-	userId: string;
+	id: string;
 }
 
 export class EnableMemberCommand implements ICommand {
@@ -19,9 +19,8 @@ export class EnableMemberCommandHandler implements ICommandHandler<EnableMemberC
 
 	async execute( { data }: EnableMemberCommand ): Promise<boolean> {
 		const member = await this.prismaService.member.update( {
-			where: { userId: data.userId },
-			data: { enabled: true },
-			include: { user: true }
+			where: { id: data.id },
+			data: { enabled: true }
 		} );
 
 		this.eventBus.publish( new MemberEnabledEvent( member ) );

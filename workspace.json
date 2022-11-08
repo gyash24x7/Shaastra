@@ -9,6 +9,7 @@
 		"health": "libs/health",
 		"identity": "services/identity",
 		"workforce": "services/workforce",
+		"connect": "services/connect",
 		"utils": "libs/utils",
 		"mail": "libs/mail"
 	}

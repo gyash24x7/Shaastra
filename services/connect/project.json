@@ -1,0 +1,46 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "services/connect/src",
+	"projectType": "application",
+	"targets": {
+		"db-push": {
+			"executor": "./tools/executors/prisma:db-push",
+			"options": { }
+		},
+		"generate": {
+			"executor": "./tools/executors/prisma:generate",
+			"options": { }
+		},
+		"build": {
+			"executor": "@nrwl/node:webpack",
+			"outputs": [ "{options.outputPath}" ],
+			"options": {
+				"outputPath": "dist/services/connect",
+				"main": "services/connect/src/main.ts",
+				"tsConfig": "services/connect/tsconfig.app.json",
+				"assets": [ "services/connect/src/assets" ]
+			},
+			"configurations": {
+				"production": {
+					"optimization": true,
+					"extractLicenses": true,
+					"inspect": false,
+					"fileReplacements": [ ]
+				}
+			}
+		},
+		"serve": {
+			"executor": "@nrwl/node:node",
+			"options": {
+				"buildTarget": "connect:build",
+				"inspect": false
+			},
+			"configurations": {
+				"production": {
+					"buildTarget": "connect:build:production"
+				}
+			}
+		}
+	},
+	"tags": [ ]
+}

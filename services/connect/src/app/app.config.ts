@@ -2,18 +2,18 @@ import { registerAs } from "@nestjs/config";
 import type { AppConfig } from "@shaastra/utils/config";
 
 const appConfig: AppConfig = {
-	id: "workforce",
-	name: "Shaastra Workforce",
-	pkg: "@shaastra/workforce",
-	port: 8010,
+	id: "connect",
+	name: "Shaastra connect",
+	pkg: "@shaastra/connect",
+	port: 8020,
 	address: "localhost",
-	url: "http://localhost:8100",
+	url: "http://localhost:8000",
 	consul: {
 		host: process.env[ "CONSUL_URL" ] || "localhost",
 		port: process.env[ "CONSUL_PORT" ] || "8500"
 	},
 	prisma: {
-		dbUrl: process.env[ "WORKFORCE_DB_URL" ]!
+		dbUrl: process.env[ "connect_DB_URL" ]!
 	},
 	auth: {
 		audience: process.env[ "AUTH_AUDIENCE" ]!,

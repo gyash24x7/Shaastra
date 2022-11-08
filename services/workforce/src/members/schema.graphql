@@ -45,18 +45,12 @@ input CreateMemberInput {
     mobile: String!
 }
 
-type AuthInfo {
-    id: String!
-    department: Department!
-    position: MemberPosition!
-}
-
 input EnableMemberInput {
     userId: String!
 }
 
 type Query {
-    me: AuthInfo!
+    me: Member!
 }
 
 type Mutation {

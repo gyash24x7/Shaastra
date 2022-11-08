@@ -7,7 +7,6 @@ export interface AuthPayload {
 	azp?: string;
 	scope?: string;
 	roles?: string[];
-	permissions?: string[];
 }
 
 export interface UserAuthInfo {

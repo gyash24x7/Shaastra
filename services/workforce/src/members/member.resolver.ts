@@ -4,35 +4,34 @@ import type { GqlResolveReferenceData } from "@shaastra/utils/graphql";
 import { MemberQuery } from "./queries/member.query";
 import type { Member, Team } from "@prisma/client/workforce";
 import { MemberPosition } from "@prisma/client/workforce";
-import type { CreateMemberInput } from "./commands/create.member.command";
-import { CreateMemberCommand } from "./commands/create.member.command";
-import type { EnableMemberInput } from "./commands/enable.member.command";
-import { EnableMemberCommand } from "./commands/enable.member.command";
+import { CreateMemberCommand, CreateMemberInput } from "./commands/create.member.command";
+import { EnableMemberCommand, EnableMemberInput } from "./commands/enable.member.command";
 import { UseGuards } from "@nestjs/common";
 import { AuthGuard, AuthInfo, PositionGuard, Positions, UserAuthInfo } from "@shaastra/auth";
-import { TeamQuery } from "../teams/queries/team.query";
+import { MemberModel } from "./member.model";
+import { TeamsQuery } from "../teams/queries/teams.query";
 
-@Resolver( "Member" )
+@Resolver( () => MemberModel )
 export class MemberResolver {
 	constructor(
 		private readonly queryBus: QueryBus,
 		private readonly commandBus: CommandBus
 	) {}
 
-	@Mutation()
+	@Mutation( () => Boolean )
 	async createMember( @Args( "data" ) data: CreateMemberInput ): Promise<boolean> {
 		return this.commandBus.execute( new CreateMemberCommand( data ) );
 	}
 
 	@UseGuards( AuthGuard )
-	@Query()
+	@Query( () => MemberModel )
 	async me( @AuthInfo() authInfo: UserAuthInfo ): Promise<Member> {
 		return this.queryBus.execute( new MemberQuery( authInfo.id ) );
 	}
 
 	@Positions( MemberPosition.CORE )
 	@UseGuards( AuthGuard, PositionGuard )
-	@Mutation()
+	@Mutation( () => Boolean )
 	async enableMember( @Args( "data" ) data: EnableMemberInput ): Promise<boolean> {
 		return this.commandBus.execute( new EnableMemberCommand( data ) );
 	}
@@ -44,6 +43,6 @@ export class MemberResolver {
 
 	@ResolveField()
 	async teams( @Parent() parent: Member ): Promise<Team[]> {
-		return this.queryBus.execute( new TeamQuery( parent.id, true ) );
+		return this.queryBus.execute( new TeamsQuery( parent.id ) );
 	}
 }

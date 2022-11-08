@@ -1,9 +1,12 @@
 import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { MemberEnabledEvent } from "../events/member.enabled.event";
 import { PrismaService } from "../../prisma/prisma.service";
+import { Field, InputType } from "@nestjs/graphql";
 
-export type EnableMemberInput = {
-	id: string;
+@InputType( EnableMemberInput.TYPENAME )
+export class EnableMemberInput {
+	public static readonly TYPENAME = EnableMemberInput.name;
+	@Field() id: string;
 }
 
 export class EnableMemberCommand implements ICommand {

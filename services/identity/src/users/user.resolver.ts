@@ -5,32 +5,32 @@ import { UserQuery } from "./queries/user.query";
 import { LoginCommand, LoginInput } from "./commands/login.command";
 import { AuthGuard, AuthInfo, UserAuthInfo } from "@shaastra/auth";
 import { UseGuards } from "@nestjs/common";
-import type { VerifyUserInput } from "./commands/verify.user.command";
-import { VerifyUserCommand } from "./commands/verify.user.command";
+import { VerifyUserCommand, VerifyUserInput } from "./commands/verify.user.command";
 import type { User } from "@prisma/client/identity";
+import { UserModel } from "./user.model";
 
-@Resolver( "User" )
+@Resolver( () => UserModel )
 export class UserResolver {
 	constructor(
 		private readonly queryBus: QueryBus,
 		private readonly commandBus: CommandBus
 	) {}
 
-	@Mutation()
+	@Mutation( () => Boolean )
 	async login( @Args( "data" ) data: LoginInput, @Context() ctx: GqlContext ): Promise<boolean> {
 		const token: string = await this.commandBus.execute( new LoginCommand( data ) );
 		ctx.res.setHeader( "x-access-token", token );
 		return !!token;
 	}
 
-	@Mutation()
-	verifyUser( @Args( "data" ) data: VerifyUserInput ): Promise<string> {
+	@Mutation( () => String )
+	async verifyUser( @Args( "data" ) data: VerifyUserInput ): Promise<string> {
 		return this.commandBus.execute( new VerifyUserCommand( data ) );
 	}
 
 	@UseGuards( AuthGuard )
-	@Mutation()
-	logout( @Context() ctx: GqlContext, @AuthInfo() authInfo: UserAuthInfo ) {
+	@Mutation( () => Boolean )
+	logout( @Context() ctx: GqlContext, @AuthInfo() authInfo: UserAuthInfo ): boolean {
 		ctx.res.setHeader( "x-logout", authInfo.id );
 		return true;
 	}

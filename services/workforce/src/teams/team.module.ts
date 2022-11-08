@@ -6,9 +6,16 @@ import { PrismaModule } from "../prisma/prisma.module";
 import { CreateTeamCommandHandler } from "./commands/create.team.command";
 import { TeamCreatedEventHandler } from "./events/team.created.event";
 import { MailModule } from "@shaastra/mail";
+import { TeamsQueryHandler } from "./queries/teams.query";
 
 @Module( {
 	imports: [ CqrsModule, PrismaModule, MailModule ],
-	providers: [ CreateTeamCommandHandler, TeamCreatedEventHandler, TeamQueryHandler, TeamResolver ]
+	providers: [
+		CreateTeamCommandHandler,
+		TeamCreatedEventHandler,
+		TeamQueryHandler,
+		TeamsQueryHandler,
+		TeamResolver
+	]
 } )
 export class TeamModule {}

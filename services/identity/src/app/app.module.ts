@@ -1,7 +1,7 @@
 import { ConfigModule as NestConfigModule } from "@nestjs/config/dist/config.module";
 import { GraphQLModule as NestGraphQLModule } from "@nestjs/graphql/dist/graphql.module";
 import type { ApolloFederationDriverConfig } from "@nestjs/apollo";
-import { getApolloServerOptions } from "@shaastra/utils/graphql";
+import { apolloServerOptions } from "@shaastra/utils/graphql";
 import { ConsulModule } from "@shaastra/consul";
 import { HealthModule } from "@shaastra/health";
 import { AuthModule } from "@shaastra/auth";
@@ -13,7 +13,6 @@ import { UserModule } from "../users/user.module";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
-const apolloServerOptions = getApolloServerOptions( "identity" );
 const GraphQLModule = NestGraphQLModule.forRoot<ApolloFederationDriverConfig>( apolloServerOptions );
 
 @Module( {

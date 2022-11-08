@@ -24,10 +24,6 @@ export type GqlContext = {
 	logout?: boolean;
 }
 
-export const getApolloServerOptions = ( service: string ): ApolloFederationDriverConfig => (
-	{ ...apolloServerOptions, typePaths: [ `services/${ service }/src/**/*.graphql` ] }
-);
-
 export const apolloServerOptions: ApolloFederationDriverConfig = {
 	path: "/api/graphql",
 	playground: true,
@@ -35,7 +31,8 @@ export const apolloServerOptions: ApolloFederationDriverConfig = {
 	context: ( { req, res }: GqlContext ): GqlContext => (
 		{ req, res }
 	),
-	driver: ApolloFederationDriver
+	driver: ApolloFederationDriver,
+	autoSchemaFile: true
 };
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GqlContext> {

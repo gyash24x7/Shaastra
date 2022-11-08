@@ -4,10 +4,13 @@ import bcrypt from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
 import { UserMessages } from "../user.messages";
 import { PrismaService } from "../../prisma/prisma.service";
+import { Field, InputType } from "@nestjs/graphql";
 
-export type LoginInput = {
-	username: string;
-	password: string;
+@InputType( LoginInput.TYPENAME )
+export class LoginInput {
+	public static readonly TYPENAME = "LoginInput";
+	@Field() username: string;
+	@Field() password: string;
 }
 
 export class LoginCommand implements ICommand {

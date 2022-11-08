@@ -2,7 +2,7 @@ import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqr
 import { ConflictException, Logger } from "@nestjs/common";
 import { MemberMessages } from "../member.messages";
 import { MemberCreatedEvent } from "../events/member.created.event";
-import type { Department, MemberPosition } from "@prisma/client/workforce";
+import { Department, MemberPosition } from "@prisma/client/workforce";
 import { PrismaService } from "../../prisma/prisma.service";
 import { HttpService } from "@nestjs/axios";
 import { ConsulService } from "@shaastra/consul";
@@ -10,15 +10,18 @@ import { ConfigService } from "@nestjs/config";
 import type { CreateUserInput } from "../../../../identity/src/users/commands/create.user.command";
 import { catchError, firstValueFrom } from "rxjs";
 import type { AxiosError } from "@nestjs/terminus/dist/errors/axios.error";
+import { Field, InputType } from "@nestjs/graphql";
 
-export type CreateMemberInput = {
-	name: string;
-	email: string;
-	password: string;
-	rollNumber: string;
-	department: Department;
-	position: MemberPosition;
-	mobile: string;
+@InputType( CreateMemberInput.TYPENAME )
+export class CreateMemberInput {
+	public static readonly TYPENAME = CreateMemberInput.name;
+	@Field() name: string;
+	@Field() email: string;
+	@Field() password: string;
+	@Field() rollNumber: string;
+	@Field( () => Department ) department: Department;
+	@Field( () => MemberPosition ) position: MemberPosition;
+	@Field() mobile: string;
 }
 
 export class CreateMemberCommand implements ICommand {

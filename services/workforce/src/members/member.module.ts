@@ -12,11 +12,13 @@ import { MailModule } from "@shaastra/mail";
 import { HttpModule } from "@nestjs/axios";
 import { ConsulModule } from "@shaastra/consul";
 import { ConfigModule } from "@nestjs/config";
+import { MembersQueryHandler } from "./queries/members.query";
 
 @Module( {
 	imports: [ CqrsModule, PrismaModule, MailModule, HttpModule, ConsulModule, ConfigModule ],
 	providers: [
 		MemberQueryHandler,
+		MembersQueryHandler,
 		CreateMemberCommandHandler,
 		EnableMemberCommandHandler,
 		MemberCreatedEventHandler,

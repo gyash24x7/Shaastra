@@ -4,11 +4,13 @@ import { TeamMessages } from "../team.messages";
 import { TeamCreatedEvent } from "../events/team.created.event";
 import { PrismaService } from "../../prisma/prisma.service";
 import type { Department } from "@prisma/client/workforce";
+import { Field, InputType } from "@nestjs/graphql";
 
-export type CreateTeamInput = {
-	name: string
+@InputType()
+export class CreateTeamInput {
+	@Field() name: string;
 	department: Department;
-	createdBy: string
+	createdBy: string;
 }
 
 export class CreateTeamCommand implements ICommand {

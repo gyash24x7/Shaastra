@@ -7,6 +7,8 @@ import { HealthModule } from "@shaastra/health";
 import { AuthModule } from "@shaastra/auth";
 import { Module } from "@nestjs/common";
 import appConfig from "./app.config";
+import { ChannelModule } from "../channels/channel.module";
+import { MessageModule } from "../messages/message.module";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
@@ -18,7 +20,9 @@ const GraphQLModule = NestGraphQLModule.forRoot<ApolloFederationDriverConfig>( a
 		ConsulModule,
 		HealthModule,
 		GraphQLModule,
-		AuthModule
+		AuthModule,
+		ChannelModule,
+		MessageModule
 	]
 } )
 export class AppModule {}

@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/schema",
+	"type": "object",
+	"cli": "nx",
+	"properties": {
+		"turbopack": {
+			"type": "boolean",
+			"description": "Enable Turbopack"
+		}
+	}
+}

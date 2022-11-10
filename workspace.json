@@ -2,15 +2,16 @@
 	"$schema": "./node_modules/nx/schemas/workspace-schema.json",
 	"version": 2,
 	"projects": {
-		"prime": "apps/web/prime",
 		"auth": "libs/auth",
+		"client": "libs/client",
+		"connect": "services/connect",
 		"consul": "libs/consul",
 		"gateway": "apps/gateway",
 		"health": "libs/health",
 		"identity": "services/identity",
-		"workforce": "services/workforce",
-		"connect": "services/connect",
+		"mail": "libs/mail",
+		"prime": "apps/web/prime",
 		"utils": "libs/utils",
-		"mail": "libs/mail"
+		"workforce": "services/workforce"
 	}
 }

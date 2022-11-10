@@ -11,6 +11,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@shaastra/auth": [ "libs/auth/src/index.ts" ],
+			"@shaastra/client": [ "libs/client/src/index.ts" ],
 			"@shaastra/consul": [ "libs/consul/src/index.ts" ],
 			"@shaastra/health": [ "libs/health/src/index.ts" ],
 			"@shaastra/mail": [ "libs/mail/src/index.ts" ],

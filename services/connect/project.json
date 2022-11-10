@@ -3,6 +3,12 @@
 	"sourceRoot": "services/connect/src",
 	"projectType": "application",
 	"targets": {
+		"gen-client": {
+			"executor": "./tools/executors/genql:generate",
+			"options": {
+				"endpoint": "http://localhost:9000/api/graphql"
+			}
+		},
 		"db-push": {
 			"executor": "./tools/executors/prisma:db-push",
 			"options": { }
@@ -18,7 +24,7 @@
 				"outputPath": "dist/services/connect",
 				"main": "services/connect/src/main.ts",
 				"tsConfig": "services/connect/tsconfig.app.json",
-				"assets": [ "services/connect/src/assets" ]
+				"assets": [ ]
 			},
 			"configurations": {
 				"production": {

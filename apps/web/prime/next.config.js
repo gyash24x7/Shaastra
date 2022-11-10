@@ -1,0 +1,11 @@
+const { withNx } = require( "@nrwl/next/plugins/with-nx" );
+
+/** @type {import("next").NextConfig} */
+const nextConfig = {
+	reactStrictMode: true,
+	swcMinify: true,
+	experimental: { appDir: true }
+}
+
+module.exports = withNx( nextConfig );
+

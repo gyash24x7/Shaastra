@@ -1,6 +1,6 @@
 {
 	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/web/prime/src",
+	"sourceRoot": "apps/web/alt/src",
 	"projectType": "application",
 	"targets": {
 		"genql": {
@@ -10,15 +10,15 @@
 			}
 		},
 		"dev": {
-			"executor": "./tools/executors/vite:dev",
+			"executor": "./tools/executors/next:dev",
 			"options": { }
 		},
 		"build": {
-			"executor": "./tools/executors/vite:build",
+			"executor": "./tools/executors/next:build",
 			"options": { }
 		},
 		"serve": {
-			"executor": "./tools/executors/vite:serve",
+			"executor": "./tools/executors/next:start",
 			"options": { }
 		}
 	},

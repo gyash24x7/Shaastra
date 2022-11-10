@@ -2,7 +2,7 @@ import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
 import { PrismaService } from "../../prisma/prisma.service";
 import type { UserAuthInfo } from "@shaastra/auth";
-import type { ChannelType } from "@prisma/client/connect";
+import { ChannelType } from "@prisma/client/connect";
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType( CreateChannelInput.TYPENAME )
@@ -10,7 +10,7 @@ export class CreateChannelInput {
 	public static readonly TYPENAME = CreateChannelInput.name;
 	@Field() name: string;
 	@Field() description: string;
-	@Field() type: ChannelType;
+	@Field( () => ChannelType ) type: ChannelType;
 }
 
 export class CreateChannelCommand implements ICommand {

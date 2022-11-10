@@ -7,7 +7,7 @@ const appConfig: AppConfig = {
 	pkg: "@shaastra/workforce",
 	port: 8010,
 	address: "localhost",
-	url: "http://localhost:8100",
+	url: "http://localhost:8010",
 	consul: {
 		host: process.env[ "CONSUL_URL" ] || "localhost",
 		port: process.env[ "CONSUL_PORT" ] || "8500"

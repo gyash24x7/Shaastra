@@ -1,1 +1,1 @@
-export default () => <div>App Page</div>
+export default () => <div className = { "flex font-sans text-6xl" }>App Page</div>

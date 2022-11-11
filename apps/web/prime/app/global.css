@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screen;
+
+.auth-bg {
+    background: url("../public/auth-bg.jpg");
+    background-size: cover;
+}

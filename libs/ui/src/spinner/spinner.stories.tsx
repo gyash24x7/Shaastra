@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Spinner } from "./spinner";
 import type { Appearance, Size } from "../utils/types";
-import React from "react";
+
 
 const meta: ComponentMeta<typeof Spinner> = {
 	component: Spinner,

@@ -1,15 +1,15 @@
 import type { Size } from "../utils/types";
 import { Flex } from "../flex/flex";
-import type { ReactNode } from "react";
-import React, { Children, isValidElement } from "react";
+import { Children, isValidElement } from "react";
 import { VariantSchema } from "../utils/variant";
+import { For } from "solid-js";
 
 export interface HStackProps {
 	spacing?: Size;
 	className?: string;
 	centered?: boolean;
 	stackItemClassName?: string;
-	children: ReactNode;
+	children: JSXElement[];
 	wrap?: boolean;
 	stackItemExpand?: boolean;
 }
@@ -40,14 +40,21 @@ export const HStack = function ( { children, ...props }: HStackProps ) {
 		<Flex
 			justify = { props.centered ? "center" : "start" }
 			align = { "center" }
-			className = { `${ hStackFlexVS.getClassname( { spacing: props.spacing } ) } ${ props.className }` }
+			class = { `${ hStackFlexVS.getClassname( { spacing: props.spacing } ) } ${ props.className }` }
 			wrap = { props.wrap }
 		>
-			{ validChildren.map( ( child, index ) => (
-				<div className = { `${ stackItemClassname } ${ props.stackItemClassName }` } key = { index }>
-					{ child }
-				</div>
-			) ) }
+			<div>
+				<For each = { children }>
+					{ ( child ) => (
+						<div
+							class = { `${ stackItemClassname } ${ props.stackItemClassName }` }
+							key = { index }
+						>
+							{ child }
+						</div>
+					) }
+				</For>
+			</div>
 		</Flex>
 	);
 };

@@ -1,13 +1,19 @@
 import type { Size } from "../utils/types";
-import React, { Children, isValidElement, ReactNode } from "react";
 import { VariantSchema } from "../utils/variant";
+import React, { Children, isValidElement, JSX
+
+.
+Element;
+}
+from;
+"react";
 
 export interface VStackProps {
 	spacing?: Size;
 	className?: string;
 	centered?: boolean;
 	stackItemClassName?: string;
-	children: ReactNode;
+	children: JSXElement;
 }
 
 const vStackItemVS = new VariantSchema(
@@ -27,9 +33,9 @@ export const VStack = function ( { children, ...props }: VStackProps ) {
 	} );
 
 	return (
-		<div className = { props.className }>
+		<div class = { props.className }>
 			{ validChildren.map( ( child, index ) => (
-				<div className = { `${ stackItemClassname } ${ props.stackItemClassName }` } key = { index }>
+				<div class = { `${ stackItemClassname } ${ props.stackItemClassName }` } key = { index }>
 					{ child }
 				</div>
 			) ) }

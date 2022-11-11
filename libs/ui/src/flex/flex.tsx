@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
-import React from "react";
 import { VariantSchema } from "../utils/variant";
+import type { JSXElement } from "solid-js";
 
 export interface FlexProps {
 	className?: string;
@@ -9,7 +8,7 @@ export interface FlexProps {
 	align?: "center" | "start" | "end" | "baseline" | "stretch";
 	direction?: "row" | "col" | "col-reverse" | "row-reverse";
 	wrap?: boolean;
-	children: ReactNode;
+	children: JSXElement;
 }
 
 const flexVariantSchema = new VariantSchema(
@@ -41,7 +40,7 @@ const flexVariantSchema = new VariantSchema(
 	{ direction: "row", justify: "start", align: "start", wrap: "false" }
 );
 
-export function Flex( props: FlexProps ) {
+export default function Flex( props: FlexProps ) {
 	const baseClassName = flexVariantSchema.getClassname( {
 		justify: props.justify || "start",
 		align: props.align || "start",
@@ -49,5 +48,5 @@ export function Flex( props: FlexProps ) {
 		wrap: props.wrap ? "true" : "false"
 	} );
 
-	return <div className = { baseClassName + ` ${ props.className }` }>{ props.children }</div>;
+	return <div class = { baseClassName + ` ${ props.className }` }>{ props.children }</div>;
 }

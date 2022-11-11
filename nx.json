@@ -1,51 +1,51 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "shaastra",
-  "affected": {
-    "defaultBase": "main"
-  },
-  "workspaceLayout": {
-    "appsDir": ""
-  },
-  "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
-    ".eslintrc.json": "*"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx/tasks-runners/default",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
-      }
-    }
-  },
-  "targetDefaults": {
-    "build": {
-      "dependsOn": [
-        "^build"
-      ]
-    }
-  },
-  "defaultProject": "gateway",
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "babel": true
-      }
-    },
-    "@nrwl/next": {
-      "application": {
-        "style": "css",
-        "linter": "eslint"
-      }
-    }
-  }
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"npmScope": "shaastra",
+	"affected": {
+		"defaultBase": "main"
+	},
+	"workspaceLayout": {
+		"appsDir": ""
+	},
+	"implicitDependencies": {
+		"package.json": {
+			"dependencies": "*",
+			"devDependencies": "*"
+		},
+		".eslintrc.json": "*"
+	},
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "nx/tasks-runners/default",
+			"options": {
+				"cacheableOperations": [
+					"build",
+					"lint",
+					"test",
+					"e2e"
+				]
+			}
+		}
+	},
+	"targetDefaults": {
+		"build": {
+			"dependsOn": [
+				"^build"
+			]
+		}
+	},
+	"defaultProject": "gateway",
+	"generators": {
+		"@nrwl/react": {
+			"application": {
+				"babel": true
+			}
+		},
+		"@nrwl/next": {
+			"application": {
+				"style": "css",
+				"linter": "eslint"
+			}
+		}
+	}
 }

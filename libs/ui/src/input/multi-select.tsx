@@ -1,14 +1,19 @@
 import type { SelectOption } from "./list-select";
-import type { ReactNode } from "react";
-import React from "react";
 import { HStack } from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
+import type { JSX
+
+.
+Element;
+}
+from;
+"react";
 
 export interface MultiSelectProps<T> {
 	values: SelectOption<T>[];
 	onChange: ( v: SelectOption<T>[] ) => void | Promise<void>;
 	options: SelectOption<T>[];
-	renderOption: ( option: SelectOption<T>, checked: boolean ) => ReactNode;
+	renderOption: ( option: SelectOption<T>, checked: boolean ) => JSXElement;
 }
 
 const radioSelectOptionVS = new VariantSchema(
@@ -39,7 +44,7 @@ export function MultiSelect<T>( props: MultiSelectProps<T> ) {
 			{ props.options.map( option => (
 				<div
 					key = { option.label }
-					className = { radioSelectOptionClassname( isChecked( option.label ) ) }
+					class = { radioSelectOptionClassname( isChecked( option.label ) ) }
 					onClick = { handleOptionClick( option ) }
 				>
 					{ props.renderOption( option, isChecked( option.label ) ) }

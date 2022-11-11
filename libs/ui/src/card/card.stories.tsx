@@ -1,6 +1,5 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Card, CardProps } from "./card";
-import React from "react";
+import Card, { CardProps } from "./card";
 
 const meta: ComponentMeta<typeof Card> = { component: Card, title: "Card" };
 export default meta;

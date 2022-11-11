@@ -1,8 +1,7 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import type { Appearance } from "../utils/types";
-import { Banner, BannerProps } from "./banner";
+import type { Appearance } from "../utils";
+import Banner, { BannerProps } from "./banner";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import React from "react";
 
 const meta: ComponentMeta<typeof Banner> = {
 	component: Banner,

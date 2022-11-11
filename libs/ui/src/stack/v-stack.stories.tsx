@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { VStack } from "./v-stack";
-import React from "react";
+
 
 const meta: ComponentMeta<typeof VStack> = {
 	component: VStack,

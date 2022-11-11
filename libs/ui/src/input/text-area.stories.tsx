@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TextArea, TextAreaProps } from "./text-area";
 import type { Appearance } from "../utils/types";
-import React from "react";
+
 
 const meta: ComponentMeta<typeof TextArea> = {
 	component: TextArea,

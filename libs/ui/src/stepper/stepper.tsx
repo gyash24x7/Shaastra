@@ -1,11 +1,17 @@
-import React, { Fragment, ReactNode, useState } from "react";
+import React, { Fragment, JSX
+
+.
+Element, useState;
+}
+from;
+"react";
 import { Button } from "../button/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import { HStack } from "../stack/h-stack";
 
 export interface StepperStep {
 	name: string;
-	content: ReactNode;
+	content: JSXElement;
 }
 
 export interface StepperProps {
@@ -32,7 +38,7 @@ const EndButton = ( props: StepperButtonProps ) => (
 );
 
 export function Stepper( props: StepperProps ) {
-	const stepMap: Record<string, ReactNode> = {};
+	const stepMap: Record<string, JSXElement> = {};
 	const stepNames: string[] = [];
 
 	props.steps.forEach( step => {
@@ -66,12 +72,12 @@ export function Stepper( props: StepperProps ) {
 		<Fragment>
 			{ stepMap[ activeStep ] }
 			{ activeStep === stepNames[ stepNames.length - 1 ] ? (
-				<HStack className = { "mt-6" } spacing = { "sm" }>
+				<HStack class = { "mt-6" } spacing = { "sm" }>
 					<PreviousButton onClick = { handlePrevious } />
 					<EndButton onClick = { props.onEnd } isLoading = { props.isLoading } />
 				</HStack>
 			) : (
-				<HStack className = { "mt-6" } spacing = { "sm" }>
+				<HStack class = { "mt-6" } spacing = { "sm" }>
 					<PreviousButton
 						onClick = { handlePrevious }
 						disabled = { stepNames[ 0 ] === activeStep }

@@ -5,7 +5,8 @@
 		"lib": [ "DOM", "DOM.Iterable", "ESNext" ],
 		"module": "ESNext",
 		"types": [ "jest", "node" ],
-		"jsx": "react"
+		"jsxImportSource": "solid-js",
+		"jsx": "preserve"
 	},
 	"include": [
 		"jest.config.ts",

@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ListSelect, ListSelectProps } from "./list-select";
-import React from "react";
+
 
 const meta: ComponentMeta<typeof ListSelect> = { component: ListSelect, title: "ListSelect" };
 export default meta;

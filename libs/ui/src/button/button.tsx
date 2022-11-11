@@ -2,7 +2,6 @@ import type { Appearance, IconType, Size } from "../utils/types";
 import { Spinner } from "../spinner/spinner";
 import { HStack } from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
-import React from "react";
 
 export interface ButtonProps {
 	disabled?: boolean;
@@ -64,16 +63,16 @@ const buttonVariantSchema = new VariantSchema(
 	{ appearance: "default", size: "md", fullWidth: "false", disabled: "false" }
 );
 
-export function Button( props: ButtonProps ) {
-	const spinnerAppearance = [ "warning", "default" ].includes( props.appearance || "" )
-		? "dark"
-		: "default";
+export default function Button( props: ButtonProps ) {
+	const spinnerAppearance = [ "warning", "default" ]
+		.includes( props.appearance || "" ) ? "dark" : "default";
+
 	return (
 		<button
 			disabled = { props.disabled || props.isLoading }
 			onClick = { props.onClick }
 			type = { props.type }
-			className = { buttonVariantSchema.getClassname( {
+			class = { buttonVariantSchema.getClassname( {
 				appearance: props.appearance,
 				size: props.size,
 				fullWidth: props.fullWidth ? "true" : "false",

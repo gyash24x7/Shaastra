@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TextInput, TextInputProps } from "./text-input";
 import type { Appearance } from "../utils/types";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/solid";
-import React from "react";
+
 
 const meta: ComponentMeta<typeof TextInput> = {
 	component: TextInput,

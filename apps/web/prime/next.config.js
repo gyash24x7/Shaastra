@@ -7,5 +7,5 @@ const nextConfig = {
 	experimental: { appDir: true }
 }
 
-module.exports = withNx( nextConfig );
+module.exports = nextConfig;
 

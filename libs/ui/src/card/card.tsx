@@ -1,10 +1,9 @@
-import type { ReactNode } from "react";
-import React from "react";
+import type { JSXElement } from "solid-js";
 import { VariantSchema } from "../utils/variant";
 
 export interface CardProps {
 	title?: string;
-	content: ReactNode;
+	content: JSXElement;
 	centered?: boolean;
 }
 
@@ -14,12 +13,12 @@ const cardTitleVariantSchema = new VariantSchema(
 	{ centered: "false" }
 );
 
-export function Card( { centered, title, content }: CardProps ) {
+export default function Card( { centered, title, content }: CardProps ) {
 	return (
-		<div className = { "rounded-md p-4 flex-1 bg-light-100" }>
+		<div class = { "rounded-md p-4 flex-1 bg-light-100" }>
 			{ !!title && (
 				<h2
-					className = { cardTitleVariantSchema.getClassname( {
+					class = { cardTitleVariantSchema.getClassname( {
 						centered: centered
 							? "true"
 							: "false"

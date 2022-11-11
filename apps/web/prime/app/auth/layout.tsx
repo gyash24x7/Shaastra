@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Flex } from "@shaastra/ui/flex";
 
 export interface AuthLayoutProps {
 	children: ReactNode;
@@ -6,11 +7,11 @@ export interface AuthLayoutProps {
 
 export default function AuthLayout( props: AuthLayoutProps ) {
 	return (
-		<div className = { "flex w-screen h-screen bg-dark-200 text-light" }>
-			<div className = { "flex-grow auth-bg" }></div>
-			<div className = { "w-1/4 border-l-2 border-dark-500 p-8" } style = { { minWidth: 500 } }>
+		<Flex className = { "bg-dark-100 text-light h-screen" }>
+			<div className = { "flex-grow auth-bg h-screen" }></div>
+			<div className = { "w-1/4 border-l-2 border-dark-500 h-screen auth-sidebar" }>
 				{ props.children }
 			</div>
-		</div>
+		</Flex>
 	);
 }

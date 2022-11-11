@@ -1,8 +1,8 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import type { Appearance, Size } from "../utils/types";
-import { Button, ButtonProps } from "./button";
+import type { Appearance, Size } from "../utils";
+import Button, { ButtonProps } from "./button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
-import React from "react";
+
 
 const meta: ComponentMeta<typeof Button> = {
 	component: Button,

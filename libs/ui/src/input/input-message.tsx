@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
 import { VariantSchema } from "../utils/variant";
 import { HStack } from "../stack/h-stack";
-import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { checkCircle, exclamationCircle } from "solid-heroicons/solid";
+import { Icon } from "solid-heroicons";
+import { Show } from "solid-js";
 
 export interface InputMessageProps {
 	appearance?: "default" | "danger" | "success";
@@ -18,12 +19,12 @@ const inputMessageVS = new VariantSchema(
 );
 
 export function InputMessage( { appearance, text }: InputMessageProps ) {
-	let Icon: typeof CheckCircleIcon | undefined = undefined;
+	let icon: typeof checkCircle | undefined = undefined;
 	if ( appearance === "success" ) {
-		Icon = CheckCircleIcon;
+		icon = checkCircle;
 	}
 	if ( appearance === "danger" ) {
-		Icon = ExclamationCircleIcon;
+		icon = exclamationCircle;
 	}
 
 	const inputMsgClassname = inputMessageVS.getClassname( {
@@ -32,10 +33,12 @@ export function InputMessage( { appearance, text }: InputMessageProps ) {
 	} );
 
 	return (
-		<div className = { inputMsgClassname }>
+		<div class = { inputMsgClassname }>
 			<HStack spacing = { "xs" }>
-				{ Icon && <Icon className = { "w-3 h-3" } /> }
-				<Fragment>{ text }</Fragment>
+				<Show when = { !!icon } keyed>
+					<Icon class = { "w-3 h-3" } path = { icon! } />
+				</Show>
+				<>{ text }</>
 			</HStack>
 		</div>
 	);

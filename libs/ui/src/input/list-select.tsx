@@ -46,16 +46,16 @@ export function ListSelect( props: ListSelectProps ) {
 	};
 
 	return (
-		<div className = { "w-full" }>
+		<div class = { "w-full" }>
 			<Combobox value = { value || options[ 0 ] } onChange = { onChange }>
 				{ label && (
 					<label
-						className = { "text-sm text-dark-100 font-semibold" }
+						class = { "text-sm text-dark-100 font-semibold" }
 						htmlFor = { name }
 					>{ label }</label>
 				) }
 				<div
-					className = {
+					class = {
 						"flex w-full text-left rounded-md cursor-default"
 						+ "focus:outline-none focus-visible:ring-0 overflow-hidden "
 						+ "border-2 border-light-700 text-dark p-2 text-base"
@@ -65,9 +65,9 @@ export function ListSelect( props: ListSelectProps ) {
 						displayValue = { ( option: SelectOption ) => option.label }
 						onChange = { ( event ) => setQuery( event.target.value ) }
 						placeholder = { placeholder }
-						className = { "w-full border-none focus:outline-none text-base leading-5 text-dark" }
+						class = { "w-full border-none focus:outline-none text-base leading-5 text-dark" }
 					/>
-					<Combobox.Button className = { "w-5 h-5 text-light-700" }>
+					<Combobox.Button class = { "w-5 h-5 text-light-700" }>
 						<ChevronUpDownIcon aria-hidden = "true" />
 					</Combobox.Button>
 				</div>
@@ -78,30 +78,30 @@ export function ListSelect( props: ListSelectProps ) {
 					leaveTo = { "opacity-0" }
 				>
 					<Combobox.Options
-						className = {
+						class = {
 							"absolute w-full py-1 mt-1 bg-light-100 rounded-md "
 							+ "border border-light-700 max-h-60 text-base"
 						}
 					>
 						{ filteredOptions.length === 0 && query !== ""
 							? (
-								<div className = { "cursor-default select-none relative py-2 px-4 text-dark" }>
+								<div class = { "cursor-default select-none relative py-2 px-4 text-dark" }>
 									Nothing found.
 								</div>
 							)
 							: filteredOptions.map( ( option ) => (
 								<Combobox.Option
 									key = { option.label }
-									className = { optionClassname }
+									class = { optionClassname }
 									value = { option }
 								>
 									{ ( { selected, active } ) => (
 										<Fragment>
-											<span className = { "block truncate" }>{ option.label }</span>
+											<span class = { "block truncate" }>{ option.label }</span>
 											{ selected && (
-												<span className = { optionIconClassname( { active } ) }>
+												<span class = { optionIconClassname( { active } ) }>
 													<CheckCircleIcon
-														className = { "w-4 h-4" }
+														class = { "w-4 h-4" }
 														aria-hidden = "true"
 													/>
 												</span>

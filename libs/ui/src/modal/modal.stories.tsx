@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Modal, ModalProps } from "./modal";
-import React from "react";
+
 
 const meta: ComponentMeta<typeof Modal> = {
 	component: Modal,

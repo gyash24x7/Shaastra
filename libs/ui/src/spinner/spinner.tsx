@@ -1,6 +1,6 @@
 import type { Appearance, Size } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
-import React from "react";
+
 
 export interface SpinnerProps {
 	size?: Size;
@@ -41,12 +41,12 @@ const spinnerCircleVS = new VariantSchema(
 
 export function Spinner( { appearance, size }: SpinnerProps ) {
 	return (
-		<svg viewBox = "0 0 50 50" className = { spinnerRootVS.getClassname( { size } ) }>
+		<svg viewBox = "0 0 50 50" class = { spinnerRootVS.getClassname( { size } ) }>
 			<circle
 				cx = { 25 }
 				cy = { 25 }
 				r = { 20 }
-				className = { spinnerCircleVS.getClassname( { appearance } ) }
+				class = { spinnerCircleVS.getClassname( { appearance } ) }
 			/>
 		</svg>
 	);

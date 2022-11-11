@@ -35,12 +35,12 @@ export function TextInput( props: TextInputProps ) {
 	return (
 		<Fragment>
 			{ props.label && (
-				<label className = { "text-sm text-dark-100 font-semibold" } htmlFor = { props.name }>
+				<label class = { "text-sm text-dark-100 font-semibold" } htmlFor = { props.name }>
 					{ props.label }
 				</label>
 			) }
-			<div className = { inputRootClassname }>
-				{ IconBefore!! && <IconBefore className = { "w-4 h-4 mr-3 text-light-700" } /> }
+			<div class = { inputRootClassname }>
+				{ IconBefore!! && <IconBefore class = { "w-4 h-4 mr-3 text-light-700" } /> }
 				<input
 					style = { { all: "unset", flex: 1 } }
 					type = { props.type || "text" }
@@ -49,7 +49,7 @@ export function TextInput( props: TextInputProps ) {
 					value = { props.value }
 					onChange = { ( e: any ) => props.onChange && props.onChange( e.target.value ) }
 				/>
-				{ IconAfter!! && <IconAfter className = { "w-4 h-4 ml-3 text-light-700" } /> }
+				{ IconAfter!! && <IconAfter class = { "w-4 h-4 ml-3 text-light-700" } /> }
 			</div>
 			{ props.message && <InputMessage text = { props.message } appearance = { props.appearance } /> }
 		</Fragment>

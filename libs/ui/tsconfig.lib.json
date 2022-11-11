@@ -8,7 +8,9 @@
 		"moduleResolution": "Node",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
-		"jsx": "react",
+		"jsxImportSource": "solid-js",
+		"jsx": "preserve",
+		"types": [ "vite/client" ],
 		"noEmit": true
 	},
 	"files": [

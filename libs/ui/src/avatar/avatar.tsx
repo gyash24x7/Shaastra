@@ -1,6 +1,6 @@
+import { Show } from "solid-js";
 import type { Size } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
-import React from "react";
 
 export interface AvatarProps {
 	size?: Size;
@@ -67,24 +67,24 @@ const avatarDivVariantSchema = new VariantSchema(
 	{ size: "md" }
 );
 
-export function Avatar( { size, src, name }: AvatarProps ) {
+export default function Avatar( { size, src, name }: AvatarProps ) {
 	return (
-		<div className = { avatarRootVariantSchema.getClassname( { size } ) }>
-			{ !!src && (
+		<div class = { avatarRootVariantSchema.getClassname( { size } ) }>
+			<Show keyed when = { !!src }>
 				<img
-					src = { src }
+					src = { src! }
 					alt = { "avatar-img" }
-					className = { avatarImageVariantSchema.getClassname() }
+					class = { avatarImageVariantSchema.getClassname() }
 				/>
-			) }
-			{ !src && (
+			</Show>
+			<Show keyed when = { !src }>
 				<div
-					className = { avatarDivVariantSchema.getClassname( { size } ) }
+					class = { avatarDivVariantSchema.getClassname( { size } ) }
 					data-testid = { "avatar-initials" }
 				>
 					{ initialsFromName( name ) }
 				</div>
-			) }
+			</Show>
 		</div>
 	);
 }

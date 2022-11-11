@@ -1,4 +1,10 @@
-import React, { Fragment, ReactNode } from "react";
+import React, { Fragment, JSX
+
+.
+Element;
+}
+from;
+"react";
 import { RadioGroup } from "@headlessui/react";
 import { HStack } from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
@@ -7,7 +13,7 @@ export interface SingleSelectProps<T> {
 	value?: T;
 	onChange: ( v: T ) => void | Promise<void>;
 	options: T[];
-	renderOption: ( option: T, checked: boolean ) => ReactNode;
+	renderOption: ( option: T, checked: boolean ) => JSXElement;
 }
 
 const radioSelectOptionVS = new VariantSchema(
@@ -28,7 +34,7 @@ export function SingleSelect<T>( props: SingleSelectProps<T> ) {
 					<RadioGroup.Option
 						value = { option }
 						key = { index }
-						className = { radioSelectOptionClassname }
+						class = { radioSelectOptionClassname }
 					>
 						{ ( { checked } ) => (
 							<Fragment>

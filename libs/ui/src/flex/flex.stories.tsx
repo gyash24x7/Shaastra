@@ -1,6 +1,5 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Flex, FlexProps } from "./flex";
-import React from "react";
 
 const meta: ComponentMeta<typeof Flex> = {
 	component: Flex,

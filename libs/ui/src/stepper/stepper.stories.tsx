@@ -1,6 +1,6 @@
 import { Stepper, StepperProps } from "./stepper";
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
+
 
 const meta: ComponentMeta<typeof Stepper> = { component: Stepper, title: "Stepper" };
 export default meta;

@@ -7,3 +7,7 @@
     background: url("../public/auth-bg.jpg");
     background-size: cover;
 }
+
+.auth-sidebar {
+    min-width: 500px;
+}

@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
 	stories: [],
 	addons: [
 		"@storybook/addon-essentials",
@@ -10,13 +10,7 @@ module.exports = {
 				}
 			}
 		}
-	],
-	babel: async ( options ) => ( {
-		...options,
-		presets: [
-			"@babel/preset-env",
-			"@babel/preset-react",
-			"@babel/preset-typescript"
-		]
-	} )
+	]
 };
+
+export default config;

@@ -7,6 +7,7 @@
 		"strictPropertyInitialization": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
+		"noUncheckedIndexedAccess": false,
 		"importHelpers": true,
 		"baseUrl": ".",
 		"paths": {
@@ -16,7 +17,9 @@
 			"@shaastra/health": [ "libs/health/src/index.ts" ],
 			"@shaastra/mail": [ "libs/mail/src/index.ts" ],
 			"@shaastra/utils": [ "libs/utils/src/index.ts" ],
-			"@shaastra/utils/*": [ "libs/utils/src/*" ]
+			"@shaastra/utils/*": [ "libs/utils/src/*" ],
+			"@shaastra/ui": [ "libs/ui/src/index.ts" ],
+			"@shaastra/ui/*": [ "libs/ui/src/*" ]
 		}
 	},
 	"exclude": [ "node_modules", "tmp" ]

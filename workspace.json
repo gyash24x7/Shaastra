@@ -1,17 +1,18 @@
 {
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
-  "version": 2,
-  "projects": {
-    "auth": "libs/auth",
-    "client": "libs/client",
-    "connect": "services/connect",
-    "consul": "libs/consul",
-    "gateway": "apps/gateway",
-    "health": "libs/health",
-    "identity": "services/identity",
-    "mail": "libs/mail",
-    "prime": "apps/web/prime",
-    "utils": "libs/utils",
-    "workforce": "services/workforce"
-  }
+	"$schema": "./node_modules/nx/schemas/workspace-schema.json",
+	"version": 2,
+	"projects": {
+		"auth": "libs/auth",
+		"client": "libs/client",
+		"connect": "services/connect",
+		"consul": "libs/consul",
+		"gateway": "apps/gateway",
+		"health": "libs/health",
+		"identity": "services/identity",
+		"mail": "libs/mail",
+		"prime": "apps/web/prime",
+		"ui": "libs/ui",
+		"utils": "libs/utils",
+		"workforce": "services/workforce"
+	}
 }

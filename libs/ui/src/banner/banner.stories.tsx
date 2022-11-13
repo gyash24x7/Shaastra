@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import type { Appearance } from "../utils";
 import Banner, { BannerProps } from "./banner";
-import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { exclamationCircle } from "solid-heroicons/solid";
 
 const meta: ComponentMeta<typeof Banner> = {
 	component: Banner,
@@ -37,4 +37,4 @@ export const Playground = Template.bind( {} );
 Playground.args = { appearance: "default" } as BannerProps;
 
 export const BannerWithIcon = Template.bind( {} );
-BannerWithIcon.args = { appearance: "default", icon: ExclamationCircleIcon } as BannerProps;
+BannerWithIcon.args = { appearance: "default", icon: exclamationCircle } as BannerProps;

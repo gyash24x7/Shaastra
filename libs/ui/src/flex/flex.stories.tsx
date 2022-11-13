@@ -1,5 +1,5 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Flex, FlexProps } from "./flex";
+import Flex, { FlexProps } from "./flex";
 
 const meta: ComponentMeta<typeof Flex> = {
 	component: Flex,
@@ -31,9 +31,9 @@ export default meta;
 
 const Template: ComponentStory<typeof Flex> = ( args ) => (
 	<Flex { ...args }>
-		<div style = { { background: "#dfe1e6", padding: 20 } }>Flex Child 1</div>
-		<div style = { { background: "#c1c7d0", padding: 20 } }>Flex Child 2</div>
-		<div style = { { background: "#808080", padding: 20 } }>Flex Child 3</div>
+		<div class = { "bg-blue-300 p-4" }>Flex Child 1</div>
+		<div class = { "bg-blue-500 p-4" }>Flex Child 2</div>
+		<div class = { "bg-blue-700 p-4" }>Flex Child 3</div>
 	</Flex>
 );
 

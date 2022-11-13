@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
 import { InputMessage } from "./input-message";
 import { VariantSchema } from "../utils/variant";
+import { createMemo, Show } from "solid-js";
 
 export interface TextAreaProps {
 	label?: string;
@@ -23,25 +23,28 @@ const inputRootVS = new VariantSchema(
 );
 
 export function TextArea( props: TextAreaProps ) {
-	const inputRootClassname = inputRootVS.getClassname( {
+	const inputRootClassname = createMemo( () => inputRootVS.getClassname( {
 		valid: props.appearance === "success" ? "true" : "false",
 		invalid: props.appearance === "danger" ? "true" : "false"
-	} );
+	} ) );
 
 	return (
-		<Fragment>
-			{ props.label &&
-				<label class = { "label-root" } htmlFor = { props.name }>{ props.label }</label> }
-			<div class = { inputRootClassname }>
+		<>
+			<Show when = { !!props.label } keyed>
+				<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name }>
+					{ props.label }
+				</label>
+			</Show>
+			<div class = { inputRootClassname() }>
 				<textarea
 					name = { props.name }
 					rows = { props.rows || 3 }
 					placeholder = { props.placeholder || "" }
 					value = { props.value }
-					onChange = { e => props.onChange && props.onChange( e.target.value ) }
+					onInput = { e => props.onChange && props.onChange( e.currentTarget.value ) }
 				/>
 			</div>
 			{ props.message && <InputMessage text = { props.message } appearance = { props.appearance } /> }
-		</Fragment>
+		</>
 	);
 }

@@ -2,7 +2,7 @@ import type { Appearance, IconType } from "../utils/types";
 import { Spinner } from "../spinner/spinner";
 import { HStack } from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
-import { Show } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import { Icon } from "solid-heroicons";
 
 export interface BannerProps {
@@ -32,22 +32,25 @@ const bannerVariantSchema = new VariantSchema(
 
 export default function Banner( props: BannerProps ) {
 	const { appearance = "default", isLoading, icon, message, centered = false, className } = props;
+
+	const bannerClassname = createMemo( () => {
+		return `${ bannerVariantSchema.getClassname( { appearance } ) } ${ className }`;
+	} );
+
+	const spinnerAppearance = createMemo( () => {
+		return appearance === "warning" || appearance === "default" ? "dark" : "default";
+	} );
+
 	return (
-		<div class = { `${ bannerVariantSchema.getClassname( { appearance } ) } ${ className }` }>
+		<div class = { bannerClassname() }>
 			<HStack centered = { centered }>
 				<Show keyed when = { isLoading }>
-					<Spinner
-						data-testid = { "banner-spinner" }
-						size = { "sm" }
-						appearance = { appearance === "warning" || appearance === "default"
-							? "dark"
-							: "default" }
-					/>
+					<Spinner size = { "sm" } appearance = { spinnerAppearance() } />
 				</Show>
 				<Show keyed when = { !!icon && !isLoading }>
-					<Icon width = { 20 } height = { 20 } data-testid = { "banner-icon" } path = { icon! } />
+					<Icon width = { 20 } height = { 20 } path = { icon! } />
 				</Show>
-				<h2 data-testid = { "banner-message" }>{ message }</h2>
+				<h2>{ message }</h2>
 			</HStack>
 		</div>
 	);

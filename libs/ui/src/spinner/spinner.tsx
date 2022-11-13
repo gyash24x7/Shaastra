@@ -1,6 +1,6 @@
 import type { Appearance, Size } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
-
+import { createMemo } from "solid-js";
 
 export interface SpinnerProps {
 	size?: Size;
@@ -40,14 +40,12 @@ const spinnerCircleVS = new VariantSchema(
 );
 
 export function Spinner( { appearance, size }: SpinnerProps ) {
+	const svgClassname = createMemo( () => spinnerRootVS.getClassname( { size } ) );
+	const circleClassname = createMemo( () => spinnerCircleVS.getClassname( { appearance } ) );
+
 	return (
-		<svg viewBox = "0 0 50 50" class = { spinnerRootVS.getClassname( { size } ) }>
-			<circle
-				cx = { 25 }
-				cy = { 25 }
-				r = { 20 }
-				class = { spinnerCircleVS.getClassname( { appearance } ) }
-			/>
+		<svg viewBox = "0 0 50 50" class = { svgClassname() }>
+			<circle cx = { 25 } cy = { 25 } r = { 20 } class = { circleClassname() } />
 		</svg>
 	);
 }

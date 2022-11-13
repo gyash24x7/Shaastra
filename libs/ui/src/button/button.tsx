@@ -2,6 +2,8 @@ import type { Appearance, IconType, Size } from "../utils/types";
 import { Spinner } from "../spinner/spinner";
 import { HStack } from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
+import { Icon } from "solid-heroicons";
+import { createMemo, Show } from "solid-js";
 
 export interface ButtonProps {
 	disabled?: boolean;
@@ -18,7 +20,7 @@ export interface ButtonProps {
 	iconAfter?: IconType;
 }
 
-function renderButtonIcon( Icon: IconType, size: Size = "md" ) {
+function renderButtonIcon( icon: IconType, size: Size = "md" ) {
 	const sizeMap = {
 		xs: { width: 10, height: 10 },
 		sm: { width: 12, height: 12 },
@@ -28,7 +30,7 @@ function renderButtonIcon( Icon: IconType, size: Size = "md" ) {
 		"2xl": { width: 24, height: 24 }
 	};
 	const { width, height } = sizeMap[ size ];
-	return <Icon width = { width } height = { height } />;
+	return <Icon width = { width } height = { height } path = { icon } />;
 }
 
 const buttonVariantSchema = new VariantSchema(
@@ -64,30 +66,41 @@ const buttonVariantSchema = new VariantSchema(
 );
 
 export default function Button( props: ButtonProps ) {
-	const spinnerAppearance = [ "warning", "default" ]
-		.includes( props.appearance || "" ) ? "dark" : "default";
+	const spinnerAppearance = createMemo( () => {
+		return props.appearance === "warning" || props.appearance === "default" ? "dark" : "default";
+	} );
+
+	const buttonClassname = createMemo( () => buttonVariantSchema.getClassname( {
+		appearance: props.appearance,
+		size: props.size,
+		fullWidth: props.fullWidth ? "true" : "false",
+		disabled: props.disabled || props.isLoading ? "true" : "false"
+	} ) );
 
 	return (
 		<button
 			disabled = { props.disabled || props.isLoading }
 			onClick = { props.onClick }
 			type = { props.type }
-			class = { buttonVariantSchema.getClassname( {
-				appearance: props.appearance,
-				size: props.size,
-				fullWidth: props.fullWidth ? "true" : "false",
-				disabled: props.disabled || props.isLoading ? "true" : "false"
-			} ) }
-			data-testid = { "button-main" }
+			class = { buttonClassname() }
 		>
-			{ !!props.isLoading && <Spinner size = { props.size } appearance = { spinnerAppearance } /> }
-			{ !props.isLoading && (
+			<Show
+				when = { !props.isLoading }
+				keyed
+				fallback = { <Spinner size = { props.size } appearance = { spinnerAppearance() } /> }
+			>
 				<HStack spacing = { "sm" }>
-					{ props.iconBefore && renderButtonIcon( props.iconBefore, props.size ) }
-					{ props.buttonText && <span data-testid = { "button-text" }>{ props.buttonText }</span> }
-					{ props.iconAfter && renderButtonIcon( props.iconAfter, props.size ) }
+					<Show when = { !!props.iconBefore } keyed>
+						{ renderButtonIcon( props.iconBefore!, props.size ) }
+					</Show>
+					<Show when = { !!props.buttonText } keyed>
+						<span>{ props.buttonText }</span>
+					</Show>
+					<Show when = { !!props.iconAfter } keyed>
+						{ renderButtonIcon( props.iconAfter!, props.size ) }
+					</Show>
 				</HStack>
-			) }
+			</Show>
 		</button>
 	);
 }

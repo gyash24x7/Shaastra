@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TextArea, TextAreaProps } from "./text-area";
-import type { Appearance } from "../utils/types";
+import type { Appearance } from "../utils";
 
 
 const meta: ComponentMeta<typeof TextArea> = {

@@ -2,7 +2,7 @@ import { VariantSchema } from "../utils/variant";
 import { HStack } from "../stack/h-stack";
 import { checkCircle, exclamationCircle } from "solid-heroicons/solid";
 import { Icon } from "solid-heroicons";
-import { Show } from "solid-js";
+import { createMemo, Show } from "solid-js";
 
 export interface InputMessageProps {
 	appearance?: "default" | "danger" | "success";
@@ -19,24 +19,28 @@ const inputMessageVS = new VariantSchema(
 );
 
 export function InputMessage( { appearance, text }: InputMessageProps ) {
-	let icon: typeof checkCircle | undefined = undefined;
-	if ( appearance === "success" ) {
-		icon = checkCircle;
-	}
-	if ( appearance === "danger" ) {
-		icon = exclamationCircle;
-	}
-
-	const inputMsgClassname = inputMessageVS.getClassname( {
-		valid: appearance === "success" ? "true" : "false",
-		invalid: appearance === "danger" ? "true" : "false"
+	const icon = createMemo( () => {
+		switch ( appearance ) {
+			case "success":
+				return checkCircle;
+			case "danger":
+				return exclamationCircle;
+			default:
+				return undefined;
+		}
 	} );
 
+
+	const inputMsgClassname = createMemo( () => inputMessageVS.getClassname( {
+		valid: appearance === "success" ? "true" : "false",
+		invalid: appearance === "danger" ? "true" : "false"
+	} ) );
+
 	return (
-		<div class = { inputMsgClassname }>
+		<div class = { inputMsgClassname() }>
 			<HStack spacing = { "xs" }>
-				<Show when = { !!icon } keyed>
-					<Icon class = { "w-3 h-3" } path = { icon! } />
+				<Show when = { !!icon() } keyed>
+					<Icon class = { "w-3 h-3" } path = { icon()! } />
 				</Show>
 				<>{ text }</>
 			</HStack>

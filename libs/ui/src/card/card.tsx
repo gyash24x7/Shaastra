@@ -1,4 +1,5 @@
 import type { JSXElement } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import { VariantSchema } from "../utils/variant";
 
 export interface CardProps {
@@ -14,19 +15,15 @@ const cardTitleVariantSchema = new VariantSchema(
 );
 
 export default function Card( { centered, title, content }: CardProps ) {
+	const titleClass = createMemo( () => cardTitleVariantSchema.getClassname( {
+		centered: centered ? "true" : "false"
+	} ) );
+
 	return (
 		<div class = { "rounded-md p-4 flex-1 bg-light-100" }>
-			{ !!title && (
-				<h2
-					class = { cardTitleVariantSchema.getClassname( {
-						centered: centered
-							? "true"
-							: "false"
-					} ) }
-				>
-					{ title }
-				</h2>
-			) }
+			<Show when = { !!title } keyed>
+				<h2 class = { titleClass() }>{ title }</h2>
+			</Show>
 			{ content }
 		</div>
 	);

@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TextInput, TextInputProps } from "./text-input";
-import type { Appearance } from "../utils/types";
-import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/solid";
+import type { Appearance } from "../utils";
+import { envelope, lockClosed } from "solid-heroicons/solid";
 
 
 const meta: ComponentMeta<typeof TextInput> = {
@@ -36,7 +36,7 @@ TextInputWithIconBefore.args = {
 	type: "email",
 	placeholder: "Enter your Email",
 	appearance: "default",
-	iconBefore: EnvelopeIcon
+	iconBefore: envelope
 } as TextInputProps;
 
 export const TextInputWithIconAfter = Template.bind( {} );
@@ -46,5 +46,5 @@ TextInputWithIconAfter.args = {
 	type: "password",
 	placeholder: "Enter your Password",
 	appearance: "default",
-	iconAfter: LockClosedIcon
+	iconAfter: lockClosed
 } as TextInputProps;

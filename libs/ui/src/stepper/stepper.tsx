@@ -1,13 +1,8 @@
-import React, { Fragment, JSX
-
-.
-Element, useState;
-}
-from;
-"react";
-import { Button } from "../button/button";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
-import { HStack } from "../stack/h-stack";
+import type { JSXElement } from "solid-js";
+import { createSignal } from "solid-js";
+import Button from "../button/button";
+import HStack from "../stack/h-stack";
+import { arrowLeft, arrowRight } from "solid-heroicons/solid";
 
 export interface StepperStep {
 	name: string;
@@ -26,18 +21,18 @@ interface StepperButtonProps {
 }
 
 const PreviousButton = ( props: StepperButtonProps & { disabled?: boolean } ) => (
-	<Button iconBefore = { ArrowLeftIcon } size = { "sm" } appearance = { "default" } { ...props } />
+	<Button iconBefore = { arrowLeft } size = { "sm" } appearance = { "default" } { ...props } />
 );
 
 const NextButton = ( props: StepperButtonProps ) => (
-	<Button iconAfter = { ArrowRightIcon } size = { "sm" } appearance = { "primary" } { ...props } />
+	<Button iconAfter = { arrowRight } size = { "sm" } appearance = { "primary" } { ...props } />
 );
 
 const EndButton = ( props: StepperButtonProps ) => (
 	<Button buttonText = { "Submit" } size = { "sm" } appearance = { "primary" } { ...props } />
 );
 
-export function Stepper( props: StepperProps ) {
+export default function Stepper( props: StepperProps ) {
 	const stepMap: Record<string, JSXElement> = {};
 	const stepNames: string[] = [];
 
@@ -46,12 +41,12 @@ export function Stepper( props: StepperProps ) {
 		stepNames.push( step.name );
 	} );
 
-	const [ activeStep, setActiveStep ] = useState( stepNames[ 0 ] );
+	const [ activeStep, setActiveStep ] = createSignal( stepNames[ 0 ] );
 
 	const handlePrevious = () => {
 		for ( let i = 1; i < stepNames.length; i++ ) {
 			const stepName = stepNames[ i ];
-			if ( stepName === activeStep ) {
+			if ( stepName === activeStep() ) {
 				setActiveStep( stepNames[ i - 1 ] );
 				break;
 			}
@@ -61,7 +56,7 @@ export function Stepper( props: StepperProps ) {
 	const handleNext = () => {
 		for ( let i = 0; i < stepNames.length - 1; i++ ) {
 			const stepName = stepNames[ i ];
-			if ( stepName === activeStep ) {
+			if ( stepName === activeStep() ) {
 				setActiveStep( stepNames[ i + 1 ] );
 				break;
 			}
@@ -69,22 +64,22 @@ export function Stepper( props: StepperProps ) {
 	};
 
 	return (
-		<Fragment>
-			{ stepMap[ activeStep ] }
-			{ activeStep === stepNames[ stepNames.length - 1 ] ? (
-				<HStack class = { "mt-6" } spacing = { "sm" }>
+		<>
+			{ stepMap[ activeStep() ] }
+			{ activeStep() === stepNames[ stepNames.length - 1 ] ? (
+				<HStack className = { "mt-6" } spacing = { "sm" }>
 					<PreviousButton onClick = { handlePrevious } />
 					<EndButton onClick = { props.onEnd } isLoading = { props.isLoading } />
 				</HStack>
 			) : (
-				<HStack class = { "mt-6" } spacing = { "sm" }>
+				<HStack className = { "mt-6" } spacing = { "sm" }>
 					<PreviousButton
 						onClick = { handlePrevious }
-						disabled = { stepNames[ 0 ] === activeStep }
+						disabled = { stepNames[ 0 ] === activeStep() }
 					/>
 					<NextButton onClick = { handleNext } />
 				</HStack>
 			) }
-		</Fragment>
+		</>
 	);
 }

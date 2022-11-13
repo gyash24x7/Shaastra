@@ -1,8 +1,7 @@
 import type { Size } from "../utils/types";
-import { Flex } from "../flex/flex";
-import { Children, isValidElement } from "react";
+import Flex from "../flex";
 import { VariantSchema } from "../utils/variant";
-import { For } from "solid-js";
+import { createMemo, For, JSXElement } from "solid-js";
 
 export interface HStackProps {
 	spacing?: Size;
@@ -29,30 +28,29 @@ const hStackItemVs = new VariantSchema(
 	{ spacing: "md", expand: "false" }
 );
 
-export const HStack = function ( { children, ...props }: HStackProps ) {
-	const validChildren = Children.toArray( children ).filter( ( child ) => isValidElement( child ) );
-	const stackItemClassname = hStackItemVs.getClassname( {
-		expand: props.stackItemExpand ? "true" : "false",
-		spacing: props.spacing
+export default function HStack( { children, ...props }: HStackProps ) {
+	const flexClassname = createMemo( () => {
+		return `${ hStackFlexVS.getClassname( { spacing: props.spacing } ) } ${ props.className }`;
+	} );
+
+	const stackItemClassname = createMemo( () => {
+		const hStackItemClassname = hStackItemVs.getClassname( {
+			expand: props.stackItemExpand ? "true" : "false",
+			spacing: props.spacing
+		} );
+		return `${ hStackItemClassname } ${ props.stackItemClassName }`;
 	} );
 
 	return (
 		<Flex
 			justify = { props.centered ? "center" : "start" }
 			align = { "center" }
-			class = { `${ hStackFlexVS.getClassname( { spacing: props.spacing } ) } ${ props.className }` }
+			className = { flexClassname() }
 			wrap = { props.wrap }
 		>
 			<div>
 				<For each = { children }>
-					{ ( child ) => (
-						<div
-							class = { `${ stackItemClassname } ${ props.stackItemClassName }` }
-							key = { index }
-						>
-							{ child }
-						</div>
-					) }
+					{ ( child ) => <div class = { stackItemClassname() }>{ child }</div> }
 				</For>
 			</div>
 		</Flex>

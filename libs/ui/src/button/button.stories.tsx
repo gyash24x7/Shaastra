@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import type { Appearance, Size } from "../utils";
 import Button, { ButtonProps } from "./button";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+import { arrowLeft, arrowRight } from "solid-heroicons/solid";
 
 
 const meta: ComponentMeta<typeof Button> = {
@@ -56,7 +56,7 @@ ButtonWithIconBefore.args = {
 	buttonText: "Submit",
 	appearance: "default",
 	size: "md",
-	iconBefore: ArrowLeftIcon
+	iconBefore: arrowLeft
 } as ButtonProps;
 
 export const ButtonWithIconAfter = Template.bind( {} );
@@ -64,5 +64,5 @@ ButtonWithIconAfter.args = {
 	buttonText: "Submit",
 	appearance: "default",
 	size: "md",
-	iconAfter: ArrowRightIcon
+	iconAfter: arrowRight
 } as ButtonProps;

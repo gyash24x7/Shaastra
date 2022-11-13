@@ -1,4 +1,4 @@
-import { Show } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import type { Size } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
 
@@ -68,22 +68,15 @@ const avatarDivVariantSchema = new VariantSchema(
 );
 
 export default function Avatar( { size, src, name }: AvatarProps ) {
+	const rootClassname = createMemo( () => avatarRootVariantSchema.getClassname( { size } ) );
+	const imageClassname = createMemo( () => avatarImageVariantSchema.getClassname() );
+	const divClassname = createMemo( () => avatarDivVariantSchema.getClassname( { size } ) );
+	const initials = createMemo( () => initialsFromName( name ) );
+
 	return (
-		<div class = { avatarRootVariantSchema.getClassname( { size } ) }>
-			<Show keyed when = { !!src }>
-				<img
-					src = { src! }
-					alt = { "avatar-img" }
-					class = { avatarImageVariantSchema.getClassname() }
-				/>
-			</Show>
-			<Show keyed when = { !src }>
-				<div
-					class = { avatarDivVariantSchema.getClassname( { size } ) }
-					data-testid = { "avatar-initials" }
-				>
-					{ initialsFromName( name ) }
-				</div>
+		<div class = { rootClassname() }>
+			<Show keyed when = { !!src } fallback = { <div class = { divClassname() }>{ initials() }</div> }>
+				<img src = { src! } alt = { "avatar-img" } class = { imageClassname() } />
 			</Show>
 		</div>
 	);

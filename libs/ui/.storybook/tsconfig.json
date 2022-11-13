@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"emitDecoratorMetadata": true,
 		"outDir": "",
-		"jsx": "react"
+		"jsxImportSource": "solid-js",
+		"jsx": "preserve"
 	},
 	"files": [
 		"../../../node_modules/@nrwl/react/typings/styled-jsx.d.ts",

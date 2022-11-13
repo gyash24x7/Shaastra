@@ -1,5 +1,6 @@
 import { VariantSchema } from "../utils/variant";
 import type { JSXElement } from "solid-js";
+import { createMemo } from "solid-js";
 
 export interface FlexProps {
 	className?: string;
@@ -41,12 +42,12 @@ const flexVariantSchema = new VariantSchema(
 );
 
 export default function Flex( props: FlexProps ) {
-	const baseClassName = flexVariantSchema.getClassname( {
+	const baseClassName = createMemo( () => flexVariantSchema.getClassname( {
 		justify: props.justify || "start",
 		align: props.align || "start",
 		direction: props.direction || "row",
 		wrap: props.wrap ? "true" : "false"
-	} );
+	} ) );
 
-	return <div class = { baseClassName + ` ${ props.className }` }>{ props.children }</div>;
+	return <div class = { baseClassName() + ` ${ props.className }` }>{ props.children }</div>;
 }

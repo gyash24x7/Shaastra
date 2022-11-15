@@ -28,8 +28,7 @@ export default function InputMessage( { appearance, text }: InputMessageProps ) 
 				return undefined;
 		}
 	} );
-
-
+	
 	const inputMsgClassname = createMemo( () => inputMessageVS.getClassname( {
 		valid: appearance === "success" ? "true" : "false",
 		invalid: appearance === "danger" ? "true" : "false"
@@ -37,7 +36,7 @@ export default function InputMessage( { appearance, text }: InputMessageProps ) 
 
 	return (
 		<div class = { inputMsgClassname() }>
-			<Show when = { !!icon() } keyed as = { "span" }>
+			<Show when = { !!icon() } keyed>
 				<span class = { "inline-block mr-1" }>
 					<Icon class = { "w-3 h-3" } path = { icon()! } />
 				</span>

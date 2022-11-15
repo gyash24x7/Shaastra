@@ -10,15 +10,15 @@
 			}
 		},
 		"dev": {
-			"executor": "./tools/executors/next:dev",
+			"executor": "./tools/executors/vite:dev",
 			"options": { }
 		},
 		"build": {
-			"executor": "./tools/executors/next:build",
+			"executor": "./tools/executors/vite:build",
 			"options": { }
 		},
 		"serve": {
-			"executor": "./tools/executors/next:start",
+			"executor": "./tools/executors/vite:serve",
 			"options": { }
 		}
 	},

@@ -1,5 +1,5 @@
-const { createGlobPatternsForDependencies } = require( "@nrwl/react/tailwind" );
 const { join } = require( "path" );
+const { createGlobPatternsForDependencies } = require( "@nrwl/workspace/src/utilities/generate-globs" )
 
 /** @type {import("tailwindcss").Config} */
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
 			__dirname,
 			"{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx,html}"
 		),
-		...createGlobPatternsForDependencies( __dirname ),
+		...createGlobPatternsForDependencies( __dirname, "/**/!(*.stories|*.spec).{tsx,jsx,js,html}" ),
 	],
 	theme: {
 		fontWeight: {

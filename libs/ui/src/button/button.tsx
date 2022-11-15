@@ -19,7 +19,7 @@ export interface ButtonProps {
 	iconAfter?: IconType;
 }
 
-function renderButtonIcon( icon?: IconType, size: Size = "md" ) {
+function renderButtonIcon( icon: IconType, size: Size = "md" ) {
 	const sizeMap = {
 		xs: { width: 10, height: 10 },
 		sm: { width: 12, height: 12 },
@@ -84,6 +84,7 @@ export default function Button( props: ButtonProps ) {
 			class = { buttonClassname() }
 		>
 			<Show
+				keyed
 				when = { !props.isLoading }
 				fallback = { <Spinner size = { props.size } appearance = { spinnerAppearance() } /> }
 			>

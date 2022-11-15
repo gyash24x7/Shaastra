@@ -1,7 +1,7 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import VStack from "./v-stack";
+import type { JSX } from "solid-js/jsx-runtime";
+import VStack, { VStackProps } from "./v-stack";
 
-const meta: ComponentMeta<typeof VStack> = {
+export default {
 	component: VStack,
 	title: "VStack",
 	argTypes: {
@@ -19,9 +19,8 @@ const meta: ComponentMeta<typeof VStack> = {
 	}
 };
 
-export default meta;
 
-const Template: ComponentStory<typeof VStack> = args => (
+const Template: any = ( args: JSX.IntrinsicAttributes & VStackProps ) => (
 	<VStack { ...args }>
 		<div class = { "bg-blue-300 p-4" }>Stack Child 1</div>
 		<div class = { "bg-blue-300 p-4" }>Stack Child 2</div>

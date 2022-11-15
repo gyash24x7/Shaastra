@@ -1,5 +1,5 @@
 import type { JSXElement } from "solid-js";
-import { createSignal } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import Button from "../button/button";
 import HStack from "../stack/h-stack";
 import { arrowLeft, arrowRight } from "solid-heroicons/solid";
@@ -66,20 +66,24 @@ export default function Stepper( props: StepperProps ) {
 	return (
 		<>
 			{ stepMap[ activeStep() ] }
-			{ activeStep() === stepNames[ stepNames.length - 1 ] ? (
+			<Show
+				when = { activeStep() === stepNames[ stepNames.length - 1 ] }
+				keyed
+				fallback = {
+					<HStack className = { "mt-6" } spacing = { "sm" }>
+						<PreviousButton
+							onClick = { handlePrevious }
+							disabled = { stepNames[ 0 ] === activeStep() }
+						/>
+						<NextButton onClick = { handleNext } />
+					</HStack>
+				}
+			>
 				<HStack className = { "mt-6" } spacing = { "sm" }>
 					<PreviousButton onClick = { handlePrevious } />
 					<EndButton onClick = { props.onEnd } isLoading = { props.isLoading } />
 				</HStack>
-			) : (
-				<HStack className = { "mt-6" } spacing = { "sm" }>
-					<PreviousButton
-						onClick = { handlePrevious }
-						disabled = { stepNames[ 0 ] === activeStep() }
-					/>
-					<NextButton onClick = { handleNext } />
-				</HStack>
-			) }
+			</Show>
 		</>
 	);
 }

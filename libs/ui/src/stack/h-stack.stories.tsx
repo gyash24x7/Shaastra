@@ -1,8 +1,7 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import HStack from "./h-stack";
+import type { JSX } from "solid-js/jsx-runtime";
+import HStack, { HStackProps } from "./h-stack";
 
-
-const meta: ComponentMeta<typeof HStack> = {
+export default {
 	component: HStack,
 	title: "HStack",
 	argTypes: {
@@ -20,9 +19,8 @@ const meta: ComponentMeta<typeof HStack> = {
 	}
 };
 
-export default meta;
 
-const Template: ComponentStory<typeof HStack> = args => (
+const Template: any = ( args: JSX.IntrinsicAttributes & HStackProps ) => (
 	<HStack { ...args }>
 		<div class = { "bg-blue-300 p-4" }>Stack Child 1</div>
 		<div class = { "bg-blue-300 p-4" }>Stack Child 2</div>

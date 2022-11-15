@@ -1,10 +1,9 @@
-import { Stepper, StepperProps } from "./stepper";
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
+import Stepper, { StepperProps } from "./stepper";
 
-const meta: ComponentMeta<typeof Stepper> = { component: Stepper, title: "Stepper" };
-export default meta;
+export default { component: Stepper, title: "Stepper" };
 
-const Template: ComponentStory<typeof Stepper> = args => <Stepper { ...args } />;
+
+const Template: any = args => <Stepper { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = {

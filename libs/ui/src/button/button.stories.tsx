@@ -1,10 +1,9 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import type { Appearance, Size } from "../utils";
 import Button, { ButtonProps } from "./button";
 import { arrowLeft, arrowRight } from "solid-heroicons/solid";
 
 
-const meta: ComponentMeta<typeof Button> = {
+export default {
 	component: Button,
 	title: "Button",
 	argTypes: {
@@ -44,9 +43,8 @@ const meta: ComponentMeta<typeof Button> = {
 	}
 };
 
-export default meta;
 
-const Template: ComponentStory<typeof Button> = args => <Button { ...args } />;
+const Template: any = args => <Button { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = { buttonText: "Submit", appearance: "default", size: "md" } as ButtonProps;

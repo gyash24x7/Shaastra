@@ -1,5 +1,5 @@
 import type { IconType } from "../utils/types";
-import { InputMessage } from "./input-message";
+import InputMessage from "./input-message";
 import { VariantSchema } from "../utils/variant";
 import { createMemo, Show } from "solid-js";
 import { Icon } from "solid-heroicons";
@@ -26,7 +26,7 @@ const inputRootVS = new VariantSchema(
 	{ valid: "false", invalid: "false" }
 );
 
-export function TextInput( props: TextInputProps ) {
+export default function TextInput( props: TextInputProps ) {
 	const inputRootClassname = createMemo( () => inputRootVS.getClassname( {
 		valid: props.appearance === "success" ? "true" : "false",
 		invalid: props.appearance === "danger" ? "true" : "false"
@@ -48,7 +48,7 @@ export function TextInput( props: TextInputProps ) {
 					type = { props.type || "text" }
 					name = { props.name }
 					placeholder = { props.placeholder }
-					value = { props.value }
+					value = { props.value || "" }
 					onInput = { e => props.onChange && props.onChange( e.currentTarget.value ) }
 				/>
 				<Show when = { !!props.iconAfter } keyed>

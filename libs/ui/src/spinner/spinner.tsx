@@ -39,7 +39,7 @@ const spinnerCircleVS = new VariantSchema(
 	{ appearance: "default" }
 );
 
-export function Spinner( { appearance, size }: SpinnerProps ) {
+export default function Spinner( { appearance, size }: SpinnerProps ) {
 	const svgClassname = createMemo( () => spinnerRootVS.getClassname( { size } ) );
 	const circleClassname = createMemo( () => spinnerCircleVS.getClassname( { appearance } ) );
 

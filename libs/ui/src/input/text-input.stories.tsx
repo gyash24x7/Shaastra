@@ -1,10 +1,8 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { TextInput, TextInputProps } from "./text-input";
+import TextInput, { TextInputProps } from "./text-input";
 import type { Appearance } from "../utils";
 import { envelope, lockClosed } from "solid-heroicons/solid";
 
-
-const meta: ComponentMeta<typeof TextInput> = {
+export default {
 	component: TextInput,
 	title: "TextInput",
 	argTypes: {
@@ -16,9 +14,9 @@ const meta: ComponentMeta<typeof TextInput> = {
 		}
 	}
 };
-export default meta;
 
-const Template: ComponentStory<typeof TextInput> = args => <TextInput { ...args } />;
+
+const Template: any = args => <TextInput { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = {

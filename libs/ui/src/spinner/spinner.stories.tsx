@@ -1,9 +1,8 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Spinner } from "./spinner";
+import Spinner from "./spinner";
 import type { Appearance, Size } from "../utils";
 
 
-const meta: ComponentMeta<typeof Spinner> = {
+export default {
 	component: Spinner,
 	title: "Spinner",
 	argTypes: {
@@ -22,9 +21,8 @@ const meta: ComponentMeta<typeof Spinner> = {
 	}
 };
 
-export default meta;
 
-const Template: ComponentStory<typeof Spinner> = ( args ) => <Spinner { ...args } />;
+const Template: any = ( args ) => <Spinner { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = { size: "md" };

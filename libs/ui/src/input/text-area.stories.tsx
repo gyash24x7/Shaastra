@@ -1,9 +1,7 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { TextArea, TextAreaProps } from "./text-area";
+import TextArea, { TextAreaProps } from "./text-area";
 import type { Appearance } from "../utils";
 
-
-const meta: ComponentMeta<typeof TextArea> = {
+export default {
 	component: TextArea,
 	title: "TextArea",
 	argTypes: {
@@ -16,9 +14,8 @@ const meta: ComponentMeta<typeof TextArea> = {
 	}
 };
 
-export default meta;
 
-const Template: ComponentStory<typeof TextArea> = args => <TextArea { ...args } />;
+const Template: any = args => <TextArea { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = {

@@ -1,5 +1,4 @@
 import { VariantSchema } from "../utils/variant";
-import { HStack } from "../stack/h-stack";
 import { checkCircle, exclamationCircle } from "solid-heroicons/solid";
 import { Icon } from "solid-heroicons";
 import { createMemo, Show } from "solid-js";
@@ -10,7 +9,7 @@ export interface InputMessageProps {
 }
 
 const inputMessageVS = new VariantSchema(
-	"text-sm text-dark-100 mt-1",
+	"text-sm text-dark-100 mt-1 flex items-center",
 	{
 		valid: { true: "text-success", false: "" },
 		invalid: { true: "text-danger", false: "" }
@@ -18,7 +17,7 @@ const inputMessageVS = new VariantSchema(
 	{ valid: "false", invalid: "false" }
 );
 
-export function InputMessage( { appearance, text }: InputMessageProps ) {
+export default function InputMessage( { appearance, text }: InputMessageProps ) {
 	const icon = createMemo( () => {
 		switch ( appearance ) {
 			case "success":
@@ -38,12 +37,12 @@ export function InputMessage( { appearance, text }: InputMessageProps ) {
 
 	return (
 		<div class = { inputMsgClassname() }>
-			<HStack spacing = { "xs" }>
-				<Show when = { !!icon() } keyed>
+			<Show when = { !!icon() } keyed as = { "span" }>
+				<span class = { "inline-block mr-1" }>
 					<Icon class = { "w-3 h-3" } path = { icon()! } />
-				</Show>
-				<>{ text }</>
-			</HStack>
+				</span>
+			</Show>
+			<span>{ text }</span>
 		</div>
 	);
 }

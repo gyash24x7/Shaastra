@@ -18,6 +18,6 @@ export class CreateTokenCommandHandler implements ICommandHandler<CreateTokenCom
 	execute( { data: { userId, token } }: CreateTokenCommand ): Promise<Token> {
 		token = token || crypto.randomBytes( 32 ).toString( "hex" );
 		const expiry = dayjs().add( 2, "days" ).toDate();
-		return this.prismaService.token.create( { data: { userId, token, expiry } } )
+		return this.prismaService.token.create( { data: { userId, token, expiry } } );
 	}
 }

@@ -1,19 +1,16 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { SingleSelect, SingleSelectProps } from "./single-select";
-import { Avatar } from "../avatar/avatar";
-import React, { useState } from "react";
+import SingleSelect, { SingleSelectProps } from "./single-select";
+import Avatar from "../avatar/avatar";
+import { createSignal } from "solid-js";
 
-const meta: ComponentMeta<typeof SingleSelect<string>> = { component: SingleSelect, title: "Single Select" };
-export default meta;
+export default { component: SingleSelect, title: "Single Select" };
+
 
 const SingleSelectStateful = ( props: { options: string[], renderOption: SingleSelectProps<string>["renderOption"] } ) => {
-	const [ value, setValue ] = useState( props.options[ 0 ] );
+	const [ value, setValue ] = createSignal( props.options[ 0 ] );
 	return <SingleSelect { ...props } value = { value } onChange = { setValue } />;
 };
 
-const Template: ComponentStory<typeof SingleSelect<string>> = ( args ) => {
-	return <SingleSelectStateful { ...args } />;
-};
+const Template: any = ( args: SingleSelectProps<string> ) => <SingleSelectStateful { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = {

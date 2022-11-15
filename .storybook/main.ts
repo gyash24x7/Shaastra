@@ -1,7 +1,11 @@
-const config = {
+import type { StorybookConfig } from "@storybook/core-common";
+
+const rootStorybookConfig: StorybookConfig = {
 	stories: [],
 	addons: [
-		"@storybook/addon-essentials",
+		"@storybook/addon-links",
+		"@storybook/addon-actions",
+		"@storybook/addon-interactions",
 		{
 			name: "@storybook/addon-postcss",
 			options: {
@@ -13,4 +17,4 @@ const config = {
 	]
 };
 
-export default config;
+export default rootStorybookConfig;

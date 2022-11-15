@@ -1,0 +1,14 @@
+{
+	"executors": {
+		"dev": {
+			"implementation": "./dev",
+			"schema": "./schema.json",
+			"description": "Runs Storybook in Dev Mode"
+		},
+		"build": {
+			"implementation": "./build",
+			"schema": "./schema.json",
+			"description": "Bundles Storybook"
+		}
+	}
+}

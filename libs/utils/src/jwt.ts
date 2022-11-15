@@ -22,6 +22,6 @@ export class JwtConfigFactory implements JwtOptionsFactory {
 			privateKey: { key, passphrase },
 			signOptions: { audience, algorithm, issuer, keyid },
 			verifyOptions: { audience, algorithms: [ algorithm ], issuer }
-		}
+		};
 	}
 }

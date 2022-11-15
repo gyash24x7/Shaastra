@@ -1,8 +1,7 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Modal, ModalProps } from "./modal";
+import Modal, { ModalProps } from "./modal";
+import type { JSX } from "solid-js/jsx-runtime";
 
-
-const meta: ComponentMeta<typeof Modal> = {
+export default {
 	component: Modal,
 	title: "Modal",
 	argTypes: {
@@ -12,13 +11,12 @@ const meta: ComponentMeta<typeof Modal> = {
 	}
 };
 
-export default meta;
-
-const Template: ComponentStory<typeof Modal> = args => <Modal { ...args } />;
+const Template: any = ( args: JSX.IntrinsicAttributes & ModalProps ) => <Modal { ...args } />;
 
 export const Playground = Template.bind( {} );
+
 Playground.args = {
-	title: "Modal ComponentStory",
+	title: "Modal Story",
 	onClose: () => console.log( "Modal Closed!" ),
 	isOpen: true,
 	children: (

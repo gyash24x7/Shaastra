@@ -25,6 +25,6 @@ export class CookiePlugin implements ApolloServerPlugin<GqlContext> {
 					context.res.clearCookie( "identity" );
 				}
 			}
-		}
+		};
 	}
 }

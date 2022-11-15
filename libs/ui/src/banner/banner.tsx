@@ -1,6 +1,6 @@
 import type { Appearance, IconType } from "../utils/types";
-import { Spinner } from "../spinner/spinner";
-import { HStack } from "../stack/h-stack";
+import Spinner from "../spinner/spinner";
+import HStack from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
 import { createMemo, Show } from "solid-js";
 import { Icon } from "solid-heroicons";
@@ -43,12 +43,17 @@ export default function Banner( props: BannerProps ) {
 
 	return (
 		<div class = { bannerClassname() }>
-			<HStack centered = { centered }>
-				<Show keyed when = { isLoading }>
+			<HStack centered = { centered } spacing = { "sm" }>
+				<Show
+					keyed
+					when = { isLoading }
+					fallback = {
+						<Show keyed when = { !!icon && !isLoading }>
+							<Icon width = { 20 } height = { 20 } path = { icon! } />
+						</Show>
+					}
+				>
 					<Spinner size = { "sm" } appearance = { spinnerAppearance() } />
-				</Show>
-				<Show keyed when = { !!icon && !isLoading }>
-					<Icon width = { 20 } height = { 20 } path = { icon! } />
 				</Show>
 				<h2>{ message }</h2>
 			</HStack>

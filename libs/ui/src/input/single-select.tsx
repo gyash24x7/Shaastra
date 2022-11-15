@@ -1,11 +1,12 @@
-import { RadioGroup } from "@headlessui/react";
-import { HStack } from "../stack/h-stack";
+import { RadioGroup, RadioGroupOption } from "solid-headless";
+import { Accessor, For, JSXElement, Setter } from "solid-js";
+import HStack from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
 
 export interface SingleSelectProps<T> {
-	value?: T;
-	onChange: ( v: T ) => void | Promise<void>;
-	options: T[];
+	value: Accessor<T>;
+	onChange: Setter<T>;
+	options: Array<T>;
 	renderOption: ( option: T, checked: boolean ) => JSXElement;
 }
 
@@ -15,28 +16,27 @@ const radioSelectOptionVS = new VariantSchema(
 	{ checked: "false" }
 );
 
-export function SingleSelect<T>( props: SingleSelectProps<T> ) {
-	const radioSelectOptionClassname = ( { checked }: { checked: boolean } ) => {
-		return radioSelectOptionVS.getClassname( { checked: checked ? "true" : "false" } );
-	};
+const radioSelectOptionClassname = ( checked: boolean ) => {
+	return radioSelectOptionVS.getClassname( { checked: checked ? "true" : "false" } );
+};
 
+export default function SingleSelect<T>( props: SingleSelectProps<T> ) {
 	return (
-		<RadioGroup value = { props.value } onChange = { props.onChange }>
-			<HStack wrap spacing = { "xs" }>
-				{ props.options.map( ( option, index ) => (
-					<RadioGroup.Option
-						value = { option }
-						key = { index }
-						class = { radioSelectOptionClassname }
-					>
-						{ ( { checked } ) => (
-							<Fragment>
-								{ props.renderOption( option, checked ) }
-							</Fragment>
+		<RadioGroup<T> value = { props.value() } onChange = { props.onChange }>
+			{ ( { isSelected } ) => (
+				<HStack wrap spacing = { "xs" }>
+					<For each = { props.options }>
+						{ ( option ) => (
+							<RadioGroupOption
+								value = { option }
+								class = { radioSelectOptionClassname( isSelected( option ) ) }
+							>
+								{ props.renderOption( option, isSelected( option ) ) }
+							</RadioGroupOption>
 						) }
-					</RadioGroup.Option>
-				) ) }
-			</HStack>
+					</For>
+				</HStack>
+			) }
 		</RadioGroup>
 	);
 }

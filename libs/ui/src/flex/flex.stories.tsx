@@ -1,7 +1,6 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import Flex, { FlexProps } from "./flex";
 
-const meta: ComponentMeta<typeof Flex> = {
+export default {
 	component: Flex,
 	subcomponents: {},
 	title: "Flex",
@@ -27,9 +26,8 @@ const meta: ComponentMeta<typeof Flex> = {
 	}
 };
 
-export default meta;
 
-const Template: ComponentStory<typeof Flex> = ( args ) => (
+const Template: any = ( args ) => (
 	<Flex { ...args }>
 		<div class = { "bg-blue-300 p-4" }>Flex Child 1</div>
 		<div class = { "bg-blue-500 p-4" }>Flex Child 2</div>

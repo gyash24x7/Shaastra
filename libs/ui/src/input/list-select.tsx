@@ -1,8 +1,16 @@
-import { Combobox, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
-import { CheckCircleIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
-import { InputMessage } from "./input-message";
+import {
+	HeadlessDisclosureChild,
+	Listbox,
+	ListboxButton,
+	ListboxOption,
+	ListboxOptions,
+	Transition
+} from "solid-headless";
+import InputMessage from "./input-message";
 import { VariantSchema } from "../utils/variant";
+import { Icon } from "solid-heroicons";
+import { checkCircle, chevronUpDown } from "solid-heroicons/solid";
+import { For, Show } from "solid-js";
 
 export type SelectOption<T = any> = { label: string, value: T };
 
@@ -12,7 +20,7 @@ export interface ListSelectProps<T = any> {
 	label?: string;
 	placeholder?: string;
 	value?: SelectOption<T>;
-	onChange: ( value: SelectOption ) => void | Promise<void>;
+	onChange: ( value?: SelectOption<T> ) => void;
 	appearance?: "default" | "success" | "danger"
 	message?: string;
 }
@@ -29,31 +37,48 @@ const optionIconVS = new VariantSchema(
 	{ active: "false" }
 );
 
-export function ListSelect( props: ListSelectProps ) {
-	const { options, label, name, message, appearance, placeholder, value, onChange } = props;
-	const [ query, setQuery ] = useState( "" );
+interface ListSelectOptionProps<T> {
+	option: SelectOption<T>;
+}
 
-	const filteredOptions = query === "" ? options : options.filter(
-		( option ) => option.label.toLowerCase().includes( query.toLowerCase() )
-	);
-
-	const optionClassname = ( { active }: { active: boolean } ) => {
+function ListSelectOption<T>( { option }: ListSelectOptionProps<T> ) {
+	const optionClassname = ( active: boolean ) => {
 		return optionVS.getClassname( { active: active ? "true" : "false" } );
 	};
 
-	const optionIconClassname = ( { active }: { active: boolean } ) => {
+	const optionIconClassname = ( active: boolean ) => {
 		return optionIconVS.getClassname( { active: active ? "true" : "false" } );
 	};
 
 	return (
+		<ListboxOption value = { option }>
+			{ ( { isSelected, isActive } ) => (
+				<div class = { optionClassname( isActive() ) }>
+					<span class = { "block truncate" }>{ option.label }</span>
+					<Show when = { isSelected() } keyed>
+						<span class = { optionIconClassname( isActive() ) }>
+							<Icon path = { checkCircle } class = { "w-4 h-4" } aria-hidden = "true" />
+						</span>
+					</Show>
+				</div>
+			) }
+		</ListboxOption>
+	);
+}
+
+export default function ListSelect<T>( props: ListSelectProps<T> ) {
+	return (
 		<div class = { "w-full" }>
-			<Combobox value = { value || options[ 0 ] } onChange = { onChange }>
-				{ label && (
-					<label
-						class = { "text-sm text-dark-100 font-semibold" }
-						htmlFor = { name }
-					>{ label }</label>
-				) }
+			<Listbox<SelectOption<T>>
+				defaultOpen = { false }
+				value = { props.value || props.options[ 0 ] }
+				onSelectChange = { props.onChange }
+			>
+				<Show when = { !!props.label } keyed>
+					<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name }>
+						{ props.label }
+					</label>
+				</Show>
 				<div
 					class = {
 						"flex w-full text-left rounded-md cursor-default"
@@ -61,60 +86,36 @@ export function ListSelect( props: ListSelectProps ) {
 						+ "border-2 border-light-700 text-dark p-2 text-base"
 					}
 				>
-					<Combobox.Input
-						displayValue = { ( option: SelectOption ) => option.label }
-						onChange = { ( event ) => setQuery( event.target.value ) }
-						placeholder = { placeholder }
-						class = { "w-full border-none focus:outline-none text-base leading-5 text-dark" }
-					/>
-					<Combobox.Button class = { "w-5 h-5 text-light-700" }>
-						<ChevronUpDownIcon aria-hidden = "true" />
-					</Combobox.Button>
+					<ListboxButton class = { "h-5 text-light-700 flex items-center w-full justify-between" }>
+						<span>{ props.placeholder }</span>
+						<Icon path = { chevronUpDown } aria-hidden = "true" class = { "w-3 h-3" } />
+					</ListboxButton>
 				</div>
-				<Transition
-					as = { Fragment }
-					leave = { "transition ease-in duration-100" }
-					leaveFrom = { "opacity-100" }
-					leaveTo = { "opacity-0" }
-				>
-					<Combobox.Options
-						class = {
-							"absolute w-full py-1 mt-1 bg-light-100 rounded-md "
-							+ "border border-light-700 max-h-60 text-base"
-						}
-					>
-						{ filteredOptions.length === 0 && query !== ""
-							? (
-								<div class = { "cursor-default select-none relative py-2 px-4 text-dark" }>
-									Nothing found.
-								</div>
-							)
-							: filteredOptions.map( ( option ) => (
-								<Combobox.Option
-									key = { option.label }
-									class = { optionClassname }
-									value = { option }
-								>
-									{ ( { selected, active } ) => (
-										<Fragment>
-											<span class = { "block truncate" }>{ option.label }</span>
-											{ selected && (
-												<span class = { optionIconClassname( { active } ) }>
-													<CheckCircleIcon
-														class = { "w-4 h-4" }
-														aria-hidden = "true"
-													/>
-												</span>
-											) }
-										</Fragment>
-									) }
-								</Combobox.Option>
-							) )
-						}
-					</Combobox.Options>
-				</Transition>
-				{ message && <InputMessage text = { message } appearance = { appearance } /> }
-			</Combobox>
+				<HeadlessDisclosureChild>
+					{ ( { isOpen } ) => (
+						<Transition
+							leave = { "transition ease-in duration-100" }
+							leaveFrom = { "opacity-100" }
+							leaveTo = { "opacity-0" }
+							show = { isOpen() }
+						>
+							<ListboxOptions
+								class = {
+									"absolute w-full py-1 mt-1 bg-light-100 rounded-md "
+									+ "border border-light-700 max-h-60 text-base"
+								}
+							>
+								<For each = { props.options }>
+									{ ( option ) => <ListSelectOption option = { option } /> }
+								</For>
+							</ListboxOptions>
+						</Transition>
+					) }
+				</HeadlessDisclosureChild>
+				<Show keyed when = { !!props.message }>
+					<InputMessage text = { props.message! } appearance = { props.appearance } />
+				</Show>
+			</Listbox>
 		</div>
 	);
 }

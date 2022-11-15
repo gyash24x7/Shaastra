@@ -1,7 +1,6 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import Avatar, { AvatarProps } from "./avatar";
 
-const meta: ComponentMeta<typeof Avatar> = {
+export default {
 	component: Avatar,
 	title: "Avatar",
 	argTypes: {
@@ -17,9 +16,7 @@ const meta: ComponentMeta<typeof Avatar> = {
 	}
 };
 
-export default meta;
-
-const Template: ComponentStory<typeof Avatar> = ( args: any ) => <Avatar { ...args } />;
+const Template: any = ( args: any ) => <Avatar { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = { size: "md", name: "Yash Gupta" } as AvatarProps;

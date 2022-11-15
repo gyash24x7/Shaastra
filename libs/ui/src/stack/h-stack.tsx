@@ -8,7 +8,7 @@ export interface HStackProps {
 	className?: string;
 	centered?: boolean;
 	stackItemClassName?: string;
-	children: JSXElement[];
+	children: JSXElement[] | JSXElement;
 	wrap?: boolean;
 	stackItemExpand?: boolean;
 }
@@ -48,11 +48,9 @@ export default function HStack( { children, ...props }: HStackProps ) {
 			className = { flexClassname() }
 			wrap = { props.wrap }
 		>
-			<div>
-				<For each = { children }>
-					{ ( child ) => <div class = { stackItemClassname() }>{ child }</div> }
-				</For>
-			</div>
+			<For each = { Array.isArray( children ) ? children : [ children ] }>
+				{ ( child ) => <div class = { stackItemClassname() }>{ child }</div> }
+			</For>
 		</Flex>
 	);
 };

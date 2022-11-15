@@ -1,11 +1,8 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { ListSelect, ListSelectProps } from "./list-select";
+import ListSelect, { ListSelectProps } from "./list-select";
 
+export default { component: ListSelect, title: "ListSelect" };
 
-const meta: ComponentMeta<typeof ListSelect> = { component: ListSelect, title: "ListSelect" };
-export default meta;
-
-const Template: ComponentStory<typeof ListSelect> = args => <ListSelect { ...args } />;
+const Template: any = ( args: ListSelectProps<string> ) => <ListSelect { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = {
@@ -17,4 +14,4 @@ Playground.args = {
 	label: "Select User",
 	message: "Helper Text",
 	placeholder: "Select favourite user"
-} as ListSelectProps;
+} as ListSelectProps<string>;

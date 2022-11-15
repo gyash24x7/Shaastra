@@ -1,13 +1,8 @@
 import type { SelectOption } from "./list-select";
-import { HStack } from "../stack/h-stack";
+import HStack from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
-import type { JSX
-
-.
-Element;
-}
-from;
-"react";
+import type { JSXElement } from "solid-js";
+import { For } from "solid-js";
 
 export interface MultiSelectProps<T> {
 	values: SelectOption<T>[];
@@ -22,7 +17,7 @@ const radioSelectOptionVS = new VariantSchema(
 	{ checked: "false" }
 );
 
-export function MultiSelect<T>( props: MultiSelectProps<T> ) {
+export default function MultiSelect<T>( props: MultiSelectProps<T> ) {
 	const handleOptionClick = ( { label, value }: SelectOption<T> ) => () => {
 		if ( isChecked( label ) ) {
 			const newValues = props.values.filter( option => option.label !== label );
@@ -41,15 +36,16 @@ export function MultiSelect<T>( props: MultiSelectProps<T> ) {
 
 	return (
 		<HStack wrap spacing = { "xs" }>
-			{ props.options.map( option => (
-				<div
-					key = { option.label }
-					class = { radioSelectOptionClassname( isChecked( option.label ) ) }
-					onClick = { handleOptionClick( option ) }
-				>
-					{ props.renderOption( option, isChecked( option.label ) ) }
-				</div>
-			) ) }
+			<For each = { props.options }>
+				{ option => (
+					<div
+						class = { radioSelectOptionClassname( isChecked( option.label ) ) }
+						onClick = { handleOptionClick( option ) }
+					>
+						{ props.renderOption( option, isChecked( option.label ) ) }
+					</div>
+				) }
+			</For>
 		</HStack>
 	);
 }

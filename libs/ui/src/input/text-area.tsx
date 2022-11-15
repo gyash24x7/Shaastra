@@ -1,4 +1,4 @@
-import { InputMessage } from "./input-message";
+import InputMessage from "./input-message";
 import { VariantSchema } from "../utils/variant";
 import { createMemo, Show } from "solid-js";
 
@@ -22,7 +22,7 @@ const inputRootVS = new VariantSchema(
 	{ valid: "false", invalid: "false" }
 );
 
-export function TextArea( props: TextAreaProps ) {
+export default function TextArea( props: TextAreaProps ) {
 	const inputRootClassname = createMemo( () => inputRootVS.getClassname( {
 		valid: props.appearance === "success" ? "true" : "false",
 		invalid: props.appearance === "danger" ? "true" : "false"
@@ -40,11 +40,14 @@ export function TextArea( props: TextAreaProps ) {
 					name = { props.name }
 					rows = { props.rows || 3 }
 					placeholder = { props.placeholder || "" }
-					value = { props.value }
+					value = { props.value || "" }
 					onInput = { e => props.onChange && props.onChange( e.currentTarget.value ) }
+					style = { { all: "unset", width: "100%" } }
 				/>
 			</div>
-			{ props.message && <InputMessage text = { props.message } appearance = { props.appearance } /> }
+			<Show keyed when = { !!props.message }>
+				<InputMessage text = { props.message! } appearance = { props.appearance } />
+			</Show>
 		</>
 	);
 }

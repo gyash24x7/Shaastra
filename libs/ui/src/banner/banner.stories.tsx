@@ -1,9 +1,8 @@
-import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import type { Appearance } from "../utils";
 import Banner, { BannerProps } from "./banner";
 import { exclamationCircle } from "solid-heroicons/solid";
 
-const meta: ComponentMeta<typeof Banner> = {
+export default {
 	component: Banner,
 	title: "Banner",
 	argTypes: {
@@ -29,9 +28,8 @@ const meta: ComponentMeta<typeof Banner> = {
 	}
 };
 
-export default meta;
 
-const Template: ComponentStory<typeof Banner> = args => <Banner { ...args } />;
+const Template: any = args => <Banner { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = { appearance: "default" } as BannerProps;

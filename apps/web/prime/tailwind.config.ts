@@ -1,21 +1,22 @@
-const { join } = require( "path" );
-const { createGlobPatternsForDependencies } = require( "@nrwl/workspace/src/utilities/generate-globs" )
+import { Config } from "tailwindcss";
 
-/** @type {import("tailwindcss").Config} */
-module.exports = {
+const { join } = require( "path" );
+const { createGlobPatternsForDependencies } = require( "@nrwl/workspace/src/utilities/generate-globs" );
+
+const config: Config = {
 	content: [
 		join(
 			__dirname,
-			"{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx,html}"
+			"{src,pages,components,renderer,public}/**/*!(*.stories|*.spec).{ts,tsx,html}"
 		),
-		...createGlobPatternsForDependencies( __dirname, "/**/!(*.stories|*.spec).{tsx,jsx,js,html}" ),
+		...createGlobPatternsForDependencies( __dirname, "/**/!(*.stories|*.spec).{tsx,jsx,js,html}" )
 	],
 	theme: {
 		fontWeight: {
-			light: 300,
-			normal: 500,
-			semibold: 600,
-			bold: 800
+			light: "300",
+			normal: "500",
+			semibold: "600",
+			bold: "800"
 		},
 		fontSize: {
 			base: [ "14px", "20px" ],
@@ -141,5 +142,7 @@ module.exports = {
 			}
 		}
 	},
-	plugins: [],
+	plugins: []
 };
+
+export default config;

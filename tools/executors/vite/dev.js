@@ -5,7 +5,7 @@ function devExecutor(_, context) {
     console.info("Executing \"vite\"...");
     var projectDir = context.workspace.projects[context.projectName].root;
     return new Promise(function (resolve, reject) {
-        var devProcess = (0, child_process_1.exec)("vite --config ".concat(projectDir, "/vite.config.js --port 3000"), function (error, stdout, stderr) {
+        var devProcess = (0, child_process_1.exec)("vite --config ".concat(projectDir, "/vite.config.ts --port 3000"), function (error, stdout, stderr) {
             if (error) {
                 reject(error);
             }

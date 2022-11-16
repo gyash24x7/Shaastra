@@ -7,7 +7,7 @@ export default function devExecutor( _, context ) {
 
 	return new Promise( ( resolve, reject ) => {
 		const devProcess = exec(
-			`vite --config ${ projectDir }/vite.config.js --port 3000`,
+			`vite --config ${ projectDir }/vite.config.ts --port 3000`,
 			function ( error, stdout, stderr ) {
 				if ( error ) {
 					reject( error );

@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+.auth-bg {
+    background: url("../public/auth-bg.jpg");
+    background-size: cover;
+}
+
+.auth-sidebar {
+    min-width: 500px;
+}

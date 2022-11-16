@@ -14,11 +14,8 @@
 		"@nrwl/devkit": "15.0.13",
 		"@nrwl/nest": "15.0.13",
 		"@nrwl/node": "15.0.13",
-		"@nrwl/react": "15.0.13",
 		"@nrwl/storybook": "15.0.13",
 		"@nrwl/workspace": "15.0.13",
-		"@solidjs/meta": "0.28.2",
-		"@solidjs/router": "0.5.0",
 		"@storybook/addon-actions": "6.5.13",
 		"@storybook/addon-backgrounds": "6.5.13",
 		"@storybook/addon-docs": "6.5.13",
@@ -49,9 +46,10 @@
 		"ts-node": "10.9.1",
 		"tsconfig-paths": "4.1.0",
 		"typescript": "4.8.4",
-		"undici": "5.12.0",
 		"vite": "3.2.3",
-		"vite-plugin-solid": "2.4.0"
+		"vite-plugin-solid": "2.4.0",
+		"vite-plugin-ssr": "0.4.48",
+		"vite-tsconfig-paths": "3.5.2"
 	},
 	"dependencies": {
 		"@apollo/federation": "0.37.1",
@@ -94,8 +92,6 @@
 		"solid-headless": "0.13.0",
 		"solid-heroicons": "3.1.1",
 		"solid-js": "1.6.2",
-		"solid-start": "0.2.5",
-		"solid-start-node": "0.2.5",
 		"tailwindcss": "3.2.3",
 		"tslib": "2.4.1"
 	}

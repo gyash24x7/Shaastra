@@ -27,6 +27,7 @@ specifiers:
   '@nrwl/workspace': 15.0.13
   '@prisma/client': 4.6.1
   '@solid-primitives/bounds': 0.0.105
+  '@solidjs/router': 0.5.0
   '@storybook/addon-actions': 6.5.13
   '@storybook/addon-backgrounds': 6.5.13
   '@storybook/addon-docs': 6.5.13
@@ -82,7 +83,6 @@ specifiers:
   typescript: 4.8.4
   vite: 3.2.3
   vite-plugin-solid: 2.4.0
-  vite-plugin-ssr: 0.4.48
   vite-tsconfig-paths: 3.5.2
 
 dependencies:
@@ -105,6 +105,7 @@ dependencies:
   '@nestjs/terminus': 9.1.2_fptmb26m37y4cwlu6vktl6lm6y
   '@prisma/client': 4.6.1_prisma@4.6.1
   '@solid-primitives/bounds': 0.0.105_solid-js@1.6.2
+  '@solidjs/router': 0.5.0_solid-js@1.6.2
   apollo-server-express: 3.11.1_5ha345eiak62qiwwva5z4dp6gu
   apollo-server-plugin-base: 3.7.1_graphql@16.6.0
   autoprefixer: 10.4.13_postcss@8.4.18
@@ -169,7 +170,6 @@ devDependencies:
   typescript: 4.8.4
   vite: 3.2.3_jnooxw3vnoiu3rusit2oewaw7y
   vite-plugin-solid: 2.4.0_solid-js@1.6.2+vite@3.2.3
-  vite-plugin-ssr: 0.4.48_vite@3.2.3
   vite-tsconfig-paths: 3.5.2_vite@3.2.3
 
 packages:
@@ -1943,14 +1943,6 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@brillout/json-serializer/0.5.3:
-    resolution: {integrity: sha512-IxlOMD5gOM0WfFGdeR98jHKiC82Ad1tUnSjvLS5jnRkfMEKBI+YzHA32Umw8W3Ccp5N4fNEX229BW6RaRpxRWQ==}
-    dev: true
-
-  /@brillout/vite-plugin-import-build/0.1.0:
-    resolution: {integrity: sha512-zn90Jwy9TKrBSB45ikPMmxvnGRRfrreeGKtb0DWbKrxlFf+0dOPSmPxxgO7EKBahQJAC8XxeUSMKcPwPmR1b4Q==}
-    dev: true
-
   /@cnakazawa/watch/1.0.4:
     resolution: {integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==}
     engines: {node: '>=0.1.95'}
@@ -3585,6 +3577,14 @@ packages:
     resolution: {integrity: sha512-fGsJy8Z8YiwogpiezD7TWjI62UCb0JAHJWdoXWGrggrn4bfToZotKkabiB0IVFMkWVE1ZcrkvZT3bkmqGnK0ng==}
     peerDependencies:
       solid-js: ^1.6.0
+    dependencies:
+      solid-js: 1.6.2
+    dev: false
+
+  /@solidjs/router/0.5.0_solid-js@1.6.2:
+    resolution: {integrity: sha512-rNR07l21tWWDVmCbaapggB89rEX7jlM2XChpTLqEGEnj46LzVZ8zgvjcF6NNKScByAlLpoQUkVIjB2KHpcMi+w==}
+    peerDependencies:
+      solid-js: ^1.5.3
     dependencies:
       solid-js: 1.6.2
     dev: false
@@ -5870,13 +5870,6 @@ packages:
       argparse: 2.0.1
     dev: true
 
-  /@zkochan/rimraf/2.1.2:
-    resolution: {integrity: sha512-Lc2oK51J6aQWcLWTloobJun5ZF41BbTDdLvE+aMcexoVWFoFqvZmnZoyXR2IZk6NJEVoZW8tjgtvQLfTsmRs2Q==}
-    engines: {node: '>=12.10'}
-    dependencies:
-      rimraf: 3.0.2
-    dev: true
-
   /abab/2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
     dev: true
@@ -6795,13 +6788,6 @@ packages:
       open: 7.4.2
     dev: true
 
-  /better-path-resolve/1.0.0:
-    resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
-    engines: {node: '>=4'}
-    dependencies:
-      is-windows: 1.0.2
-    dev: true
-
   /big-integer/1.6.51:
     resolution: {integrity: sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==}
     engines: {node: '>=0.6'}
@@ -7078,11 +7064,6 @@ packages:
       v8-to-istanbul: 9.0.1
       yargs: 16.2.0
       yargs-parser: 20.2.9
-    dev: true
-
-  /cac/6.7.14:
-    resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
-    engines: {node: '>=8'}
     dev: true
 
   /cacache/12.0.4:
@@ -8606,10 +8587,6 @@ packages:
       is-set: 2.0.2
       is-string: 1.0.7
       isarray: 2.0.5
-
-  /es-module-lexer/0.10.5:
-    resolution: {integrity: sha512-+7IwY/kiGAacQfY+YBhKMvEmyAJnw5grTUgjG85Pe7vcUI/6b7pZjZG8nQ7+48YhzEAEqrEgD2dCz/JIK+AYvw==}
-    dev: true
 
   /es-module-lexer/0.9.3:
     resolution: {integrity: sha512-1HQ2M2sPtxwnvOvT1ZClHyQDiggdNjURWpY2we6aMKCQiUVxTmVs2UYPLIrD84sS+kMdUwfBSylbJPwNnBrnHQ==}
@@ -14392,14 +14369,6 @@ packages:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
     dev: true
 
-  /rename-overwrite/4.0.3:
-    resolution: {integrity: sha512-e1zOWZh4Lauz5DcLMC8j4eoOHPIrZkAVpiocE9SkDE1ZrGMW+W88LR1Y2YjD1DFgOYfJWqSsK6JKsRfuRH+tbQ==}
-    engines: {node: '>=12.10'}
-    dependencies:
-      '@zkochan/rimraf': 2.1.2
-      fs-extra: 10.1.0
-    dev: true
-
   /renderkid/2.0.7:
     resolution: {integrity: sha512-oCcFyxaMrKsKcTY59qnCAtmDVSLfPbrv6A3tVbPdFMMrv5jaK10V6m40cKsoPNhAqN6rmHW9sswW4o3ruSrwUQ==}
     dependencies:
@@ -15628,15 +15597,6 @@ packages:
       object.getownpropertydescriptors: 2.1.5
     dev: true
 
-  /symlink-dir/5.0.1:
-    resolution: {integrity: sha512-MeXygPBopo8AmyObuCJIpXKT+mw54d2Kp6SBuxq0uXZGDkHwHDQExpSg5+TK8BA5kCGyktawu5DJG0QWYO6acw==}
-    engines: {node: '>=12.10'}
-    hasBin: true
-    dependencies:
-      better-path-resolve: 1.0.0
-      rename-overwrite: 4.0.3
-    dev: true
-
   /synchronous-promise/2.0.16:
     resolution: {integrity: sha512-qImOD23aDfnIDNqlG1NOehdB9IYsn1V9oByPjKY1nakv2MQYCEMyX033/q+aEtYCpmYK1cv2+NTmlH+ra6GA5A==}
     dev: true
@@ -16489,28 +16449,6 @@ packages:
       vitefu: 0.1.1_vite@3.2.3
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /vite-plugin-ssr/0.4.48_vite@3.2.3:
-    resolution: {integrity: sha512-xCh/Z9ra9DhuPvvdbB6pvhmf7v1R35nhg8CyxorBUeQJ5bHzEREaChViaHGU7kzdDqrjX3qzbaCoqTQVTawb2A==}
-    engines: {node: '>=12.19.0'}
-    hasBin: true
-    peerDependencies:
-      react-streaming: '>=0.3.5'
-      vite: '>=3.0.0'
-    peerDependenciesMeta:
-      react-streaming:
-        optional: true
-    dependencies:
-      '@brillout/json-serializer': 0.5.3
-      '@brillout/vite-plugin-import-build': 0.1.0
-      cac: 6.7.14
-      es-module-lexer: 0.10.5
-      fast-glob: 3.2.12
-      picocolors: 1.0.0
-      resolve: 1.22.1
-      symlink-dir: 5.0.1
-      vite: 3.2.3_jnooxw3vnoiu3rusit2oewaw7y
     dev: true
 
   /vite-tsconfig-paths/3.5.2_vite@3.2.3:

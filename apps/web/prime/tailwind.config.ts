@@ -1,15 +1,14 @@
-import { Config } from "tailwindcss";
-
-const { join } = require( "path" );
-const { createGlobPatternsForDependencies } = require( "@nrwl/workspace/src/utilities/generate-globs" );
+import type { Config } from "tailwindcss";
+import { join } from "path";
+import { createGlobPatternsForDependencies } from "@nrwl/workspace/src/utilities/generate-globs";
 
 const config: Config = {
 	content: [
-		join(
+		join( __dirname, "src/**/*!(*.stories|*.spec).{ts,tsx,html}" ),
+		...createGlobPatternsForDependencies(
 			__dirname,
-			"{src,pages,components,renderer,public}/**/*!(*.stories|*.spec).{ts,tsx,html}"
-		),
-		...createGlobPatternsForDependencies( __dirname, "/**/!(*.stories|*.spec).{tsx,jsx,js,html}" )
+			"/**/!(*.stories|*.spec).{tsx,jsx,js,html}"
+		)
 	],
 	theme: {
 		fontWeight: {

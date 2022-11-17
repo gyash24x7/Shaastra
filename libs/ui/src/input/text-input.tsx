@@ -1,7 +1,7 @@
 import type { IconType } from "../utils/types";
 import InputMessage from "./input-message";
 import { VariantSchema } from "../utils/variant";
-import { createMemo, Show } from "solid-js";
+import { Accessor, createMemo, Show } from "solid-js";
 import { Icon } from "solid-heroicons";
 
 export interface TextInputProps {
@@ -12,7 +12,7 @@ export interface TextInputProps {
 	type?: "text" | "number" | "email" | "password";
 	iconBefore?: IconType;
 	iconAfter?: IconType;
-	value?: string;
+	value?: Accessor<string>;
 	onChange?: ( value: string ) => void | Promise<void>;
 	appearance?: "default" | "danger" | "success";
 }
@@ -48,7 +48,7 @@ export default function TextInput( props: TextInputProps ) {
 					type = { props.type || "text" }
 					name = { props.name }
 					placeholder = { props.placeholder }
-					value = { props.value || "" }
+					value = { props.value ? props.value() : "" }
 					onInput = { e => props.onChange && props.onChange( e.currentTarget.value ) }
 				/>
 				<Show when = { !!props.iconAfter } keyed>

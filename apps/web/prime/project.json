@@ -3,14 +3,6 @@
 	"sourceRoot": "apps/web/alt/src",
 	"projectType": "application",
 	"targets": {
-		"node": {
-			"executor": "nx:run-commands",
-			"options": {
-				"commands": [
-					{ "command": "node apps/web/prime/src/main.js" }
-				]
-			}
-		},
 		"genql": {
 			"executor": "./tools/executors/genql:generate",
 			"options": {

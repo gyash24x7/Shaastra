@@ -15,5 +15,5 @@
 		"strictNullChecks": true,
 		"types": [ "vite/client" ]
 	},
-	"include": [ "pages", "renderer", "public", "styles", "*.js" ]
+	"include": [ "pages", "renderer", "public", "styles", "src", "*.js", "vite.config.ts" ]
 }

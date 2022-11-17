@@ -1,13 +1,13 @@
 import solid from "vite-plugin-solid";
-import ssr from "vite-plugin-ssr/plugin";
 import tailwindcss from "tailwindcss";
 import type { UserConfig } from "vite";
 import tailwindConfig from "./tailwind.config";
 import tsconfigPaths from "vite-tsconfig-paths";
-import autoprefixer = require("autoprefixer");
+import autoprefixer from "autoprefixer";
 
 const config: UserConfig = {
-	plugins: [ solid( { ssr: true } ), ssr(), tsconfigPaths() ],
+	root: "apps/web/prime",
+	plugins: [ solid(), tsconfigPaths() ],
 	css: {
 		postcss: {
 			plugins: [
@@ -17,8 +17,7 @@ const config: UserConfig = {
 		}
 	},
 	build: {
-		// @ts-ignore
-		polyfillDynamicImport: false
+		target: "esnext"
 	}
 };
 

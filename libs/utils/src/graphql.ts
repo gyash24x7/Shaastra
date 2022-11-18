@@ -27,7 +27,10 @@ export type GqlContext = {
 export const apolloServerOptions: ApolloFederationDriverConfig = {
 	path: "/api/graphql",
 	playground: true,
-	cors: true,
+	cors: {
+		origin: "http://localhost:3000",
+		credentials: true
+	},
 	context: ( { req, res }: GqlContext ): GqlContext => (
 		{ req, res }
 	),

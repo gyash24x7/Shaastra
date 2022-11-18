@@ -7,6 +7,10 @@ export async function bootstrap( AppModule: any ) {
 	const app = await NestFactory.create( AppModule );
 	const logger = new Logger( "Bootstrap" );
 
+	app.enableCors( {
+		origin: "http://localhost:3000",
+		credentials: true
+	} );
 	app.use( cookieParser() );
 
 	const configService = app.get( ConfigService );

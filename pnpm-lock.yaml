@@ -4,6 +4,7 @@ specifiers:
   '@apollo/federation': 0.37.1
   '@apollo/gateway': 2.1.4
   '@apollo/subgraph': 2.1.4
+  '@felte/solid': 1.2.6
   '@fontsource/fjalla-one': 4.5.9
   '@fontsource/montserrat': 4.5.13
   '@genql/cli': 2.10.0
@@ -27,6 +28,7 @@ specifiers:
   '@nrwl/workspace': 15.0.13
   '@prisma/client': 4.6.1
   '@solid-primitives/bounds': 0.0.105
+  '@solid-primitives/fetch': 2.4.2
   '@solidjs/router': 0.5.0
   '@storybook/addon-actions': 6.5.13
   '@storybook/addon-backgrounds': 6.5.13
@@ -42,6 +44,7 @@ specifiers:
   '@storybook/client-logger': 6.5.13
   '@storybook/core-common': 6.5.13
   '@storybook/html': 6.5.13
+  '@tanstack/solid-query': 4.15.1
   '@tsconfig/node16-strictest': 1.0.4
   '@types/bcryptjs': 2.4.2
   '@types/consul': 0.40.0
@@ -89,6 +92,7 @@ dependencies:
   '@apollo/federation': 0.37.1_graphql@16.6.0
   '@apollo/gateway': 2.1.4_graphql@16.6.0
   '@apollo/subgraph': 2.1.4_graphql@16.6.0
+  '@felte/solid': 1.2.6_solid-js@1.6.2
   '@fontsource/fjalla-one': 4.5.9
   '@fontsource/montserrat': 4.5.13
   '@genql/runtime': 2.10.0_graphql@16.6.0
@@ -105,7 +109,9 @@ dependencies:
   '@nestjs/terminus': 9.1.2_fptmb26m37y4cwlu6vktl6lm6y
   '@prisma/client': 4.6.1_prisma@4.6.1
   '@solid-primitives/bounds': 0.0.105_solid-js@1.6.2
+  '@solid-primitives/fetch': 2.4.2_solid-js@1.6.2
   '@solidjs/router': 0.5.0_solid-js@1.6.2
+  '@tanstack/solid-query': 4.15.1_solid-js@1.6.2
   apollo-server-express: 3.11.1_5ha345eiak62qiwwva5z4dp6gu
   apollo-server-plugin-base: 3.7.1_graphql@16.6.0
   autoprefixer: 10.4.13_postcss@8.4.18
@@ -2100,6 +2106,28 @@ packages:
       - supports-color
     dev: true
 
+  /@felte/common/1.1.3:
+    resolution: {integrity: sha512-47OJYohloUT9FOgXRxEIaSkaveDB70/eRv3+6MfYDZbc44XfojHJLiUOz3uSWRwfl8f2wonhkhIPCYkzIUltTg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
+  /@felte/core/1.3.6:
+    resolution: {integrity: sha512-/V1WG+YTz7gfbvQYeBazMSgaCA5qnNRJy+HP6jtdvi2f5Xm/iwVxZXoZZU5/Da5CmT0rYdkCDcHQe9IG0iTV1Q==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      '@felte/common': 1.1.3
+    dev: false
+
+  /@felte/solid/1.2.6_solid-js@1.6.2:
+    resolution: {integrity: sha512-fHEiO+7lRC1hAlPTx8pkH3LbEDaTRRugu6YTDGU1Ym33pIL+jnwZYLKCp/4o666lArrAebFqiOu3BRiS+iJEYg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      solid-js: ^1.2.0
+    dependencies:
+      '@felte/core': 1.3.6
+      solid-js: 1.6.2
+    dev: false
+
   /@fontsource/fjalla-one/4.5.9:
     resolution: {integrity: sha512-orxS3z82DRF23U6lKqRVroSnIqC4x9ag2hUDmHzG33MH8X48YjnKsGVAMdjt3i0KQjdHNysCp3eMDSrGQ0LfgQ==}
     dev: false
@@ -3550,6 +3578,18 @@ packages:
       solid-js: ^1.6.0
     dependencies:
       '@solid-primitives/utils': 4.0.0_solid-js@1.6.2
+      solid-js: 1.6.2
+    dev: false
+
+  /@solid-primitives/fetch/2.4.2_solid-js@1.6.2:
+    resolution: {integrity: sha512-sndSSpwLOvhjNGHTgmDnrFZsIWml0lXyLZ49lINjGj6FTOh/jbydzzZRMMkRy5klGHezbk8hjEchqDHGLc8pMg==}
+    peerDependencies:
+      node-fetch: '>=3.2.10'
+      solid-js: ^1.5.0
+    peerDependenciesMeta:
+      node-fetch:
+        optional: true
+    dependencies:
       solid-js: 1.6.2
     dev: false
 
@@ -5155,6 +5195,19 @@ packages:
       regenerator-runtime: 0.13.10
       resolve-from: 5.0.0
     dev: true
+
+  /@tanstack/query-core/4.15.1:
+    resolution: {integrity: sha512-+UfqJsNbPIVo0a9ANW0ZxtjiMfGLaaoIaL9vZeVycvmBuWywJGtSi7fgPVMCPdZQFOzMsaXaOsDtSKQD5xLRVQ==}
+    dev: false
+
+  /@tanstack/solid-query/4.15.1_solid-js@1.6.2:
+    resolution: {integrity: sha512-MIPpid1k1Gr8EqHsgnoqx3AKin7ChH7li0etRklBr09OG30Y40wBco1mM9pXYN85Jy7tmuW6MwDH1o8+e6UKpA==}
+    peerDependencies:
+      solid-js: ^1.5.7
+    dependencies:
+      '@tanstack/query-core': 4.15.1
+      solid-js: 1.6.2
+    dev: false
 
   /@tootallnate/once/2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}

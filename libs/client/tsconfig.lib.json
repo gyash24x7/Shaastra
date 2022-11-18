@@ -4,7 +4,11 @@
 		"outDir": "../../../dist/out-tsc",
 		"declaration": true,
 		"types": [ ],
-		"target": "es6"
+		"target": "ESNext",
+		"jsxImportSource": "solid-js",
+		"jsx": "preserve",
+		"lib": [ "DOM", "DOM.Iterable", "ESNext" ],
+		"module": "ESNext"
 	},
 	"include": [ "**/*.ts" ],
 	"exclude": [ "jest.config.ts", "**/*.spec.ts", "**/*.test.ts" ]

@@ -1,10 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
-import type { LoginInput } from "../../../../services/identity/src/users/commands/login.command";
-import { createClient } from "@genql/runtime/client";
+import type { Client, LoginInput } from "@genql/runtime/client";
+import { createMutation, MutationProps } from "../signals";
 
-const genqlClient = createClient();
+function action( client: Client, data: LoginInput ) {
+	return client.chain.mutation.login( { data } ).get();
+}
 
-export const useLoginMutation = () => useMutation( {
-	mutationFn: ( data: LoginInput ) => genqlClient.mutation( { login: [ { data } ] } ),
-	onSuccess: ( data ) => console.log( data )
-} );
+export function createLoginMutation( props: Omit<MutationProps<boolean, LoginInput>, "action"> = {} ) {
+	return createMutation<boolean, LoginInput>( { ...props, action } );
+}

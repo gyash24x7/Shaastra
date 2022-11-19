@@ -92,6 +92,8 @@
 		"postcss": "8.4.18",
 		"reflect-metadata": "0.1.13",
 		"rxjs": "7.5.7",
+		"solform": "1.0.6",
+		"solid-forms": "0.4.6",
 		"solid-headless": "0.13.0",
 		"solid-heroicons": "3.1.1",
 		"solid-js": "1.6.2",

@@ -13,7 +13,7 @@
 		"jsxImportSource": "solid-js",
 		"strict": true,
 		"strictNullChecks": true,
-		"types": [ "vite/client" ]
+		"types": [ "vite/client", "src/types.d.ts" ]
 	},
 	"include": [ "pages", "renderer", "public", "styles", "src", "*.js", "vite.config.ts" ]
 }

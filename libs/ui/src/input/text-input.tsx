@@ -49,7 +49,7 @@ export default function TextInput( props: TextInputProps ) {
 					name = { props.name }
 					placeholder = { props.placeholder }
 					value = { props.value ? props.value() : "" }
-					onInput = { e => props.onChange && props.onChange( e.currentTarget.value ) }
+					onChange = { e => props.onChange && props.onChange( e.currentTarget.value ) }
 				/>
 				<Show when = { !!props.iconAfter } keyed>
 					<Icon class = { "w-4 h-4 ml-3 text-light-700" } path = { props.iconAfter! } />

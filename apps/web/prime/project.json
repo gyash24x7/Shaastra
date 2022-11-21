@@ -9,7 +9,7 @@
 				"endpoint": "http://localhost:9000/api/graphql"
 			}
 		},
-		"dev": {
+		"serve": {
 			"executor": "./tools/executors/vite:dev",
 			"options": { }
 		},
@@ -17,7 +17,7 @@
 			"executor": "./tools/executors/vite:build",
 			"options": { }
 		},
-		"serve": {
+		"start": {
 			"executor": "./tools/executors/vite:serve",
 			"options": { }
 		}

@@ -1,5 +1,6 @@
-import Spinner from "./spinner";
+import Spinner, { SpinnerProps } from "./spinner";
 import type { Appearance, Size } from "../utils";
+import type { JSX } from "solid-js/jsx-runtime";
 
 
 export default {
@@ -22,7 +23,7 @@ export default {
 };
 
 
-const Template: any = ( args ) => <Spinner { ...args } />;
+const Template: any = ( args: JSX.IntrinsicAttributes & SpinnerProps ) => <Spinner { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = { size: "md" };

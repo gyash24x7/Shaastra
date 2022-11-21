@@ -8,7 +8,7 @@ export interface VStackProps {
 	className?: string;
 	centered?: boolean;
 	stackItemClassName?: string;
-	children: JSXElement[];
+	children: JSXElement[] | JSXElement;
 }
 
 const vStackItemVS = new VariantSchema(
@@ -32,7 +32,7 @@ export default function VStack( { children, ...props }: VStackProps ) {
 
 	return (
 		<div class = { props.className }>
-			<For each = { children }>
+			<For each = { Array.isArray( children ) ? children : [ children ] }>
 				{ child => <div class = { stackItemClassname() }>{ child }</div> }
 			</For>
 		</div>

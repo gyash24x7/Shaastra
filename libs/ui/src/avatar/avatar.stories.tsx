@@ -1,3 +1,4 @@
+import type { JSX } from "solid-js/jsx-runtime";
 import Avatar, { AvatarProps } from "./avatar";
 
 export default {
@@ -16,7 +17,7 @@ export default {
 	}
 };
 
-const Template: any = ( args: any ) => <Avatar { ...args } />;
+const Template: any = ( args: JSX.IntrinsicAttributes & AvatarProps ) => <Avatar { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = { size: "md", name: "Yash Gupta" } as AvatarProps;

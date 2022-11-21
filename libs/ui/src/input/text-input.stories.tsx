@@ -1,6 +1,7 @@
 import TextInput, { TextInputProps } from "./text-input";
 import type { Appearance } from "../utils";
 import { envelope, lockClosed } from "solid-heroicons/solid";
+import type { JSX } from "solid-js/jsx-runtime";
 
 export default {
 	component: TextInput,
@@ -16,7 +17,7 @@ export default {
 };
 
 
-const Template: any = args => <TextInput { ...args } />;
+const Template: any = ( args: JSX.IntrinsicAttributes & TextInputProps ) => <TextInput { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = {

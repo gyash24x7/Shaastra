@@ -1,6 +1,7 @@
 import type { Appearance } from "../utils";
 import Banner, { BannerProps } from "./banner";
 import { exclamationCircle } from "solid-heroicons/solid";
+import type { JSX } from "solid-js/jsx-runtime";
 
 export default {
 	component: Banner,
@@ -29,7 +30,7 @@ export default {
 };
 
 
-const Template: any = args => <Banner { ...args } />;
+const Template: any = ( args: JSX.IntrinsicAttributes & BannerProps ) => <Banner { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = { appearance: "default" } as BannerProps;

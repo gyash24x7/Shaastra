@@ -1,3 +1,4 @@
+import type { JSX } from "solid-js/jsx-runtime";
 import Flex, { FlexProps } from "./flex";
 
 export default {
@@ -27,7 +28,7 @@ export default {
 };
 
 
-const Template: any = ( args ) => (
+const Template: any = ( args: JSX.IntrinsicAttributes & FlexProps ) => (
 	<Flex { ...args }>
 		<div class = { "bg-blue-300 p-4" }>Flex Child 1</div>
 		<div class = { "bg-blue-500 p-4" }>Flex Child 2</div>

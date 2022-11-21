@@ -1,6 +1,7 @@
 import type { Appearance, Size } from "../utils";
 import Button, { ButtonProps } from "./button";
 import { arrowLeft, arrowRight } from "solid-heroicons/solid";
+import type { JSX } from "solid-js/jsx-runtime";
 
 
 export default {
@@ -44,7 +45,7 @@ export default {
 };
 
 
-const Template: any = args => <Button { ...args } />;
+const Template: any = ( args: JSX.IntrinsicAttributes & ButtonProps ) => <Button { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = { buttonText: "Submit", appearance: "default", size: "md" } as ButtonProps;

@@ -1,15 +1,13 @@
 import InputMessage from "./input-message";
 import { VariantSchema } from "../utils/variant";
 import { createMemo, Show } from "solid-js";
+import type { InputProps } from "./text-input";
 
-export interface TextAreaProps {
+export interface TextAreaProps extends InputProps {
 	label?: string;
-	name: string;
 	placeholder?: string;
 	message?: string;
 	rows?: number;
-	value?: string;
-	onChange?: ( value: string ) => void | Promise<void>;
 	appearance?: "default" | "danger" | "success";
 }
 
@@ -31,17 +29,17 @@ export default function TextArea( props: TextAreaProps ) {
 	return (
 		<>
 			<Show when = { !!props.label } keyed>
-				<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name }>
+				<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name.toString() }>
 					{ props.label }
 				</label>
 			</Show>
 			<div class = { inputRootClassname() }>
 				<textarea
-					name = { props.name }
+					name = { props.name.toString() }
 					rows = { props.rows || 3 }
 					placeholder = { props.placeholder || "" }
-					value = { props.value || "" }
-					onInput = { e => props.onChange && props.onChange( e.currentTarget.value ) }
+					value = { props.value() }
+					onInput = { e => props.setValue( e.currentTarget.value ) }
 					style = { { all: "unset", width: "100%" } }
 				/>
 			</div>

@@ -4,16 +4,19 @@ import { VariantSchema } from "../utils/variant";
 import { Accessor, createMemo, Show } from "solid-js";
 import { Icon } from "solid-heroicons";
 
-export interface TextInputProps {
+export interface InputProps<V = any> {
+	name: string | number | symbol;
+	value: Accessor<V>;
+	setValue: ( value: V ) => void;
+}
+
+export interface TextInputProps<T = any> extends InputProps<T> {
 	label?: string;
-	name: string;
 	placeholder?: string;
 	message?: string;
 	type?: "text" | "number" | "email" | "password";
 	iconBefore?: IconType;
 	iconAfter?: IconType;
-	value?: Accessor<string>;
-	onChange?: ( value: string ) => void | Promise<void>;
 	appearance?: "default" | "danger" | "success";
 }
 
@@ -35,7 +38,7 @@ export default function TextInput( props: TextInputProps ) {
 	return (
 		<>
 			<Show when = { !!props.label } keyed>
-				<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name }>
+				<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name.toString() }>
 					{ props.label }
 				</label>
 			</Show>
@@ -46,10 +49,11 @@ export default function TextInput( props: TextInputProps ) {
 				<input
 					style = { { all: "unset", flex: 1 } }
 					type = { props.type || "text" }
-					name = { props.name }
+					name = { props.name.toString() }
 					placeholder = { props.placeholder }
-					value = { props.value ? props.value() : "" }
-					onChange = { e => props.onChange && props.onChange( e.currentTarget.value ) }
+					value = { props.value() }
+					onChange = { e => props.setValue( e.currentTarget.value ) }
+					autocomplete = { "" }
 				/>
 				<Show when = { !!props.iconAfter } keyed>
 					<Icon class = { "w-4 h-4 ml-3 text-light-700" } path = { props.iconAfter! } />

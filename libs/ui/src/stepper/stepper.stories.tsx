@@ -1,9 +1,10 @@
+import type { JSX } from "solid-js/jsx-runtime";
 import Stepper, { StepperProps } from "./stepper";
 
 export default { component: Stepper, title: "Stepper" };
 
 
-const Template: any = args => <Stepper { ...args } />;
+const Template: any = ( args: JSX.IntrinsicAttributes & StepperProps ) => <Stepper { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = {

@@ -1,5 +1,6 @@
 import TextArea, { TextAreaProps } from "./text-area";
 import type { Appearance } from "../utils";
+import type { JSX } from "solid-js/jsx-runtime";
 
 export default {
 	component: TextArea,
@@ -15,7 +16,7 @@ export default {
 };
 
 
-const Template: any = args => <TextArea { ...args } />;
+const Template: any = ( args: JSX.IntrinsicAttributes & TextAreaProps ) => <TextArea { ...args } />;
 
 export const Playground = Template.bind( {} );
 Playground.args = {

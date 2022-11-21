@@ -11,6 +11,8 @@ export interface FieldProps<T, R extends FieldOf<T>> {
 	value: Accessor<T[R]>;
 	setValue: ( value: T[R] ) => void;
 	render: FieldRenderFn<T, R>;
+	error?: string;
+	touched?: boolean;
 }
 
 export default function Field<T, R extends FieldOf<T>>( props: FieldProps<T, R> ) {

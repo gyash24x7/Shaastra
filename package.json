@@ -10,12 +10,12 @@
 	"private": true,
 	"devDependencies": {
 		"@genql/cli": "2.10.0",
-		"@nrwl/cli": "15.0.13",
-		"@nrwl/devkit": "15.0.13",
-		"@nrwl/nest": "15.0.13",
-		"@nrwl/node": "15.0.13",
-		"@nrwl/storybook": "15.0.13",
-		"@nrwl/workspace": "15.0.13",
+		"@nrwl/cli": "15.2.1",
+		"@nrwl/devkit": "15.2.1",
+		"@nrwl/nest": "15.2.1",
+		"@nrwl/node": "15.2.1",
+		"@nrwl/storybook": "15.2.1",
+		"@nrwl/workspace": "15.2.1",
 		"@storybook/addon-actions": "6.5.13",
 		"@storybook/addon-backgrounds": "6.5.13",
 		"@storybook/addon-docs": "6.5.13",
@@ -40,7 +40,7 @@
 		"@types/passport-jwt": "3.0.7",
 		"@types/pem-jwk": "2.0.0",
 		"dotenv": "16.0.3",
-		"nx": "15.0.13",
+		"nx": "15.2.1",
 		"prisma": "4.6.1",
 		"ts-loader": "9.4.1",
 		"ts-node": "10.9.1",
@@ -98,3 +98,4 @@
 		"tslib": "2.4.1"
 	}
 }
+

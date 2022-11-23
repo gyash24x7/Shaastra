@@ -1,0 +1,9 @@
+{
+	"name": "@shaastra/configs",
+	"version": "0.0.0",
+	"private": true,
+	"files": [ "ts/*.json", "tailwind/*.json" ],
+	"devDependencies": {
+		"@tsconfig/node16-strictest": "1.0.4"
+	}
+}

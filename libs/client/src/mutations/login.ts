@@ -1,4 +1,4 @@
-import type { Client, LoginInput } from "@genql/runtime/client";
+import type { Client, LoginInput } from "../generated";
 import { createMutation, MutationProps } from "../signals";
 
 function action( client: Client, data: LoginInput ) {

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Default",
+	"compileOnSave": false,
+	"extends": "@tsconfig/node16-strictest",
+	"ts-node": {
+		"swc": true
+	},
+	"compilerOptions": {
+		"rootDir": ".",
+		"exactOptionalPropertyTypes": false,
+		"strictPropertyInitialization": false,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"noUncheckedIndexedAccess": false,
+		"importHelpers": true,
+		"baseUrl": "."
+	},
+	"exclude": [ "node_modules", "tmp" ]
+}

@@ -1,5 +1,5 @@
 import { createQuery, QueryProps } from "../signals";
-import { Client, everything } from "@genql/runtime/client";
+import { Client, everything } from "../generated";
 import { Accessor, createContext, JSXElement } from "solid-js";
 
 function fetcher( client: Client ) {

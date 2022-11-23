@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import type { Client } from "@genql/runtime/client";
+import type { Client } from "../generated";
 import { useClient } from "../client";
 import type { GqlError } from "./index";
 

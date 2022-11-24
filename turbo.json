@@ -17,6 +17,12 @@
 			"outputs": [ "./src/prisma/generated/**" ],
 			"cache": true
 		},
+		"storybook": {
+			"cache": false
+		},
+		"storybook:build": {
+			"cache": true
+		},
 		"client:generate": {
 			"inputs": [ "schema/**" ],
 			"outputs": [ "./src/generated/**" ],

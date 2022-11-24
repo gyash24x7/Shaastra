@@ -1,0 +1,7 @@
+{
+	"extends": "@shaastra/configs/ts/base.json",
+	"include": [ "scripts" ],
+	"compilerOptions": {
+		"rootDir": "."
+	}
+}

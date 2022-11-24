@@ -1,16 +1,8 @@
 import type { Request, Response } from "express";
-import {
-	GraphQLDataSourceProcessOptions,
-	IntrospectAndCompose,
-	RemoteGraphQLDataSource,
-	ServiceEndpointDefinition
-} from "@apollo/gateway";
-import { Injectable } from "@nestjs/common";
-import type { GqlOptionsFactory } from "@nestjs/graphql";
-import type { ApolloFederationDriverConfig, ApolloGatewayDriverConfig } from "@nestjs/apollo";
+import type { ApolloFederationDriverConfig } from "@nestjs/apollo";
 import { ApolloFederationDriver } from "@nestjs/apollo";
-import { ConsulService } from "@shaastra/consul";
-import { ConfigService } from "@nestjs/config";
+import { GraphQLDataSourceProcessOptions, RemoteGraphQLDataSource } from "@apollo/gateway";
+import { join } from "path";
 
 export type GqlResolveReferenceData = {
 	__typename: string;
@@ -24,24 +16,26 @@ export type GqlContext = {
 	logout?: boolean;
 }
 
-export const apolloServerOptions: ApolloFederationDriverConfig = {
-	path: "/api/graphql",
-	playground: true,
-	cors: {
-		origin: "http://localhost:3000",
-		credentials: true
-	},
-	context: ( { req, res }: GqlContext ): GqlContext => (
-		{ req, res }
-	),
-	driver: ApolloFederationDriver,
-	autoSchemaFile: true
-};
+export const apolloServerOptions = ( serviceName: string ): ApolloFederationDriverConfig => (
+	{
+		path: "/api/graphql",
+		playground: true,
+		cors: {
+			origin: "http://localhost:3000",
+			credentials: true
+		},
+		context: ( { req, res }: GqlContext ): GqlContext => (
+			{ req, res }
+		),
+		driver: ApolloFederationDriver,
+		autoSchemaFile: join( process.cwd(), "../../schema/subgraphs", `${ serviceName }.graphql` )
+	}
+);
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GqlContext> {
 
 	override willSendRequest( { request, context }: GraphQLDataSourceProcessOptions<GqlContext> ) {
-		const tokenFromCookie = context.req?.cookies?.identity;
+		const tokenFromCookie = "req" in context ? context.req?.cookies?.identity : undefined;
 		if ( !!tokenFromCookie ) {
 			request.http?.headers.set( "Authorization", `Bearer ${ tokenFromCookie }` );
 		}
@@ -58,33 +52,5 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GqlContext>
 			context.logout = true;
 		}
 		return response;
-	}
-}
-
-@Injectable()
-export class GraphQLGatewayFactory implements GqlOptionsFactory<ApolloGatewayDriverConfig> {
-	constructor(
-		private readonly consulService: ConsulService,
-		private readonly configService: ConfigService
-	) {}
-
-	async createGqlOptions(): Promise<ApolloGatewayDriverConfig> {
-		const id = this.configService.getOrThrow<string>( "app.id" );
-		const registeredServices = await this.consulService.getRegisteredServices( id );
-
-		const supergraphSdl = new IntrospectAndCompose( {
-			subgraphHealthCheck: true,
-			pollIntervalInMs: 2000,
-			subgraphs: registeredServices.map( service => (
-				{
-					name: service.ID,
-					url: `http://${ service.Address }:${ service.Port }/api/graphql`
-				}
-			) )
-		} );
-
-		const buildService = ( { url }: ServiceEndpointDefinition ) => new AuthenticatedDataSource( { url } );
-
-		return { server: { ...apolloServerOptions }, gateway: { supergraphSdl, buildService } };
 	}
 }

@@ -1,0 +1,33 @@
+{
+	"name": "@shaastra/connect",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"db:generate": "prisma generate",
+		"db:push": "prisma db push --skip-generate",
+		"schema:generate": "ts-node ./node_modules/@shaastra/scripts/schema.generate.ts connect",
+		"prebuild": "rimraf dist",
+		"build": "tsc",
+		"start": "node dist/main",
+		"dev": "ts-node src/main.ts",
+		"test": "jest --coverage",
+		"test:e2e": "jest --config test/jest-e2e.json"
+	},
+	"devDependencies": {
+		"@shaastra/scripts": "workspace:*"
+	},
+	"jest": {
+		"moduleFileExtensions": [ "js", "json", "ts" ],
+		"rootDir": "src",
+		"testRegex": ".*\\.spec\\.ts$",
+		"transform": {
+			"^.+\\.(t|j)s$": "ts-jest"
+		},
+		"collectCoverageFrom": [ "**/*.(t|j)s" ],
+		"coverageDirectory": "../coverage",
+		"testEnvironment": "node"
+	},
+	"prisma": {
+		"schema": "src/prisma/schema.prisma"
+	}
+}

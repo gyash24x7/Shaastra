@@ -1,13 +1,13 @@
-import type { IconType } from "../utils/types";
+import type { IconType } from "../utils";
+import { VariantSchema } from "../utils";
 import InputMessage from "./input-message";
-import { VariantSchema } from "../utils/variant";
 import { Accessor, createMemo, Show } from "solid-js";
 import { Icon } from "solid-heroicons";
 
 export interface InputProps<V = any> {
 	name: string | number | symbol;
-	value: Accessor<V>;
-	setValue: ( value: V ) => void;
+	value?: Accessor<V>;
+	setValue?: ( value: V ) => void;
 }
 
 export interface TextInputProps<T = any> extends InputProps<T> {
@@ -51,8 +51,8 @@ export default function TextInput( props: TextInputProps ) {
 					type = { props.type || "text" }
 					name = { props.name.toString() }
 					placeholder = { props.placeholder }
-					value = { props.value() }
-					onChange = { e => props.setValue( e.currentTarget.value ) }
+					value = { props.value ? props.value() : "" }
+					onInput = { e => props.setValue && props.setValue( e.currentTarget.value ) }
 					autocomplete = { "" }
 				/>
 				<Show when = { !!props.iconAfter } keyed>

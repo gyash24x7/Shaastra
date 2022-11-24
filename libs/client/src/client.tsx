@@ -1,4 +1,4 @@
-import { Client, createClient } from "@genql/runtime/client";
+import { Client, createClient } from "./generated";
 import { createContext, JSXElement, useContext } from "solid-js";
 
 const ClientContext = createContext<Client>();

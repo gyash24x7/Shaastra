@@ -1,5 +1,5 @@
 import type { JSXElement } from "solid-js";
-import { createEffect, createSignal, For } from "solid-js";
+import { createSignal, For } from "solid-js";
 import type { FieldOf, FieldRenderFn, FieldValueOf } from "./field";
 import Field from "./field";
 import { VStack } from "../stack";
@@ -105,14 +105,9 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 		setFieldValue,
 		fields,
 		getFieldError,
-		values,
 		getFieldTouched
 	} = createForm<T>( props );
 	const SubmitButton = props.submitBtn;
-
-	createEffect( () => {
-		console.log( values() );
-	} );
 
 	return (
 		<form onSubmit = { onSubmit } noValidate>

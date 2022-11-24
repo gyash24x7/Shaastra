@@ -1,4 +1,4 @@
-import { AppModule } from "./app/app.module";
-import { bootstrap } from "@shaastra/utils/nest";
+import { AppModule } from "./app.module";
+import { bootstrap } from "@shaastra/utils";
 
 bootstrap( AppModule ).then();

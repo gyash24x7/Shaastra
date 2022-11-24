@@ -1,5 +1,5 @@
 import { BeforeApplicationShutdown, Injectable, OnModuleInit } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client/workforce";
+import { PrismaClient } from "./generated";
 import { ConfigService } from "@nestjs/config";
 
 @Injectable()

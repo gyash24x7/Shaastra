@@ -1,9 +1,8 @@
 {
-	"extends": "../../tsconfig.base.json",
+	"extends": "@shaastra/configs/ts/ui-library.json",
 	"compilerOptions": {
-		"module": "commonjs"
+		"rootDir": "."
 	},
-	"files": [ ],
-	"include": [ ],
-	"references": [ { "path": "./tsconfig.lib.json" } ]
+	"include": [ "src" ],
+	"exclude": [ "dist", "build", "node_modules" ]
 }

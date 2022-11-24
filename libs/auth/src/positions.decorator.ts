@@ -1,4 +1,5 @@
 import { SetMetadata } from "@nestjs/common";
-import type { MemberPosition } from "@prisma/client/workforce";
+
+export type MemberPosition = "COORD" | "HEAD" | "CORE" | "COCAS";
 
 export const Positions = ( ...positions: MemberPosition[] ) => SetMetadata( "positions", positions );

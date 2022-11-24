@@ -1,0 +1,45 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"pipeline": {
+		"build": {
+			"dependsOn": [ "^build", "db:generate", "schema:generate" ],
+			"outputs": [ "dist/**", ".next/**" ]
+		},
+		"dev": {
+			"dependsOn": [ "db:generate", "schema:generate" ],
+			"cache": false
+		},
+		"db:push": {
+			"cache": false
+		},
+		"db:generate": {
+			"inputs": [ "./src/prisma/schema.prisma" ],
+			"outputs": [ "./src/prisma/generated/**" ],
+			"cache": true
+		},
+		"storybook": {
+			"cache": false
+		},
+		"storybook:build": {
+			"cache": true
+		},
+		"client:generate": {
+			"inputs": [ "schema/**" ],
+			"outputs": [ "./src/generated/**" ],
+			"cache": true
+		},
+		"schema:generate": {
+			"dependsOn": [ "db:generate" ],
+			"outputs": [ "schema/**" ],
+			"cache": true
+		},
+		"@shaastra/gateway#schema:generate": {
+			"inputs": [ "schema/subgraphs/**" ],
+			"dependsOn": [
+				"@shaastra/identity#schema:generate",
+				"@shaastra/workforce#schema:generate",
+				"@shaastra/connect#schema:generate"
+			]
+		}
+	}
+}

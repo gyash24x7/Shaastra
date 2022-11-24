@@ -1,12 +1,9 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-/dist
-/tmp
-/out-tsc
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 node_modules
+.pnp
+.pnp.js
 
 # IDEs and editors
 /.idea
@@ -52,3 +49,5 @@ dist
 .vercel
 .netlify
 netlify
+generated
+.turbo

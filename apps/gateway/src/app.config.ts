@@ -1,9 +1,8 @@
 import { registerAs } from "@nestjs/config";
-import type { AppConfig } from "@shaastra/utils/config";
 
 export default registerAs(
 	"app",
-	(): AppConfig => (
+	() => (
 		{
 			id: "gateway",
 			name: "Shaastra Gateway",

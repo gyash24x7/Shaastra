@@ -1,5 +1,5 @@
 import InputMessage from "./input-message";
-import { VariantSchema } from "../utils/variant";
+import { VariantSchema } from "../utils";
 import { createMemo, Show } from "solid-js";
 import type { InputProps } from "./text-input";
 
@@ -38,8 +38,8 @@ export default function TextArea( props: TextAreaProps ) {
 					name = { props.name.toString() }
 					rows = { props.rows || 3 }
 					placeholder = { props.placeholder || "" }
-					value = { props.value() }
-					onInput = { e => props.setValue( e.currentTarget.value ) }
+					value = { props.value ? props.value() : "" }
+					onInput = { e => props.setValue && props.setValue( e.currentTarget.value ) }
 					style = { { all: "unset", width: "100%" } }
 				/>
 			</div>

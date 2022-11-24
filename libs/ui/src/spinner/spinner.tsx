@@ -1,5 +1,5 @@
-import type { Appearance, Size } from "../utils/types";
-import { VariantSchema } from "../utils/variant";
+import type { Appearance, Size } from "../utils";
+import { VariantSchema } from "../utils";
 import { createMemo } from "solid-js";
 
 export interface SpinnerProps {

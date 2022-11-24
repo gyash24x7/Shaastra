@@ -1,6 +1,6 @@
 import type { ApolloServerPlugin, GraphQLRequestContextWillSendResponse } from "apollo-server-plugin-base";
 import { Plugin } from "@nestjs/apollo";
-import type { GqlContext } from "@shaastra/utils/graphql";
+import type { GqlContext } from "@shaastra/utils";
 import type { CookieOptions } from "express";
 
 const accessTokenCookieOptions: CookieOptions = {

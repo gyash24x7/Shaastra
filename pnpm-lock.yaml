@@ -57,6 +57,7 @@ importers:
       '@storybook/core-common': 6.5.13
       '@storybook/html': 6.5.13
       '@storybook/preview-web': 6.5.13
+      '@storybook/theming': 6.5.13
       '@swc/cli': 0.1.57
       '@swc/core': 1.3.19
       '@swc/helpers': 0.4.14
@@ -193,6 +194,7 @@ importers:
       '@storybook/core-common': 6.5.13_bzzb7zfdskh2gdxfrfzluyo3pe
       '@storybook/html': 6.5.13_wnexzcpype2a7um4vgqukihih4
       '@storybook/preview-web': 6.5.13_6l5554ty5ajsajah6yazvrjhoe
+      '@storybook/theming': 6.5.13_6l5554ty5ajsajah6yazvrjhoe
       '@swc/cli': 0.1.57_@swc+core@1.3.19
       '@swc/core': 1.3.19
       '@swc/helpers': 0.4.14

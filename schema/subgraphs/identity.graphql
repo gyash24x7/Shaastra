@@ -1,26 +1,76 @@
-# ------------------------------------------------------
-# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
-# ------------------------------------------------------
+type Team {
+  id: ID!
+  createdById: String!
+  department: Department!
+  name: String!
+  members: [Member!]!
+}
 
-directive @key(fields: String!, resolvable: Boolean = true) repeatable on OBJECT | INTERFACE
+enum Department {
+  WEBOPS
+  SPONSORSHIP_AND_PR
+  SHOWS_AND_EXHIBITIONS
+  EVENTS_AND_WORKSHOPS
+  OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+  EVOLVE
+  ENVISAGE
+  FINANCE
+  CONCEPT_AND_DESIGN
+  PUBLICITY
+  QMS
+}
 
-directive @extends on OBJECT | INTERFACE
+type Member {
+  id: ID!
+  about: String!
+  coverPic: String!
+  department: Department!
+  email: String!
+  enabled: Boolean!
+  mobile: String!
+  name: String!
+  position: MemberPosition!
+  profilePic: String!
+  rollNumber: String!
+  upi: String!
+  teams: [Team!]!
+}
 
-directive @external on OBJECT | FIELD_DEFINITION
+enum MemberPosition {
+  COORD
+  HEAD
+  CORE
+  COCAS
+}
 
-directive @requires(fields: String!) on FIELD_DEFINITION
+type Message {
+  id: ID!
+  channelId: String!
+  content: String!
+  createdById: String!
+  channel: Channel!
+}
 
-directive @provides(fields: String!) on FIELD_DEFINITION
+type Channel {
+  id: ID!
+  archived: Boolean!
+  createdById: String!
+  createdOn: DateTime!
+  description: String!
+  name: String!
+  type: ChannelType!
+  messages: [Message!]!
+}
 
-directive @shareable on FIELD_DEFINITION | OBJECT
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
-directive @link(url: String!, import: [link__Import]) on SCHEMA
-
-directive @tag(name: String!) repeatable on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
-
-directive @inaccessible on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
-
-directive @override(from: String!) on FIELD_DEFINITION
+enum ChannelType {
+  DIRECT
+  GROUP
+}
 
 type Query {
   authInfo: String!
@@ -41,5 +91,3 @@ input VerifyUserInput {
   userId: String!
   tokenId: String!
 }
-
-scalar link__Import

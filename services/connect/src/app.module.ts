@@ -1,6 +1,6 @@
 import { ConfigModule as NestConfigModule } from "@nestjs/config";
 import { GraphQLModule as NestGraphQLModule } from "@nestjs/graphql";
-import { apolloServerOptions } from "@shaastra/utils";
+import { mercuriusOptions } from "@shaastra/utils";
 import { ConsulModule } from "@shaastra/consul";
 import { HealthModule } from "@shaastra/health";
 import { AuthModule } from "@shaastra/auth";
@@ -15,7 +15,7 @@ import { PrismaService } from "./prisma";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
-const GraphQLModule = NestGraphQLModule.forRoot( apolloServerOptions( "connect" ) );
+const GraphQLModule = NestGraphQLModule.forRoot( mercuriusOptions );
 
 @Module( {
 	imports: [ ConfigModule, ConsulModule, HealthModule, GraphQLModule, AuthModule, CqrsModule ],

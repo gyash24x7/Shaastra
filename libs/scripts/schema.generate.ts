@@ -46,11 +46,7 @@ export async function loadServiceSchema( serviceName: string ) {
 }
 
 export async function generateGatewaySchema() {
-	const identitySchema = await loadServiceSchema( "identity" );
-	const workforceSchema = await loadServiceSchema( "workforce" );
-	const connectSchema = await loadServiceSchema( "connect" );
-
-	const schemas = [ identitySchema, workforceSchema, connectSchema ];
+	const schemas = await Promise.all( Object.keys( serviceResolverMap ).map( loadServiceSchema ) );
 	const schema = await mergeSchemas( { schemas, assumeValid: true, assumeValidSDL: true } );
 	await writeSchema( schema, "supergraph.graphql" );
 }

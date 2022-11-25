@@ -9,7 +9,7 @@ interface ConsulServiceOptions {
 	registerOptions: Consul.Agent.Service.RegisterOptions
 }
 
-type ConsulRegisteredService = {
+export type ConsulRegisteredService = {
 	ID: string;
 	Tags: string[];
 	Service: string;

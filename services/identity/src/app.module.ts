@@ -1,7 +1,7 @@
 import { ConfigModule as NestConfigModule, ConfigService } from "@nestjs/config";
 import { JwtModule as NestJwtModule } from "@nestjs/jwt";
 import { GraphQLModule as NestGraphQLModule } from "@nestjs/graphql";
-import { apolloServerOptions } from "@shaastra/utils";
+import { mercuriusOptions } from "@shaastra/utils";
 import { ConsulModule } from "@shaastra/consul";
 import { HealthModule } from "@shaastra/health";
 import { AuthModule } from "@shaastra/auth";
@@ -20,7 +20,7 @@ import { join } from "path";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
-const GraphQLModule = NestGraphQLModule.forRoot( apolloServerOptions( "identity" ) );
+const GraphQLModule = NestGraphQLModule.forRoot( mercuriusOptions );
 
 const JwtModule = NestJwtModule.registerAsync( {
 	imports: [ ConfigModule ],

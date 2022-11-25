@@ -30,11 +30,11 @@
 		},
 		"schema:generate": {
 			"dependsOn": [ "db:generate" ],
-			"outputs": [ "schema/**" ],
+			"outputs": [ "./schema/**" ],
 			"cache": true
 		},
 		"@shaastra/gateway#schema:generate": {
-			"inputs": [ "schema/subgraphs/**" ],
+			"inputs": [ "./schema/subgraphs/**" ],
 			"dependsOn": [
 				"@shaastra/identity#schema:generate",
 				"@shaastra/workforce#schema:generate",

@@ -1,6 +1,6 @@
 import { ConfigModule as NestConfigModule } from "@nestjs/config";
 import { GraphQLModule as NestGraphQLModule } from "@nestjs/graphql";
-import { apolloServerOptions } from "@shaastra/utils";
+import { mercuriusOptions } from "@shaastra/utils";
 import { ConsulModule } from "@shaastra/consul";
 import { AuthModule } from "@shaastra/auth";
 import { Module } from "@nestjs/common";
@@ -17,7 +17,7 @@ import { HealthModule } from "@shaastra/health";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
-const GraphQLModule = NestGraphQLModule.forRoot( apolloServerOptions( "workforce" ) );
+const GraphQLModule = NestGraphQLModule.forRoot( mercuriusOptions );
 
 const imports = [
 	CqrsModule,

@@ -30,7 +30,6 @@ export const mercuriusOptions: MercuriusFederationDriverConfig = {
 	path: "/api/graphql",
 	graphiql: true,
 	driver: MercuriusFederationDriver,
-	autoSchemaFile: true,
 	context: ( req: FastifyRequest, res: FastifyReply ): GqlContext => (
 		{ req, res }
 	),

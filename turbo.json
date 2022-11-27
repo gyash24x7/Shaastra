@@ -31,7 +31,7 @@
 		"schema:generate": {
 			"dependsOn": [ "db:generate" ],
 			"outputs": [ "./schema/**" ],
-			"cache": true
+			"cache": false
 		},
 		"@shaastra/gateway#schema:generate": {
 			"inputs": [ "./schema/subgraphs/**" ],

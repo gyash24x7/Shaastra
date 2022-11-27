@@ -17,10 +17,22 @@ import resolvers from "./resolvers";
 import type { Algorithm } from "jsonwebtoken";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { MercuriusFederationDriver } from "@nestjs/mercurius";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
-const GraphQLModule = NestGraphQLModule.forRoot( mercuriusOptions );
+const GraphQLModule = NestGraphQLModule.forRootAsync( {
+	driver: MercuriusFederationDriver,
+	imports: [ ConfigModule ],
+	inject: [ ConfigService ],
+	useFactory( configService: ConfigService ) {
+		const serviceName = configService.getOrThrow<string>( "app.id" );
+		return {
+			...mercuriusOptions,
+			autoSchemaFile: join( process.cwd(), "../../schema", `subgraphs/${ serviceName }.graphql` )
+		};
+	}
+} );
 
 const JwtModule = NestJwtModule.registerAsync( {
 	imports: [ ConfigModule ],

@@ -5,7 +5,6 @@
 	"scripts": {
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate",
-		"schema:generate": "ts-node ./node_modules/@shaastra/scripts/schema.generate.ts workforce",
 		"prebuild": "rimraf dist",
 		"build": "tsc",
 		"start": "node dist/main",

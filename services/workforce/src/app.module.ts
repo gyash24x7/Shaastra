@@ -1,4 +1,4 @@
-import { ConfigModule as NestConfigModule } from "@nestjs/config";
+import { ConfigModule as NestConfigModule, ConfigService } from "@nestjs/config";
 import { GraphQLModule as NestGraphQLModule } from "@nestjs/graphql";
 import { mercuriusOptions } from "@shaastra/utils";
 import { ConsulModule } from "@shaastra/consul";
@@ -14,10 +14,23 @@ import { PrismaService } from "./prisma";
 import { MailModule } from "@shaastra/mail";
 import { HttpModule } from "@nestjs/axios";
 import { HealthModule } from "@shaastra/health";
+import { MercuriusFederationDriver } from "@nestjs/mercurius";
+import { join } from "path";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 
-const GraphQLModule = NestGraphQLModule.forRoot( mercuriusOptions );
+const GraphQLModule = NestGraphQLModule.forRootAsync( {
+	driver: MercuriusFederationDriver,
+	imports: [ ConfigModule ],
+	inject: [ ConfigService ],
+	useFactory( configService: ConfigService ) {
+		const serviceName = configService.getOrThrow<string>( "app.id" );
+		return {
+			...mercuriusOptions,
+			autoSchemaFile: join( process.cwd(), "../../schema", `subgraphs/${ serviceName }.graphql` )
+		};
+	}
+} );
 
 const imports = [
 	CqrsModule,

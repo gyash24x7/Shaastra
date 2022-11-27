@@ -3,7 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
-		"dev": "vite",
+		"dev": "wait-on tcp:9000 && vite",
 		"build": "tsc && vite build",
 		"preview": "vite preview"
 	}

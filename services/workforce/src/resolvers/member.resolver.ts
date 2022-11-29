@@ -8,30 +8,29 @@ import { CreateMemberCommand, CreateMemberInput } from "../commands/create.membe
 import { EnableMemberCommand, EnableMemberInput } from "../commands/enable.member.command";
 import { UseGuards } from "@nestjs/common";
 import { AuthGuard, AuthInfo, PositionGuard, Positions, UserAuthInfo } from "@shaastra/auth";
-import { MemberModel } from "../models/member.model";
 import { TeamsQuery } from "../queries/teams.query";
 
-@Resolver( () => MemberModel )
+@Resolver( "Member" )
 export class MemberResolver {
 	constructor(
 		private readonly queryBus: QueryBus,
 		private readonly commandBus: CommandBus
 	) {}
 
-	@Mutation( () => Boolean )
+	@Mutation( "createMember" )
 	async createMember( @Args( "data" ) data: CreateMemberInput ): Promise<boolean> {
 		return this.commandBus.execute( new CreateMemberCommand( data ) );
 	}
 
 	@UseGuards( AuthGuard )
-	@Query( () => MemberModel )
+	@Query( "me" )
 	async me( @AuthInfo() authInfo: UserAuthInfo ): Promise<Member> {
 		return this.queryBus.execute( new MemberQuery( authInfo.id ) );
 	}
 
 	@Positions( MemberPosition.CORE )
 	@UseGuards( AuthGuard, PositionGuard )
-	@Mutation( () => Boolean )
+	@Mutation( "enableMember" )
 	async enableMember( @Args( "data" ) data: EnableMemberInput ): Promise<boolean> {
 		return this.commandBus.execute( new EnableMemberCommand( data ) );
 	}
@@ -41,7 +40,7 @@ export class MemberResolver {
 		return this.queryBus.execute( new MemberQuery( id ) );
 	}
 
-	@ResolveField()
+	@ResolveField( "teams" )
 	async teams( @Parent() parent: Member ): Promise<Team[]> {
 		return this.queryBus.execute( new TeamsQuery( parent.id ) );
 	}

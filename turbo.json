@@ -6,7 +6,7 @@
 			"outputs": [ "dist/**", ".next/**" ]
 		},
 		"dev": {
-			"dependsOn": [ "db:generate", "schema:generate" ],
+			"dependsOn": [ "db:generate" ],
 			"cache": false
 		},
 		"db:push": {
@@ -27,19 +27,6 @@
 			"inputs": [ "schema/**" ],
 			"outputs": [ "./src/generated/**" ],
 			"cache": true
-		},
-		"schema:generate": {
-			"dependsOn": [ "db:generate" ],
-			"outputs": [ "./schema/**" ],
-			"cache": false
-		},
-		"@shaastra/gateway#schema:generate": {
-			"inputs": [ "./schema/subgraphs/**" ],
-			"dependsOn": [
-				"@shaastra/identity#schema:generate",
-				"@shaastra/workforce#schema:generate",
-				"@shaastra/connect#schema:generate"
-			]
 		}
 	}
 }

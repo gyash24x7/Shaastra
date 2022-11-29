@@ -28,7 +28,7 @@ export default function InputMessage( { appearance, text }: InputMessageProps ) 
 				return undefined;
 		}
 	} );
-	
+
 	const inputMsgClassname = createMemo( () => inputMessageVS.getClassname( {
 		valid: appearance === "success" ? "true" : "false",
 		invalid: appearance === "danger" ? "true" : "false"

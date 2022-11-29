@@ -5,7 +5,6 @@ import { MemberCreatedEvent } from "../events/member.created.event";
 import { Department, MemberPosition, PrismaService } from "../prisma";
 import { HttpService } from "@nestjs/axios";
 import { ConsulService } from "@shaastra/consul";
-import { ConfigService } from "@nestjs/config";
 import { catchError, firstValueFrom } from "rxjs";
 import type { AxiosError } from "@nestjs/terminus/dist/errors/axios.error";
 import { Field, InputType } from "@nestjs/graphql";
@@ -42,14 +41,12 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 		private readonly prismaService: PrismaService,
 		private readonly eventBus: EventBus,
 		private readonly httpService: HttpService,
-		private readonly consulService: ConsulService,
-		private readonly configService: ConfigService
+		private readonly consulService: ConsulService
 	) {}
 
 	async createUser( data: CreateUserInput ): Promise<string> {
-		const appId: string = this.configService.getOrThrow( "app.id" );
-		const services = await this.consulService.getRegisteredServices( appId );
-		const { Address, Port } = services.find( service => service.ID === "identity" )!;
+		const services = await this.consulService.getAllServices();
+		const { Address, Port } = Object.values( services ).find( service => service.ID === "identity" )!;
 		const url = `http://${ Address }:${ Port }/api/users`;
 		const response = await firstValueFrom(
 			this.httpService.post<string>( url, data ).pipe(

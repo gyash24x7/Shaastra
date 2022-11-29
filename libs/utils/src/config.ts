@@ -22,6 +22,10 @@ export type PrismaConfig = {
 	dbUrl: string;
 }
 
+export type GatewayConfig = {
+	services: Array<string>;
+}
+
 export type AppConfig = {
 	id: string;
 	name: string;
@@ -33,4 +37,5 @@ export type AppConfig = {
 	consul: ConsulConfig;
 	auth?: AuthConfig;
 	mail?: MailConfig;
+	gateway?: GatewayConfig;
 }

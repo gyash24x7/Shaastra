@@ -15,6 +15,9 @@
 	"devDependencies": {
 		"@shaastra/scripts": "workspace:*"
 	},
+	"dependencies": {
+		"@shaastra/schema": "workspace:*"
+	},
 	"jest": {
 		"moduleFileExtensions": [ "js", "json", "ts" ],
 		"rootDir": "src",

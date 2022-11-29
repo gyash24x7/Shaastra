@@ -8,9 +8,8 @@ import { CreateTeamCommand, CreateTeamInput } from "../commands/create.team.comm
 import { UseGuards } from "@nestjs/common";
 import { AuthGuard, AuthInfo, PositionGuard, Positions, UserAuthInfo } from "@shaastra/auth";
 import { MembersQuery } from "../queries/members.query";
-import { TeamModel } from "../models/team.model";
 
-@Resolver( () => TeamModel )
+@Resolver( "Team" )
 export class TeamResolver {
 	constructor(
 		private readonly queryBus: QueryBus,
@@ -19,7 +18,7 @@ export class TeamResolver {
 
 	@Positions( MemberPosition.CORE )
 	@UseGuards( AuthGuard, PositionGuard )
-	@Mutation( () => String )
+	@Mutation( "createTeam" )
 	async createTeam(
 		@Args( "data" ) data: CreateTeamInput,
 		@AuthInfo() { department, id }: UserAuthInfo
@@ -36,7 +35,7 @@ export class TeamResolver {
 		return this.queryBus.execute( new TeamQuery( id ) );
 	}
 
-	@ResolveField()
+	@ResolveField( "members" )
 	async members( @Parent() { id }: Team ): Promise<Member[]> {
 		return this.queryBus.execute( new MembersQuery( id ) );
 	}

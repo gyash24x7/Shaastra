@@ -4,11 +4,10 @@ import { GraphQLDataSourceProcessOptions, RemoteGraphQLDataSource } from "@apoll
 import { join } from "path";
 import type { UserAuthInfo } from "@shaastra/auth";
 import type { IncomingHttpHeaders } from "http";
-import type { ConsulRegisteredService } from "@shaastra/consul";
-import type { MercuriusGatewayService } from "mercurius";
-import { loadSchema } from "@graphql-tools/load";
+import { loadSchema, loadSchemaSync } from "@graphql-tools/load";
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { printSchema } from "graphql/utilities";
+import type { ConsulRegisteredService } from "@shaastra/consul";
 
 declare module "mercurius" {
 	interface MercuriusContext extends GqlContext {}
@@ -26,15 +25,23 @@ export type GqlContext = {
 	logout?: boolean;
 }
 
-export const mercuriusOptions: MercuriusFederationDriverConfig = {
-	path: "/api/graphql",
-	graphiql: true,
-	driver: MercuriusFederationDriver,
-	context: ( req: FastifyRequest, res: FastifyReply ): GqlContext => (
-		{ req, res }
-	),
-	federationMetadata: true
-};
+export const mercuriusOptions = ( serviceName?: string ): MercuriusFederationDriverConfig => (
+	{
+		path: "/api/graphql",
+		graphiql: true,
+		driver: MercuriusFederationDriver,
+		context: ( req: FastifyRequest, res: FastifyReply ): GqlContext => (
+			{ req, res }
+		),
+		federationMetadata: true,
+		autoSchemaFile: false,
+		schema: !!serviceName ? loadServiceSchemaSync( serviceName ) : undefined,
+		buildSchemaOptions: {
+			dateScalarMode: "isoDate",
+			noDuplicatedFields: false
+		}
+	}
+);
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GqlContext> {
 
@@ -59,19 +66,30 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GqlContext>
 	}
 }
 
-export async function buildService( service: ConsulRegisteredService ): Promise<MercuriusGatewayService> {
-	const gqlSchema = await loadSchema(
-		join( process.cwd(), "../../schema/subgraphs", `${ service.ID }.graphql` ),
-		{ loaders: [ new GraphQLFileLoader() ], assumeValidSDL: true, assumeValid: true }
+export async function loadServiceSchema( serviceName: string ) {
+	return loadSchema(
+		join( process.cwd(), "node_modules/@shaastra/schema", `${ serviceName }.graphql` ),
+		{ loaders: [ new GraphQLFileLoader() ], assumeValid: true, assumeValidSDL: true }
 	);
+}
 
-	return {
-		name: service.ID,
-		url: `http://${ service.Address }:${ service.Port }/api/graphql`,
-		rewriteHeaders,
-		setResponseHeaders,
-		schema: printSchema( gqlSchema )
-	};
+export function loadServiceSchemaSync( serviceName: string ) {
+	return loadSchemaSync(
+		join( process.cwd(), "node_modules/@shaastra/schema", `${ serviceName }.graphql` ),
+		{ loaders: [ new GraphQLFileLoader() ], assumeValid: true, assumeValidSDL: true }
+	);
+}
+
+type Dict<T> = Record<string, T>
+
+export async function buildService( name: string, registeredServices: Dict<ConsulRegisteredService> ) {
+	const service = registeredServices[ name ];
+	const schema = await loadServiceSchema( name ).then( printSchema );
+	const url = Object.keys( registeredServices ).includes( name )
+		? `http://${ service.Address }:${ service.Port }/api/graphql`
+		: [];
+
+	return { name, url, rewriteHeaders, setResponseHeaders, schema };
 }
 
 export function rewriteHeaders( headers: IncomingHttpHeaders, context: GqlContext ) {

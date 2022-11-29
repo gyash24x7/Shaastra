@@ -33,10 +33,17 @@ export class ConsulService implements OnModuleInit, BeforeApplicationShutdown {
 				name: this.configService.get<string>( "app.name" )!,
 				port: this.configService.get<number>( "app.port" )!,
 				address: this.configService.get<string>( "app.address" )!,
-				meta: { pkg: this.configService.get<string>( "app.pkg" )! }
+				meta: {
+					pkg: this.configService.get<string>( "app.pkg" )!,
+					schema: this.configService.get<string>( "app.schema" )!
+				}
 			}
 		};
 		this.consul = new Consul( { host: this.options.host, port: this.options.port } );
+	}
+
+	async getAllServices() {
+		return this.consul.agent.service.list<Record<string, ConsulRegisteredService>>();
 	}
 
 	async getRegisteredServices( appId: string ) {

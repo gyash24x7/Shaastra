@@ -1,0 +1,21 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable", "@extends"])
+
+extend type Query {
+	authInfo: String!
+}
+
+extend type Mutation {
+	login(data: LoginInput!): Boolean!
+	verifyUser(data: VerifyUserInput!): String!
+	logout: Boolean!
+}
+
+input LoginInput {
+	username: String!
+	password: String!
+}
+
+input VerifyUserInput {
+	userId: String!
+	tokenId: String!
+}

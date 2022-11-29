@@ -1,0 +1,9 @@
+{
+	"name": "@shaastra/schema",
+	"version": "0.0.0",
+	"license": "MIT",
+	"files": [ "*.graphql" ],
+	"scripts": {
+		"schema:generate": "rover supergraph compose --config supergraph-compose.yml --elv2-license=accept > gateway.graphql"
+	}
+}

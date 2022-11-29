@@ -2,7 +2,11 @@ import type { Request, Response } from "express";
 import type { ApolloFederationDriverConfig } from "@nestjs/apollo";
 import { ApolloFederationDriver } from "@nestjs/apollo";
 import { GraphQLDataSourceProcessOptions, RemoteGraphQLDataSource } from "@apollo/gateway";
+import { loadSchema, loadSchemaSync, loadTypedefs, loadTypedefsSync } from "@graphql-tools/load";
 import { join } from "path";
+import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
+import type { GraphQLSchema } from "graphql/type";
+import type { DocumentNode } from "graphql";
 
 export type GqlResolveReferenceData = {
 	__typename: string;
@@ -16,8 +20,43 @@ export type GqlContext = {
 	logout?: boolean;
 }
 
-export const apolloServerOptions = ( serviceName: string ): ApolloFederationDriverConfig => (
-	{
+export interface Source {
+	document?: DocumentNode;
+	schema?: GraphQLSchema;
+	rawSDL?: string;
+	location?: string;
+}
+
+export async function loadServiceTypedefs( serviceName: string ): Promise<Source[]> {
+	return loadTypedefs(
+		join( process.cwd(), "node_modules/@shaastra/schema", `${ serviceName }.graphql` ),
+		{ loaders: [ new GraphQLFileLoader() ], assumeValid: true, assumeValidSDL: true }
+	);
+}
+
+export function loadServiceTypedefsSync( serviceName: string ): Source[] {
+	return loadTypedefsSync(
+		join( process.cwd(), "node_modules/@shaastra/schema", `${ serviceName }.graphql` ),
+		{ loaders: [ new GraphQLFileLoader() ], assumeValid: true, assumeValidSDL: true }
+	);
+}
+
+export async function loadServiceSchema( serviceName: string ) {
+	return loadSchema(
+		join( process.cwd(), "node_modules/@shaastra/schema", `${ serviceName }.graphql` ),
+		{ loaders: [ new GraphQLFileLoader() ], assumeValid: true, assumeValidSDL: true }
+	);
+}
+
+export function loadServiceSchemaSync( serviceName: string ): GraphQLSchema {
+	return loadSchemaSync(
+		join( process.cwd(), "node_modules/@shaastra/schema", `${ serviceName }.graphql` ),
+		{ loaders: [ new GraphQLFileLoader() ], assumeValid: true, assumeValidSDL: true }
+	);
+}
+
+export const apolloServerOptions = ( serviceName: string ): ApolloFederationDriverConfig => {
+	return {
 		path: "/api/graphql",
 		playground: true,
 		cors: {
@@ -28,9 +67,10 @@ export const apolloServerOptions = ( serviceName: string ): ApolloFederationDriv
 			{ req, res }
 		),
 		driver: ApolloFederationDriver,
-		autoSchemaFile: join( process.cwd(), "../../schema/subgraphs", `${ serviceName }.graphql` )
-	}
-);
+		autoSchemaFile: false,
+		schema: serviceName === "gateway" ? undefined : loadServiceSchemaSync( serviceName )
+	};
+};
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GqlContext> {
 

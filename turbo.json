@@ -29,17 +29,7 @@
 			"cache": true
 		},
 		"schema:generate": {
-			"dependsOn": [ "db:generate" ],
-			"outputs": [ "schema/**" ],
 			"cache": true
-		},
-		"@shaastra/gateway#schema:generate": {
-			"inputs": [ "schema/subgraphs/**" ],
-			"dependsOn": [
-				"@shaastra/identity#schema:generate",
-				"@shaastra/workforce#schema:generate",
-				"@shaastra/connect#schema:generate"
-			]
 		}
 	}
 }

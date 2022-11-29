@@ -15,6 +15,9 @@
 		]
 	},
 	"devDependencies": {
+		"@apollo/composition": "2.2.1",
+		"@apollo/federation-internals": "2.2.1",
+		"@apollo/rover": "0.10.0",
 		"@genql/cli": "2.10.0",
 		"@graphql-tools/graphql-file-loader": "7.5.11",
 		"@graphql-tools/load": "7.8.6",

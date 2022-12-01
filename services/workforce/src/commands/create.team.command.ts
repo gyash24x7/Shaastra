@@ -1,9 +1,9 @@
 import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { ConflictException } from "@nestjs/common";
-import { TeamMessages } from "../messages/team.messages";
-import { TeamCreatedEvent } from "../events/team.created.event";
-import type { Department } from "../prisma";
-import { PrismaService } from "../prisma";
+import { TeamMessages } from "../messages/team.messages.js";
+import { TeamCreatedEvent } from "../events/team.created.event.js";
+import type { Department } from "../prisma/index.js";
+import { PrismaService } from "../prisma/index.js";
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType()

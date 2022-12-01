@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import Mailjet from "node-mailjet";
+
+const Mailjet = require( "node-mailjet" );
 
 @Injectable()
 export class MailService {
-	private readonly mailjet: Mailjet;
+	private readonly mailjet: typeof Mailjet;
 
 	constructor( private readonly configService: ConfigService ) {
 		this.mailjet = new Mailjet( {

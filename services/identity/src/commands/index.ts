@@ -1,7 +1,7 @@
-import { CreateTokenCommandHandler } from "./create.token.command";
-import { CreateUserCommandHandler } from "./create.user.command";
-import { LoginCommandHandler } from "./login.command";
-import { VerifyUserCommandHandler } from "./verify.user.command";
+import { CreateTokenCommandHandler } from "./create.token.command.js";
+import { CreateUserCommandHandler } from "./create.user.command.js";
+import { LoginCommandHandler } from "./login.command.js";
+import { VerifyUserCommandHandler } from "./verify.user.command.js";
 
 export default [
 	CreateTokenCommandHandler,

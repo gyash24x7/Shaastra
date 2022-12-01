@@ -2,7 +2,7 @@ import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
 import type { UserAuthInfo } from "@shaastra/auth";
 import { Field, InputType } from "@nestjs/graphql";
-import { ChannelType, PrismaService } from "../prisma";
+import { ChannelType, PrismaService } from "../prisma/index.js";
 
 @InputType( CreateChannelInput.TYPENAME )
 export class CreateChannelInput {

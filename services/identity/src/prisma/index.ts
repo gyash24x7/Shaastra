@@ -1,2 +1,2 @@
-export * from "./generated";
-export * from "./prisma.service";
+export * from "@prisma/client/identity";
+export * from "./prisma.service.js";

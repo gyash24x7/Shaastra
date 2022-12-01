@@ -1,6 +1,6 @@
 import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
-import { MemberEnabledEvent } from "../events/member.enabled.event";
-import { PrismaService } from "../prisma";
+import { MemberEnabledEvent } from "../events/member.enabled.event.js";
+import { PrismaService } from "../prisma/index.js";
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType( EnableMemberInput.TYPENAME )

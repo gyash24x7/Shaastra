@@ -1,16 +1,15 @@
 import { Args, Mutation, Query, Resolver, ResolveReference } from "@nestjs/graphql";
-import { MessageModel } from "../models/message.model";
 import type { GqlResolveReferenceData } from "@shaastra/utils";
-import type { Message } from "../prisma";
+import type { Message } from "../prisma/index.js";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { MessageQuery } from "../queries/message.query";
-import { CreateMessageCommand, CreateMessageInput } from "../commands/create.message.command";
+import { MessageQuery } from "../queries/message.query.js";
+import { CreateMessageCommand, CreateMessageInput } from "../commands/create.message.command.js";
 import { AuthGuard, AuthInfo, UserAuthInfo } from "@shaastra/auth";
 import { UseGuards } from "@nestjs/common";
-import { MessagesQuery } from "../queries/messages.query";
+import { MessagesQuery } from "../queries/messages.query.js";
 
 
-@Resolver( () => MessageModel )
+@Resolver( "Message" )
 export class MessageResolver {
 	constructor(
 		private readonly queryBus: QueryBus,
@@ -18,7 +17,7 @@ export class MessageResolver {
 	) {}
 
 	@UseGuards( AuthGuard )
-	@Mutation( () => String )
+	@Mutation()
 	async createMessage(
 		@Args( "data" ) data: CreateMessageInput,
 		@AuthInfo() authInfo: UserAuthInfo
@@ -27,8 +26,8 @@ export class MessageResolver {
 	}
 
 	@UseGuards( AuthGuard )
-	@Query( () => [ MessageModel ] )
-	async getMessages( @AuthInfo() authInfo: UserAuthInfo ): Promise<MessageModel[]> {
+	@Query()
+	async getMessages( @AuthInfo() authInfo: UserAuthInfo ): Promise<Message[]> {
 		return this.queryBus.execute( new MessagesQuery( authInfo.id ) );
 	}
 

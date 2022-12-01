@@ -1,15 +1,14 @@
 import { Args, Mutation, Resolver, ResolveReference } from "@nestjs/graphql";
-import { ChannelModel } from "../models/channel.model";
 import type { GqlResolveReferenceData } from "@shaastra/utils";
-import type { Channel } from "../prisma";
+import type { Channel } from "../prisma/index.js";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ChannelQuery } from "../queries/channel.query";
-import { CreateChannelCommand, CreateChannelInput } from "../commands/create.channel.command";
+import { ChannelQuery } from "../queries/channel.query.js";
+import { CreateChannelCommand, CreateChannelInput } from "../commands/create.channel.command.js";
 import { AuthGuard, AuthInfo, UserAuthInfo } from "@shaastra/auth";
 import { UseGuards } from "@nestjs/common";
 
 
-@Resolver( () => ChannelModel )
+@Resolver( "Channel" )
 export class ChannelResolver {
 	constructor(
 		private readonly queryBus: QueryBus,
@@ -17,7 +16,7 @@ export class ChannelResolver {
 	) {}
 
 	@UseGuards( AuthGuard )
-	@Mutation( () => String )
+	@Mutation()
 	async createChannel(
 		@Args( "data" ) data: CreateChannelInput,
 		@AuthInfo() authInfo: UserAuthInfo

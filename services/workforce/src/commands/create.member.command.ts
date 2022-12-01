@@ -1,13 +1,12 @@
 import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { ConflictException, Logger } from "@nestjs/common";
-import { MemberMessages } from "../messages/member.messages";
-import { MemberCreatedEvent } from "../events/member.created.event";
-import { Department, MemberPosition, PrismaService } from "../prisma";
+import { MemberMessages } from "../messages/member.messages.js";
+import { MemberCreatedEvent } from "../events/member.created.event.js";
+import { Department, MemberPosition, PrismaService } from "../prisma/index.js";
 import { HttpService } from "@nestjs/axios";
 import { ConsulService } from "@shaastra/consul";
 import { ConfigService } from "@nestjs/config";
 import { catchError, firstValueFrom } from "rxjs";
-import type { AxiosError } from "@nestjs/terminus/dist/errors/axios.error";
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType( CreateMemberInput.TYPENAME )
@@ -53,7 +52,7 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 		const url = `http://${ Address }:${ Port }/api/users`;
 		const response = await firstValueFrom(
 			this.httpService.post<string>( url, data ).pipe(
-				catchError( ( error: AxiosError ) => {
+				catchError( ( error: any ) => {
 					this.logger.error( error.response.data );
 					throw "An error happened!";
 				} )

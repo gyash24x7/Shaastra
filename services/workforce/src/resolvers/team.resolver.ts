@@ -1,16 +1,16 @@
 import { Args, Mutation, Parent, ResolveField, Resolver, ResolveReference } from "@nestjs/graphql";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import type { GqlResolveReferenceData } from "@shaastra/utils";
-import { TeamQuery } from "../queries/team.query";
-import type { Member, Team } from "../prisma";
-import { Department, MemberPosition } from "../prisma";
-import { CreateTeamCommand, CreateTeamInput } from "../commands/create.team.command";
+import { TeamQuery } from "../queries/team.query.js";
+import type { Member, Team } from "../prisma/index.js";
+import { Department, MemberPosition } from "../prisma/index.js";
+import { CreateTeamCommand, CreateTeamInput } from "../commands/create.team.command.js";
 import { UseGuards } from "@nestjs/common";
-import { AuthGuard, AuthInfo, PositionGuard, Positions, UserAuthInfo } from "@shaastra/auth";
-import { MembersQuery } from "../queries/members.query";
-import { TeamModel } from "../models/team.model";
+import type { UserAuthInfo } from "@shaastra/auth";
+import { AuthGuard, AuthInfo, PositionGuard, Positions } from "@shaastra/auth";
+import { MembersQuery } from "../queries/members.query.js";
 
-@Resolver( () => TeamModel )
+@Resolver( "Team" )
 export class TeamResolver {
 	constructor(
 		private readonly queryBus: QueryBus,
@@ -19,7 +19,7 @@ export class TeamResolver {
 
 	@Positions( MemberPosition.CORE )
 	@UseGuards( AuthGuard, PositionGuard )
-	@Mutation( () => String )
+	@Mutation()
 	async createTeam(
 		@Args( "data" ) data: CreateTeamInput,
 		@AuthInfo() { department, id }: UserAuthInfo

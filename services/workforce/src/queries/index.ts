@@ -1,8 +1,8 @@
-import { DeptCoreQueryHandler } from "./dept-core.query";
-import { MemberQueryHandler } from "./member.query";
-import { MembersQueryHandler } from "./members.query";
-import { TeamQueryHandler } from "./team.query";
-import { TeamsQueryHandler } from "./teams.query";
+import { DeptCoreQueryHandler } from "./dept-core.query.js";
+import { MemberQueryHandler } from "./member.query.js";
+import { MembersQueryHandler } from "./members.query.js";
+import { TeamQueryHandler } from "./team.query.js";
+import { TeamsQueryHandler } from "./teams.query.js";
 
 export default [
 	DeptCoreQueryHandler,

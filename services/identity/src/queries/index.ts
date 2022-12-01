@@ -1,3 +1,3 @@
-import { UserQueryHandler } from "./user.query";
+import { UserQueryHandler } from "./user.query.js";
 
 export default [ UserQueryHandler ];

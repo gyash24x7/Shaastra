@@ -1,17 +1,8 @@
 import { BeforeApplicationShutdown, Injectable, OnModuleInit } from "@nestjs/common";
-import { PrismaClient } from "./generated";
-import { ConfigService } from "@nestjs/config";
+import { PrismaClient } from "@prisma/client/connect";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements BeforeApplicationShutdown, OnModuleInit {
-	constructor( configService: ConfigService ) {
-		super( {
-			datasources: {
-				db: { url: configService.get<string>( "app.prisma.dbUrl" ) }
-			},
-			log: [ "query" ]
-		} );
-	}
 
 	async onModuleInit() {
 		await this.$connect();

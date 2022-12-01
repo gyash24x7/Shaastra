@@ -1,7 +1,7 @@
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
 import dayjs from "dayjs";
-import { PrismaService } from "../prisma";
+import { PrismaService } from "../prisma/index.js";
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType( VerifyUserInput.TYPENAME )

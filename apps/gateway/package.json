@@ -3,11 +3,11 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"prebuild": "rimraf dist",
-		"build": "tsc",
-		"start": "node dist/main",
+		"clean": "rimraf dist",
+		"build:ignore": "tsc",
+		"start:ignore": "node dist/main",
 		"wait": "wait-on tcp:8000 && wait-on tcp:8010 && wait-on tcp:8020",
-		"dev": "ts-node src/main.ts",
+		"dev:ignore": "nodemon",
 		"test": "jest --coverage",
 		"test:e2e": "jest --config test/jest-e2e.json"
 	},

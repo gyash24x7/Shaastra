@@ -1,9 +1,9 @@
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
 import type { UserAuthInfo } from "@shaastra/auth";
-import { PrismaService } from "../prisma";
+import { PrismaService } from "../prisma/index.js";
 import { Field, InputType } from "@nestjs/graphql";
-import { MessageCreatedEvent } from "../events/message.created.event";
+import { MessageCreatedEvent } from "../events/message.created.event.js";
 
 @InputType( CreateMessageInput.TYPENAME )
 export class CreateMessageInput {

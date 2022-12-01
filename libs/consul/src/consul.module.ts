@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { ConsulService } from "./consul.service";
+import { ConsulService } from "./consul.service.js";
 import { ConfigModule } from "@nestjs/config";
 
 @Module( {

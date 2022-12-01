@@ -3,9 +3,6 @@
 	"display": "Default",
 	"compileOnSave": false,
 	"extends": "@tsconfig/node16-strictest",
-	"ts-node": {
-		"swc": true
-	},
 	"compilerOptions": {
 		"rootDir": ".",
 		"exactOptionalPropertyTypes": false,

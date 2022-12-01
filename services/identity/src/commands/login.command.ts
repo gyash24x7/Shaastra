@@ -2,8 +2,8 @@ import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import bcrypt from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
-import { UserMessages } from "../messages/user.messages";
-import { PrismaService } from "../prisma";
+import { UserMessages } from "../messages/user.messages.js";
+import { PrismaService } from "../prisma/index.js";
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType( LoginInput.TYPENAME )

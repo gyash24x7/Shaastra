@@ -5,7 +5,6 @@
 	"types": "src/index.ts",
 	"license": "MIT",
 	"scripts": {
-		"storybook": "start-storybook --no-open --port 4400",
-		"build": "build-storybook"
+		"storybook": "start-storybook --no-open --port 4400"
 	}
 }

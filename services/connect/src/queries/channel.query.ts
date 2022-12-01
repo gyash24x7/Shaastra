@@ -1,7 +1,7 @@
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
-import type { Channel } from "../prisma";
-import { PrismaService } from "../prisma";
+import type { Channel } from "../prisma/index.js";
+import { PrismaService } from "../prisma/index.js";
 
 export class ChannelQuery implements IQuery {
 	constructor( public readonly id: string ) {}

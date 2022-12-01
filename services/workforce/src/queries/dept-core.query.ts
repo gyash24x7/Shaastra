@@ -1,5 +1,5 @@
 import { IQuery, IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { Department, Member, MemberPosition, PrismaService } from "../prisma";
+import { Department, Member, MemberPosition, PrismaService } from "../prisma/index.js";
 
 export class DeptCoreQuery implements IQuery {
 	constructor( public readonly department: Department ) {}

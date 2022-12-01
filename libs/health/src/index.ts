@@ -1,2 +1,2 @@
-export * from "./health.module";
-export * from "./health.controller";
+export * from "./health.module.js";
+export * from "./health.controller.js";

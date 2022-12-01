@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { GqlExecutionContext } from "@nestjs/graphql";
-import type { UserAuthInfo } from "./auth.payload";
+import type { UserAuthInfo } from "./auth.payload.js";
 
 @Injectable()
 export class PositionGuard implements CanActivate {

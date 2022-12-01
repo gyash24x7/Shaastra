@@ -1,12 +1,12 @@
 {
 	"extends": "@shaastra/configs/ts/backend.json",
 	"compilerOptions": {
-		"rootDir": ".",
-		"outDir": "../../../dist/out-tsc",
+		"rootDir": "src",
 		"declaration": true,
-		"types": [ ],
-		"target": "es6"
+		"emitDeclarationOnly": true,
+		"declarationDir": "dist",
+		"outDir": "dist"
 	},
-	"include": [ "**/*.ts" ],
+	"include": [ "src" ],
 	"exclude": [ "jest.config.ts", "**/*.spec.ts", "**/*.test.ts" ]
 }

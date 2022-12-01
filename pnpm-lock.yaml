@@ -30,16 +30,8 @@ importers:
       '@nestjs/terminus': 9.1.3
       '@nestjs/testing': 9.2.0
       '@nrwl/workspace': 15.2.1
-      '@prisma/client': 4.6.1
-      '@shaastra/auth': workspace:*
-      '@shaastra/client': workspace:*
       '@shaastra/configs': workspace:*
-      '@shaastra/consul': workspace:*
-      '@shaastra/health': workspace:*
-      '@shaastra/mail': workspace:*
       '@shaastra/scripts': workspace:*
-      '@shaastra/ui': workspace:*
-      '@shaastra/utils': workspace:*
       '@solid-primitives/bounds': 0.0.105
       '@solidjs/router': 0.5.1
       '@storybook/addon-actions': 6.5.13
@@ -91,11 +83,12 @@ importers:
       jsonwebtoken: 8.5.1
       jwks-rsa: 3.0.0
       node-mailjet: 5.1.1
+      nodemon: 2.0.20
+      npm-run-all: 4.1.5
       passport: 0.6.0
       passport-jwt: 4.0.0
       pem-jwk: 2.0.0
       postcss: 8.4.18
-      prisma: 4.6.1
       reflect-metadata: 0.1.13
       rimraf: 3.0.2
       rxjs: 7.5.7
@@ -132,16 +125,9 @@ importers:
       '@nestjs/passport': 9.0.0_s6va3jdeufsye4wwu25es3p4om
       '@nestjs/platform-express': 9.2.0_pf2fb646rsvo5szivgkaevcpvi
       '@nestjs/terminus': 9.1.3_obmctlgxqjsh2bae2xsl4estea
-      '@prisma/client': 4.6.1_prisma@4.6.1
-      '@shaastra/auth': link:libs/auth
-      '@shaastra/client': link:libs/client
-      '@shaastra/consul': link:libs/consul
-      '@shaastra/health': link:libs/health
-      '@shaastra/mail': link:libs/mail
-      '@shaastra/ui': link:libs/ui
-      '@shaastra/utils': link:libs/utils
       '@solid-primitives/bounds': 0.0.105_solid-js@1.6.2
       '@solidjs/router': 0.5.1_solid-js@1.6.2
+      '@swc/helpers': 0.4.14
       apollo-server-core: 3.11.1_graphql@16.6.0
       apollo-server-express: 3.11.1_5ha345eiak62qiwwva5z4dp6gu
       apollo-server-plugin-base: 3.7.1_graphql@16.6.0
@@ -202,7 +188,6 @@ importers:
       '@storybook/theming': 6.5.13_6l5554ty5ajsajah6yazvrjhoe
       '@swc/cli': 0.1.57_@swc+core@1.3.19
       '@swc/core': 1.3.19
-      '@swc/helpers': 0.4.14
       '@types/bcryptjs': 2.4.2
       '@types/consul': 0.40.0
       '@types/cookie-parser': 1.4.3
@@ -216,7 +201,8 @@ importers:
       '@types/supertest': 2.0.12
       '@types/wait-on': 5.3.1
       jest: 29.3.1_dnlfjp7n5lpfgnj4digwzn5fhe
-      prisma: 4.6.1
+      nodemon: 2.0.20
+      npm-run-all: 4.1.5
       supertest: 6.3.1
       ts-jest: 29.0.3_6crhf7ajeizammv76u753sn6i4
       ts-node: 10.9.1_72os6jwxu2zrt2v7mxnztv2e74
@@ -240,7 +226,10 @@ importers:
     specifiers: {}
 
   libs/auth:
-    specifiers: {}
+    specifiers:
+      '@shaastra/utils': workspace:*
+    devDependencies:
+      '@shaastra/utils': link:../utils
 
   libs/client:
     specifiers: {}
@@ -258,19 +247,7 @@ importers:
     specifiers: {}
 
   libs/mail:
-    specifiers:
-      '@nestjs/common': 9.2.0
-      '@nestjs/config': 2.2.0
-      '@shaastra/configs': workspace:*
-      '@types/node': 16.18.3
-      typescript: 4.9.3
-    dependencies:
-      '@nestjs/common': 9.2.0_yzt46al3aifnexifjjdb4dxxja
-      '@nestjs/config': 2.2.0_2kbkxfsrhtatemqz6dhv2pefvq
-    devDependencies:
-      '@shaastra/configs': link:../configs
-      '@types/node': 16.18.3
-      typescript: 4.9.3
+    specifiers: {}
 
   libs/schema:
     specifiers: {}
@@ -282,43 +259,68 @@ importers:
     specifiers: {}
 
   libs/utils:
-    specifiers:
-      '@shaastra/configs': workspace:*
-      '@types/express': 4.17.14
-      '@types/node': 16.18.3
-      typescript: 4.9.3
-    devDependencies:
-      '@shaastra/configs': link:../configs
-      '@types/express': 4.17.14
-      '@types/node': 16.18.3
-      typescript: 4.9.3
+    specifiers: {}
 
   services/connect:
     specifiers:
+      '@prisma/client': 4.7.0
+      '@shaastra/auth': workspace:*
+      '@shaastra/consul': workspace:*
+      '@shaastra/health': workspace:*
       '@shaastra/schema': workspace:*
-      '@shaastra/scripts': workspace:*
+      '@shaastra/utils': workspace:*
+      prisma: 4.7.0
     dependencies:
+      '@prisma/client': 4.7.0_prisma@4.7.0
+      '@shaastra/auth': link:../../libs/auth
+      '@shaastra/consul': link:../../libs/consul
+      '@shaastra/health': link:../../libs/health
       '@shaastra/schema': link:../../libs/schema
+      '@shaastra/utils': link:../../libs/utils
     devDependencies:
-      '@shaastra/scripts': link:../../libs/scripts
+      prisma: 4.7.0
 
   services/identity:
     specifiers:
+      '@prisma/client': 4.7.0
+      '@shaastra/auth': workspace:*
+      '@shaastra/consul': workspace:*
+      '@shaastra/health': workspace:*
+      '@shaastra/mail': workspace:*
       '@shaastra/schema': workspace:*
-      '@shaastra/scripts': workspace:*
+      '@shaastra/utils': workspace:*
+      prisma: 4.7.0
     dependencies:
+      '@prisma/client': 4.7.0_prisma@4.7.0
+      '@shaastra/auth': link:../../libs/auth
+      '@shaastra/consul': link:../../libs/consul
+      '@shaastra/health': link:../../libs/health
+      '@shaastra/mail': link:../../libs/mail
       '@shaastra/schema': link:../../libs/schema
+      '@shaastra/utils': link:../../libs/utils
     devDependencies:
-      '@shaastra/scripts': link:../../libs/scripts
+      prisma: 4.7.0
 
   services/workforce:
     specifiers:
+      '@prisma/client': 4.7.0
+      '@shaastra/auth': workspace:*
+      '@shaastra/consul': workspace:*
+      '@shaastra/health': workspace:*
+      '@shaastra/mail': workspace:*
       '@shaastra/schema': workspace:*
-      '@shaastra/scripts': workspace:*
+      '@shaastra/utils': workspace:*
+      prisma: 4.7.0
     dependencies:
+      '@prisma/client': 4.7.0_prisma@4.7.0
+      '@shaastra/auth': link:../../libs/auth
+      '@shaastra/consul': link:../../libs/consul
+      '@shaastra/health': link:../../libs/health
+      '@shaastra/mail': link:../../libs/mail
       '@shaastra/schema': link:../../libs/schema
+      '@shaastra/utils': link:../../libs/utils
     devDependencies:
-      '@shaastra/scripts': link:../../libs/scripts
+      prisma: 4.7.0
 
 packages:
 
@@ -3575,8 +3577,8 @@ packages:
       typescript: 4.9.3
     dev: true
 
-  /@prisma/client/4.6.1_prisma@4.6.1:
-    resolution: {integrity: sha512-M1+NNrMzqaOIxT7PBGcTs3IZo7d1EW/+gVQd4C4gUgWBDGgD9AcIeZnUSidgWClmpMSgVUdnVORjsWWGUameYA==}
+  /@prisma/client/4.7.0_prisma@4.7.0:
+    resolution: {integrity: sha512-keXMa0oJWJGOzMEFKp+CEgzJPwnOtGSrnTWw6qMYxnypYrRFdNxqyA06EzELZexBhgM4oLooZ1jDJ3iy46wExA==}
     engines: {node: '>=14.17'}
     requiresBuild: true
     peerDependencies:
@@ -3585,16 +3587,16 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 4.6.1-3.694eea289a8462c80264df36757e4fdc129b1b32
-      prisma: 4.6.1
+      '@prisma/engines-version': 4.7.0-74.39190b250ebc338586e25e6da45e5e783bc8a635
+      prisma: 4.7.0
     dev: false
 
-  /@prisma/engines-version/4.6.1-3.694eea289a8462c80264df36757e4fdc129b1b32:
-    resolution: {integrity: sha512-HUCmkXAU2jqp2O1RvNtbE+seLGLyJGEABZS/R38rZjSAafAy0WzBuHq+tbZMnD+b5OSCsTVtIPVcuvx1ySxcWQ==}
+  /@prisma/engines-version/4.7.0-74.39190b250ebc338586e25e6da45e5e783bc8a635:
+    resolution: {integrity: sha512-ImczGEQ8NS1OUApEeyAGxC4uLTtQp0wI1+2wM4MeQLVwIQbyMHk1vOhWWE8Pwbi3rnzLcPvsIrd9sm6oNXhERw==}
     dev: false
 
-  /@prisma/engines/4.6.1:
-    resolution: {integrity: sha512-3u2/XxvxB+Q7cMXHnKU0CpBiUK1QWqpgiBv28YDo1zOIJE3FCF8DI2vrp6vuwjGt5h0JGXDSvmSf4D4maVjJdw==}
+  /@prisma/engines/4.7.0:
+    resolution: {integrity: sha512-afKrVFktaZ1pOK12/uFl2hRsBWIJZuC5FdDtacuKk5x/mR+rC5AbA+PlN3ZCZbmYTaeiBMHjcU5wbT5z2N3nSQ==}
     requiresBuild: true
 
   /@protobufjs/aspromise/1.1.2:
@@ -5437,7 +5439,7 @@ packages:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
     dependencies:
       tslib: 2.4.1
-    dev: true
+    dev: false
 
   /@tootallnate/once/2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
@@ -6120,6 +6122,10 @@ packages:
     hasBin: true
     dependencies:
       argparse: 2.0.1
+    dev: true
+
+  /abbrev/1.1.1:
+    resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
     dev: true
 
   /accepts/1.3.8:
@@ -8172,6 +8178,18 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.3
+    dev: true
+
+  /debug/3.2.7_supports-color@5.5.0:
+    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.3
+      supports-color: 5.5.0
     dev: true
 
   /debug/4.3.4:
@@ -10366,6 +10384,10 @@ packages:
     resolution: {integrity: sha512-DUNFN5j7Tln0D+TxzloUjKB+CtVu6myn0JEFak6dG18mNt9YkQ6lzGCdafwofISZ1lLF3xRHJ98VKy9ynkcFaA==}
     dev: true
 
+  /ignore-by-default/1.0.1:
+    resolution: {integrity: sha512-Ius2VYcGNk7T90CppJqcIkS5ooHUZyIQK+ClZfMfMNFEF9VSE73Fq+906u/CWu92x4gzZMWOwfFYckPObzdEbA==}
+    dev: true
+
   /ignore/4.0.6:
     resolution: {integrity: sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==}
     engines: {node: '>= 4'}
@@ -12144,6 +12166,16 @@ packages:
     dev: true
     optional: true
 
+  /load-json-file/4.0.0:
+    resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}
+    engines: {node: '>=4'}
+    dependencies:
+      graceful-fs: 4.2.10
+      parse-json: 4.0.0
+      pify: 3.0.0
+      strip-bom: 3.0.0
+    dev: true
+
   /loader-runner/2.4.0:
     resolution: {integrity: sha512-Jsmr89RcXGIwivFY21FcRrisYZfvLMTWx5kOLc+JTxtpBOG6xML0vzbc6SEQG2FO9/4Fc3wW4LVcB5DmGflaRw==}
     engines: {node: '>=4.3.0 <5.0.0 || >=5.10'}
@@ -12488,6 +12520,11 @@ packages:
     dependencies:
       errno: 0.1.8
       readable-stream: 2.3.7
+    dev: true
+
+  /memorystream/0.3.1:
+    resolution: {integrity: sha512-S3UwM3yj5mtUSEfP41UZmt/0SCoVYUcU1rkXv+BQ5Ig8ndL4sPoJNBUJERafdPb5jjHJGuMgytgKvKIf58XNBw==}
+    engines: {node: '>= 0.10.0'}
     dev: true
 
   /meow/3.7.0:
@@ -12900,6 +12937,30 @@ packages:
   /node-releases/2.0.6:
     resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
 
+  /nodemon/2.0.20:
+    resolution: {integrity: sha512-Km2mWHKKY5GzRg6i1j5OxOHQtuvVsgskLfigG25yTtbyfRGn/GNvIbRyOf1PSCKJ2aT/58TiuUsuOU5UToVViw==}
+    engines: {node: '>=8.10.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      debug: 3.2.7_supports-color@5.5.0
+      ignore-by-default: 1.0.1
+      minimatch: 3.1.2
+      pstree.remy: 1.1.8
+      semver: 5.7.1
+      simple-update-notifier: 1.1.0
+      supports-color: 5.5.0
+      touch: 3.1.0
+      undefsafe: 2.0.5
+    dev: true
+
+  /nopt/1.0.10:
+    resolution: {integrity: sha512-NWmpvLSqUrgrAC9HCuxEvb+PSloHpqVu+FqcO4eeF2h5qYRhA7ev6KvelyQAKtegUbC6RypJnlEOhd8vloNKYg==}
+    hasBin: true
+    dependencies:
+      abbrev: 1.1.1
+    dev: true
+
   /normalize-package-data/2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
@@ -12923,6 +12984,22 @@ packages:
   /normalize-range/0.1.2:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
+
+  /npm-run-all/4.1.5:
+    resolution: {integrity: sha512-Oo82gJDAVcaMdi3nuoKFavkIHBRVqQ1qvMb+9LHk/cF4P6B2m8aP04hGf7oL6wZ9BuGwX1onlLhpuoofSyoQDQ==}
+    engines: {node: '>= 4'}
+    hasBin: true
+    dependencies:
+      ansi-styles: 3.2.1
+      chalk: 2.4.2
+      cross-spawn: 6.0.5
+      memorystream: 0.3.1
+      minimatch: 3.1.2
+      pidtree: 0.3.1
+      read-pkg: 3.0.0
+      shell-quote: 1.7.4
+      string.prototype.padend: 3.1.4
+    dev: true
 
   /npm-run-path/2.0.2:
     resolution: {integrity: sha512-lJxZYlT4DW/bRUtFh1MQIWqmLwQfAxnqWG4HhEdjMlkrJYnJn0Jrr2u3mgxqaWsdiBc76TYkTG/mhrnYTuzfHw==}
@@ -13326,6 +13403,14 @@ packages:
     dev: true
     optional: true
 
+  /parse-json/4.0.0:
+    resolution: {integrity: sha512-aOIos8bujGN93/8Ox/jPLh7RwVnPEysynVFE+fQZyg6jKELEHwzgKdLRFHUgXJL6kylijVSBC4BvN9OmsB48Rw==}
+    engines: {node: '>=4'}
+    dependencies:
+      error-ex: 1.3.2
+      json-parse-better-errors: 1.0.2
+    dev: true
+
   /parse-json/5.2.0:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
@@ -13481,6 +13566,12 @@ packages:
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  /pidtree/0.3.1:
+    resolution: {integrity: sha512-qQbW94hLHEqCg7nhby4yRC7G2+jYHY4Rguc2bjw7Uug4GIJuu1tvf2uHaZv5Q8zdt+WKJ6qK1FOI6amaWUo5FA==}
+    engines: {node: '>=0.10'}
+    hasBin: true
+    dev: true
 
   /pify/2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
@@ -13760,13 +13851,13 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /prisma/4.6.1:
-    resolution: {integrity: sha512-BR4itMCuzrDV4tn3e2TF+nh1zIX/RVU0isKtKoN28ADeoJ9nYaMhiuRRkFd2TZN8+l/XfYzoRKyHzUFXLQhmBQ==}
+  /prisma/4.7.0:
+    resolution: {integrity: sha512-VsecNo0Ca3+bDTzSpJqIpdupKVhhQ8aOYeWc09JlUM89knqvhSrlMrg0U8BiOD4tFrY1OPaCcraK8leDBxKMBg==}
     engines: {node: '>=14.17'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 4.6.1
+      '@prisma/engines': 4.7.0
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -13868,6 +13959,10 @@ packages:
   /pseudomap/1.0.2:
     resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
     dev: false
+
+  /pstree.remy/1.1.8:
+    resolution: {integrity: sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==}
+    dev: true
 
   /public-encrypt/4.0.3:
     resolution: {integrity: sha512-zVpa8oKZSz5bTMTFClc1fQOnyyEzpl5ozpi1B5YcvBrdohMjH2rfsBtyXcuNuwjsDIXmBYlF2N5FlJYhR29t8Q==}
@@ -14112,6 +14207,15 @@ packages:
       path-type: 1.1.0
     dev: true
     optional: true
+
+  /read-pkg/3.0.0:
+    resolution: {integrity: sha512-BLq/cCO9two+lBgiTYNqD6GdtK8s4NpaWrl6/rCO9w0TUS8oJl7cmToOZfRYllKTISY6nt1U7jQ53brmKqY6BA==}
+    engines: {node: '>=4'}
+    dependencies:
+      load-json-file: 4.0.0
+      normalize-package-data: 2.5.0
+      path-type: 3.0.0
+    dev: true
 
   /read-pkg/5.2.0:
     resolution: {integrity: sha512-Ug69mNOpfvKDAc2Q8DRpMjjzdtrnv9HcSMX+4VsZxD1aZ6ZzrIE7rlzXBtWTyhULSMKg076AW6WR5iZpD0JiOg==}
@@ -14588,6 +14692,11 @@ packages:
     hasBin: true
     dev: true
 
+  /semver/7.0.0:
+    resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
+    hasBin: true
+    dev: true
+
   /semver/7.3.4:
     resolution: {integrity: sha512-tCfb2WLjqFAtXn4KEdxIhalnRtoKFN7nAwj0B3ZXCbQloV2tq5eDbcTmT68JJD3nRJq24/XgxtQKFIpQdtvmVw==}
     engines: {node: '>=10'}
@@ -14722,6 +14831,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /shell-quote/1.7.4:
+    resolution: {integrity: sha512-8o/QEhSSRb1a5i7TFR0iM4G16Z0vYB2OQVs4G3aAFXjn3T6yEx8AZxy1PgDF7I00LZHYA3WxaSYIf5e5sAX8Rw==}
+    dev: true
+
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
     dependencies:
@@ -14731,6 +14844,13 @@ packages:
 
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
+    dev: true
+
+  /simple-update-notifier/1.1.0:
+    resolution: {integrity: sha512-VpsrsJSUcJEseSbMHkrsrAVSdvVS5I96Qo1QAQ4FxQ9wXFcB+pjj7FB7/us9+GcgfW4ziHtYMc1J0PLczb55mg==}
+    engines: {node: '>=8.10.0'}
+    dependencies:
+      semver: 7.0.0
     dev: true
 
   /sisteransi/1.0.5:
@@ -15632,6 +15752,13 @@ packages:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
 
+  /touch/3.1.0:
+    resolution: {integrity: sha512-WBx8Uy5TLtOSRtIq+M03/sKDrXCLHxwDcquSP2c43Le03/9serjQBIztjRz6FkJez9D/hleyAXTBGLwwZUw9lA==}
+    hasBin: true
+    dependencies:
+      nopt: 1.0.10
+    dev: true
+
   /tr46/0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
 
@@ -15919,6 +16046,10 @@ packages:
       has-bigints: 1.0.2
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
+    dev: true
+
+  /undefsafe/2.0.5:
+    resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
     dev: true
 
   /unfetch/4.2.0:

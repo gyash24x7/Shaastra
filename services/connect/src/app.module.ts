@@ -5,13 +5,13 @@ import { ConsulModule } from "@shaastra/consul";
 import { HealthModule } from "@shaastra/health";
 import { AuthModule } from "@shaastra/auth";
 import { Module } from "@nestjs/common";
-import appConfig from "./app.config";
+import appConfig from "./app.config.js";
 import { CqrsModule } from "@nestjs/cqrs";
-import commandHandlers from "./commands";
-import queryHandlers from "./queries";
-import eventHandlers from "./events";
-import resolvers from "./resolvers";
-import { PrismaService } from "./prisma";
+import commandHandlers from "./commands/index.js";
+import queryHandlers from "./queries/index.js";
+import eventHandlers from "./events/index.js";
+import resolvers from "./resolvers/index.js";
+import { PrismaService } from "./prisma/index.js";
 
 const ConfigModule = NestConfigModule.forRoot( { load: [ appConfig ], isGlobal: true } );
 

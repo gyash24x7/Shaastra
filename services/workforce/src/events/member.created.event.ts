@@ -1,8 +1,8 @@
 import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { EventsHandler, QueryBus } from "@nestjs/cqrs";
 import { MailService } from "@shaastra/mail";
-import type { Member } from "../prisma";
-import { DeptCoreQuery } from "../queries/dept-core.query";
+import type { Member } from "../prisma/index.js";
+import { DeptCoreQuery } from "../queries/dept-core.query.js";
 
 export class MemberCreatedEvent implements IEvent {
 	constructor( public readonly data: Member ) {}

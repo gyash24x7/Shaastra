@@ -1,8 +1,8 @@
 import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { CommandBus, EventsHandler } from "@nestjs/cqrs";
 import { MailService } from "@shaastra/mail";
-import type { Token, User } from "../prisma";
-import { CreateTokenCommand } from "../commands/create.token.command";
+import type { Token, User } from "../prisma/index.js";
+import { CreateTokenCommand } from "../commands/create.token.command.js";
 
 export class UserCreatedEvent implements IEvent {
 	constructor( public readonly data: User ) {}

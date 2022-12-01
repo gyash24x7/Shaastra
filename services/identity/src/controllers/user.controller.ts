@@ -1,4 +1,4 @@
-import { CreateUserCommand, CreateUserInput } from "../commands/create.user.command";
+import { CreateUserCommand, CreateUserInput } from "../commands/create.user.command.js";
 import { CommandBus } from "@nestjs/cqrs";
 import { Body, Controller, Post } from "@nestjs/common";
 

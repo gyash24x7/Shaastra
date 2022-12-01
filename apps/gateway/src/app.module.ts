@@ -1,10 +1,10 @@
 import { ConfigModule as NestConfigModule } from "@nestjs/config";
-import appConfig from "./app.config";
+import appConfig from "./app.config.js";
 import { GraphQLModule as NestGraphQLModule } from "@nestjs/graphql";
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from "@nestjs/apollo";
 import { ConsulModule } from "@shaastra/consul";
 import { HealthModule } from "@shaastra/health";
-import { CookiePlugin } from "./cookie.plugin";
+import { CookiePlugin } from "./cookie.plugin.js";
 import { Module } from "@nestjs/common";
 import { apolloServerOptions, AuthenticatedDataSource } from "@shaastra/utils";
 import type { ServiceEndpointDefinition } from "@apollo/gateway";

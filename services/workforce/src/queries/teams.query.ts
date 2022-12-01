@@ -1,6 +1,6 @@
 import { IQuery, IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import type { Team } from "../prisma";
-import { PrismaService } from "../prisma";
+import type { Team } from "../prisma/index.js";
+import { PrismaService } from "../prisma/index.js";
 
 export class TeamsQuery implements IQuery {
 	constructor( public readonly memberId: string ) {}

@@ -1,7 +1,7 @@
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
-import type { Message } from "../prisma";
-import { PrismaService } from "../prisma";
+import type { Message } from "../prisma/index.js";
+import { PrismaService } from "../prisma/index.js";
 
 export class MessageQuery implements IQuery {
 	constructor( public readonly id: string ) {}

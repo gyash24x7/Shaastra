@@ -1,37 +1,37 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver, ResolveReference } from "@nestjs/graphql";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import type { GqlResolveReferenceData } from "@shaastra/utils";
-import { MemberQuery } from "../queries/member.query";
-import type { Member, Team } from "../prisma";
-import { MemberPosition } from "../prisma";
-import { CreateMemberCommand, CreateMemberInput } from "../commands/create.member.command";
-import { EnableMemberCommand, EnableMemberInput } from "../commands/enable.member.command";
+import { MemberQuery } from "../queries/member.query.js";
+import type { Member, Team } from "../prisma/index.js";
+import { MemberPosition } from "../prisma/index.js";
+import { CreateMemberCommand, CreateMemberInput } from "../commands/create.member.command.js";
+import { EnableMemberCommand, EnableMemberInput } from "../commands/enable.member.command.js";
 import { UseGuards } from "@nestjs/common";
-import { AuthGuard, AuthInfo, PositionGuard, Positions, UserAuthInfo } from "@shaastra/auth";
-import { MemberModel } from "../models/member.model";
-import { TeamsQuery } from "../queries/teams.query";
+import type { UserAuthInfo } from "@shaastra/auth";
+import { AuthGuard, AuthInfo, PositionGuard, Positions } from "@shaastra/auth";
+import { TeamsQuery } from "../queries/teams.query.js";
 
-@Resolver( () => MemberModel )
+@Resolver( "Member" )
 export class MemberResolver {
 	constructor(
 		private readonly queryBus: QueryBus,
 		private readonly commandBus: CommandBus
 	) {}
 
-	@Mutation( () => Boolean )
+	@Mutation()
 	async createMember( @Args( "data" ) data: CreateMemberInput ): Promise<boolean> {
 		return this.commandBus.execute( new CreateMemberCommand( data ) );
 	}
 
 	@UseGuards( AuthGuard )
-	@Query( () => MemberModel )
+	@Query()
 	async me( @AuthInfo() authInfo: UserAuthInfo ): Promise<Member> {
 		return this.queryBus.execute( new MemberQuery( authInfo.id ) );
 	}
 
 	@Positions( MemberPosition.CORE )
 	@UseGuards( AuthGuard, PositionGuard )
-	@Mutation( () => Boolean )
+	@Mutation()
 	async enableMember( @Args( "data" ) data: EnableMemberInput ): Promise<boolean> {
 		return this.commandBus.execute( new EnableMemberCommand( data ) );
 	}

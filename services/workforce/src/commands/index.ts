@@ -1,5 +1,5 @@
-import { CreateMemberCommandHandler } from "./create.member.command";
-import { CreateTeamCommandHandler } from "./create.team.command";
-import { EnableMemberCommandHandler } from "./enable.member.command";
+import { CreateMemberCommandHandler } from "./create.member.command.js";
+import { CreateTeamCommandHandler } from "./create.team.command.js";
+import { EnableMemberCommandHandler } from "./enable.member.command.js";
 
 export default [ CreateMemberCommandHandler, CreateTeamCommandHandler, EnableMemberCommandHandler ];

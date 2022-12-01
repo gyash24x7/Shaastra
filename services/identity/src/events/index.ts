@@ -1,3 +1,3 @@
-import { UserCreatedEventHandler } from "./user.created.event";
+import { UserCreatedEventHandler } from "./user.created.event.js";
 
 export default [ UserCreatedEventHandler ];

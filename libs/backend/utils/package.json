@@ -1,5 +1,5 @@
 {
-	"name": "@shaastra/health",
+	"name": "@shaastra/utils",
 	"version": "0.0.0",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -8,6 +8,6 @@
 	"type": "module",
 	"scripts": {
 		"clean": "rimraf dist",
-		"build": "tsc && swc --config-file=../../.swcrc --out-dir=dist --copy-files src"
+		"build": "tsc && swc --config-file=../../../.swcrc --out-dir=dist --copy-files src"
 	}
 }

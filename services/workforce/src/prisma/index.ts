@@ -1,2 +1,2 @@
-export * from "@prisma/client/workforce";
+export * from "./generated/index.js";
 export * from "./prisma.service.js";

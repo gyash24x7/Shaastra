@@ -1,0 +1,107 @@
+{
+	"name": "@shaastra/connect",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
+		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch  --delete-dir-on-start src",
+		"start:dev": "nodemon",
+		"typecheck": "tsc",
+		"dev": "run-p build:dev start:dev",
+		"start": "node dist",
+		"test": "jest --coverage",
+		"test:e2e": "jest --config test/jest-e2e.json",
+		"db:generate": "prisma generate",
+		"db:push": "prisma db push --skip-generate",
+		"gql:generate": "graphql-codegen"
+	},
+	"keywords": [ ],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@graphql-codegen/cli": "2.15.0",
+		"@graphql-codegen/typescript": "2.8.3",
+		"@graphql-codegen/typescript-resolvers": "2.7.8",
+		"@shaastra/tsconfig": "workspace:*",
+		"@types/body-parser": "1.19.2",
+		"@types/cors": "2.8.13",
+		"@types/express": "4.17.14",
+		"prisma": "4.7.1",
+		"typescript": "4.9.4"
+	},
+	"dependencies": {
+		"@apollo/server": "4.2.2",
+		"@apollo/subgraph": "2.2.1",
+		"@prisma/client": "4.7.1",
+		"@shaastra/consul": "workspace:*",
+		"@shaastra/cqrs": "workspace:*",
+		"@shaastra/health": "workspace:*",
+		"@shaastra/mail": "workspace:*",
+		"@shaastra/utils": "workspace:*",
+		"body-parser": "1.20.1",
+		"cors": "2.8.5",
+		"dayjs": "1.11.7",
+		"express": "4.18.2",
+		"graphql": "16.6.0",
+		"graphql-tag": "2.12.6"
+	},
+	"prisma": {
+		"schema": "./prisma/schema.prisma"
+	},
+	"codegen": {
+		"schema": "./src/graphql/schema.graphql",
+		"generates": {
+			"./src/graphql/generated/index.ts": {
+				"plugins": [ "typescript-resolvers" ],
+				"config": {
+					"federation": true,
+					"useTypeImports": true,
+					"skipTypename": true,
+					"contextType": "ServiceContext<PrismaClient>",
+					"avoidOptionals": false,
+					"mappers": {
+						"ServiceContext": "@shaastra/utils#ServiceContext",
+						"PrismaClient": "@prisma/client/connect#PrismaClient",
+						"Channel": "@prisma/client/connect#Channel",
+						"Message": "@prisma/client/connect#Message",
+						"ChannelType": "@prisma/client/connect#ChannelType",
+						"CreateChannelInput": "../inputs.js#CreateChannelInput",
+						"CreateMessageInput": "../inputs.js#CreateMessageInput",
+						"GetMessagesInput": "../inputs.js#GetMessagesInput",
+						"MutationCreateChannelArgs": "../inputs.js#MutationCreateChannelArgs",
+						"MutationCreateMessageArgs": "../inputs.js#MutationCreateMessageArgs",
+						"QueryGetMessagesArgs": "../inputs.js#QueryGetMessagesArgs",
+						"Maybe": "@shaastra/utils#Maybe",
+						"Scalars": "@shaastra/utils#Scalars"
+					}
+				}
+			}
+		}
+	},
+	"jest": {
+		"moduleFileExtensions": [
+			"js",
+			"json",
+			"ts"
+		],
+		"rootDir": "src",
+		"testRegex": ".*\\.spec\\.ts$",
+		"transform": {
+			"^.+\\.(t|j)s$": "ts-jest"
+		},
+		"collectCoverageFrom": [
+			"**/*.(t|j)s"
+		],
+		"coverageDirectory": "../coverage",
+		"testEnvironment": "node"
+	},
+	"nodemonConfig": {
+		"verbose": true,
+		"watch": [
+			"./dist/*"
+		]
+	}
+}

@@ -1,0 +1,14 @@
+federation_version: 2
+subgraphs:
+  identity:
+    routing_url: http://localhost:8000/api/graphql
+    schema:
+      file: ../identity/src/graphql/schema.graphql
+  workforce:
+    routing_url: http://localhost:8010/api/graphql
+    schema:
+      file: ../workforce/src/graphql/schema.graphql
+  connect:
+    routing_url: http://localhost:8020/api/graphql
+    schema:
+      file: ../connect/src/graphql/schema.graphql

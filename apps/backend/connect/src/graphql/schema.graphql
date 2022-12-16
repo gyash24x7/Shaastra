@@ -1,0 +1,49 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable", "@extends"])
+
+enum ChannelType {
+	DIRECT
+	GROUP
+}
+
+type Message @key(fields: "id") {
+	id: ID!
+	channelId: String!
+	content: String!
+	createdById: String!
+	channel: Channel!
+}
+
+type Channel @key(fields: "id") {
+	id: ID!
+	archived: Boolean!
+	createdById: String!
+	createdOn: String!
+	description: String!
+	name: String!
+	type: ChannelType!
+	messages: [Message!]!
+}
+
+type Query {
+	getMessages(data: GetMessagesInput!): [Message!]!
+}
+
+type Mutation {
+	createChannel(data: CreateChannelInput!): String!
+	createMessage(data: CreateMessageInput!): String!
+}
+
+input CreateChannelInput {
+	name: String!
+	description: String!
+	type: ChannelType!
+}
+
+input CreateMessageInput {
+	content: String!
+	channelId: String!
+}
+
+input GetMessagesInput {
+	channelId: String!
+}

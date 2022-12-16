@@ -1,0 +1,13 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Default",
+	"compileOnSave": false,
+	"extends": "@tsconfig/node16-strictest",
+	"compilerOptions": {
+		"exactOptionalPropertyTypes": false,
+		"strictPropertyInitialization": false,
+		"noUncheckedIndexedAccess": false,
+		"importHelpers": true
+	},
+	"exclude": [ "node_modules", "tmp" ]
+}

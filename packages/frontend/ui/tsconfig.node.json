@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"rootDir": ".",
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true
+	},
+	"include": [ "vite.config.ts", "tailwind.config.ts", "package.json" ],
+	"exclude": [ "node_modules", "src", "dist" ]
+}

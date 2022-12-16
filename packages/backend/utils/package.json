@@ -1,0 +1,27 @@
+{
+	"name": "@shaastra/utils",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
+		"typecheck": "tsc"
+	},
+	"devDependencies": {
+		"@shaastra/consul": "workspace:*",
+		"@shaastra/cqrs": "workspace:*",
+		"@shaastra/mail": "workspace:*",
+		"@shaastra/tsconfig": "workspace:*",
+		"@types/express": "4.17.15",
+		"typescript": "4.9.4"
+	},
+	"dependencies": {
+		"@apollo/server": "4.2.2",
+		"@apollo/subgraph": "2.2.1",
+		"@apollo/gateway": "2.2.1",
+		"change-case": "4.1.2",
+		"graphql": "16.6.0"
+	}
+}

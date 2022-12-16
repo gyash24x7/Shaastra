@@ -1,6 +1,7 @@
 packages:
   - "apps/*"
-  - "apps/**/*"
-  - "libs/*"
-  - "libs/**/*"
-  - "services/*"
+  - "apps/backend/*"
+  - "apps/web/*"
+  - "packages/*"
+  - "packages/backend/*"
+  - "packages/frontend/*"

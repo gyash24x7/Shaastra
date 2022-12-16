@@ -1,0 +1,42 @@
+{
+	"name": "@shaastra/ui",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "dist/ui.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "vite build",
+		"storybook": "storybook dev -p 4400",
+		"build-storybook": "storybook build"
+	},
+	"peerDependencies": {
+		"@fontsource/fjalla-one": "4.5.9",
+		"@fontsource/montserrat": "4.5.13",
+		"solid-headless": "0.13.0",
+		"solid-heroicons": "3.1.1",
+		"solid-js": "1.6.5"
+	},
+	"devDependencies": {
+		"@shaastra/tsconfig": "workspace:*",
+		"@storybook/addon-essentials": "7.0.0-beta.8",
+		"@storybook/addon-interactions": "7.0.0-beta.8",
+		"@storybook/addon-links": "7.0.0-beta.8",
+		"@storybook/addons": "7.0.0-beta.8",
+		"@storybook/blocks": "7.0.0-beta.8",
+		"@storybook/html": "7.0.0-beta.8",
+		"@storybook/html-vite": "7.0.0-beta.8",
+		"@storybook/testing-library": "0.0.13",
+		"@storybook/theming": "7.0.0-beta.8",
+		"autoprefixer": "10.4.13",
+		"postcss": "8.4.19",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"storybook": "7.0.0-beta.8",
+		"tailwindcss": "3.2.4",
+		"typescript": "4.9.4",
+		"vite": "4.0.1",
+		"vite-plugin-dts": "1.7.1",
+		"vite-plugin-solid": "2.5.0"
+	}
+}

@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/client/workforce"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("WORKFORCE_DB_URL")
+}
+
+enum Department {
+    WEBOPS
+    SPONSORSHIP_AND_PR
+    SHOWS_AND_EXHIBITIONS
+    EVENTS_AND_WORKSHOPS
+    OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+    EVOLVE
+    ENVISAGE
+    FINANCE
+    CONCEPT_AND_DESIGN
+    PUBLICITY
+    QMS
+}
+
+enum MemberPosition {
+    COORD
+    HEAD
+    CORE
+    COCAS
+}
+
+model Member {
+    id              String          @id
+    name            String
+    email           String          @unique
+    rollNumber      String          @unique
+    profilePic      String          @default("")
+    coverPic        String          @default("")
+    mobile          String
+    upi             String          @default("")
+    about           String          @default("")
+    department      Department
+    position        MemberPosition
+    enabled         Boolean         @default(false)
+    teams           Team[]
+    teamsCreated    Team[]          @relation("TeamCreator")
+}
+
+model Team {
+    id              String          @id @default(cuid())
+    name            String          @unique
+    department      Department
+    createdBy       Member          @relation("TeamCreator", fields: [createdById], references: [id])
+    createdById     String
+    members         Member[]
+}

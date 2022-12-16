@@ -1,0 +1,22 @@
+{
+	"extends": "@shaastra/tsconfig/ui-library.json",
+	"compilerOptions": {
+		"rootDir": "src",
+		"resolveJsonModule": true,
+		"declaration": true,
+		"declarationDir": "dist",
+		"outDir": "dist",
+		"noEmit": false
+	},
+	"include": [ "src" ],
+	"exclude": [
+		"dist",
+		"build",
+		"node_modules",
+		".storybook",
+		"**/*.spec.(ts|tsx|js|jsx)",
+		"**/*.test.(ts|tsx|js|jsx)",
+		"**/*.stories.(ts|tsx|js|jsx)"
+	],
+	"references": [ { "path": "./tsconfig.node.json" } ]
+}

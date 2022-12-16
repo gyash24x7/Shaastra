@@ -1,0 +1,206 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.2", for: EXECUTION)
+{
+  query: Query
+  mutation: Mutation
+}
+
+directive @join__field(graph: join__Graph!, requires: join__FieldSet, provides: join__FieldSet, type: String, external: Boolean, override: String, usedOverridden: Boolean) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(graph: join__Graph!, interface: String!) repeatable on OBJECT | INTERFACE
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boolean! = false, resolvable: Boolean! = true) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+
+type Channel
+  @join__type(graph: CONNECT, key: "id")
+{
+  id: ID!
+  archived: Boolean!
+  createdById: String!
+  createdOn: String!
+  description: String!
+  name: String!
+  type: ChannelType!
+  messages: [Message!]!
+}
+
+enum ChannelType
+  @join__type(graph: CONNECT)
+{
+  DIRECT
+  GROUP
+}
+
+input CreateChannelInput
+  @join__type(graph: CONNECT)
+{
+  name: String!
+  description: String!
+  type: ChannelType!
+}
+
+input CreateMemberInput
+  @join__type(graph: WORKFORCE)
+{
+  name: String!
+  email: String!
+  password: String!
+  rollNumber: String!
+  department: Department!
+  position: MemberPosition!
+  mobile: String!
+}
+
+input CreateMessageInput
+  @join__type(graph: CONNECT)
+{
+  content: String!
+  channelId: String!
+}
+
+input CreateTeamInput
+  @join__type(graph: WORKFORCE)
+{
+  name: String!
+  department: Department!
+}
+
+enum Department
+  @join__type(graph: WORKFORCE)
+{
+  WEBOPS
+  SPONSORSHIP_AND_PR
+  SHOWS_AND_EXHIBITIONS
+  EVENTS_AND_WORKSHOPS
+  OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+  EVOLVE
+  ENVISAGE
+  FINANCE
+  CONCEPT_AND_DESIGN
+  PUBLICITY
+  QMS
+}
+
+input EnableMemberInput
+  @join__type(graph: WORKFORCE)
+{
+  id: String!
+}
+
+input GetMessagesInput
+  @join__type(graph: CONNECT)
+{
+  channelId: String!
+}
+
+scalar join__FieldSet
+
+enum join__Graph {
+  CONNECT @join__graph(name: "connect", url: "http://localhost:8020/api/graphql")
+  IDENTITY @join__graph(name: "identity", url: "http://localhost:8000/api/graphql")
+  WORKFORCE @join__graph(name: "workforce", url: "http://localhost:8010/api/graphql")
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+input LoginInput
+  @join__type(graph: IDENTITY)
+{
+  username: String!
+  password: String!
+}
+
+type Member
+  @join__type(graph: WORKFORCE, key: "id")
+{
+  id: ID!
+  about: String!
+  coverPic: String!
+  department: Department!
+  email: String!
+  enabled: Boolean!
+  mobile: String!
+  name: String!
+  position: MemberPosition!
+  profilePic: String!
+  rollNumber: String!
+  upi: String!
+  teams: [Team!]!
+}
+
+enum MemberPosition
+  @join__type(graph: WORKFORCE)
+{
+  COORD
+  HEAD
+  CORE
+  COCAS
+}
+
+type Message
+  @join__type(graph: CONNECT, key: "id")
+{
+  id: ID!
+  channelId: String!
+  content: String!
+  createdById: String!
+  channel: Channel!
+}
+
+type Mutation
+  @join__type(graph: CONNECT)
+  @join__type(graph: IDENTITY)
+  @join__type(graph: WORKFORCE)
+{
+  createChannel(data: CreateChannelInput!): String! @join__field(graph: CONNECT)
+  createMessage(data: CreateMessageInput!): String! @join__field(graph: CONNECT)
+  login(data: LoginInput!): Boolean! @join__field(graph: IDENTITY)
+  verifyUser(data: VerifyUserInput!): String! @join__field(graph: IDENTITY)
+  logout: Boolean! @join__field(graph: IDENTITY)
+  createMember(data: CreateMemberInput!): Boolean! @join__field(graph: WORKFORCE)
+  enableMember(data: EnableMemberInput!): Boolean! @join__field(graph: WORKFORCE)
+  createTeam(data: CreateTeamInput!): String! @join__field(graph: WORKFORCE)
+}
+
+type Query
+  @join__type(graph: CONNECT)
+  @join__type(graph: IDENTITY)
+  @join__type(graph: WORKFORCE)
+{
+  getMessages(data: GetMessagesInput!): [Message!]! @join__field(graph: CONNECT)
+  me: Member! @join__field(graph: WORKFORCE)
+}
+
+type Team
+  @join__type(graph: WORKFORCE, key: "id")
+{
+  id: ID!
+  createdById: String!
+  department: Department!
+  name: String!
+  members: [Member!]!
+}
+
+input VerifyUserInput
+  @join__type(graph: IDENTITY)
+{
+  userId: String!
+  tokenId: String!
+}

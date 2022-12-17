@@ -18,7 +18,7 @@
 		"db:push": "prisma db push --skip-generate",
 		"gql:generate": "graphql-codegen"
 	},
-	"keywords": [ ],
+	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
@@ -45,6 +45,7 @@
 		"cors": "2.8.5",
 		"dayjs": "1.11.7",
 		"express": "4.18.2",
+		"got": "12.5.3",
 		"graphql": "16.6.0",
 		"graphql-tag": "2.12.6"
 	},
@@ -55,7 +56,9 @@
 		"schema": "./src/graphql/schema.graphql",
 		"generates": {
 			"./src/graphql/generated/index.ts": {
-				"plugins": [ "typescript-resolvers" ],
+				"plugins": [
+					"typescript-resolvers"
+				],
 				"config": {
 					"federation": true,
 					"useTypeImports": true,

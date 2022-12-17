@@ -4,6 +4,6 @@
 		"rootDir": "src",
 		"noEmit": true
 	},
-	"include": [ "src" ],
+	"include": [ "src", "scripts" ],
 	"exclude": [ "node_modules", "test", "dist", "**/*.spec.ts", ".turbo" ]
 }

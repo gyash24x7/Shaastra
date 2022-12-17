@@ -4,7 +4,7 @@ import type { ServiceContext } from "@shaastra/utils";
 import { MemberCreatedEvent } from "../events/index.js";
 import type { CreateMemberInput } from "../graphql/inputs.js";
 import { MemberMessages } from "../messages/member.messages.js";
-
+import got from "got";
 
 export class CreateMemberCommand implements ICommand<CreateMemberInput, ServiceContext<PrismaClient>> {
 	constructor(
@@ -12,7 +12,10 @@ export class CreateMemberCommand implements ICommand<CreateMemberInput, ServiceC
 		public readonly context: ServiceContext<PrismaClient>
 	) {}
 
-	public static readonly handler: ICommandHandler<CreateMemberCommand, string> = async ( { data, context } ) => {
+	public static readonly handler: ICommandHandler<CreateMemberCommand, string> = async ( {
+		data,
+		context
+	} ) => {
 		const services = await context.consul.getRegisteredServices( context.config.id );
 		const { Address, Port } = services.find( service => service.ID === "identity" )!;
 		const url = `http://${ Address }:${ Port }/api/users`;
@@ -23,7 +26,9 @@ export class CreateMemberCommand implements ICommand<CreateMemberInput, ServiceC
 			username: data.rollNumber,
 			roles: [ `MEMBER_${ data.department }`, `POSITION_${ data.position }` ]
 		};
-		const response: any = { url, input };
+
+		const response: any = await got.post( url, { json: input } ).json();
+
 		context.logger.log( `Response: ${ response }` );
 
 		const existingMember = await context.prisma.member.findUnique( {

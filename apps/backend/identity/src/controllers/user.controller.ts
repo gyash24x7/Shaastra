@@ -9,6 +9,8 @@ export class UserController {
 	register( app: Express, context: ServiceContextFn<PrismaClient> ) {
 		app.post( "/api/users", async ( req, res ) => {
 			const data: CreateUserInput = req.body;
+			const ctx = await context({req,res});
+			ctx.logger?.debug(`Context: ${JSON.stringify(ctx.)}`)
 			return commandBus.execute( new CreateUserCommand( data, await context( { req, res } ) ) );
 		} );
 	}

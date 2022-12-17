@@ -11,7 +11,7 @@
 		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch --delete-dir-on-start src",
 		"start:dev": "wait-on dist/index.js && nodemon",
 		"typecheck": "tsc",
-		"dev": "pnpm run wait && run-p build:dev start:dev",
+		"dev": "run-p build:dev start:dev",
 		"start": "node dist",
 		"test": "jest --coverage",
 		"test:e2e": "jest --config test/jest-e2e.json",

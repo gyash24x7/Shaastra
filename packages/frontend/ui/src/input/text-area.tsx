@@ -44,7 +44,7 @@ export default function TextArea( props: TextAreaProps ) {
 				/>
 			</div>
 			<Show keyed when = { !!props.message }>
-				<InputMessage text = { props.message! } appearance = { props.appearance } />
+				<InputMessage text = { props.message! } appearance = { props.appearance }/>
 			</Show>
 		</>
 	);

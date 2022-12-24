@@ -2,7 +2,7 @@
 	"$schema": "https://turbo.build/schema.json",
 	"pipeline": {
 		"dev": {
-			"dependsOn": [ "db:generate", "gql:generate", "^build" ],
+			"dependsOn": [ "db:generate", "gql:generate", "^build", "^typecheck" ],
 			"cache": false
 		},
 		"divine": {
@@ -10,11 +10,11 @@
 			"cache": false
 		},
 		"build": {
-			"dependsOn": [ "^build", "db:generate", "gql:generate" ],
+			"dependsOn": [ "^build", "^typecheck", "db:generate", "gql:generate" ],
 			"outputs": [ "dist/**" ]
 		},
 		"typecheck": {
-			"dependsOn": [ "build", "^typecheck" ]
+			"dependsOn": [ "build" ]
 		},
 		"start": {
 			"dependsOn": [ "build", "typecheck" ],

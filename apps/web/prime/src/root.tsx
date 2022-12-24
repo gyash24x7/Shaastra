@@ -16,10 +16,10 @@ function App() {
 		<Router>
 			<Routes>
 				<Route path = { "/" }>
-					<Route path = { "/" } component = { HomePage } />
+					<Route path = { "/" } component = { HomePage }/>
 					<Route path = { "/auth" } component = { AuthLayout }>
-						<Route path = { "/login" } component = { LoginPage } />
-						<Route path = { "/signup" } component = { SignUpPage } />
+						<Route path = { "/login" } component = { LoginPage }/>
+						<Route path = { "/signup" } component = { SignUpPage }/>
 					</Route>
 				</Route>
 			</Routes>
@@ -27,4 +27,4 @@ function App() {
 	);
 }
 
-render( () => <App />, document.getElementById( "root" ) as HTMLElement );
+render( () => <App/>, document.getElementById( "root" ) as HTMLElement );

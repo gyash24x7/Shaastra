@@ -1,4 +1,4 @@
-import type { OperationArgs } from "@shaastra/utils";
+import type { OperationArgs } from "@shaastra/framework";
 
 export type LoginInput = {
 	username: string;

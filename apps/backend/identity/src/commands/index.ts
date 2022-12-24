@@ -1,18 +1,27 @@
-import { CommandBus } from "@shaastra/cqrs";
-import { CreateTokenCommand } from "./create.token.command.js";
-import { CreateUserCommand } from "./create.user.command.js";
-import { LoginCommand } from "./login.command.js";
-import { VerifyUserCommand } from "./verify.user.command.js";
-
-const commandBus = new CommandBus();
-commandBus.registerCommand( CreateTokenCommand );
-commandBus.registerCommand( CreateUserCommand );
-commandBus.registerCommand( LoginCommand );
-commandBus.registerCommand( VerifyUserCommand );
-
-export { commandBus };
+import createTokenCommandHandler from "./create.token.command.js";
+import createUserCommandHandler from "./create.user.command.js";
+import loginCommandHandler from "./login.command.js";
+import verifyUserCommandHandler from "./verify.user.command.js";
+import type { ICommands } from "@shaastra/framework";
+import type { PrismaClient } from "@prisma/client/identity/index.js";
 
 export * from "./create.token.command.js";
 export * from "./login.command.js";
 export * from "./create.user.command.js";
 export * from "./verify.user.command.js";
+
+export enum AppCommands {
+	CREATE_TOKEN_COMMAND = "CREATE_TOKEN_COMMAND",
+	CREATE_USER_COMMAND = "CREATE_USER_COMMAND",
+	VERIFY_USER_COMMAND = "VERIFY_USER_COMMAND",
+	LOGIN_COMMAND = "LOGIN_COMMAND"
+}
+
+const commands: ICommands<PrismaClient> = {
+	CREATE_TOKEN_COMMAND: createTokenCommandHandler,
+	CREATE_USER_COMMAND: createUserCommandHandler,
+	VERIFY_USER_COMMAND: verifyUserCommandHandler,
+	LOGIN_COMMAND: loginCommandHandler
+};
+
+export default commands;

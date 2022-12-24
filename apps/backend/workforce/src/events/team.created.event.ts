@@ -1,19 +1,13 @@
-import type { Member, PrismaClient, Team } from "@prisma/client/workforce/index.js";
-import type { IEvent, IEventHandler } from "@shaastra/cqrs";
-import type { ServiceContext } from "@shaastra/utils";
+import type { Member, Team } from "@prisma/client/workforce/index.js";
+import type { AppContext } from "../index.js";
 
-
-export class TeamCreatedEvent implements IEvent<Team & { members: Member[] }, ServiceContext<PrismaClient>> {
-	constructor(
-		public readonly data: Team & { members: Member[] },
-		public readonly context: ServiceContext<PrismaClient>
-	) {}
-
-	public static readonly handler: IEventHandler<TeamCreatedEvent> = async ( { data, context } ) => {
-		const subject = `Welcome to ${ data.name } Team`;
-		const content = `You have been added to a new team under ${ data.department }`;
-		await Promise.all( data.members.map( team => {
-			return context.mailer.sendMail( { subject, content, email: team.email, name: team.name } );
-		} ) );
-	};
-}
+export default async function teamCreatedEventHandler( _data: unknown, context: AppContext ) {
+	const data = _data as Team & { members: Member[] };
+	const subject = `Welcome to ${ data.name } Team`;
+	const content = `You have been added to a new team under ${ data.department }`;
+	await Promise.all( data.members.map( () => {
+		context.logger.scope( "TeamCreatedEventHandler" ).debug( `Need to send mail here!` );
+		context.logger.scope( "TeamCreatedEventHandler" ).debug( `Subject: ${ subject }` );
+		context.logger.scope( "TeamCreatedEventHandler" ).debug( `Content: ${ content }` );
+	} ) );
+};

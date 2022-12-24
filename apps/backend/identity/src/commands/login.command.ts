@@ -1,60 +1,50 @@
-import type { PrismaClient } from "@prisma/client/identity/index.js";
-import type { ICommand, ICommandHandler } from "@shaastra/cqrs";
-import type { ServiceContext } from "@shaastra/utils";
-import { generateAppConfig } from "@shaastra/utils";
 import bcrypt from "bcryptjs";
-import jwt, { SignOptions } from "jsonwebtoken";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-import process from "node:process";
 import type { LoginInput } from "../graphql/inputs.js";
 import { UserMessages } from "../messages/user.messages.js";
+import type { AppContext } from "../index.js";
 
+export default async function loginCommandHandler( data: unknown, context: AppContext ) {
+	const input = data as LoginInput;
 
-const config = generateAppConfig( "identity" );
+	const existingUser = await context.prisma.user.findUnique( {
+		where: { username: input.username }
+	} );
 
-const key = readFileSync( join( process.cwd(), "src/assets/.private.key" ) ).toString();
-const passphrase = config.auth?.key?.passphrase!;
+	context.logger?.debug( `Existing User: ${ JSON.stringify( existingUser ) }` );
 
-const jwtSignOptions: SignOptions = {
-	audience: config.auth?.audience,
-	algorithm: "RS256",
-	issuer: `http://${ config.auth?.domain }`,
-	keyid: config.auth?.key?.id
-};
+	if ( !existingUser ) {
+		throw new Error( UserMessages.NOT_FOUND );
+	}
 
-export class LoginCommand implements ICommand<LoginInput, ServiceContext<PrismaClient>> {
+	if ( !existingUser.verified ) {
+		throw new Error( UserMessages.NOT_VERIFIED );
+	}
 
-	constructor(
-		public readonly data: LoginInput,
-		public readonly context: ServiceContext<PrismaClient>
-	) {}
+	const doPasswordsMatch = bcrypt.compareSync( input.password, existingUser.password );
+	if ( !doPasswordsMatch ) {
+		throw new Error( UserMessages.INVALID_CREDENTIALS );
+	}
 
-	public static readonly handler: ICommandHandler<LoginCommand, string> = async ( { data, context } ) => {
-		const existingUser = await context.prisma.user.findUnique( {
-			where: { username: data.username }
-		} );
-
-		if ( !existingUser ) {
-			throw new Error( UserMessages.NOT_FOUND );
-		}
-
-		if ( !existingUser.verified ) {
-			throw new Error( UserMessages.NOT_VERIFIED );
-		}
-
-		const doPasswordsMatch = bcrypt.compareSync( data.password, existingUser.password );
-		if ( !doPasswordsMatch ) {
-			throw new Error( UserMessages.INVALID_CREDENTIALS );
-		}
-
-		const token = jwt.sign(
-			{ sub: existingUser.id, roles: existingUser.roles, verified: existingUser.verified },
-			{ key, passphrase },
-			jwtSignOptions
-		);
-
-		context.res.setHeader( "x-access-token", token );
-		return token;
+	const payload = {
+		roles: existingUser.roles,
+		verified: existingUser.verified,
+		sub: existingUser.id,
+		exp: Math.floor( Date.now() / 1000 + 24 * 60 * 60 ),
+		iat: Math.floor( Date.now() / 1000 )
 	};
+
+	// const ks = await readFile( join( process.cwd(), "src/assets/keys.json" ) );
+	// const keyStore = await jose.JWK.asKeyStore( ks.toString() );
+	// const [ jwk ] = keyStore.all( { use: "sig" } );
+	//
+	// const opt = { compact: true, jwk, fields: { typ: "jwt" } };
+	// const token = await jose.JWS.createSign( opt, jwk )
+	// 	.update( JSON.stringify( payload ) )
+	// 	.final();
+	//
+	// context.logger.debug( `Token: ${ token.signResult }` );
+	//
+	// context.res.setHeader( "x-access-token", token.signResult.toString() );
+
+	return !!payload;
 }

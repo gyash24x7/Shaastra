@@ -1,5 +1,5 @@
 import type { ChannelType } from "@prisma/client/connect/index.js";
-import type { OperationArgs } from "@shaastra/utils";
+import type { OperationArgs } from "@shaastra/framework";
 
 export type CreateChannelInput = {
 	name: string;

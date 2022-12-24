@@ -1,23 +1,15 @@
-import type { PrismaClient } from "@prisma/client/workforce/index.js";
-import type { ICommand, ICommandHandler } from "@shaastra/cqrs";
-import type { ServiceContext } from "@shaastra/utils";
-import { MemberEnabledEvent } from "../events/index.js";
+import { AppEvents } from "../events/index.js";
 import type { EnableMemberInput } from "../graphql/inputs.js";
+import type { AppContext } from "../index.js";
 
+export default async function enableMemberCommandHandler( _data: unknown, context: AppContext ) {
+	const data = _data as EnableMemberInput;
 
-export class EnableMemberCommand implements ICommand<EnableMemberInput, ServiceContext<PrismaClient>> {
-	constructor(
-		public readonly data: EnableMemberInput,
-		public readonly context: ServiceContext<PrismaClient>
-	) {}
+	const member = await context.prisma.member.update( {
+		where: { id: data.id },
+		data: { enabled: true }
+	} );
 
-	public static readonly handler: ICommandHandler<EnableMemberCommand, boolean> = async ( { data, context } ) => {
-		const member = await context.prisma.member.update( {
-			where: { id: data.id },
-			data: { enabled: true }
-		} );
-
-		context.eventBus.publish( new MemberEnabledEvent( member, context ) );
-		return true;
-	};
+	context.eventBus.execute( AppEvents.MEMBER_ENABLED_EVENT, member, context );
+	return true;
 }

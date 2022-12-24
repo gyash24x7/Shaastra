@@ -37,42 +37,21 @@ importers:
 
   apps/backend/connect:
     specifiers:
-      '@apollo/server': 4.2.2
-      '@apollo/subgraph': 2.2.1
       '@graphql-codegen/cli': 2.15.0
       '@graphql-codegen/typescript': 2.8.3
       '@graphql-codegen/typescript-resolvers': 2.7.8
       '@prisma/client': 4.7.1
-      '@shaastra/consul': workspace:*
-      '@shaastra/cqrs': workspace:*
-      '@shaastra/health': workspace:*
-      '@shaastra/mail': workspace:*
+      '@shaastra/framework': workspace:*
       '@shaastra/tsconfig': workspace:*
-      '@shaastra/utils': workspace:*
-      '@types/body-parser': 1.19.2
-      '@types/cors': 2.8.13
-      '@types/express': 4.17.14
-      body-parser: 1.20.1
-      cors: 2.8.5
       dayjs: 1.11.7
-      express: 4.18.2
       graphql: 16.6.0
       graphql-tag: 2.12.6
       prisma: 4.7.1
       typescript: 4.9.4
     dependencies:
-      '@apollo/server': 4.2.2_graphql@16.6.0
-      '@apollo/subgraph': 2.2.1_graphql@16.6.0
       '@prisma/client': 4.7.1_prisma@4.7.1
-      '@shaastra/consul': link:../../../packages/backend/consul
-      '@shaastra/cqrs': link:../../../packages/backend/cqrs
-      '@shaastra/health': link:../../../packages/backend/health
-      '@shaastra/mail': link:../../../packages/backend/mail
-      '@shaastra/utils': link:../../../packages/backend/utils
-      body-parser: 1.20.1
-      cors: 2.8.5
+      '@shaastra/framework': link:../../../packages/backend/framework
       dayjs: 1.11.7
-      express: 4.18.2
       graphql: 16.6.0
       graphql-tag: 2.12.6_graphql@16.6.0
     devDependencies:
@@ -80,9 +59,6 @@ importers:
       '@graphql-codegen/typescript': 2.8.3_graphql@16.6.0
       '@graphql-codegen/typescript-resolvers': 2.7.8_graphql@16.6.0
       '@shaastra/tsconfig': link:../../../packages/tsconfig
-      '@types/body-parser': 1.19.2
-      '@types/cors': 2.8.13
-      '@types/express': 4.17.14
       prisma: 4.7.1
       typescript: 4.9.4
 
@@ -91,14 +67,14 @@ importers:
       '@apollo/gateway': 2.2.1
       '@apollo/rover': 0.10.0
       '@apollo/server': 4.2.2
-      '@shaastra/consul': workspace:*
-      '@shaastra/health': workspace:*
+      '@shaastra/framework': workspace:*
       '@shaastra/tsconfig': workspace:*
-      '@shaastra/utils': workspace:*
       '@types/body-parser': 1.19.2
+      '@types/cookie-parser': 1.4.3
       '@types/cors': 2.8.13
       '@types/express': 4.17.14
       body-parser: 1.20.1
+      cookie-parser: 1.4.6
       cors: 2.8.5
       express: 4.18.2
       graphql: 16.6.0
@@ -106,10 +82,9 @@ importers:
     dependencies:
       '@apollo/gateway': 2.2.1_graphql@16.6.0
       '@apollo/server': 4.2.2_graphql@16.6.0
-      '@shaastra/consul': link:../../../packages/backend/consul
-      '@shaastra/health': link:../../../packages/backend/health
-      '@shaastra/utils': link:../../../packages/backend/utils
+      '@shaastra/framework': link:../../../packages/backend/framework
       body-parser: 1.20.1
+      cookie-parser: 1.4.6
       cors: 2.8.5
       express: 4.18.2
       graphql: 16.6.0
@@ -117,74 +92,45 @@ importers:
       '@apollo/rover': 0.10.0
       '@shaastra/tsconfig': link:../../../packages/tsconfig
       '@types/body-parser': 1.19.2
+      '@types/cookie-parser': 1.4.3
       '@types/cors': 2.8.13
       '@types/express': 4.17.14
       typescript: 4.9.4
 
   apps/backend/identity:
     specifiers:
-      '@apollo/server': 4.2.2
-      '@apollo/subgraph': 2.2.1
       '@graphql-codegen/cli': 2.15.0
       '@graphql-codegen/typescript': 2.8.3
       '@graphql-codegen/typescript-resolvers': 2.7.8
       '@prisma/client': 4.7.1
-      '@shaastra/auth': workspace:*
-      '@shaastra/consul': workspace:*
-      '@shaastra/cqrs': workspace:*
-      '@shaastra/health': workspace:*
-      '@shaastra/mail': workspace:*
+      '@shaastra/framework': workspace:*
       '@shaastra/tsconfig': workspace:*
-      '@shaastra/utils': workspace:*
-      '@swc-node/register': 1.5.4
       '@types/bcryptjs': 2.4.2
-      '@types/body-parser': 1.19.2
-      '@types/cors': 2.8.13
-      '@types/express': 4.17.14
       '@types/jsonwebtoken': 8.5.9
       '@types/pem-jwk': 2.0.0
       bcryptjs: 2.4.3
-      body-parser: 1.20.1
-      cors: 2.8.5
       dayjs: 1.11.7
-      express: 4.18.2
       graphql: 16.6.0
-      graphql-shield: 7.6.5
       graphql-tag: 2.12.6
       jsonwebtoken: 8.5.1
       pem-jwk: 2.0.0
       prisma: 4.7.1
       typescript: 4.9.4
     dependencies:
-      '@apollo/server': 4.2.2_graphql@16.6.0
-      '@apollo/subgraph': 2.2.1_graphql@16.6.0
       '@prisma/client': 4.7.1_prisma@4.7.1
-      '@shaastra/auth': link:../../../packages/backend/auth
-      '@shaastra/consul': link:../../../packages/backend/consul
-      '@shaastra/cqrs': link:../../../packages/backend/cqrs
-      '@shaastra/health': link:../../../packages/backend/health
-      '@shaastra/mail': link:../../../packages/backend/mail
-      '@shaastra/utils': link:../../../packages/backend/utils
+      '@shaastra/framework': link:../../../packages/backend/framework
       bcryptjs: 2.4.3
-      body-parser: 1.20.1
-      cors: 2.8.5
       dayjs: 1.11.7
-      express: 4.18.2
       graphql: 16.6.0
-      graphql-shield: 7.6.5_rpdijwwqx5bcdzo7hy5fcln5ty
       graphql-tag: 2.12.6_graphql@16.6.0
       jsonwebtoken: 8.5.1
       pem-jwk: 2.0.0
     devDependencies:
-      '@graphql-codegen/cli': 2.15.0_2gznuzujq65zf4yc74wt2bkm2e
+      '@graphql-codegen/cli': 2.15.0_c5tkwvggnwkx7v2ywoptwtilvi
       '@graphql-codegen/typescript': 2.8.3_graphql@16.6.0
       '@graphql-codegen/typescript-resolvers': 2.7.8_graphql@16.6.0
       '@shaastra/tsconfig': link:../../../packages/tsconfig
-      '@swc-node/register': 1.5.4_tv6nm2ygh5dr7xyuthacrjsmba
       '@types/bcryptjs': 2.4.2
-      '@types/body-parser': 1.19.2
-      '@types/cors': 2.8.13
-      '@types/express': 4.17.14
       '@types/jsonwebtoken': 8.5.9
       '@types/pem-jwk': 2.0.0
       prisma: 4.7.1
@@ -192,43 +138,22 @@ importers:
 
   apps/backend/workforce:
     specifiers:
-      '@apollo/server': 4.2.2
-      '@apollo/subgraph': 2.2.1
       '@graphql-codegen/cli': 2.15.0
       '@graphql-codegen/typescript': 2.8.3
       '@graphql-codegen/typescript-resolvers': 2.7.8
       '@prisma/client': 4.7.1
-      '@shaastra/consul': workspace:*
-      '@shaastra/cqrs': workspace:*
-      '@shaastra/health': workspace:*
-      '@shaastra/mail': workspace:*
+      '@shaastra/framework': workspace:*
       '@shaastra/tsconfig': workspace:*
-      '@shaastra/utils': workspace:*
-      '@types/body-parser': 1.19.2
-      '@types/cors': 2.8.13
-      '@types/express': 4.17.14
-      body-parser: 1.20.1
-      cors: 2.8.5
       dayjs: 1.11.7
-      express: 4.18.2
       got: 12.5.3
       graphql: 16.6.0
       graphql-tag: 2.12.6
       prisma: 4.7.1
       typescript: 4.9.4
     dependencies:
-      '@apollo/server': 4.2.2_graphql@16.6.0
-      '@apollo/subgraph': 2.2.1_graphql@16.6.0
       '@prisma/client': 4.7.1_prisma@4.7.1
-      '@shaastra/consul': link:../../../packages/backend/consul
-      '@shaastra/cqrs': link:../../../packages/backend/cqrs
-      '@shaastra/health': link:../../../packages/backend/health
-      '@shaastra/mail': link:../../../packages/backend/mail
-      '@shaastra/utils': link:../../../packages/backend/utils
-      body-parser: 1.20.1
-      cors: 2.8.5
+      '@shaastra/framework': link:../../../packages/backend/framework
       dayjs: 1.11.7
-      express: 4.18.2
       got: 12.5.3
       graphql: 16.6.0
       graphql-tag: 2.12.6_graphql@16.6.0
@@ -237,9 +162,6 @@ importers:
       '@graphql-codegen/typescript': 2.8.3_graphql@16.6.0
       '@graphql-codegen/typescript-resolvers': 2.7.8_graphql@16.6.0
       '@shaastra/tsconfig': link:../../../packages/tsconfig
-      '@types/body-parser': 1.19.2
-      '@types/cors': 2.8.13
-      '@types/express': 4.17.14
       prisma: 4.7.1
       typescript: 4.9.4
 
@@ -276,104 +198,52 @@ importers:
       vite: 4.0.1
       vite-plugin-solid: 2.5.0_solid-js@1.6.5+vite@4.0.1
 
-  packages/backend/auth:
-    specifiers:
-      '@shaastra/tsconfig': workspace:*
-      '@shaastra/utils': workspace:*
-      '@types/express': 4.17.15
-      '@types/passport': 1.0.11
-      '@types/passport-jwt': 3.0.8
-      graphql: 16.6.0
-      graphql-middleware: 6.1.33
-      graphql-shield: 7.6.5
-      jwks-rsa: 3.0.0
-      passport: 0.6.0
-      passport-jwt: 4.0.0
-      typescript: 4.9.4
-    dependencies:
-      graphql-middleware: 6.1.33_graphql@16.6.0
-      graphql-shield: 7.6.5_rpdijwwqx5bcdzo7hy5fcln5ty
-      jwks-rsa: 3.0.0
-      passport: 0.6.0
-      passport-jwt: 4.0.0
-    devDependencies:
-      '@shaastra/tsconfig': link:../../tsconfig
-      '@shaastra/utils': link:../utils
-      '@types/express': 4.17.15
-      '@types/passport': 1.0.11
-      '@types/passport-jwt': 3.0.8
-      graphql: 16.6.0
-      typescript: 4.9.4
-
-  packages/backend/consul:
-    specifiers:
-      '@shaastra/tsconfig': workspace:*
-      '@types/consul': 0.40.0
-      consul: 1.1.0
-      typescript: 4.9.4
-    dependencies:
-      consul: 1.1.0
-    devDependencies:
-      '@shaastra/tsconfig': link:../../tsconfig
-      '@types/consul': 0.40.0
-      typescript: 4.9.4
-
-  packages/backend/cqrs:
-    specifiers:
-      '@shaastra/tsconfig': workspace:*
-      typescript: 4.9.4
-    devDependencies:
-      '@shaastra/tsconfig': link:../../tsconfig
-      typescript: 4.9.4
-
-  packages/backend/health:
-    specifiers:
-      '@shaastra/tsconfig': workspace:*
-      '@types/express': 4.17.14
-      express: 4.18.2
-      typescript: 4.9.4
-    dependencies:
-      express: 4.18.2
-    devDependencies:
-      '@shaastra/tsconfig': link:../../tsconfig
-      '@types/express': 4.17.14
-      typescript: 4.9.4
-
-  packages/backend/mail:
-    specifiers:
-      '@shaastra/tsconfig': workspace:*
-      node-mailjet: 5.1.1
-      typescript: 4.9.4
-    dependencies:
-      node-mailjet: 5.1.1
-    devDependencies:
-      '@shaastra/tsconfig': link:../../tsconfig
-      typescript: 4.9.4
-
-  packages/backend/utils:
+  packages/backend/framework:
     specifiers:
       '@apollo/gateway': 2.2.1
       '@apollo/server': 4.2.2
       '@apollo/subgraph': 2.2.1
-      '@shaastra/consul': workspace:*
-      '@shaastra/cqrs': workspace:*
-      '@shaastra/mail': workspace:*
       '@shaastra/tsconfig': workspace:*
+      '@types/body-parser': 1.19.2
+      '@types/consul': 0.40.0
+      '@types/cookie-parser': 1.4.3
+      '@types/cors': 2.8.13
       '@types/express': 4.17.15
+      body-parser: 1.20.1
       change-case: 4.1.2
+      consul: 1.1.0
+      cookie-parser: 1.4.6
+      cors: 2.8.5
+      express: 4.18.2
+      got: 12.5.3
       graphql: 16.6.0
+      graphql-middleware: 6.1.33
+      graphql-shield: 7.6.5
+      jose: 4.11.1
+      jwks-rsa: 3.0.0
       typescript: 4.9.4
     dependencies:
       '@apollo/gateway': 2.2.1_graphql@16.6.0
       '@apollo/server': 4.2.2_graphql@16.6.0
       '@apollo/subgraph': 2.2.1_graphql@16.6.0
+      '@types/consul': 0.40.0
+      body-parser: 1.20.1
       change-case: 4.1.2
+      consul: 1.1.0
+      cookie-parser: 1.4.6
+      cors: 2.8.5
+      express: 4.18.2
+      got: 12.5.3
       graphql: 16.6.0
+      graphql-middleware: 6.1.33_graphql@16.6.0
+      graphql-shield: 7.6.5_rpdijwwqx5bcdzo7hy5fcln5ty
+      jose: 4.11.1
+      jwks-rsa: 3.0.0
     devDependencies:
-      '@shaastra/consul': link:../consul
-      '@shaastra/cqrs': link:../cqrs
-      '@shaastra/mail': link:../mail
       '@shaastra/tsconfig': link:../../tsconfig
+      '@types/body-parser': 1.19.2
+      '@types/cookie-parser': 1.4.3
+      '@types/cors': 2.8.13
       '@types/express': 4.17.15
       typescript: 4.9.4
 
@@ -598,9 +468,9 @@ packages:
       '@apollo/utils.logger': 2.0.0
       '@apollo/utils.usagereporting': 2.0.0_graphql@16.6.0
       '@apollo/utils.withrequired': 2.0.0
-      '@graphql-tools/schema': 9.0.11_graphql@16.6.0
+      '@graphql-tools/schema': 9.0.12_graphql@16.6.0
       '@josephg/resolvable': 1.0.1
-      '@types/express': 4.17.14
+      '@types/express': 4.17.15
       '@types/express-serve-static-core': 4.17.31
       '@types/node-fetch': 2.6.2
       async-retry: 1.3.3
@@ -2317,62 +2187,6 @@ packages:
     resolution: {integrity: sha512-/XlcNsMFjdWX4Away8Ax/4NgND8Ckk9gVDwgz1sfxF6h+gFHChLOV0IvPrUfCQjZ1F35igg+nR9bSxmjsYEskQ==}
     dev: false
 
-  /@graphql-codegen/cli/2.15.0_2gznuzujq65zf4yc74wt2bkm2e:
-    resolution: {integrity: sha512-o4Wh99VJDX/z0fG3pkdOf0t0fu7SlYn6qlLnqzNhVpZByGPe548gu11GKiOPKVaQ76kkB3dzqzfINRl+v7EA4A==}
-    hasBin: true
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      '@babel/generator': 7.20.5
-      '@babel/template': 7.18.10
-      '@babel/types': 7.20.5
-      '@graphql-codegen/core': 2.6.6_graphql@16.6.0
-      '@graphql-codegen/plugin-helpers': 2.7.2_graphql@16.6.0
-      '@graphql-tools/apollo-engine-loader': 7.3.21_graphql@16.6.0
-      '@graphql-tools/code-file-loader': 7.3.15_zb3wztjtkecxvuwqawam3eozdu
-      '@graphql-tools/git-loader': 7.2.15_zb3wztjtkecxvuwqawam3eozdu
-      '@graphql-tools/github-loader': 7.3.22_zb3wztjtkecxvuwqawam3eozdu
-      '@graphql-tools/graphql-file-loader': 7.5.11_graphql@16.6.0
-      '@graphql-tools/json-file-loader': 7.4.14_graphql@16.6.0
-      '@graphql-tools/load': 7.8.0_graphql@16.6.0
-      '@graphql-tools/prisma-loader': 7.2.46_psws3xnhmuzfn2i27kz34zo634
-      '@graphql-tools/url-loader': 7.16.26_psws3xnhmuzfn2i27kz34zo634
-      '@graphql-tools/utils': 8.13.1_graphql@16.6.0
-      '@whatwg-node/fetch': 0.3.2
-      ansi-escapes: 4.3.2
-      chalk: 4.1.2
-      chokidar: 3.5.3
-      cosmiconfig: 7.1.0
-      cosmiconfig-typescript-loader: 4.1.1_7j6kqqolim6ud2cuqlnzuw4nta
-      debounce: 1.2.1
-      detect-indent: 6.1.0
-      graphql: 16.6.0
-      graphql-config: 4.3.6_vdmxgryv5fs6o4qs3msfdcyeni
-      inquirer: 8.2.5
-      is-glob: 4.0.3
-      json-to-pretty-yaml: 1.2.2
-      listr2: 4.0.5
-      log-symbols: 4.1.0
-      shell-quote: 1.7.4
-      string-env-interpolation: 1.0.1
-      ts-log: 2.2.5
-      tslib: 2.4.1
-      yaml: 1.10.2
-      yargs: 17.6.2
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-      - bufferutil
-      - encoding
-      - enquirer
-      - supports-color
-      - ts-node
-      - typescript
-      - utf-8-validate
-    dev: true
-
   /@graphql-codegen/cli/2.15.0_c5tkwvggnwkx7v2ywoptwtilvi:
     resolution: {integrity: sha512-o4Wh99VJDX/z0fG3pkdOf0t0fu7SlYn6qlLnqzNhVpZByGPe548gu11GKiOPKVaQ76kkB3dzqzfINRl+v7EA4A==}
     hasBin: true
@@ -2812,6 +2626,7 @@ packages:
       '@graphql-tools/utils': 9.1.2_graphql@16.6.0
       graphql: 16.6.0
       tslib: 2.4.1
+    dev: true
 
   /@graphql-tools/merge/8.3.14_graphql@16.6.0:
     resolution: {integrity: sha512-zV0MU1DnxJLIB0wpL4N3u21agEiYFsjm6DI130jqHpwF0pR9HkF+Ni65BNfts4zQelP0GjkHltG+opaozAJ1NA==}
@@ -2821,7 +2636,6 @@ packages:
       '@graphql-tools/utils': 9.1.3_graphql@16.6.0
       graphql: 16.6.0
       tslib: 2.4.1
-    dev: true
 
   /@graphql-tools/merge/8.3.1_graphql@16.6.0:
     resolution: {integrity: sha512-BMm99mqdNZbEYeTPK3it9r9S6rsZsQKtlqJsSBknAclXq2pGEfOxjcIZi+kBSkHZKPKCRrYDd5vY0+rUmIHVLg==}
@@ -2933,6 +2747,7 @@ packages:
       graphql: 16.6.0
       tslib: 2.4.1
       value-or-promise: 1.0.11
+    dev: true
 
   /@graphql-tools/schema/9.0.12_graphql@16.6.0:
     resolution: {integrity: sha512-DmezcEltQai0V1y96nwm0Kg11FDS/INEFekD4nnVgzBqawvznWqK6D6bujn+cw6kivoIr3Uq//QmU/hBlBzUlQ==}
@@ -2944,7 +2759,6 @@ packages:
       graphql: 16.6.0
       tslib: 2.4.1
       value-or-promise: 1.0.11
-    dev: true
 
   /@graphql-tools/schema/9.0.4_graphql@16.6.0:
     resolution: {integrity: sha512-B/b8ukjs18fq+/s7p97P8L1VMrwapYc3N2KvdG/uNThSazRRn8GsBK0Nr+FH+mVKiUfb4Dno79e3SumZVoHuOQ==}
@@ -3027,6 +2841,7 @@ packages:
     dependencies:
       graphql: 16.6.0
       tslib: 2.4.1
+    dev: true
 
   /@graphql-tools/utils/9.1.3_graphql@16.6.0:
     resolution: {integrity: sha512-bbJyKhs6awp1/OmP+WKA1GOyu9UbgZGkhIj5srmiMGLHohEOKMjW784Sk0BZil1w2x95UPu0WHw6/d/HVCACCg==}
@@ -3035,7 +2850,6 @@ packages:
     dependencies:
       graphql: 16.6.0
       tslib: 2.4.1
-    dev: true
 
   /@graphql-tools/wrap/9.2.21_graphql@16.6.0:
     resolution: {integrity: sha512-h4S9x9Rh8aSKkBGv+nq43Z0qK7CH8ySl+9RDO0MluscWlqNNECJ34FytwPVd8sXSrS7JwgwmVNcT51EH1n0wRw==}
@@ -4845,6 +4659,12 @@ packages:
     resolution: {integrity: sha512-0TPN4MxIKiuv9UcXWNgWQurNNG/J0af+A41eD4T5bFWSRoZJ8xaDocrX47CzGv5620uaPabFDjiAB/+VQu/0SQ==}
     dependencies:
       '@types/node': 16.18.6
+    dev: false
+
+  /@types/cookie-parser/1.4.3:
+    resolution: {integrity: sha512-CqSKwFwefj4PzZ5n/iwad/bow2hTCh0FlNAeWLtQM3JA/NX/iYagIpWG2cf1bQKQ2c9gU2log5VUCrn7LDOs0w==}
+    dependencies:
+      '@types/express': 4.17.15
     dev: true
 
   /@types/cors/2.8.13:
@@ -4875,6 +4695,7 @@ packages:
       '@types/express-serve-static-core': 4.17.31
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.0
+    dev: true
 
   /@types/express/4.17.15:
     resolution: {integrity: sha512-Yv0k4bXGOH+8a+7bELd2PqHQsuiANB+A8a4gnQrkRWzrkKlb6KHaVvyXhqs04sVW/OWlbPyYxRgYlIXLfrufMQ==}
@@ -4986,17 +4807,20 @@ packages:
       '@types/express': 4.17.15
       '@types/jsonwebtoken': 8.5.9
       '@types/passport-strategy': 0.2.35
+    dev: false
 
   /@types/passport-strategy/0.2.35:
     resolution: {integrity: sha512-o5D19Jy2XPFoX2rKApykY15et3Apgax00RRLf0RUotPDUsYrQa7x4howLYr9El2mlUApHmCMv5CZ1IXqKFQ2+g==}
     dependencies:
       '@types/express': 4.17.15
       '@types/passport': 1.0.11
+    dev: false
 
   /@types/passport/1.0.11:
     resolution: {integrity: sha512-pz1cx9ptZvozyGKKKIPLcVDVHwae4hrH5d6g5J+DkMRRjR3cVETb4jMabhXAUbg3Ov7T22nFHEgaK2jj+5CBpw==}
     dependencies:
       '@types/express': 4.17.15
+    dev: false
 
   /@types/pem-jwk/2.0.0:
     resolution: {integrity: sha512-f5qbnCGcBZsSyj0wwpDSzQL8JCw8n3elwVsstHWplQnE+W6cESfddM5tTE2Hn3hUV52Scmr8pSU37dbW3qOm0w==}
@@ -5455,15 +5279,6 @@ packages:
       - debug
     dev: true
 
-  /axios/0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
-    dependencies:
-      follow-redirects: 1.15.2
-      form-data: 4.0.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /babel-core/7.0.0-bridge.0_@babel+core@7.20.5:
     resolution: {integrity: sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==}
     peerDependencies:
@@ -5619,10 +5434,6 @@ packages:
     engines: {node: '>=0.6'}
     dev: true
 
-  /bignumber.js/9.1.1:
-    resolution: {integrity: sha512-pHm4LsMJ6lzgNGVfZHjMoO8sdoRhOzOH4MLmY65Jg70bpxCKu5iOHNJyfF6OyvYw7t8Fpf35RuzUyqnQsj8Vig==}
-    dev: false
-
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
@@ -5768,7 +5579,7 @@ packages:
     dev: true
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
+    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
 
   /buffer-from/1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
@@ -6254,8 +6065,21 @@ packages:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
 
+  /cookie-parser/1.4.6:
+    resolution: {integrity: sha512-z3IzaNjdwUC2olLIB5/ITd0/setiaFMLYiZJle7xg5Fe9KWAceil7xszYfHHBtDFYLSgJduS2Ty0P1uJdPDJeA==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      cookie: 0.4.1
+      cookie-signature: 1.0.6
+    dev: false
+
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+
+  /cookie/0.4.1:
+    resolution: {integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==}
+    engines: {node: '>= 0.6'}
+    dev: false
 
   /cookie/0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
@@ -6689,7 +6513,7 @@ packages:
       safe-buffer: 5.2.1
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
 
   /ejs/3.1.8:
     resolution: {integrity: sha512-/sXZeMlhS0ArkfX2Aw780gJzXSMPnKjtspYZv+f3NiKLlubezAHDU5+9xz6gd3/NhG3txQCo6xlglmTS+oTGEQ==}
@@ -7404,6 +7228,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: true
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -7431,15 +7256,6 @@ packages:
       combined-stream: 1.0.8
       mime-types: 2.1.35
 
-  /form-data/4.0.0:
-    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
-    engines: {node: '>= 6'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
-    dev: false
-
   /formdata-node/4.4.1:
     resolution: {integrity: sha512-0iirZp3uVDjVGt9p49aTaqjk84TrglENEDuqfdlZQ1roC9CWlPk6Avf8EEnZNcAqPonwkG35x4n3ww/1THYAeQ==}
     engines: {node: '>= 12.20'}
@@ -7464,7 +7280,7 @@ packages:
     dev: true
 
   /fresh/0.5.2:
-    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
+    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
     engines: {node: '>= 0.6'}
 
   /fs-extra/10.1.0:
@@ -7730,36 +7546,6 @@ packages:
       minimatch: 4.2.1
       string-env-interpolation: 1.0.1
       ts-node: 10.9.1_iv5fw2xzngibyrk4dio6gpth2y
-      tslib: 2.4.1
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-      - bufferutil
-      - encoding
-      - typescript
-      - utf-8-validate
-    dev: true
-
-  /graphql-config/4.3.6_vdmxgryv5fs6o4qs3msfdcyeni:
-    resolution: {integrity: sha512-i7mAPwc0LAZPnYu2bI8B6yXU5820Wy/ArvmOseDLZIu0OU1UTULEuexHo6ZcHXeT9NvGGaUPQZm8NV3z79YydA==}
-    engines: {node: '>= 10.0.0'}
-    peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      '@graphql-tools/graphql-file-loader': 7.5.11_graphql@16.6.0
-      '@graphql-tools/json-file-loader': 7.4.14_graphql@16.6.0
-      '@graphql-tools/load': 7.8.6_graphql@16.6.0
-      '@graphql-tools/merge': 8.3.13_graphql@16.6.0
-      '@graphql-tools/url-loader': 7.16.26_psws3xnhmuzfn2i27kz34zo634
-      '@graphql-tools/utils': 8.13.1_graphql@16.6.0
-      cosmiconfig: 7.0.1
-      cosmiconfig-toml-loader: 1.0.0
-      cosmiconfig-typescript-loader: 4.1.1_7dpfhvt44ljzlijohuqdttbrk4
-      graphql: 16.6.0
-      minimatch: 4.2.1
-      string-env-interpolation: 1.0.1
-      ts-node: 10.9.1_fto3gfbnpvnks2bwk7kxz7cgfm
       tslib: 2.4.1
     transitivePeerDependencies:
       - '@swc/core'
@@ -8681,12 +8467,6 @@ packages:
     hasBin: true
     dev: true
 
-  /json-bigint/1.0.0:
-    resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
-    dependencies:
-      bignumber.js: 9.1.1
-    dev: false
-
   /json-buffer/3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
@@ -9126,7 +8906,7 @@ packages:
     dev: true
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
     engines: {node: '>= 0.6'}
 
   /memoizerific/1.11.3:
@@ -9148,7 +8928,7 @@ packages:
     dev: true
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
+    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
 
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -9446,17 +9226,6 @@ packages:
   /node-int64/0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
     dev: true
-
-  /node-mailjet/5.1.1:
-    resolution: {integrity: sha512-/KN1gDn/NcHU6wOwzwbuBbqIpexdjuZLjgLhUWJSSQgGRdRjcL16FF3ldbJRzljtMPiu6IJUNmXFGt7Nu+gEOg==}
-    engines: {node: '>= 12.0.0', npm: '>= 6.9.0'}
-    dependencies:
-      axios: 0.27.2
-      json-bigint: 1.0.0
-      url-join: 4.0.1
-    transitivePeerDependencies:
-      - debug
-    dev: false
 
   /node-releases/2.0.6:
     resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
@@ -9804,27 +9573,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /passport-jwt/4.0.0:
-    resolution: {integrity: sha512-BwC0n2GP/1hMVjR4QpnvqA61TxenUMlmfNjYNgK0ZAs0HK4SOQkHcSv4L328blNTLtHq7DbmvyNJiH+bn6C5Mg==}
-    dependencies:
-      jsonwebtoken: 8.5.1
-      passport-strategy: 1.0.0
-    dev: false
-
-  /passport-strategy/1.0.0:
-    resolution: {integrity: sha512-CB97UUvDKJde2V0KDWWB3lyf6PC3FaZP7YxZ2G8OAtn9p4HI9j9JLP9qjOGZFvyl8uwNT8qM+hGnz/n16NI7oA==}
-    engines: {node: '>= 0.4.0'}
-    dev: false
-
-  /passport/0.6.0:
-    resolution: {integrity: sha512-0fe+p3ZnrWRW74fe8+SvCyf4a3Pb2/h7gFkQ8yTJpAO50gDzlfjZUZTO1k5Eg9kUct22OxHLqDZoKUWRHOh9ug==}
-    engines: {node: '>= 0.4.0'}
-    dependencies:
-      passport-strategy: 1.0.0
-      pause: 0.0.1
-      utils-merge: 1.0.1
-    dev: false
-
   /path-browserify/1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
     dev: true
@@ -9893,10 +9641,6 @@ packages:
   /pathe/1.0.0:
     resolution: {integrity: sha512-nPdMG0Pd09HuSsr7QOKUXO2Jr9eqaDiZvDwdyIhNG5SHYujkQHYKDfGQkulBxvbDHz8oHLsTgKN86LSwYzSHAg==}
     dev: true
-
-  /pause/0.0.1:
-    resolution: {integrity: sha512-KG8UEiEVkR3wGEb4m5yZkVCzigAD+cVEJck2CzYZO37ZGJfctvVptVO192MwrtPhzONn6go8ylnOdMhKqi4nfg==}
-    dev: false
 
   /pem-jwk/2.0.0:
     resolution: {integrity: sha512-rFxu7rVoHgQ5H9YsP50dDWf0rHjreVA2z0yPiWr5WdH/UHb29hKtF7h6l8vNd1cbYR1t0QL+JKhW55a2ZV4KtA==}
@@ -11475,38 +11219,6 @@ packages:
       code-block-writer: 11.0.3
     dev: true
 
-  /ts-node/10.9.1_fto3gfbnpvnks2bwk7kxz7cgfm:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@swc/core': 1.3.21
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 16.18.6
-      acorn: 8.8.1
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.9.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: true
-
   /ts-node/10.9.1_iv5fw2xzngibyrk4dio6gpth2y:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -11874,10 +11586,6 @@ packages:
     resolution: {integrity: sha512-Am1ousAhSLBeB9cG/7k7r2R0zj50uDRlZHPGbazid5s9rlF1F/QKYObEKSIunSjIOkJZqwRRLpvewjEkM7pSqg==}
     deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
-
-  /url-join/4.0.1:
-    resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
-    dev: false
 
   /use/3.1.1:
     resolution: {integrity: sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==}

@@ -76,7 +76,7 @@ export default function Avatar( { size, src, name }: AvatarProps ) {
 	return (
 		<div class = { rootClassname() }>
 			<Show keyed when = { !!src } fallback = { <div class = { divClassname() }>{ initials() }</div> }>
-				<img src = { src! } alt = { "avatar-img" } class = { imageClassname() } />
+				<img src = { src! } alt = { "avatar-img" } class = { imageClassname() }/>
 			</Show>
 		</div>
 	);

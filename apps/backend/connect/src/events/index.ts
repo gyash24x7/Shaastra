@@ -1,5 +1,8 @@
-import { EventBus } from "@shaastra/cqrs";
+import type { PrismaClient } from "@prisma/client/connect/index.js";
+import type { IEvents } from "@shaastra/framework";
 
-const eventBus = new EventBus();
+export enum AppEvents {}
 
-export { eventBus };
+const events: IEvents<PrismaClient, AppEvents> = {};
+
+export default events;

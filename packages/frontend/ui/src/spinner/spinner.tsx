@@ -45,7 +45,7 @@ export default function Spinner( { appearance, size }: SpinnerProps ) {
 
 	return (
 		<svg viewBox = "0 0 50 50" class = { svgClassname() }>
-			<circle cx = { 25 } cy = { 25 } r = { 20 } class = { circleClassname() } />
+			<circle cx = { 25 } cy = { 25 } r = { 20 } class = { circleClassname() }/>
 		</svg>
 	);
 }

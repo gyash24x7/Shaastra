@@ -4,10 +4,10 @@
 @tailwind screens;
 
 .auth-bg {
-    background: url("../assets/auth-bg.jpg");
-    background-size: cover;
+	background: url("../assets/auth-bg.jpg");
+	background-size: cover;
 }
 
 .auth-sidebar {
-    min-width: 500px;
+	min-width: 500px;
 }

@@ -49,11 +49,11 @@ export default function Banner( props: BannerProps ) {
 					when = { isLoading }
 					fallback = {
 						<Show keyed when = { !!icon && !isLoading }>
-							<Icon width = { 20 } height = { 20 } path = { icon! } />
+							<Icon width = { 20 } height = { 20 } path = { icon! }/>
 						</Show>
 					}
 				>
-					<Spinner size = { "sm" } appearance = { spinnerAppearance() } />
+					<Spinner size = { "sm" } appearance = { spinnerAppearance() }/>
 				</Show>
 				<h2>{ message }</h2>
 			</HStack>

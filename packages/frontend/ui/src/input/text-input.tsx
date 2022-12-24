@@ -44,7 +44,7 @@ export default function TextInput( props: TextInputProps ) {
 			</Show>
 			<div class = { inputRootClassname() }>
 				<Show when = { !!props.iconBefore } keyed>
-					<Icon class = { "w-4 h-4 mr-3 text-light-700" } path = { props.iconBefore! } />
+					<Icon class = { "w-4 h-4 mr-3 text-light-700" } path = { props.iconBefore! }/>
 				</Show>
 				<input
 					style = { { all: "unset", flex: 1 } }
@@ -56,11 +56,11 @@ export default function TextInput( props: TextInputProps ) {
 					autocomplete = { "" }
 				/>
 				<Show when = { !!props.iconAfter } keyed>
-					<Icon class = { "w-4 h-4 ml-3 text-light-700" } path = { props.iconAfter! } />
+					<Icon class = { "w-4 h-4 ml-3 text-light-700" } path = { props.iconAfter! }/>
 				</Show>
 			</div>
 			<Show keyed when = { !!props.message }>
-				<InputMessage text = { props.message! } appearance = { props.appearance } />
+				<InputMessage text = { props.message! } appearance = { props.appearance }/>
 			</Show>
 		</>
 	);

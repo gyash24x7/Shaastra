@@ -1,17 +1,11 @@
-import type { Member, PrismaClient } from "@prisma/client/workforce/index.js";
-import type { IEvent, IEventHandler } from "@shaastra/cqrs";
-import type { ServiceContext } from "@shaastra/utils";
+import type { Member } from "@prisma/client/workforce/index.js";
+import type { AppContext } from "../index.js";
 
-
-export class MemberEnabledEvent implements IEvent<Member, ServiceContext<PrismaClient>> {
-	constructor(
-		public readonly data: Member,
-		public readonly context: ServiceContext<PrismaClient>
-	) {}
-
-	public static readonly handler: IEventHandler<MemberEnabledEvent> = async ( { data, context } ) => {
-		const subject = `Your Shaastra Prime Account is Enabled`;
-		const content = `Hi ${ data.name }, You can now use Shaastra Prime.`;
-		await context.mailer.sendMail( { subject, content, email: data.email, name: data.name } );
-	};
-}
+export default async function memberEnabledEventHandler( _data: unknown, context: AppContext ) {
+	const data = _data as Member;
+	const subject = `Your Shaastra Prime Account is Enabled`;
+	const content = `Hi ${ data.name }, You can now use Shaastra Prime.`;
+	context.logger.scope( "MemberEnabledEventHandler" ).debug( `Need to send mail here!` );
+	context.logger.scope( "MemberEnabledEventHandler" ).debug( `Subject: ${ subject }` );
+	context.logger.scope( "MemberEnabledEventHandler" ).debug( `Content: ${ content }` );
+};

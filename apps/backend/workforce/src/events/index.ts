@@ -1,15 +1,23 @@
-import { EventBus } from "@shaastra/cqrs";
-import { MemberCreatedEvent } from "./member.created.event.js";
-import { MemberEnabledEvent } from "./member.enabled.event.js";
-import { TeamCreatedEvent } from "./team.created.event.js";
-
-const eventBus = new EventBus();
-eventBus.registerEvent( MemberCreatedEvent );
-eventBus.registerEvent( MemberEnabledEvent );
-eventBus.registerEvent( TeamCreatedEvent );
-
-export { eventBus };
+import type { PrismaClient } from "@prisma/client/workforce/index.js";
+import type { IEvents } from "@shaastra/framework";
+import memberCreatedEventHandler from "./member.created.event.js";
+import memberEnabledEventHandler from "./member.enabled.event.js";
+import teamCreatedEventHandler from "./team.created.event.js";
 
 export * from "./member.created.event.js";
 export * from "./member.enabled.event.js";
 export * from "./team.created.event.js";
+
+export enum AppEvents {
+	MEMBER_CREATED_EVENT = "MEMBER_CREATED_EVENT",
+	MEMBER_ENABLED_EVENT = "MEMBER_ENABLED_EVENT",
+	TEAM_CREATED_EVENT = "TEAM_CREATED_EVENT"
+}
+
+const events: IEvents<PrismaClient, AppEvents> = {
+	MEMBER_CREATED_EVENT: memberCreatedEventHandler,
+	MEMBER_ENABLED_EVENT: memberEnabledEventHandler,
+	TEAM_CREATED_EVENT: teamCreatedEventHandler
+};
+
+export default events;

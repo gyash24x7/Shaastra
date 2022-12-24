@@ -1,21 +1,12 @@
-import type { PrismaClient, Token } from "@prisma/client/identity/index.js";
-import type { ICommand, ICommandHandler } from "@shaastra/cqrs";
-import type { ServiceContext } from "@shaastra/utils";
 import crypto from "crypto";
 import dayjs from "dayjs";
-
+import type { AppContext } from "../index.js";
 
 export type CreateTokenInput = { userId: string, token?: string };
 
-export class CreateTokenCommand implements ICommand<CreateTokenInput, ServiceContext<PrismaClient>> {
-	constructor(
-		public readonly data: CreateTokenInput,
-		public readonly context: ServiceContext<PrismaClient>
-	) {}
-
-	public static readonly handler: ICommandHandler<CreateTokenCommand, Token> = ( { data, context } ) => {
-		const token = data.token || crypto.randomBytes( 32 ).toString( "hex" );
-		const expiry = dayjs().add( 2, "days" ).toDate();
-		return context.prisma.token.create( { data: { userId: data.userId, token, expiry } } );
-	};
+export default async function createTokenCommandHandler( data: unknown, context: AppContext ) {
+	let input = data as CreateTokenInput;
+	const token = input.token || crypto.randomBytes( 32 ).toString( "hex" );
+	const expiry = dayjs().add( 2, "days" ).toDate();
+	return context.prisma.token.create( { data: { userId: input.userId, token, expiry } } );
 }

@@ -38,7 +38,7 @@ export default function InputMessage( { appearance, text }: InputMessageProps ) 
 		<div class = { inputMsgClassname() }>
 			<Show when = { !!icon() } keyed>
 				<span class = { "inline-block mr-1" }>
-					<Icon class = { "w-3 h-3" } path = { icon()! } />
+					<Icon class = { "w-3 h-3" } path = { icon()! }/>
 				</span>
 			</Show>
 			<span>{ text }</span>

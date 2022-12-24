@@ -57,7 +57,7 @@ function ListSelectOption<T>( { option }: ListSelectOptionProps<T> ) {
 					<span class = { "block truncate" }>{ option.label }</span>
 					<Show when = { isSelected() } keyed>
 						<span class = { optionIconClassname( isActive() ) }>
-							<Icon path = { checkCircle } class = { "w-4 h-4" } aria-hidden = "true" />
+							<Icon path = { checkCircle } class = { "w-4 h-4" } aria-hidden = "true"/>
 						</span>
 					</Show>
 				</div>
@@ -88,7 +88,7 @@ export default function ListSelect<T>( props: ListSelectProps<T> ) {
 				>
 					<ListboxButton class = { "h-5 text-light-700 flex items-center w-full justify-between" }>
 						<span>{ props.placeholder }</span>
-						<Icon path = { chevronUpDown } aria-hidden = "true" class = { "w-3 h-3" } />
+						<Icon path = { chevronUpDown } aria-hidden = "true" class = { "w-3 h-3" }/>
 					</ListboxButton>
 				</div>
 				<HeadlessDisclosureChild>
@@ -106,14 +106,14 @@ export default function ListSelect<T>( props: ListSelectProps<T> ) {
 								}
 							>
 								<For each = { props.options }>
-									{ ( option ) => <ListSelectOption option = { option } /> }
+									{ ( option ) => <ListSelectOption option = { option }/> }
 								</For>
 							</ListboxOptions>
 						</Transition>
 					) }
 				</HeadlessDisclosureChild>
 				<Show keyed when = { !!props.message }>
-					<InputMessage text = { props.message! } appearance = { props.appearance } />
+					<InputMessage text = { props.message! } appearance = { props.appearance }/>
 				</Show>
 			</Listbox>
 		</div>

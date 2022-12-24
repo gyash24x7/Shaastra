@@ -29,7 +29,7 @@ function renderButtonIcon( icon: IconType, size: Size = "md" ) {
 		"2xl": { width: 24, height: 24 }
 	};
 	const { width, height } = sizeMap[ size ];
-	return <Icon width = { width } height = { height } path = { icon } class = { "mx-2" } />;
+	return <Icon width = { width } height = { height } path = { icon } class = { "mx-2" }/>;
 }
 
 const buttonVariantSchema = new VariantSchema(
@@ -86,7 +86,7 @@ export default function Button( props: ButtonProps ) {
 			<Show
 				keyed
 				when = { !props.isLoading }
-				fallback = { <Spinner size = { props.size } appearance = { spinnerAppearance() } /> }
+				fallback = { <Spinner size = { props.size } appearance = { spinnerAppearance() }/> }
 			>
 				<Show when = { !!props.iconBefore } keyed>
 					{ renderButtonIcon( props.iconBefore!, props.size ) }

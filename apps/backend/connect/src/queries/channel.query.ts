@@ -1,14 +1,6 @@
-import type { Channel, PrismaClient } from "@prisma/client/connect/index.js";
-import type { IQuery, IQueryHandler } from "@shaastra/cqrs";
-import type { ServiceContext } from "@shaastra/utils";
+import type { AppContext } from "../index.js";
 
-export class ChannelQuery implements IQuery<{ id: string }, ServiceContext<PrismaClient>> {
-	constructor(
-		public readonly data: { id: string },
-		public readonly context: ServiceContext<PrismaClient>
-	) {}
-
-	public static readonly handler: IQueryHandler<ChannelQuery, Channel | null> = async ( { data, context } ) => {
-		return context.prisma.channel.findUnique( { where: { id: data.id } } );
-	};
-}
+export default async function channelQueryHandler( _data: unknown, context: AppContext ) {
+	const data = _data as { id: string };
+	return context.prisma.channel.findUnique( { where: { id: data.id } } );
+};

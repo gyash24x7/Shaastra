@@ -124,7 +124,7 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 						/>
 					) }
 				</For>
-				<SubmitButton />
+				<SubmitButton/>
 			</VStack>
 		</form>
 	);

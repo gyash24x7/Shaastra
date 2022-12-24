@@ -1,7 +1,7 @@
 {
 	"extends": "@shaastra/tsconfig/backend.json",
 	"compilerOptions": {
-		"rootDir": "src",
+		"rootDir": ".",
 		"noEmit": true
 	},
 	"include": [ "src", "scripts" ],

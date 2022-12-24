@@ -40,9 +40,9 @@ export default function Modal( { isOpen, onClose, children, title }: ModalProps 
 						leaveFrom = "opacity-100"
 						leaveTo = "opacity-0"
 					>
-						<DialogOverlay class = { "fixed inset-0 bg-dark-700/50" } />
+						<DialogOverlay class = { "fixed inset-0 bg-dark-700/50" }/>
 					</TransitionChild>
-					<span class = { "inline-block h-screen align-middle" } aria-hidden = "true" />
+					<span class = { "inline-block h-screen align-middle" } aria-hidden = "true"/>
 					<TransitionChild
 						enter = "ease-out duration-300"
 						enterFrom = "opacity-0 scale-90"
@@ -60,7 +60,7 @@ export default function Modal( { isOpen, onClose, children, title }: ModalProps 
 							}
 						>
 							<Show when = { !!title } keyed>
-								<ModalTitle title = { title! } />
+								<ModalTitle title = { title! }/>
 							</Show>
 							<Show when = { !!children } keyed>
 								<div class = { modalBodyClassname() }>

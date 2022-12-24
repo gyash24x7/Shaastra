@@ -1,6 +1,5 @@
 import type { Department, MemberPosition } from "@prisma/client/workforce/index.js";
-import type { OperationArgs } from "@shaastra/utils";
-
+import type { OperationArgs } from "@shaastra/framework";
 
 export type CreateMemberInput = {
 	name: string;

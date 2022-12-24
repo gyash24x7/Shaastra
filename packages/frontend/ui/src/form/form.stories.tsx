@@ -19,7 +19,7 @@ const Template: StoryFn<FormProps<DemoFormData>> = args => <Form { ...args } /> 
 export const Playground = Template.bind( {} );
 Playground.args = {
 	initialValue: { name: "", email: "" },
-	submitBtn: () => <Button buttonText = { "Submit" } />,
+	submitBtn: () => <Button buttonText = { "Submit" }/>,
 	renderMap: {
 		name( props ) {
 			return (

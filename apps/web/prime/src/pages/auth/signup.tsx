@@ -8,7 +8,7 @@ export default function SignUpPage() {
 	const [ password, setPassword ] = createSignal( "" );
 	return (
 		<VStack className = { "h-screen p-8" }>
-			<img src = { DarkLogo } alt = { "Shaastra Logo" } class = { "w-60 h-auto mx-auto my-4" } />
+			<img src = { DarkLogo } alt = { "Shaastra Logo" } class = { "w-60 h-auto mx-auto my-4" }/>
 			<h2 class = { "font-light text-3xl" }>SIGN UP</h2>
 			<TextInput
 				name = { "rollNumber" }
@@ -26,7 +26,7 @@ export default function SignUpPage() {
 				value = { password }
 				onChange = { setPassword }
 			/>
-			<Button appearance = { "primary" } type = { "submit" } buttonText = { "Submit" } fullWidth />
+			<Button appearance = { "primary" } type = { "submit" } buttonText = { "Submit" } fullWidth/>
 		</VStack>
 	);
 }

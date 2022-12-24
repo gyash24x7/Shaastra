@@ -1,9 +1,15 @@
-import { EventBus } from "@shaastra/cqrs";
-import { UserCreatedEvent } from "./user.created.event.js";
-
-const eventBus = new EventBus();
-eventBus.registerEvent( UserCreatedEvent );
-
-export { eventBus };
+import type { IEvents } from "@shaastra/framework";
+import userCreatedEventHandler from "./user.created.event.js";
+import type { PrismaClient } from "@prisma/client/identity/index.js";
 
 export * from "./user.created.event.js";
+
+export enum AppEvents {
+	USER_CREATED_EVENT = "USER_CREATED_EVENT"
+}
+
+const events: IEvents<PrismaClient> = {
+	USER_CREATED_EVENT: userCreatedEventHandler
+};
+
+export default events;

@@ -1,9 +1,7 @@
-import type { PrismaClient } from "@prisma/client/identity/index.js";
-import type { ICommand, ICommandHandler } from "@shaastra/cqrs";
-import type { ServiceContext } from "@shaastra/utils";
-import bcrypt from "bcryptjs";
-import { UserCreatedEvent } from "../events/index.js";
 import { UserMessages } from "../messages/user.messages.js";
+import bcrypt from "bcryptjs";
+import type { AppContext } from "../index.js";
+import { AppEvents } from "../events/index.js";
 
 export type CreateUserInput = {
 	name: string;
@@ -13,25 +11,17 @@ export type CreateUserInput = {
 	roles: string[];
 }
 
-export class CreateUserCommand implements ICommand<CreateUserInput, ServiceContext<PrismaClient>> {
-	public readonly name = "CREATE_USER_COMMAND";
+export default async function createUserCommandHandler( data: unknown, context: AppContext ) {
+	let input = data as CreateUserInput;
+	const existingUser = await context.prisma.user.findUnique( { where: { username: input.username } } );
 
-	constructor(
-		public readonly data: CreateUserInput,
-		public readonly context: ServiceContext<PrismaClient>
-	) {}
+	if ( existingUser ) {
+		throw new Error( UserMessages.ALREADY_EXISTS );
+	}
 
-	public static readonly handler: ICommandHandler<CreateUserCommand, string> = async ( { data, context } ) => {
-		const existingUser = await context.prisma.user.findUnique( { where: { username: data.username } } );
+	input.password = await bcrypt.hash( input.password, 10 );
 
-		if ( existingUser ) {
-			throw new Error( UserMessages.ALREADY_EXISTS );
-		}
-
-		data.password = await bcrypt.hash( data.password, 10 );
-
-		const user = await context.prisma.user.create( { data } );
-		context.eventBus.publish( new UserCreatedEvent( user, context ) );
-		return user.id;
-	};
+	const user = await context.prisma.user.create( { data: input } );
+	await context.eventBus.execute( AppEvents.USER_CREATED_EVENT, user, context );
+	return user.id;
 }

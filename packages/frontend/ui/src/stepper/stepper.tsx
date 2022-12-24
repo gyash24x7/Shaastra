@@ -75,13 +75,13 @@ export default function Stepper( props: StepperProps ) {
 							onClick = { handlePrevious }
 							disabled = { stepNames[ 0 ] === activeStep() }
 						/>
-						<NextButton onClick = { handleNext } />
+						<NextButton onClick = { handleNext }/>
 					</HStack>
 				}
 			>
 				<HStack className = { "mt-6" } spacing = { "sm" }>
-					<PreviousButton onClick = { handlePrevious } />
-					<EndButton onClick = { props.onEnd } isLoading = { props.isLoading } />
+					<PreviousButton onClick = { handlePrevious }/>
+					<EndButton onClick = { props.onEnd } isLoading = { props.isLoading }/>
 				</HStack>
 			</Show>
 		</>

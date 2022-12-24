@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"divine": "vite",
-		"build": "tsc && vite build",
+		"waitbuild": "tsc && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {

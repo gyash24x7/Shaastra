@@ -174,8 +174,8 @@ type Mutation
   login(data: LoginInput!): Boolean! @join__field(graph: IDENTITY)
   verifyUser(data: VerifyUserInput!): String! @join__field(graph: IDENTITY)
   logout: Boolean! @join__field(graph: IDENTITY)
-  createMember(data: CreateMemberInput!): Boolean! @join__field(graph: WORKFORCE)
-  enableMember(data: EnableMemberInput!): Boolean! @join__field(graph: WORKFORCE)
+  createMember(data: CreateMemberInput!): String! @join__field(graph: WORKFORCE)
+  enableMember(data: EnableMemberInput!): String! @join__field(graph: WORKFORCE)
   createTeam(data: CreateTeamInput!): String! @join__field(graph: WORKFORCE)
 }
 

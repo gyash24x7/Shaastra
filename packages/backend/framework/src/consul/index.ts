@@ -40,7 +40,7 @@ export class Consul {
 			http: `${ url }/api/health`,
 			method: "GET",
 			header: { "Content-Type": [ "application/json" ] },
-			interval: "10s",
+			interval: "30s",
 			timeout: "1s"
 		};
 

@@ -4,7 +4,7 @@
 	"description": "",
 	"type": "module",
 	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"types": "src/index.ts",
 	"scripts": {
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
 		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch  --delete-dir-on-start src",
@@ -52,10 +52,10 @@
 					"avoidOptionals": false,
 					"mappers": {
 						"ServiceContext": "@shaastra/framework#ServiceContext",
-						"PrismaClient": "@prisma/client/connect#PrismaClient",
-						"Channel": "@prisma/client/connect#Channel",
-						"Message": "@prisma/client/connect#Message",
-						"ChannelType": "@prisma/client/connect#ChannelType",
+						"PrismaClient": "@prisma/client/connect/index.js#PrismaClient",
+						"Channel": "@prisma/client/connect/index.js#Channel",
+						"Message": "@prisma/client/connect/index.js#Message",
+						"ChannelType": "@prisma/client/connect/index.js#ChannelType",
 						"CreateChannelInput": "../inputs.js#CreateChannelInput",
 						"CreateMessageInput": "../inputs.js#CreateMessageInput",
 						"GetMessagesInput": "../inputs.js#GetMessagesInput",

@@ -6,16 +6,17 @@ import type {
 	IServiceApplication,
 	IServiceApplicationOptions
 } from "../../index.js";
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
+import express from "express";
 import type { AppInfo } from "../../config/index.js";
 import { ApolloServer } from "@apollo/server";
-import type { Signale } from "signale";
-import type { Consul } from "../../consul/index.js";
-import type * as http from "http";
+import signale from "signale";
+import { Consul } from "../../consul/index.js";
+import http from "http";
 import { CommandBus, EventBus, QueryBus } from "../../cqrs/index.js";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
-import * as bodyParser from "body-parser";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import type {
 	ContextFn,
@@ -33,6 +34,9 @@ import { buildSubgraphSchema } from "@apollo/subgraph";
 import { join } from "node:path";
 import { HealthChecker, healthCheckRestApi, healthRestApi } from "../../health/index.js";
 import type { RestApi } from "../../rest/index.js";
+import { gql } from "graphql-tag";
+import process from "node:process";
+import { readFileSync } from "node:fs";
 
 export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> implements IBaseApplication<Ctx, Express> {
 	readonly _app: Express;
@@ -41,16 +45,34 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 	readonly consul: Consul;
 	readonly restApis: RestApi<Ctx>[] = [ healthRestApi, healthCheckRestApi ];
 	readonly httpServer: http.Server;
-	readonly logger: Signale;
+	readonly logger: signale.Signale;
 	readonly healthChecker: HealthChecker<Ctx>;
 	abstract createContext: ContextFn<Ctx>;
 
 	protected constructor( options: IBaseApplicationOptions<Ctx> ) {
-		const { name, restApis } = options;
+		const { name, restApis = [] } = options;
 
 		this.appInfo = this.generateAppInfo( name );
 		this.restApis.push( ...restApis );
 		this.healthChecker = new HealthChecker<Ctx>();
+
+		this._app = express();
+		this.httpServer = http.createServer( this._app );
+
+		this.logger = new signale.Signale( {
+			config: {
+				displayScope: true,
+				displayFilename: true
+			}
+		} );
+
+		this.consul = new Consul(
+			{
+				host: process.env[ "CONSUL_HOST" ] || "localhost",
+				port: process.env[ "CONSUL_PORT" ] || "8500"
+			},
+			this.logger.scope( "Consul" )
+		);
 	}
 
 	applyMiddlewares() {
@@ -59,20 +81,29 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 	}
 
 	registerRestApis() {
-		const methodFnMap = {
-			GET: this._app.get,
-			POST: this._app.post,
-			PUT: this._app.put,
-			DELETE: this._app.delete,
-			ALL: this._app.all
+		const handler = ( api: RestApi<Ctx> ) => async ( req: Request, res: Response ) => {
+			const context = await this.createContext( { req, res } );
+			api.handler( context );
 		};
 
-		this.restApis.forEach( controller => {
-			let method = methodFnMap[ controller.method ];
-			method( controller.path, async ( req, res ) => {
-				const context = await this.createContext( { req, res } );
-				controller.handler( context );
-			} );
+		this.restApis.forEach( api => {
+			switch ( api.method ) {
+				case "GET":
+					this._app.get( api.path, handler( api ) );
+					break;
+				case "POST":
+					this._app.post( api.path, handler( api ) );
+					break;
+				case "PUT":
+					this._app.put( api.path, handler( api ) );
+					break;
+				case "DELETE":
+					this._app.delete( api.path, handler( api ) );
+					break;
+				case "ALL":
+					this._app.all( api.path, handler( api ) );
+					break;
+			}
 		} );
 	}
 
@@ -105,11 +136,11 @@ export class ExpressGatewayApplication extends ExpressBaseApplication<GatewayCon
 	constructor( options: IGatewayApplicationOptions ) {
 		super( options );
 
+		const supergraphSdl = readFileSync( join( process.cwd(), "src/graphql/schema.graphql" ), "utf-8" );
+		const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );
+
 		this.apolloServer = new ApolloServer<GatewayContext>( {
-			gateway: new ApolloGateway( {
-				supergraphSdl: options.graphql.supergraphSdl,
-				buildService: ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } )
-			} ),
+			gateway: new ApolloGateway( { supergraphSdl, buildService } ),
 			plugins: [
 				ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
 				ApolloServerPluginLandingPageDisabled(),
@@ -152,7 +183,10 @@ export class ExpressServiceApplication<P> extends ExpressBaseApplication<Service
 
 	constructor( options: IServiceApplicationOptions<P> ) {
 		super( options );
-		const { graphql: { typeDefs, resolvers }, cqrs: { commands, queries, events }, prisma } = options;
+		const { graphql: { resolvers }, cqrs: { commands, queries, events }, prisma } = options;
+
+		const typeDefsString = readFileSync( join( process.cwd(), "src/graphql/schema.graphql" ), "utf-8" );
+		const typeDefs = gql( typeDefsString );
 
 		let schema = buildSubgraphSchema( { typeDefs, resolvers } as any );
 

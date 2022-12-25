@@ -10,7 +10,7 @@ export class HealthChecker<Ctx extends ServiceBaseContext> {
 		} );
 
 		context.logger.scope( "HealthChecker::checkApiHealth()" )
-			.success( `HealthCheckResponse: ${ JSON.stringify( response ) }` );
+			.debug( `HealthCheckResponse: ${ JSON.stringify( response ) }` );
 		return response;
 	}
 }

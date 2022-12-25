@@ -1,4 +1,3 @@
-import type { DocumentNode } from "graphql/index.js";
 import type { ApolloServer } from "@apollo/server";
 import type { Signale } from "signale";
 import type * as http from "node:http";
@@ -17,7 +16,7 @@ import type { HealthChecker } from "../health/index.js";
 
 export interface IBaseApplicationOptions<Ctx extends ServiceBaseContext> {
 	name: string;
-	restApis: RestApi<Ctx>[];
+	restApis?: RestApi<Ctx>[];
 }
 
 export interface IServiceApplicationOptions<P> extends IBaseApplicationOptions<ServiceContext<P>> {
@@ -28,16 +27,11 @@ export interface IServiceApplicationOptions<P> extends IBaseApplicationOptions<S
 	};
 	prisma: P;
 	graphql: {
-		typeDefs: DocumentNode;
 		resolvers: any;
 	};
 }
 
-export interface IGatewayApplicationOptions extends IBaseApplicationOptions<GatewayContext> {
-	graphql: {
-		supergraphSdl: string
-	};
-}
+export interface IGatewayApplicationOptions extends IBaseApplicationOptions<GatewayContext> {}
 
 export interface IBaseApplication<Ctx extends ServiceBaseContext, A = any> {
 	readonly _app: A;

@@ -4,7 +4,7 @@
 	"description": "",
 	"type": "module",
 	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"types": "src/index.ts",
 	"scripts": {
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
 		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch  --delete-dir-on-start src",
@@ -62,7 +62,7 @@
 					"mappers": {
 						"Maybe": "@shaastra/framework#Maybe",
 						"Scalars": "@shaastra/framework#Scalars",
-						"PrismaClient": "@prisma/client/identity#PrismaClient",
+						"PrismaClient": "@prisma/client/identity/index.js#PrismaClient",
 						"ServiceContext": "@shaastra/framework#ServiceContext",
 						"LoginInput": "../inputs.js#LoginInput",
 						"VerifyUserInput": "../inputs.js#VerifyUserInput",

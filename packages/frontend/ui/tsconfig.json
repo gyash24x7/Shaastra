@@ -3,10 +3,8 @@
 	"compilerOptions": {
 		"rootDir": "src",
 		"resolveJsonModule": true,
-		"declaration": true,
-		"declarationDir": "dist",
 		"outDir": "dist",
-		"noEmit": false
+		"noEmit": true
 	},
 	"include": [ "src" ],
 	"exclude": [
@@ -16,7 +14,9 @@
 		".storybook",
 		"**/*.spec.(ts|tsx|js|jsx)",
 		"**/*.test.(ts|tsx|js|jsx)",
-		"**/*.stories.(ts|tsx|js|jsx)"
+		"**/*.stories.(ts|tsx|js|jsx)",
+		"vite.config.ts",
+		"tailwind.config.ts"
 	],
 	"references": [ { "path": "./tsconfig.node.json" } ]
 }

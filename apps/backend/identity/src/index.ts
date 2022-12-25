@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 import { ExpressServiceApplication, ServiceContext } from "@shaastra/framework";
-import { PrismaClient } from "@prisma/client/identity";
+import { PrismaClient } from "@prisma/client/identity/index.js";
 import commands from "./commands/index.js";
-import { typeDefs } from "./graphql/types.js";
 import { resolvers } from "./graphql/resolvers.js";
 import events from "./events/index.js";
 import queries from "./queries/index.js";
@@ -16,7 +15,7 @@ export type AppContext = ServiceContext<PrismaClient>;
 const application = new ExpressServiceApplication( {
 	name: "identity",
 	prisma: new PrismaClient(),
-	graphql: { typeDefs, resolvers },
+	graphql: { resolvers },
 	cqrs: { commands, queries, events },
 	restApis: [ jwksRestApi, userRestApi ]
 } );

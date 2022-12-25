@@ -7,11 +7,11 @@ export const resolvers: Resolvers = {
 			return context.commandBus.execute( AppCommands.LOGIN_COMMAND, data, context );
 		},
 
-		async verifyUser( _parent, { data }, context ) {
+		async verifyUser( _parent, { data }, context ): Promise<string> {
 			return context.commandBus.execute( AppCommands.VERIFY_USER_COMMAND, data, context );
 		},
 
-		async logout( _parent, _args, { authInfo, res } ) {
+		async logout( _parent, _args, { authInfo, res } ): Promise<boolean> {
 			res.setHeader( "x-logout", authInfo!.id );
 			return true;
 		}

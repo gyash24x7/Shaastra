@@ -50,8 +50,8 @@ type Query {
 }
 
 type Mutation {
-	createMember(data: CreateMemberInput!): Boolean!
-	enableMember(data: EnableMemberInput!): Boolean!
+	createMember(data: CreateMemberInput!): String!
+	enableMember(data: EnableMemberInput!): String!
 	createTeam(data: CreateTeamInput!): String!
 }
 

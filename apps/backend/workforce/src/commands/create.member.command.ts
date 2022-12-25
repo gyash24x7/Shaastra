@@ -17,19 +17,19 @@ export default async function createMemberCommandHandler( _data: unknown, contex
 		roles: [ `MEMBER_${ data.department }`, `POSITION_${ data.position }` ]
 	};
 
-	const response: any = await got.post( url, { json: input } ).json();
+	const response = await got.post( url, { json: input } ).text();
 
 	context.logger.log( `Response: ${ response }` );
 
 	const existingMember = await context.prisma.member.findUnique( {
-		where: { id: response.data }
+		where: { id: response }
 	} );
 
 	if ( existingMember ) {
 		throw new Error( MemberMessages.ALREADY_EXISTS );
 	}
 
-	const member = await context.prisma.member.create( { data: { ...data, id: response.data as string } } );
+	const member = await context.prisma.member.create( { data: { ...data, id: response } } );
 	context.eventBus.execute( AppEvents.MEMBER_CREATED_EVENT, member, context );
 	return member.id;
 }

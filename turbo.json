@@ -2,7 +2,7 @@
 	"$schema": "https://turbo.build/schema.json",
 	"pipeline": {
 		"dev": {
-			"dependsOn": [ "db:generate", "gql:generate", "^build", "^typecheck" ],
+			"dependsOn": [ "db:generate", "gql:generate", "build" ],
 			"cache": false
 		},
 		"divine": {
@@ -10,28 +10,36 @@
 			"cache": false
 		},
 		"build": {
-			"dependsOn": [ "^build", "^typecheck", "db:generate", "gql:generate" ],
+			"dependsOn": [ "^build", "db:generate", "gql:generate" ],
 			"outputs": [ "dist/**" ]
 		},
 		"typecheck": {
-			"dependsOn": [ "build" ]
+			"dependsOn": [ "build", "^typecheck" ],
+			"outputs": [ ]
 		},
 		"start": {
 			"dependsOn": [ "build", "typecheck" ],
 			"cache": false
 		},
 		"db:push": {
-			"inputs": [ "apps/**/prisma/schema.prisma" ]
+			"inputs": [ "prisma/schema.prisma" ],
+			"outputs": [ ]
 		},
 		"db:generate": {
-			"inputs": [ "apps/**/prisma/schema.prisma" ]
+			"inputs": [ "prisma/schema.prisma" ],
+			"outputs": [ ]
 		},
 		"gql:generate": {
-			"inputs": [ "apps/**/src/graphql/schema.graphql" ],
-			"outputs": [ "apps/**/src/graphql/generated" ]
+			"inputs": [ "src/graphql/schema.graphql" ],
+			"outputs": [ "src/graphql/generated" ]
 		},
 		"@shaastra/gateway#gql:generate": {
-			"inputs": [ "apps/gateway/supergraph-compose.yml", "apps/**/src/graphql/schema.graphql" ]
+			"inputs": [ "supergraph-compose.yml" ],
+			"dependsOn": [
+				"@shaastra/identity#gql:generate",
+				"@shaastra/connect#gql:generate",
+				"@shaastra/workforce#gql:generate"
+			]
 		}
 	}
 }

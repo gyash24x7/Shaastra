@@ -2,11 +2,11 @@ import type { BaseContext, ContextFunction } from "@apollo/server";
 import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
 import type { CommandBus, EventBus, QueryBus } from "../cqrs/index.js";
 import type { Request, Response } from "express";
-import type { Signale } from "signale";
 import type { AppInfo } from "../config/index.js";
 import type { HealthChecker } from "../health/index.js";
 import type { Consul } from "../consul/index.js";
 import type { UserAuthInfo } from "../auth/index.js";
+import type { Logger } from "pino";
 
 export type ExpressContext = BaseContext & {
 	req: Request;
@@ -22,7 +22,7 @@ export type CqrsContext<P> = {
 }
 
 export type LoggerContext = {
-	logger: Signale
+	logger: Logger
 }
 
 export type ConsulContext = {

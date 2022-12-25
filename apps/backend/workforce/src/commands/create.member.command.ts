@@ -19,7 +19,7 @@ export default async function createMemberCommandHandler( _data: unknown, contex
 
 	const response = await got.post( url, { json: input } ).text();
 
-	context.logger.log( `Response: ${ response }` );
+	context.logger.debug( `Response: ${ response }` );
 
 	const existingMember = await context.prisma.member.findUnique( {
 		where: { id: response }

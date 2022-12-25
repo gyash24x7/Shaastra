@@ -10,7 +10,6 @@ import type { Express, Request, Response } from "express";
 import express from "express";
 import type { AppInfo } from "../../config/index.js";
 import { ApolloServer } from "@apollo/server";
-import signale from "signale";
 import { Consul } from "../../consul/index.js";
 import http from "http";
 import { CommandBus, EventBus, QueryBus } from "../../cqrs/index.js";
@@ -37,6 +36,8 @@ import type { RestApi } from "../../rest/index.js";
 import { gql } from "graphql-tag";
 import process from "node:process";
 import { readFileSync } from "node:fs";
+import { Logger, pino } from "pino";
+import { pinoHttp } from "pino-http";
 
 export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> implements IBaseApplication<Ctx, Express> {
 	readonly _app: Express;
@@ -45,7 +46,7 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 	readonly consul: Consul;
 	readonly restApis: RestApi<Ctx>[] = [ healthRestApi, healthCheckRestApi ];
 	readonly httpServer: http.Server;
-	readonly logger: signale.Signale;
+	readonly logger: Logger;
 	readonly healthChecker: HealthChecker<Ctx>;
 	abstract createContext: ContextFn<Ctx>;
 
@@ -59,10 +60,13 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 		this._app = express();
 		this.httpServer = http.createServer( this._app );
 
-		this.logger = new signale.Signale( {
-			config: {
-				displayScope: true,
-				displayFilename: true
+		this.logger = pino( {
+			level: process.env[ "NODE_ENV" ] === "production" ? "info" : "debug",
+			transport: {
+				target: "pino-pretty",
+				options: {
+					colorize: true
+				}
 			}
 		} );
 
@@ -71,13 +75,14 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 				host: process.env[ "CONSUL_HOST" ] || "localhost",
 				port: process.env[ "CONSUL_PORT" ] || "8500"
 			},
-			this.logger.scope( "Consul" )
+			this.logger
 		);
 	}
 
 	applyMiddlewares() {
 		this._app.use( bodyParser.json() );
 		this._app.use( cookieParser() );
+		this._app.use( pinoHttp( { logger: this.logger } ) );
 	}
 
 	registerRestApis() {
@@ -116,7 +121,7 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 		this._app.use( "/api/graphql", expressMiddleware( this.apolloServer, { context: this.createContext } ) );
 
 		await new Promise<void>( ( resolve ) => this.httpServer.listen( { port: this.appInfo.port }, resolve ) );
-		this.logger.scope( "Global" ).success( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
+		this.logger.info( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
 
 		await this.consul.registerService( this.appInfo );
 	}
@@ -169,7 +174,7 @@ export class ExpressGatewayApplication extends ExpressBaseApplication<GatewayCon
 		this._app.use( "/api/graphql", expressMiddleware( this.apolloServer, { context: this.createContext } ) );
 
 		await new Promise<void>( ( resolve ) => this.httpServer.listen( { port: this.appInfo.port }, resolve ) );
-		this.logger.scope( "Global" ).success( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
+		this.logger.info( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
 
 		await this.consul.registerService( this.appInfo );
 	}

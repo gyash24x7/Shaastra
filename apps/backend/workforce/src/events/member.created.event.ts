@@ -12,8 +12,8 @@ export default async function memberCreatedEventHandler( _data: unknown, context
 	const subject = `New Member requested to join ${ data.department }`;
 	const content = `Please log in to Shaastra Prime and approve this request.`;
 	// await context.mailer.sendMail( { subject, content, email: member.email, name: member.name } );
-	context.logger.scope( "MemberCreatedEventHandler" ).debug( `Need to send mail here!` );
-	context.logger.scope( "MemberCreatedEventHandler" ).debug( `Subject: ${ subject }` );
-	context.logger.scope( "MemberCreatedEventHandler" ).debug( `Content: ${ content }` );
-	context.logger.scope( "MemberCreatedEventHandler" ).debug( `Member: ${ member.name }` );
+	context.logger.debug( `Need to send mail here!` );
+	context.logger.debug( `Subject: ${ subject }` );
+	context.logger.debug( `Content: ${ content }` );
+	context.logger.debug( `Member: ${ member.name }` );
 }

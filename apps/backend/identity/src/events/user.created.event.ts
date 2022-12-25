@@ -8,7 +8,7 @@ export default async function userCreatedEventHandler( data: unknown, context: A
 	const subject = "Verify your Shaastra Account";
 	const content = `Please click here to verify your Shaastra Account ${ link }`;
 	// await context.mailer.sendMail( { subject, content, email: user.email, name: user.name } );
-	context.logger.scope( "UserCreatedEventHandler" ).debug( `Need to send mail here!` );
-	context.logger.scope( "UserCreatedEventHandler" ).debug( `Subject: ${ subject }` );
-	context.logger.scope( "UserCreatedEventHandler" ).debug( `Content: ${ content }` );
+	context.logger.debug( `Need to send mail here!` );
+	context.logger.debug( `Subject: ${ subject }` );
+	context.logger.debug( `Content: ${ content }` );
 }

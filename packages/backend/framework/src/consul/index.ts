@@ -1,7 +1,7 @@
 import type { Consul as ConsulType } from "consul";
 import BaseConsul from "consul";
-import type { Signale } from "signale";
 import type { AppInfo, ConsulConfig } from "../config/index.js";
+import type { Logger } from "pino";
 
 export type ConsulService = {
 	ID: string;
@@ -14,9 +14,9 @@ export type ConsulService = {
 
 export class Consul {
 	private readonly consul: ConsulType;
-	private readonly logger: Signale | undefined;
+	private readonly logger: Logger | undefined;
 
-	constructor( consulConfig: ConsulConfig, logger?: Signale ) {
+	constructor( consulConfig: ConsulConfig, logger?: Logger ) {
 		this.consul = new BaseConsul( consulConfig );
 		this.logger = logger;
 	}
@@ -50,7 +50,7 @@ export class Consul {
 
 	private applyShutdownHook( appId: string ) {
 		process.on( "beforeExit", async () => {
-			this.logger?.scope( Consul.name ).pending( `Unregistering ${ appId } from consul...` );
+			this.logger?.debug( `Unregistering ${ appId } from consul...` );
 			await this.consul.agent.service.deregister( appId );
 		} );
 	}

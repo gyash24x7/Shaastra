@@ -6,11 +6,10 @@ export class HealthChecker<Ctx extends ServiceBaseContext> {
 	async checkApiHealth( context: Ctx ) {
 		const url = context.appInfo.url + "/api/health/check";
 		const response = await got.get( url ).json<HealthCheckResponse>().catch( err => {
-			context.logger.scope( "HealthChecker::checkApiHealth()" ).error( `Some Error: ${ err }` );
+			context.logger.error( `Some Error: ${ err }` );
 		} );
 
-		context.logger.scope( "HealthChecker::checkApiHealth()" )
-			.debug( `HealthCheckResponse: ${ JSON.stringify( response ) }` );
+		context.logger.debug( `HealthCheckResponse: ${ JSON.stringify( response ) }` );
 		return response;
 	}
 }

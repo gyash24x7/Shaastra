@@ -5,7 +5,7 @@ export default async function memberEnabledEventHandler( _data: unknown, context
 	const data = _data as Member;
 	const subject = `Your Shaastra Prime Account is Enabled`;
 	const content = `Hi ${ data.name }, You can now use Shaastra Prime.`;
-	context.logger.scope( "MemberEnabledEventHandler" ).debug( `Need to send mail here!` );
-	context.logger.scope( "MemberEnabledEventHandler" ).debug( `Subject: ${ subject }` );
-	context.logger.scope( "MemberEnabledEventHandler" ).debug( `Content: ${ content }` );
+	context.logger.debug( `Need to send mail here!` );
+	context.logger.debug( `Subject: ${ subject }` );
+	context.logger.debug( `Content: ${ content }` );
 };

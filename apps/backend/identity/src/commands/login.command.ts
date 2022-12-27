@@ -2,26 +2,34 @@ import bcrypt from "bcryptjs";
 import type { LoginInput } from "../graphql/inputs.js";
 import { UserMessages } from "../messages/user.messages.js";
 import type { AppContext } from "../index.js";
+import { logger } from "@shaastra/framework";
+import { AppCommands } from "./index.js";
 
-export default async function loginCommandHandler( data: unknown, context: AppContext ) {
-	const input = data as LoginInput;
+export default async function loginCommandHandler( _data: unknown, context: AppContext ) {
+	const data = _data as LoginInput;
+
+	logger.debug( `Handling ${ AppCommands.LOGIN_COMMAND }...` );
+	logger.debug( "Data: ", data );
 
 	const existingUser = await context.prisma.user.findUnique( {
-		where: { username: input.username }
+		where: { username: data.username }
 	} );
 
-	context.logger?.debug( `Existing User: ${ JSON.stringify( existingUser ) }` );
+	logger.debug( `Existing User: ${ JSON.stringify( existingUser ) }` );
 
 	if ( !existingUser ) {
+		logger.debug( `${ UserMessages.NOT_FOUND } Username: ${ data.username }` );
 		throw new Error( UserMessages.NOT_FOUND );
 	}
 
 	if ( !existingUser.verified ) {
+		logger.debug( `${ UserMessages.NOT_VERIFIED } Username: ${ data.username }` );
 		throw new Error( UserMessages.NOT_VERIFIED );
 	}
 
-	const doPasswordsMatch = bcrypt.compareSync( input.password, existingUser.password );
+	const doPasswordsMatch = bcrypt.compareSync( data.password, existingUser.password );
 	if ( !doPasswordsMatch ) {
+		logger.debug( `${ UserMessages.INVALID_CREDENTIALS } Username: ${ data.username }` );
 		throw new Error( UserMessages.INVALID_CREDENTIALS );
 	}
 
@@ -42,7 +50,7 @@ export default async function loginCommandHandler( data: unknown, context: AppCo
 	// 	.update( JSON.stringify( payload ) )
 	// 	.final();
 	//
-	// context.logger.debug( `Token: ${ token.signResult }` );
+	// logger.debug( `Token: ${ token.signResult }` );
 	//
 	// context.res.setHeader( "x-access-token", token.signResult.toString() );
 

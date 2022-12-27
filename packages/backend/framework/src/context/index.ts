@@ -6,7 +6,6 @@ import type { AppInfo } from "../config/index.js";
 import type { HealthChecker } from "../health/index.js";
 import type { Consul } from "../consul/index.js";
 import type { UserAuthInfo } from "../auth/index.js";
-import type { Logger } from "pino";
 
 export type ExpressContext = BaseContext & {
 	req: Request;
@@ -19,10 +18,6 @@ export type CqrsContext<P> = {
 	commandBus: CommandBus<P>;
 	queryBus: QueryBus<P>;
 	eventBus: EventBus<P>;
-}
-
-export type LoggerContext = {
-	logger: Logger
 }
 
 export type ConsulContext = {
@@ -46,8 +41,7 @@ export type ServiceBaseContext =
 	ExpressContext
 	& AppInfoContext
 	& ConsulContext
-	& HealthContext
-	& LoggerContext;
+	& HealthContext;
 
 export type ServiceContextWithPrisma<P> = ServiceBaseContext & PrismaContext<P>
 
@@ -63,7 +57,6 @@ export type GatewayContext =
 	& AppInfoContext
 	& ConsulContext
 	& HealthContext
-	& LoggerContext
 	& { token?: string, logout?: boolean, idCookie?: string }
 
 export type GatewayContextFn = ContextFn<GatewayContext>

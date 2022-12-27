@@ -36,8 +36,7 @@ import type { RestApi } from "../../rest/index.js";
 import { gql } from "graphql-tag";
 import process from "node:process";
 import { readFileSync } from "node:fs";
-import { Logger, pino } from "pino";
-import { pinoHttp } from "pino-http";
+import { expressLoggingMiddleware, logger } from "../../logger/index.js";
 
 export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> implements IBaseApplication<Ctx, Express> {
 	readonly _app: Express;
@@ -46,7 +45,6 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 	readonly consul: Consul;
 	readonly restApis: RestApi<Ctx>[] = [ healthRestApi, healthCheckRestApi ];
 	readonly httpServer: http.Server;
-	readonly logger: Logger;
 	readonly healthChecker: HealthChecker<Ctx>;
 	abstract createContext: ContextFn<Ctx>;
 
@@ -60,29 +58,15 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 		this._app = express();
 		this.httpServer = http.createServer( this._app );
 
-		this.logger = pino( {
-			level: process.env[ "NODE_ENV" ] === "production" ? "info" : "debug",
-			transport: {
-				target: "pino-pretty",
-				options: {
-					colorize: true
-				}
-			}
-		} );
-
 		this.consul = new Consul(
-			{
-				host: process.env[ "CONSUL_HOST" ] || "localhost",
-				port: process.env[ "CONSUL_PORT" ] || "8500"
-			},
-			this.logger
+			{ host: process.env[ "CONSUL_HOST" ] || "localhost", port: process.env[ "CONSUL_PORT" ] || "8500" }
 		);
 	}
 
 	applyMiddlewares() {
 		this._app.use( bodyParser.json() );
 		this._app.use( cookieParser() );
-		this._app.use( pinoHttp( { logger: this.logger } ) );
+		this._app.use( expressLoggingMiddleware );
 	}
 
 	registerRestApis() {
@@ -121,7 +105,7 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 		this._app.use( "/api/graphql", expressMiddleware( this.apolloServer, { context: this.createContext } ) );
 
 		await new Promise<void>( ( resolve ) => this.httpServer.listen( { port: this.appInfo.port }, resolve ) );
-		this.logger.info( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
+		logger.info( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
 
 		await this.consul.registerService( this.appInfo );
 	}
@@ -156,7 +140,7 @@ export class ExpressGatewayApplication extends ExpressBaseApplication<GatewayCon
 	}
 
 	createContext: GatewayContextFn = async ( { req, res } ) => {
-		const { consul, logger, appInfo, healthChecker } = this;
+		const { consul, appInfo, healthChecker } = this;
 		return { req, res, consul, appInfo, logger, idCookie: req.cookies.identity, healthChecker };
 	};
 
@@ -174,7 +158,7 @@ export class ExpressGatewayApplication extends ExpressBaseApplication<GatewayCon
 		this._app.use( "/api/graphql", expressMiddleware( this.apolloServer, { context: this.createContext } ) );
 
 		await new Promise<void>( ( resolve ) => this.httpServer.listen( { port: this.appInfo.port }, resolve ) );
-		this.logger.info( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
+		logger.info( `${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
 
 		await this.consul.registerService( this.appInfo );
 	}
@@ -214,7 +198,7 @@ export class ExpressServiceApplication<P> extends ExpressBaseApplication<Service
 	}
 
 	createContext: ServiceContextFn<P> = async ( { req, res } ) => {
-		const { prisma, logger, consul, commandBus, queryBus, eventBus, appInfo, healthChecker } = this;
+		const { prisma, consul, commandBus, queryBus, eventBus, appInfo, healthChecker } = this;
 		return { req, res, prisma, logger, consul, commandBus, queryBus, eventBus, appInfo, healthChecker };
 	};
 }

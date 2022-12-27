@@ -1,5 +1,7 @@
 import type { GraphQLRequestContextWillSendResponse } from "@apollo/server";
 import type { CookieOptions } from "express";
+import type { GatewayContext } from "../context/index.js";
+import { logger } from "../logger/index.js";
 
 const accessTokenCookieOptions: CookieOptions = {
 	maxAge: 9000000,
@@ -14,16 +16,17 @@ export function CookiePlugin() {
 	return {
 		async requestDidStart() {
 			return {
-				async willSendResponse( { contextValue }: GraphQLRequestContextWillSendResponse<any> ) {
-					contextValue.logger?.debug( `Token: ${ contextValue.token }` );
+				async willSendResponse( { contextValue }: GraphQLRequestContextWillSendResponse<GatewayContext> ) {
 					if ( !!contextValue.token ) {
 						contextValue.res.cookie( "identity", contextValue.token, accessTokenCookieOptions );
-						contextValue.logger?.debug( `Cookie Val: ${ contextValue.res.hasHeader( "Set-Cookie" ) }` );
+						logger.debug( `Cookie Val: ${ contextValue.res.hasHeader( "Set-Cookie" ) }` );
 					}
 
 					if ( contextValue.logout ) {
+						logger.debug( `Received Logout! Logging out....` );
 						contextValue.res.clearCookie( "identity" );
 					}
+					logger.debug( `Sending response back to client...` );
 				}
 			};
 		}

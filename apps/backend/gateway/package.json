@@ -6,7 +6,6 @@
 	"main": "dist/index.js",
 	"types": "dist/index.ts",
 	"scripts": {
-		"wait": "wait-on tcp:8000 && wait-on tcp:8010 && wait-on tcp:8020",
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --delete-dir-on-start src",
 		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch --delete-dir-on-start src",
 		"start:dev": "wait-on dist/index.js && nodemon",

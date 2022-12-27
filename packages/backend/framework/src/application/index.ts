@@ -12,7 +12,6 @@ import type {
 	ServiceContextFn
 } from "../context/index.js";
 import type { HealthChecker } from "../health/index.js";
-import type { Logger } from "pino";
 
 export interface IBaseApplicationOptions<Ctx extends ServiceBaseContext> {
 	name: string;
@@ -37,7 +36,6 @@ export interface IBaseApplication<Ctx extends ServiceBaseContext, A = any> {
 	readonly _app: A;
 	readonly appInfo: AppInfo;
 	apolloServer: ApolloServer<Ctx>;
-	readonly logger: Logger;
 	readonly start: () => Promise<void>;
 	readonly consul: Consul;
 	readonly httpServer: http.Server;

@@ -1,12 +1,9 @@
 import { PrismaClient } from "@prisma/client/workforce/index.js";
 import { ExpressServiceApplication, ServiceContext } from "@shaastra/framework";
-import dotenv from "dotenv";
 import { resolvers } from "./graphql/resolvers.js";
 import commands from "./commands/index.js";
 import events from "./events/index.js";
 import queries from "./queries/index.js";
-
-dotenv.config();
 
 export type AppContext = ServiceContext<PrismaClient>;
 

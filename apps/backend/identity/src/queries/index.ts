@@ -4,7 +4,7 @@ import type { PrismaClient } from "@prisma/client/identity/index.js";
 
 export * from "./user.query.js";
 
-export enum APP_QUERIES {
+export enum AppQueries {
 	USER_QUERY = "USER_QUERY"
 }
 

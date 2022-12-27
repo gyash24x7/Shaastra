@@ -7,7 +7,6 @@ export const userRestApi = new RestApi<AppContext>( {
 	path: "/api/users",
 	async handler( context ) {
 		const data: CreateUserInput = context.req.body;
-		context.logger?.debug( `Context: ${ JSON.stringify( "{}" ) }` );
 		const userId: string = await context.commandBus.execute( AppCommands.CREATE_USER_COMMAND, data, context );
 		context.res.send( userId );
 	}

@@ -1,5 +1,6 @@
 import { RestApi } from "../rest/index.js";
 import { hrtime, uptime } from "node:process";
+import { logger } from "../logger/index.js";
 
 export type HealthCheckResponse = {
 	uptime: number;
@@ -13,9 +14,11 @@ export const healthRestApi = new RestApi( {
 		path: "/api/health",
 		async handler( context ) {
 			const healthCheck = await context.healthChecker.checkApiHealth( context );
-			if ( !healthCheck ) {
+			if ( !!healthCheck ) {
+				logger.debug( `API is Healthy!` );
 				context.res.send( healthCheck );
 			} else {
+				logger.error( `API is Not Healthy!` );
 				context.res.status( 503 ).send();
 			}
 		}

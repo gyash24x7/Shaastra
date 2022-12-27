@@ -1,9 +1,6 @@
 import { generateKeyPairSync } from "node:crypto";
 import { join } from "node:path";
 import { writeFileSync } from "node:fs";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const { publicKey, privateKey } = generateKeyPairSync( "rsa", {
 	modulusLength: 4096,

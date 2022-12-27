@@ -6,4 +6,5 @@ export * from "./context/index.js";
 export * from "./cqrs/index.js";
 export * from "./graphql/index.js";
 export * from "./health/index.js";
+export * from "./logger/index.js";
 export * from "./rest/index.js";

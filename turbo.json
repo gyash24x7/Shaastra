@@ -5,10 +5,6 @@
 			"dependsOn": [ "db:generate", "gql:generate", "build" ],
 			"cache": false
 		},
-		"divine": {
-			"dependsOn": [ "db:generate", "gql:generate", "^build" ],
-			"cache": false
-		},
 		"build": {
 			"dependsOn": [ "^build", "db:generate", "gql:generate" ],
 			"outputs": [ "dist/**" ]

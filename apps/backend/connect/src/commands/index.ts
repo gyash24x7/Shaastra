@@ -1,4 +1,3 @@
-import type { PrismaClient } from "@prisma/client/connect/index.js";
 import type { ICommands } from "@shaastra/framework";
 import createChannelCommandHandler from "./create.channel.command.js";
 import createMessageCommandHandler from "./create.message.command.js";
@@ -11,7 +10,7 @@ export enum AppCommands {
 	CREATE_MESSAGE_COMMAND = "CREATE_MESSAGE_COMMAND"
 }
 
-const commands: ICommands<PrismaClient, AppCommands> = {
+const commands: ICommands<AppCommands> = {
 	CREATE_CHANNEL_COMMAND: createChannelCommandHandler,
 	CREATE_MESSAGE_COMMAND: createMessageCommandHandler
 };

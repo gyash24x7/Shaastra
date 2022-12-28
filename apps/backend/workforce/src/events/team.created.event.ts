@@ -1,9 +1,9 @@
 import type { Member, Team } from "@prisma/client/workforce/index.js";
-import type { AppContext } from "../index.js";
-import { AppCommands } from "../commands/index.js";
+import type { ServiceContext } from "@shaastra/framework";
 import { logger } from "@shaastra/framework";
+import { AppCommands } from "../commands/index.js";
 
-export default async function teamCreatedEventHandler( _data: unknown, _context: AppContext ) {
+export default async function teamCreatedEventHandler( _data: unknown, _context: ServiceContext ) {
 	const data = _data as Team & { members: Member[] };
 
 	logger.debug( `Handling ${ AppCommands.CREATE_MEMBER_COMMAND }...` );

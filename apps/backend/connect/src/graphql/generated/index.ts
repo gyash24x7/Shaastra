@@ -1,6 +1,6 @@
 import type { GraphQLResolveInfo } from 'graphql';
 import type { ServiceContext, Maybe, Scalars } from '@shaastra/framework';
-import type { PrismaClient, Channel, Message, ChannelType } from '@prisma/client/connect/index.js';
+import type { Channel, Message, ChannelType } from '@prisma/client/connect/index.js';
 import type { CreateChannelInput, CreateMessageInput, GetMessagesInput, MutationCreateChannelArgs, MutationCreateMessageArgs, QueryGetMessagesArgs } from '../inputs.js';
 export type EnumResolverSignature<T, AllowedValues = any> = { [key in keyof T]?: AllowedValues };
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
@@ -111,7 +111,7 @@ export type ResolversParentTypes = {
   Query: {};
 };
 
-export type ChannelResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Channel'] = ResolversParentTypes['Channel']> = {
+export type ChannelResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Channel'] = ResolversParentTypes['Channel']> = {
   __resolveReference?: ReferenceResolver<Maybe<ResolversTypes['Channel']>, { __typename: 'Channel' } & GraphQLRecursivePick<ParentType, {"id":true}>, ContextType>;
   archived?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   createdById?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -126,7 +126,7 @@ export type ChannelResolvers<ContextType = ServiceContext<PrismaClient>, ParentT
 
 export type ChannelTypeResolvers = EnumResolverSignature<{ DIRECT?: any, GROUP?: any }, ResolversTypes['ChannelType']>;
 
-export type MessageResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
+export type MessageResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
   __resolveReference?: ReferenceResolver<Maybe<ResolversTypes['Message']>, { __typename: 'Message' } & GraphQLRecursivePick<ParentType, {"id":true}>, ContextType>;
   channel?: Resolver<ResolversTypes['Channel'], ParentType, ContextType>;
   channelId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -136,16 +136,16 @@ export type MessageResolvers<ContextType = ServiceContext<PrismaClient>, ParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createChannel?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateChannelArgs, 'data'>>;
   createMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateMessageArgs, 'data'>>;
 };
 
-export type QueryResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getMessages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryGetMessagesArgs, 'data'>>;
 };
 
-export type Resolvers<ContextType = ServiceContext<PrismaClient>> = {
+export type Resolvers<ContextType = ServiceContext> = {
   Channel?: ChannelResolvers<ContextType>;
   ChannelType?: ChannelTypeResolvers;
   Message?: MessageResolvers<ContextType>;

@@ -1,4 +1,4 @@
-import type { ServiceBaseContext } from "../context/index.js";
+import type { ServiceContext } from "../context/index.js";
 
 export interface RestApiOptions<Ctx> {
 	path: string;
@@ -6,7 +6,7 @@ export interface RestApiOptions<Ctx> {
 	handler: ( ctx: Ctx ) => void | Promise<void>;
 }
 
-export class RestApi<Ctx extends ServiceBaseContext> {
+export class RestApi<Ctx extends ServiceContext> {
 	public readonly method: "GET" | "POST" | "PUT" | "DELETE" | "ALL";
 	public readonly path: string;
 	public readonly handler: ( ctx: Ctx ) => void | Promise<void>;

@@ -2,18 +2,18 @@ import { EventEmitter } from "node:events";
 import type { ServiceContext } from "../context/index.js";
 import { logger } from "../logger/index.js";
 
-export type IQueryHandler<P> = ( data: unknown, context: ServiceContext<P> ) => Promise<any>
+export type IQueryHandler = ( data: unknown, context: ServiceContext ) => Promise<any>
 
-export type IQueries<P, AQ extends string | number | symbol = string> = Record<AQ, IQueryHandler<P>>;
+export type IQueries<AQ extends string | number | symbol = string> = Record<AQ, IQueryHandler>;
 
-export class QueryBus<P, AQ extends string | number | symbol = string> extends EventEmitter {
+export class QueryBus<AQ extends string | number | symbol = string> extends EventEmitter {
 
-	constructor( queries: IQueries<P, AQ> ) {
+	constructor( queries: IQueries<AQ> ) {
 		super();
 
 		Object.keys( queries ).forEach( ( key ) => {
 			const value = queries[ key as AQ ];
-			super.on( key, async ( data, context: ServiceContext<P> ) => {
+			super.on( key, async ( data, context: ServiceContext ) => {
 				logger.debug( `Executing Query: ${ key } ...` );
 				const result = await value( data, context );
 				super.emit( `${ key }Completed`, result );
@@ -21,7 +21,7 @@ export class QueryBus<P, AQ extends string | number | symbol = string> extends E
 		} );
 	}
 
-	execute<I, R>( name: string, data: I, context: ServiceContext<P> ): Promise<R> {
+	execute<I, R>( name: string, data: I, context: ServiceContext ): Promise<R> {
 		const hasListeners = super.emit( name, data, context );
 		logger.debug( `Published Query: ${ name } ...` );
 

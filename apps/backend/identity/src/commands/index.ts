@@ -3,7 +3,6 @@ import createUserCommandHandler from "./create.user.command.js";
 import loginCommandHandler from "./login.command.js";
 import verifyUserCommandHandler from "./verify.user.command.js";
 import type { ICommands } from "@shaastra/framework";
-import type { PrismaClient } from "@prisma/client/identity/index.js";
 
 export * from "./create.token.command.js";
 export * from "./login.command.js";
@@ -17,7 +16,7 @@ export enum AppCommands {
 	LOGIN_COMMAND = "LOGIN_COMMAND"
 }
 
-const commands: ICommands<PrismaClient> = {
+const commands: ICommands<AppCommands> = {
 	CREATE_TOKEN_COMMAND: createTokenCommandHandler,
 	CREATE_USER_COMMAND: createUserCommandHandler,
 	VERIFY_USER_COMMAND: verifyUserCommandHandler,

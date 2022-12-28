@@ -1,4 +1,4 @@
-import { ExpressServiceApplication, ServiceContext } from "@shaastra/framework";
+import { ExpressApplication } from "@shaastra/framework";
 import { PrismaClient } from "@prisma/client/identity/index.js";
 import commands from "./commands/index.js";
 import { resolvers } from "./graphql/resolvers.js";
@@ -7,11 +7,10 @@ import queries from "./queries/index.js";
 import { jwksRestApi } from "./rest/jwks.api.js";
 import { userRestApi } from "./rest/user.api.js";
 
-export type AppContext = ServiceContext<PrismaClient>;
+export const prisma = new PrismaClient();
 
-const application = new ExpressServiceApplication( {
+const application = new ExpressApplication( {
 	name: "identity",
-	prisma: new PrismaClient(),
 	cqrs: { commands, queries, events },
 	restApis: [ jwksRestApi, userRestApi ],
 	graphql: { resolvers }

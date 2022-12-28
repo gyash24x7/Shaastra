@@ -48,11 +48,10 @@
 					"federation": true,
 					"useTypeImports": true,
 					"skipTypename": true,
-					"contextType": "ServiceContext<PrismaClient>",
+					"contextType": "ServiceContext",
 					"avoidOptionals": false,
 					"mappers": {
 						"ServiceContext": "@shaastra/framework#ServiceContext",
-						"PrismaClient": "@prisma/client/connect/index.js#PrismaClient",
 						"Channel": "@prisma/client/connect/index.js#Channel",
 						"Message": "@prisma/client/connect/index.js#Message",
 						"ChannelType": "@prisma/client/connect/index.js#ChannelType",

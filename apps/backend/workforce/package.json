@@ -44,18 +44,15 @@
 		"schema": "./src/graphql/schema.graphql",
 		"generates": {
 			"./src/graphql/generated/index.ts": {
-				"plugins": [
-					"typescript-resolvers"
-				],
+				"plugins": [ "typescript-resolvers" ],
 				"config": {
 					"federation": true,
 					"useTypeImports": true,
 					"skipTypename": true,
-					"contextType": "ServiceContext<PrismaClient>",
+					"contextType": "ServiceContext",
 					"avoidOptionals": false,
 					"mappers": {
 						"ServiceContext": "@shaastra/framework#ServiceContext",
-						"PrismaClient": "@prisma/client/workforce/index.js#PrismaClient",
 						"Member": "@prisma/client/workforce/index.js#Member",
 						"Team": "@prisma/client/workforce/index.js#Team",
 						"Department": "@prisma/client/workforce/index.js#Department",

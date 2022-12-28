@@ -1,4 +1,3 @@
-import type { PrismaClient } from "@prisma/client/workforce/index.js";
 import type { IEvents } from "@shaastra/framework";
 import memberCreatedEventHandler from "./member.created.event.js";
 import memberEnabledEventHandler from "./member.enabled.event.js";
@@ -14,7 +13,7 @@ export enum AppEvents {
 	TEAM_CREATED_EVENT = "TEAM_CREATED_EVENT"
 }
 
-const events: IEvents<PrismaClient, AppEvents> = {
+const events: IEvents<AppEvents> = {
 	MEMBER_CREATED_EVENT: memberCreatedEventHandler,
 	MEMBER_ENABLED_EVENT: memberEnabledEventHandler,
 	TEAM_CREATED_EVENT: teamCreatedEventHandler

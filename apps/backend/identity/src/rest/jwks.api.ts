@@ -1,10 +1,10 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import type { ServiceContext } from "@shaastra/framework";
 import { RestApi } from "@shaastra/framework";
 import { pem2jwk } from "pem-jwk";
-import type { AppContext } from "../index.js";
 
-export const jwksRestApi = new RestApi<AppContext>( {
+export const jwksRestApi = new RestApi<ServiceContext>( {
 	method: "GET",
 	path: "/api/keys",
 	async handler( context ) {

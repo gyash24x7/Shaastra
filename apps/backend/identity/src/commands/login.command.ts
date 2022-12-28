@@ -1,17 +1,18 @@
 import bcrypt from "bcryptjs";
 import type { LoginInput } from "../graphql/inputs.js";
 import { UserMessages } from "../messages/user.messages.js";
-import type { AppContext } from "../index.js";
+import type { ServiceContext } from "@shaastra/framework";
 import { logger } from "@shaastra/framework";
 import { AppCommands } from "./index.js";
+import { prisma } from "../index.js";
 
-export default async function loginCommandHandler( _data: unknown, context: AppContext ) {
+export default async function loginCommandHandler( _data: unknown, _context: ServiceContext ) {
 	const data = _data as LoginInput;
 
 	logger.debug( `Handling ${ AppCommands.LOGIN_COMMAND }...` );
 	logger.debug( "Data: ", data );
 
-	const existingUser = await context.prisma.user.findUnique( {
+	const existingUser = await prisma.user.findUnique( {
 		where: { username: data.username }
 	} );
 

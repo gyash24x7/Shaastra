@@ -1,11 +1,5 @@
-import type {
-	IBaseApplication,
-	IBaseApplicationOptions,
-	IGatewayApplication,
-	IGatewayApplicationOptions,
-	IServiceApplication,
-	IServiceApplicationOptions
-} from "../../index.js";
+import type { IApplication, IApplicationOptions } from "../../index.js";
+import { defaultApplicationOptions } from "../../index.js";
 import type { Express, Request, Response } from "express";
 import express from "express";
 import type { AppInfo } from "../../config/index.js";
@@ -17,18 +11,9 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import type {
-	ContextFn,
-	GatewayContext,
-	GatewayContextFn,
-	ServiceBaseContext,
-	ServiceContext,
-	ServiceContextFn
-} from "../../context/index.js";
+import type { ServiceContext, ServiceContextFn } from "../../context/index.js";
 import { expressMiddleware } from "@apollo/server/express4";
 import { capitalCase, constantCase } from "change-case";
-import { ApolloGateway, ServiceEndpointDefinition } from "@apollo/gateway";
-import { CookiePlugin, ServiceDataSource } from "../../graphql/index.js";
 import { buildSubgraphSchema } from "@apollo/subgraph";
 import { join } from "node:path";
 import { HealthChecker, healthCheckRestApi, healthRestApi } from "../../health/index.js";
@@ -38,22 +23,24 @@ import process from "node:process";
 import { readFileSync } from "node:fs";
 import { expressLoggingMiddleware, logger } from "../../logger/index.js";
 
-export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> implements IBaseApplication<Ctx, Express> {
+export class ExpressApplication implements IApplication<Express> {
 	readonly _app: Express;
-	apolloServer: ApolloServer<Ctx>;
+	readonly apolloServer: ApolloServer<ServiceContext>;
 	readonly appInfo: AppInfo;
 	readonly consul: Consul;
-	readonly restApis: RestApi<Ctx>[] = [ healthRestApi, healthCheckRestApi ];
+	readonly restApis: RestApi<ServiceContext>[] = [ healthRestApi, healthCheckRestApi ];
 	readonly httpServer: http.Server;
-	readonly healthChecker: HealthChecker<Ctx>;
-	abstract createContext: ContextFn<Ctx>;
+	readonly healthChecker: HealthChecker<ServiceContext>;
+	readonly commandBus: CommandBus;
+	readonly queryBus: QueryBus;
+	readonly eventBus: EventBus;
 
-	protected constructor( options: IBaseApplicationOptions<Ctx> ) {
-		const { name, restApis = [] } = options;
+	constructor( options: IApplicationOptions = defaultApplicationOptions ) {
+		const { name, restApis = [], graphql: { resolvers }, cqrs: { commands, queries, events } } = options;
 
 		this.appInfo = this.generateAppInfo( name );
 		this.restApis.push( ...restApis );
-		this.healthChecker = new HealthChecker<Ctx>();
+		this.healthChecker = new HealthChecker<ServiceContext>();
 
 		this._app = express();
 		this.httpServer = http.createServer( this._app );
@@ -61,6 +48,27 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 		this.consul = new Consul(
 			{ host: process.env[ "CONSUL_HOST" ] || "localhost", port: process.env[ "CONSUL_PORT" ] || "8500" }
 		);
+
+		const typeDefsString = readFileSync( join( process.cwd(), "src/graphql/schema.graphql" ), "utf-8" );
+		const typeDefs = gql( typeDefsString );
+
+		let schema = buildSubgraphSchema( { typeDefs, resolvers } as any );
+
+		// if ( !!shield ) {
+		// 	schema = applyMiddleware( schema, shield );
+		// }
+
+		this.apolloServer = new ApolloServer<ServiceContext>( {
+			schema,
+			plugins: [
+				ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
+				ApolloServerPluginLandingPageDisabled()
+			]
+		} );
+
+		this.commandBus = new CommandBus( commands );
+		this.queryBus = new QueryBus( queries );
+		this.eventBus = new EventBus( events );
 	}
 
 	applyMiddlewares() {
@@ -70,7 +78,7 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 	}
 
 	registerRestApis() {
-		const handler = ( api: RestApi<Ctx> ) => async ( req: Request, res: Response ) => {
+		const handler = ( api: RestApi<ServiceContext> ) => async ( req: Request, res: Response ) => {
 			const context = await this.createContext( { req, res } );
 			api.handler( context );
 		};
@@ -110,6 +118,11 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 		await this.consul.registerService( this.appInfo );
 	}
 
+	createContext: ServiceContextFn = async ( { req, res } ) => {
+		const { consul, commandBus, queryBus, eventBus, appInfo, healthChecker } = this;
+		return { req, res, logger, consul, commandBus, queryBus, eventBus, appInfo, healthChecker };
+	};
+
 	private generateAppInfo( id: string ): AppInfo {
 		const port = parseInt( process.env[ `${ constantCase( id ) }_PORT` ] || "8000" );
 		const name = `Shaastra ${ capitalCase( id ) }`;
@@ -119,86 +132,4 @@ export abstract class ExpressBaseApplication<Ctx extends ServiceBaseContext> imp
 		return { id, name, pkg, port, address, url };
 	}
 
-}
-
-export class ExpressGatewayApplication extends ExpressBaseApplication<GatewayContext> implements IGatewayApplication<Express> {
-	constructor( options: IGatewayApplicationOptions ) {
-		super( options );
-
-		const supergraphSdl = readFileSync( join( process.cwd(), "src/graphql/schema.graphql" ), "utf-8" );
-		const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );
-
-		this.apolloServer = new ApolloServer<GatewayContext>( {
-			gateway: new ApolloGateway( { supergraphSdl, buildService } ),
-			plugins: [
-				ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
-				ApolloServerPluginLandingPageDisabled(),
-				CookiePlugin()
-			]
-		} );
-
-	}
-
-	createContext: GatewayContextFn = async ( { req, res } ) => {
-		const { consul, appInfo, healthChecker } = this;
-		return { req, res, consul, appInfo, logger, idCookie: req.cookies.identity, healthChecker };
-	};
-
-	override async start() {
-
-		this.applyMiddlewares();
-		this.registerRestApis();
-
-		await this.apolloServer.start();
-
-		this._app.get( "/api/graphql", ( _req, res ) => {
-			res.sendFile( join( process.cwd(), "src/assets/graphiql.html" ) );
-		} );
-
-		this._app.use( "/api/graphql", expressMiddleware( this.apolloServer, { context: this.createContext } ) );
-
-		await new Promise<void>( ( resolve ) => this.httpServer.listen( { port: this.appInfo.port }, resolve ) );
-		logger.info( `${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
-
-		await this.consul.registerService( this.appInfo );
-	}
-}
-
-export class ExpressServiceApplication<P> extends ExpressBaseApplication<ServiceContext<P>> implements IServiceApplication<P, Express> {
-	readonly commandBus: CommandBus<P>;
-	readonly queryBus: QueryBus<P>;
-	readonly eventBus: EventBus<P>;
-	readonly prisma: P;
-
-	constructor( options: IServiceApplicationOptions<P> ) {
-		super( options );
-		const { graphql: { resolvers }, cqrs: { commands, queries, events }, prisma } = options;
-
-		const typeDefsString = readFileSync( join( process.cwd(), "src/graphql/schema.graphql" ), "utf-8" );
-		const typeDefs = gql( typeDefsString );
-
-		let schema = buildSubgraphSchema( { typeDefs, resolvers } as any );
-
-		// if ( !!shield ) {
-		// 	schema = applyMiddleware( schema, shield );
-		// }
-
-		this.apolloServer = new ApolloServer<ServiceContext<P>>( {
-			schema,
-			plugins: [
-				ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
-				ApolloServerPluginLandingPageDisabled()
-			]
-		} );
-
-		this.prisma = prisma;
-		this.commandBus = new CommandBus<P>( commands );
-		this.queryBus = new QueryBus<P>( queries );
-		this.eventBus = new EventBus<P>( events );
-	}
-
-	createContext: ServiceContextFn<P> = async ( { req, res } ) => {
-		const { prisma, consul, commandBus, queryBus, eventBus, appInfo, healthChecker } = this;
-		return { req, res, prisma, logger, consul, commandBus, queryBus, eventBus, appInfo, healthChecker };
-	};
 }

@@ -1,5 +1,5 @@
-import { ExpressGatewayApplication } from "@shaastra/framework";
+import { defaultApplicationOptions, ExpressApplication } from "@shaastra/framework";
 
-const application = new ExpressGatewayApplication( { name: "gateway" } );
+const application = new ExpressApplication( { ...defaultApplicationOptions, name: "gateway" } );
 
 await application.start();

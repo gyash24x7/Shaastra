@@ -1,9 +1,9 @@
 import type { Member } from "@prisma/client/workforce/index.js";
-import type { AppContext } from "../index.js";
+import type { ServiceContext } from "@shaastra/framework";
 import { logger } from "@shaastra/framework";
 import { AppEvents } from "./index.js";
 
-export default async function memberEnabledEventHandler( _data: unknown, _context: AppContext ) {
+export default async function memberEnabledEventHandler( _data: unknown, _context: ServiceContext ) {
 	const data = _data as Member;
 
 	logger.debug( `Handling ${ AppEvents.MEMBER_ENABLED_EVENT }...` );

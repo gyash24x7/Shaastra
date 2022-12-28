@@ -1,4 +1,3 @@
-import type { PrismaClient } from "@prisma/client/workforce/index.js";
 import type { IQueries } from "@shaastra/framework";
 import deptCoreQueryHandler from "./dept-core.query.js";
 import memberQueryHandler from "./member.query.js";
@@ -20,7 +19,7 @@ export enum AppQueries {
 	TEAMS_QUERY = "TEAMS_QUERY",
 }
 
-const queries: IQueries<PrismaClient, AppQueries> = {
+const queries: IQueries<AppQueries> = {
 	DEPT_CORE_QUERY: deptCoreQueryHandler,
 	MEMBER_QUERY: memberQueryHandler,
 	MEMBERS_QUERY: membersQueryHandler,

@@ -12,12 +12,10 @@ export type ExpressContext = BaseContext & {
 	res: Response;
 }
 
-export type PrismaContext<P> = { prisma: P };
-
-export type CqrsContext<P> = {
-	commandBus: CommandBus<P>;
-	queryBus: QueryBus<P>;
-	eventBus: EventBus<P>;
+export type CqrsContext = {
+	commandBus: CommandBus;
+	queryBus: QueryBus;
+	eventBus: EventBus;
 }
 
 export type ConsulContext = {
@@ -34,23 +32,18 @@ export type AppInfoContext = {
 }
 
 export type HealthContext = {
-	healthChecker: HealthChecker<ServiceBaseContext>
+	healthChecker: HealthChecker<ServiceContext>
 }
 
-export type ServiceBaseContext =
+export type ServiceContext =
 	ExpressContext
 	& AppInfoContext
 	& ConsulContext
-	& HealthContext;
-
-export type ServiceContextWithPrisma<P> = ServiceBaseContext & PrismaContext<P>
-
-export type ServiceContext<P> =
-	ServiceContextWithPrisma<P>
+	& HealthContext
 	& AuthContext
-	& CqrsContext<P>
+	& CqrsContext
 
-export type ServiceContextFn<P> = ContextFn<ServiceContext<P>>
+export type ServiceContextFn = ContextFn<ServiceContext>
 
 export type GatewayContext =
 	ExpressContext
@@ -58,6 +51,8 @@ export type GatewayContext =
 	& ConsulContext
 	& HealthContext
 	& { token?: string, logout?: boolean, idCookie?: string }
+	& AuthContext
+	& CqrsContext;
 
 export type GatewayContextFn = ContextFn<GatewayContext>
 

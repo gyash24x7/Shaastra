@@ -2,11 +2,12 @@ import { AppEvents } from "../events/index.js";
 import type { CreateMemberInput } from "../graphql/inputs.js";
 import { MemberMessages } from "../messages/member.messages.js";
 import got from "got";
-import type { AppContext } from "../index.js";
+import type { ServiceContext } from "@shaastra/framework";
 import { logger } from "@shaastra/framework";
 import { AppCommands } from "./index.js";
+import { prisma } from "../index.js";
 
-export default async function createMemberCommandHandler( _data: unknown, context: AppContext ) {
+export default async function createMemberCommandHandler( _data: unknown, context: ServiceContext ) {
 	const { password, ...data } = _data as CreateMemberInput;
 
 	logger.debug( `Handling ${ AppCommands.CREATE_MEMBER_COMMAND }...` );
@@ -27,7 +28,7 @@ export default async function createMemberCommandHandler( _data: unknown, contex
 
 	logger.debug( `Response: ${ response }` );
 
-	const existingMember = await context.prisma.member.findUnique( {
+	const existingMember = await prisma.member.findUnique( {
 		where: { id: response }
 	} );
 
@@ -36,7 +37,7 @@ export default async function createMemberCommandHandler( _data: unknown, contex
 		throw new Error( MemberMessages.ALREADY_EXISTS );
 	}
 
-	const member = await context.prisma.member.create( { data: { ...data, id: response } } );
+	const member = await prisma.member.create( { data: { ...data, id: response } } );
 	logger.debug( `Member Created Successfully! ${ response }` );
 
 	context.eventBus.execute( AppEvents.MEMBER_CREATED_EVENT, member, context );

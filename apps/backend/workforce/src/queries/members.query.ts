@@ -1,12 +1,13 @@
-import type { AppContext } from "../index.js";
+import type { ServiceContext } from "@shaastra/framework";
 import { logger } from "@shaastra/framework";
 import { AppQueries } from "./index.js";
+import { prisma } from "../index.js";
 
-export default async function membersQueryHandler( _data: unknown, context: AppContext ) {
+export default async function membersQueryHandler( _data: unknown, _context: ServiceContext ) {
 	const data = _data as { teamId: string };
 
 	logger.debug( `Handling ${ AppQueries.MEMBERS_QUERY }...` );
 	logger.debug( "Data: ", data );
 
-	return context.prisma.team.findUniqueOrThrow( { where: { id: data.teamId } } ).members();
+	return prisma.team.findUniqueOrThrow( { where: { id: data.teamId } } ).members();
 };

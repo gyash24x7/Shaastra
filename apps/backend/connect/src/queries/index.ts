@@ -1,4 +1,3 @@
-import type { PrismaClient } from "@prisma/client/connect/index.js";
 import type { IQueries } from "@shaastra/framework";
 import channelQueryHandler from "./channel.query.js";
 import messagesQueryHandler from "./messages.query.js";
@@ -13,7 +12,7 @@ export enum AppQueries {
 	MESSAGES_QUERY = "MESSAGES_QUERY"
 }
 
-const queries: IQueries<PrismaClient, AppQueries> = {
+const queries: IQueries<AppQueries> = {
 	CHANNEL_QUERY: channelQueryHandler,
 	MESSAGE_QUERY: messagesQueryHandler,
 	MESSAGES_QUERY: messagesQueryHandler

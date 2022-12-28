@@ -1,12 +1,13 @@
+import type { ServiceContext } from "@shaastra/framework";
 import { logger } from "@shaastra/framework";
-import type { AppContext } from "../index.js";
 import { AppQueries } from "./index.js";
+import { prisma } from "../index.js";
 
-export default async function userQueryHandler( data: unknown, context: AppContext ) {
+export default async function userQueryHandler( data: unknown, _context: ServiceContext ) {
 	const { id } = data as { id: string };
 
 	logger.debug( `Handling ${ AppQueries.USER_QUERY }....` );
 	logger.debug( "Data: ", data );
 
-	return context.prisma.user.findUnique( { where: { id } } );
+	return prisma.user.findUnique( { where: { id } } );
 }

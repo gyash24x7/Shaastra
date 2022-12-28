@@ -1,4 +1,3 @@
-import type { PrismaClient } from "@prisma/client/workforce/index.js";
 import type { ICommands } from "@shaastra/framework";
 import createMemberCommandHandler from "./create.member.command.js";
 import createTeamCommandHandler from "./create.team.command.js";
@@ -14,7 +13,7 @@ export enum AppCommands {
 	ENABLE_MEMBER_COMMAND = "ENABLE_MEMBER_COMMAND"
 }
 
-const commands: ICommands<PrismaClient, AppCommands> = {
+const commands: ICommands<AppCommands> = {
 	CREATE_MEMBER_COMMAND: createMemberCommandHandler,
 	CREATE_TEAM_COMMAND: createTeamCommandHandler,
 	ENABLE_MEMBER_COMMAND: enableMemberCommandHandler

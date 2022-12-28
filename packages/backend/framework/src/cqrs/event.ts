@@ -2,25 +2,25 @@ import { EventEmitter } from "node:events";
 import type { ServiceContext } from "../context/index.js";
 import { logger } from "../logger/index.js";
 
-export type IEventHandler<P> = ( data: unknown, context: ServiceContext<P> ) => Promise<void>
+export type IEventHandler = ( data: unknown, context: ServiceContext ) => Promise<void>
 
-export type IEvents<P, AE extends string | number | symbol = string> = Record<AE, IEventHandler<P>>;
+export type IEvents<AE extends string | number | symbol = string> = Record<AE, IEventHandler>;
 
-export class EventBus<P, AE extends string | number | symbol = string> extends EventEmitter {
+export class EventBus<AE extends string | number | symbol = string> extends EventEmitter {
 
-	constructor( events: IEvents<P, AE> ) {
+	constructor( events: IEvents<AE> ) {
 		super();
 
 		Object.keys( events ).forEach( ( key ) => {
 			const value = events[ key as AE ];
-			super.on( key, async ( data, context: ServiceContext<P> ) => {
+			super.on( key, async ( data, context: ServiceContext ) => {
 				logger.debug( `Executing Event: ${ key } ...` );
 				await value( data, context );
 			} );
 		} );
 	}
 
-	execute<I>( name: string, data: I, context: ServiceContext<P> ) {
+	execute<I>( name: string, data: I, context: ServiceContext ) {
 		const hasListeners = super.emit( name, data, context );
 		logger.debug( `Published Event: ${ name } ...` );
 

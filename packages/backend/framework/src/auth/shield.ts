@@ -3,7 +3,7 @@ import type { GraphQLSchema } from "graphql";
 import { applyMiddleware, IMiddlewareGenerator } from "graphql-middleware";
 import type { ServiceContext } from "../context/index.js";
 
-export function applyShield<P>( schema: GraphQLSchema, shield: IMiddlewareGenerator<any, ServiceContext<P>, any> ) {
+export function applyShield( schema: GraphQLSchema, shield: IMiddlewareGenerator<any, ServiceContext, any> ) {
 	return applyMiddleware( schema, shield );
 
 }

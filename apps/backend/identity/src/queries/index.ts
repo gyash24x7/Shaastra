@@ -1,6 +1,5 @@
 import type { IQueries } from "@shaastra/framework";
 import userQueryHandler from "./user.query.js";
-import type { PrismaClient } from "@prisma/client/identity/index.js";
 
 export * from "./user.query.js";
 
@@ -8,7 +7,7 @@ export enum AppQueries {
 	USER_QUERY = "USER_QUERY"
 }
 
-const queries: IQueries<PrismaClient> = {
+const queries: IQueries<AppQueries> = {
 	USER_QUERY: userQueryHandler
 };
 

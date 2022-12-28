@@ -1,6 +1,5 @@
 import type { GraphQLResolveInfo } from 'graphql';
 import type { Maybe, Scalars, ServiceContext } from '@shaastra/framework';
-import type { PrismaClient } from '@prisma/client/identity/index.js';
 import type { LoginInput, VerifyUserInput, MutationLoginArgs, MutationVerifyUserArgs } from '../inputs.js';
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 
@@ -88,13 +87,13 @@ export type ResolversParentTypes = {
   VerifyUserInput: VerifyUserInput;
 };
 
-export type MutationResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'data'>>;
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   verifyUser?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationVerifyUserArgs, 'data'>>;
 };
 
-export type Resolvers<ContextType = ServiceContext<PrismaClient>> = {
+export type Resolvers<ContextType = ServiceContext> = {
   Mutation?: MutationResolvers<ContextType>;
 };
 

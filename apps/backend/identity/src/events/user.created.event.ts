@@ -1,9 +1,9 @@
 import type { Token, User } from "@prisma/client/identity/index.js";
-import type { AppContext } from "../index.js";
-import { AppEvents } from "./index.js";
+import type { ServiceContext } from "@shaastra/framework";
 import { logger } from "@shaastra/framework";
+import { AppEvents } from "./index.js";
 
-export default async function userCreatedEventHandler( _data: unknown, context: AppContext ) {
+export default async function userCreatedEventHandler( _data: unknown, context: ServiceContext ) {
 	const user = _data as User;
 
 	logger.debug( `Handling ${ AppEvents.USER_CREATED_EVENT }...` );

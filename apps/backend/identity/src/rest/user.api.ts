@@ -1,8 +1,8 @@
 import { AppCommands, CreateUserInput } from "../commands/index.js";
+import type { ServiceContext } from "@shaastra/framework";
 import { RestApi } from "@shaastra/framework";
-import type { AppContext } from "../index.js";
 
-export const userRestApi = new RestApi<AppContext>( {
+export const userRestApi = new RestApi<ServiceContext>( {
 	method: "POST",
 	path: "/api/users",
 	async handler( context ) {

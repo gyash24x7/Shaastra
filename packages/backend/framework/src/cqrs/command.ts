@@ -2,18 +2,18 @@ import { EventEmitter } from "node:events";
 import type { ServiceContext } from "../context/index.js";
 import { logger } from "../logger/index.js";
 
-export type ICommandHandler<P> = ( data: unknown, context: ServiceContext<P> ) => Promise<any>
+export type ICommandHandler = ( data: unknown, context: ServiceContext ) => Promise<any>
 
-export type ICommands<P, AC extends string | number | symbol = string> = Record<AC, ICommandHandler<P>>;
+export type ICommands<AC extends string | number | symbol = string> = Record<AC, ICommandHandler>;
 
-export class CommandBus<P, AC extends string | number | symbol = string> extends EventEmitter {
+export class CommandBus<AC extends string | number | symbol = string> extends EventEmitter {
 
-	constructor( commands: ICommands<P, AC> ) {
+	constructor( commands: ICommands<AC> ) {
 		super();
 
 		Object.keys( commands ).forEach( ( key ) => {
 			const value = commands[ key as AC ];
-			super.on( key, async ( data, context: ServiceContext<P> ) => {
+			super.on( key, async ( data, context: ServiceContext ) => {
 				logger.debug( `Executing Command: ${ key } ...` );
 				const result = await value( data, context );
 				super.emit( `${ key }Completed`, result );
@@ -21,7 +21,7 @@ export class CommandBus<P, AC extends string | number | symbol = string> extends
 		} );
 	}
 
-	execute<I, R>( name: string, data: I, context: ServiceContext<P> ): Promise<R> {
+	execute<I, R>( name: string, data: I, context: ServiceContext ): Promise<R> {
 		const hasListeners = super.emit( name, data, context );
 		logger.debug( `Published Command: ${ name } ...` );
 

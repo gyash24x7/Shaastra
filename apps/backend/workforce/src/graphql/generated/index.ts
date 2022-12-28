@@ -1,6 +1,6 @@
 import type { GraphQLResolveInfo } from 'graphql';
 import type { ServiceContext, Maybe, Scalars } from '@shaastra/framework';
-import type { PrismaClient, Member, Team, Department, MemberPosition } from '@prisma/client/workforce/index.js';
+import type { Member, Team, Department, MemberPosition } from '@prisma/client/workforce/index.js';
 import type { CreateMemberInput, EnableMemberInput, CreateTeamInput, MutationEnableMemberArgs, MutationCreateMemberArgs, MutationCreateTeamArgs } from '../inputs.js';
 export type EnumResolverSignature<T, AllowedValues = any> = { [key in keyof T]?: AllowedValues };
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
@@ -114,7 +114,7 @@ export type ResolversParentTypes = {
 
 export type DepartmentResolvers = EnumResolverSignature<{ CONCEPT_AND_DESIGN?: any, ENVISAGE?: any, EVENTS_AND_WORKSHOPS?: any, EVOLVE?: any, FINANCE?: any, OPERATIONS_AND_INFRASTRUCTURE_PLANNING?: any, PUBLICITY?: any, QMS?: any, SHOWS_AND_EXHIBITIONS?: any, SPONSORSHIP_AND_PR?: any, WEBOPS?: any }, ResolversTypes['Department']>;
 
-export type MemberResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Member'] = ResolversParentTypes['Member']> = {
+export type MemberResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Member'] = ResolversParentTypes['Member']> = {
   __resolveReference?: ReferenceResolver<Maybe<ResolversTypes['Member']>, { __typename: 'Member' } & GraphQLRecursivePick<ParentType, {"id":true}>, ContextType>;
   about?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   coverPic?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -134,17 +134,17 @@ export type MemberResolvers<ContextType = ServiceContext<PrismaClient>, ParentTy
 
 export type MemberPositionResolvers = EnumResolverSignature<{ COCAS?: any, COORD?: any, CORE?: any, HEAD?: any }, ResolversTypes['MemberPosition']>;
 
-export type MutationResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createMember?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateMemberArgs, 'data'>>;
   createTeam?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationCreateTeamArgs, 'data'>>;
   enableMember?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationEnableMemberArgs, 'data'>>;
 };
 
-export type QueryResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   me?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
 };
 
-export type TeamResolvers<ContextType = ServiceContext<PrismaClient>, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
+export type TeamResolvers<ContextType = ServiceContext, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
   __resolveReference?: ReferenceResolver<Maybe<ResolversTypes['Team']>, { __typename: 'Team' } & GraphQLRecursivePick<ParentType, {"id":true}>, ContextType>;
   createdById?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   department?: Resolver<ResolversTypes['Department'], ParentType, ContextType>;
@@ -154,7 +154,7 @@ export type TeamResolvers<ContextType = ServiceContext<PrismaClient>, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = ServiceContext<PrismaClient>> = {
+export type Resolvers<ContextType = ServiceContext> = {
   Department?: DepartmentResolvers;
   Member?: MemberResolvers<ContextType>;
   MemberPosition?: MemberPositionResolvers;

@@ -3,11 +3,11 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"main": "dist/ui.js",
+	"main": "dist/index.js",
 	"types": "src/index.ts",
 	"scripts": {
-		"build": "vite build",
-		"typecheck": "tsc",
+		"jbv": "vite build",
+		"build": "tsc",
 		"storybook": "storybook dev -p 4400",
 		"build-storybook": "storybook build"
 	},

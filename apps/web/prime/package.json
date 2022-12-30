@@ -1,29 +1,34 @@
 {
 	"name": "@shaastra/prime",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
 	"scripts": {
-		"divine": "vite",
-		"waitbuild": "tsc && vite build",
-		"preview": "vite preview"
+		"dev": "solid-start dev",
+		"build": "solid-start build",
+		"start": "solid-start start"
+	},
+	"type": "module",
+	"devDependencies": {
+		"@shaastra/tsconfig": "workspace:*",
+		"@types/node": "16.18.11",
+		"autoprefixer": "10.4.13",
+		"postcss": "8.4.20",
+		"solid-start-node": "0.2.9",
+		"tailwindcss": "3.2.4",
+		"vite": "4.0.3"
 	},
 	"dependencies": {
 		"@fontsource/fjalla-one": "4.5.9",
 		"@fontsource/montserrat": "4.5.13",
 		"@shaastra/ui": "workspace:*",
 		"@solid-primitives/bounds": "0.0.105",
+		"@solidjs/meta": "0.28.2",
 		"@solidjs/router": "0.6.0",
 		"solid-headless": "0.13.0",
 		"solid-heroicons": "3.1.1",
-		"solid-js": "1.6.6"
+		"solid-js": "1.6.6",
+		"solid-start": "0.2.9",
+		"undici": "5.14.0"
 	},
-	"devDependencies": {
-		"@shaastra/tsconfig": "workspace:*",
-		"autoprefixer": "10.4.13",
-		"postcss": "8.4.20",
-		"tailwindcss": "3.2.4",
-		"vite": "4.0.3",
-		"vite-plugin-solid": "2.5.0"
+	"engines": {
+		"node": ">=16"
 	}
 }

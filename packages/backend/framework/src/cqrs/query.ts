@@ -22,8 +22,8 @@ export class QueryBus<AQ extends string | number | symbol = string> extends Even
 	}
 
 	execute<I, R>( name: string, data: I, context: ServiceContext ): Promise<R> {
-		const hasListeners = super.emit( name, data, context );
 		logger.debug( `Published Query: ${ name } ...` );
+		const hasListeners = super.emit( name, data, context );
 
 		return new Promise( ( resolve, reject ) => {
 			if ( !hasListeners ) {

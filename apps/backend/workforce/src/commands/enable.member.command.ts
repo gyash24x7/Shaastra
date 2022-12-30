@@ -9,7 +9,7 @@ export default async function enableMemberCommandHandler( _data: unknown, contex
 	const data = _data as EnableMemberInput;
 
 	logger.debug( `Handling ${ AppCommands.CREATE_MEMBER_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const member = await prisma.member.update( {
 		where: { id: data.id },

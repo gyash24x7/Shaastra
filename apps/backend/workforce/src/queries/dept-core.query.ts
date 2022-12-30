@@ -9,7 +9,7 @@ export default async function deptCoreQueryHandler( _data: unknown, _context: Se
 	const data = _data as { department: Department };
 
 	logger.debug( `Handling ${ AppQueries.DEPT_CORE_QUERY }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	return prisma.member.findFirstOrThrow( {
 		where: { department: data.department, position: MemberPosition.CORE }

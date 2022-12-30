@@ -1,6 +1,5 @@
 import type { GraphQLRequestContextWillSendResponse } from "@apollo/server";
 import type { CookieOptions } from "express";
-import type { GatewayContext } from "../context/index.js";
 import { logger } from "../logger/index.js";
 
 const accessTokenCookieOptions: CookieOptions = {
@@ -16,7 +15,7 @@ export function CookiePlugin() {
 	return {
 		async requestDidStart() {
 			return {
-				async willSendResponse( { contextValue }: GraphQLRequestContextWillSendResponse<GatewayContext> ) {
+				async willSendResponse( { contextValue }: GraphQLRequestContextWillSendResponse<any> ) {
 					if ( !!contextValue.token ) {
 						contextValue.res.cookie( "identity", contextValue.token, accessTokenCookieOptions );
 						logger.debug( `Cookie Val: ${ contextValue.res.hasHeader( "Set-Cookie" ) }` );

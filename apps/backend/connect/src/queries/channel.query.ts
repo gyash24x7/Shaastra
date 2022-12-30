@@ -7,7 +7,7 @@ export default async function channelQueryHandler( _data: unknown, _context: Ser
 	const data = _data as { id: string };
 
 	logger.debug( `Handling ${ AppQueries.CHANNEL_QUERY }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	return prisma.channel.findUnique( { where: { id: data.id } } );
 };

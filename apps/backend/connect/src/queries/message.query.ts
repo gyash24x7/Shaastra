@@ -7,7 +7,7 @@ export default async function messageQueryHandler( _data: unknown, _context: Ser
 	const data = _data as { id: string };
 
 	logger.debug( `Handling ${ AppQueries.MESSAGE_QUERY }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	return prisma.message.findUnique( { where: { id: data.id } } );
 };

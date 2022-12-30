@@ -10,7 +10,7 @@ export default async function createTeamCommandHandler( _data: unknown, context:
 	const data = _data as CreateTeamInput;
 
 	logger.debug( `Handling ${ AppCommands.CREATE_TEAM_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const existingTeam = await prisma.team.findUnique( { where: { name: data.name } } );
 

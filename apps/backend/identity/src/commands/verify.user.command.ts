@@ -11,7 +11,7 @@ export default async function verifyUserCommandHandler( _data: unknown, _context
 	const data = _data as VerifyUserInput;
 
 	logger.debug( `Handling ${ AppCommands.VERIFY_USER_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const user = await prisma.user.findUnique( { where: { id: data.userId } } );
 	if ( !user ) {

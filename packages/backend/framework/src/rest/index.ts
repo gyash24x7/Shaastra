@@ -1,17 +1,17 @@
 import type { ServiceContext } from "../context/index.js";
 
-export interface RestApiOptions<Ctx> {
+export interface RestApiOptions {
 	path: string;
 	method: "GET" | "POST" | "PUT" | "DELETE" | "ALL";
-	handler: ( ctx: Ctx ) => void | Promise<void>;
+	handler: ( ctx: ServiceContext ) => void | Promise<void>;
 }
 
-export class RestApi<Ctx extends ServiceContext> {
+export class RestApi {
 	public readonly method: "GET" | "POST" | "PUT" | "DELETE" | "ALL";
 	public readonly path: string;
-	public readonly handler: ( ctx: Ctx ) => void | Promise<void>;
+	public readonly handler: ( ctx: ServiceContext ) => void | Promise<void>;
 
-	constructor( options: RestApiOptions<Ctx> ) {
+	constructor( options: RestApiOptions ) {
 		this.path = options.path;
 		this.method = options.method;
 		this.handler = options.handler;

@@ -7,7 +7,7 @@ export default async function messagesQueryHandler( _data: unknown, _context: Se
 	const data = _data as { channelId: string };
 
 	logger.debug( `Handling ${ AppQueries.MESSAGES_QUERY }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	return prisma.channel.findUniqueOrThrow( { where: { id: data.channelId } } ).messages();
 }

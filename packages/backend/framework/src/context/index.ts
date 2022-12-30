@@ -6,10 +6,16 @@ import type { AppInfo } from "../config/index.js";
 import type { HealthChecker } from "../health/index.js";
 import type { Consul } from "../consul/index.js";
 import type { UserAuthInfo } from "../auth/index.js";
+import type { IncomingMessage, OutgoingMessage } from "http";
 
 export type ExpressContext = BaseContext & {
 	req: Request;
 	res: Response;
+}
+
+export type StandaloneContext = BaseContext & {
+	req: IncomingMessage;
+	res: OutgoingMessage;
 }
 
 export type CqrsContext = {
@@ -32,7 +38,7 @@ export type AppInfoContext = {
 }
 
 export type HealthContext = {
-	healthChecker: HealthChecker<ServiceContext>
+	healthChecker: HealthChecker
 }
 
 export type ServiceContext =
@@ -42,18 +48,8 @@ export type ServiceContext =
 	& HealthContext
 	& AuthContext
 	& CqrsContext
+	& { token?: string, logout?: boolean, idCookie?: string }
 
 export type ServiceContextFn = ContextFn<ServiceContext>
-
-export type GatewayContext =
-	ExpressContext
-	& AppInfoContext
-	& ConsulContext
-	& HealthContext
-	& { token?: string, logout?: boolean, idCookie?: string }
-	& AuthContext
-	& CqrsContext;
-
-export type GatewayContextFn = ContextFn<GatewayContext>
 
 export type ContextFn<Ctx extends BaseContext> = ContextFunction<[ ExpressContextFunctionArgument ], Ctx>;

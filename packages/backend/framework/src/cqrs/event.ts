@@ -21,8 +21,8 @@ export class EventBus<AE extends string | number | symbol = string> extends Even
 	}
 
 	execute<I>( name: string, data: I, context: ServiceContext ) {
-		const hasListeners = super.emit( name, data, context );
 		logger.debug( `Published Event: ${ name } ...` );
+		const hasListeners = super.emit( name, data, context );
 
 		if ( !hasListeners ) {
 			logger.error( `No Handlers found for Event: ${ name }` );

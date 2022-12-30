@@ -8,7 +8,7 @@ export default async function createChannelCommandHandler( _data: unknown, conte
 	const data = _data as CreateChannelInput;
 
 	logger.debug( `Handling ${ AppCommands.CREATE_CHANNEL_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const channel = await prisma.channel.create( {
 		data: { ...data, createdById: context.authInfo!.id }

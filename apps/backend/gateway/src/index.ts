@@ -1,5 +1,10 @@
-import { defaultApplicationOptions, ExpressApplication } from "@shaastra/framework";
+import { ExpressApplication } from "@shaastra/framework";
 
-const application = new ExpressApplication( { ...defaultApplicationOptions, name: "gateway" } );
+const application = new ExpressApplication( {
+	name: "gateway",
+	graphql: {
+		gateway: true
+	}
+} );
 
 await application.start();

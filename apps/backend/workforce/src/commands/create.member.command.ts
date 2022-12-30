@@ -11,7 +11,7 @@ export default async function createMemberCommandHandler( _data: unknown, contex
 	const { password, ...data } = _data as CreateMemberInput;
 
 	logger.debug( `Handling ${ AppCommands.CREATE_MEMBER_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const services = await context.consul.getRegisteredServices( context.appInfo.id );
 	const { Address, Port } = services.find( service => service.ID === "identity" )!;

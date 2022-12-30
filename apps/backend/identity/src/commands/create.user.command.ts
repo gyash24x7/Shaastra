@@ -18,7 +18,7 @@ export default async function createUserCommandHandler( _data: unknown, context:
 	let data = _data as CreateUserInput;
 
 	logger.debug( `Handling ${ AppCommands.CREATE_USER_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const existingUser = await prisma.user.findUnique( { where: { username: data.username } } );
 

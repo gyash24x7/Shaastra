@@ -7,7 +7,7 @@ export default async function memberEnabledEventHandler( _data: unknown, _contex
 	const data = _data as Member;
 
 	logger.debug( `Handling ${ AppEvents.MEMBER_ENABLED_EVENT }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const subject = `Your Shaastra Prime Account is Enabled`;
 	const content = `Hi ${ data.name }, You can now use Shaastra Prime.`;

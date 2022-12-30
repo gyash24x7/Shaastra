@@ -7,7 +7,7 @@ export default async function memberQueryHandler( _data: unknown, _context: Serv
 	const data = _data as { id: string };
 
 	logger.debug( `Handling ${ AppQueries.MEMBER_QUERY }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	return prisma.member.findUnique( { where: { id: data.id } } );
 };

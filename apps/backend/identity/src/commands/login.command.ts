@@ -10,7 +10,7 @@ export default async function loginCommandHandler( _data: unknown, _context: Ser
 	const data = _data as LoginInput;
 
 	logger.debug( `Handling ${ AppCommands.LOGIN_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const existingUser = await prisma.user.findUnique( {
 		where: { username: data.username }

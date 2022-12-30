@@ -1,10 +1,10 @@
 import { GraphQLDataSourceProcessOptions, RemoteGraphQLDataSource } from "@apollo/gateway";
-import type { GatewayContext } from "../context/index.js";
+import type { ServiceContext } from "../context/index.js";
 import { logger } from "../logger/index.js";
 
-export class ServiceDataSource extends RemoteGraphQLDataSource<GatewayContext> {
+export class ServiceDataSource extends RemoteGraphQLDataSource<ServiceContext> {
 
-	override willSendRequest( { request, context }: GraphQLDataSourceProcessOptions<GatewayContext> ) {
+	override willSendRequest( { request, context }: GraphQLDataSourceProcessOptions<ServiceContext> ) {
 		logger.debug( `Id Cookie: ${ context.idCookie }` );
 		if ( !!context.idCookie ) {
 			request.http?.headers.set( "Authorization", `Bearer ${ context.idCookie }` );

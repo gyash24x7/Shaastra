@@ -1,5 +1,5 @@
-import type { IApplication, IApplicationOptions } from "../../index.js";
-import { defaultApplicationOptions } from "../../index.js";
+import type { IApplication, IApplicationOptions, ServiceContext } from "../../index.js";
+import { CookiePlugin, defaultOptions, graphiqlApi, ServiceDataSource } from "../../index.js";
 import type { Express, Request, Response } from "express";
 import express from "express";
 import type { AppInfo } from "../../config/index.js";
@@ -11,7 +11,7 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import type { ServiceContext, ServiceContextFn } from "../../context/index.js";
+import type { ServiceContextFn } from "../../context/index.js";
 import { expressMiddleware } from "@apollo/server/express4";
 import { capitalCase, constantCase } from "change-case";
 import { buildSubgraphSchema } from "@apollo/subgraph";
@@ -22,25 +22,26 @@ import { gql } from "graphql-tag";
 import process from "node:process";
 import { readFileSync } from "node:fs";
 import { expressLoggingMiddleware, logger } from "../../logger/index.js";
+import { ApolloGateway, ServiceEndpointDefinition } from "@apollo/gateway";
 
 export class ExpressApplication implements IApplication<Express> {
 	readonly _app: Express;
 	readonly apolloServer: ApolloServer<ServiceContext>;
 	readonly appInfo: AppInfo;
 	readonly consul: Consul;
-	readonly restApis: RestApi<ServiceContext>[] = [ healthRestApi, healthCheckRestApi ];
+	readonly restApis: RestApi[] = [ healthRestApi, healthCheckRestApi ];
 	readonly httpServer: http.Server;
-	readonly healthChecker: HealthChecker<ServiceContext>;
+	readonly healthChecker: HealthChecker;
 	readonly commandBus: CommandBus;
 	readonly queryBus: QueryBus;
 	readonly eventBus: EventBus;
 
-	constructor( options: IApplicationOptions = defaultApplicationOptions ) {
-		const { name, restApis = [], graphql: { resolvers }, cqrs: { commands, queries, events } } = options;
+	constructor( options: IApplicationOptions = defaultOptions ) {
+		const { name, restApis = [], graphql: { resolvers, gateway }, cqrs } = options;
 
 		this.appInfo = this.generateAppInfo( name );
 		this.restApis.push( ...restApis );
-		this.healthChecker = new HealthChecker<ServiceContext>();
+		this.healthChecker = new HealthChecker();
 
 		this._app = express();
 		this.httpServer = http.createServer( this._app );
@@ -49,26 +50,47 @@ export class ExpressApplication implements IApplication<Express> {
 			{ host: process.env[ "CONSUL_HOST" ] || "localhost", port: process.env[ "CONSUL_PORT" ] || "8500" }
 		);
 
-		const typeDefsString = readFileSync( join( process.cwd(), "src/graphql/schema.graphql" ), "utf-8" );
-		const typeDefs = gql( typeDefsString );
+		if ( !!gateway ) {
+			const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );
 
-		let schema = buildSubgraphSchema( { typeDefs, resolvers } as any );
+			this.restApis.push( graphiqlApi );
 
-		// if ( !!shield ) {
-		// 	schema = applyMiddleware( schema, shield );
-		// }
+			this.apolloServer = new ApolloServer<ServiceContext>( {
+				gateway: new ApolloGateway( { buildService, logger } ),
+				plugins: [
+					ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
+					ApolloServerPluginLandingPageDisabled(),
+					CookiePlugin()
+				]
+			} );
+		} else {
+			const typeDefsString = readFileSync( join( process.cwd(), "src/graphql/schema.graphql" ), "utf-8" );
+			const typeDefs = gql( typeDefsString );
 
-		this.apolloServer = new ApolloServer<ServiceContext>( {
-			schema,
-			plugins: [
-				ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
-				ApolloServerPluginLandingPageDisabled()
-			]
-		} );
+			let schema = buildSubgraphSchema( { typeDefs, resolvers } as any );
 
-		this.commandBus = new CommandBus( commands );
-		this.queryBus = new QueryBus( queries );
-		this.eventBus = new EventBus( events );
+			this.apolloServer = new ApolloServer<ServiceContext>( {
+				logger,
+				schema,
+				plugins: [
+					ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
+					ApolloServerPluginLandingPageDisabled()
+				]
+			} );
+		}
+
+		this.commandBus = new CommandBus( cqrs?.commands || {} );
+		this.queryBus = new QueryBus( cqrs?.queries || {} );
+		this.eventBus = new EventBus( cqrs?.events || {} );
+	}
+
+	generateAppInfo( id: string ): AppInfo {
+		const port = parseInt( process.env[ `${ constantCase( id ) }_PORT` ] || "8000" );
+		const name = `Shaastra ${ capitalCase( id ) }`;
+		const pkg = `@shaastra/${ id }`;
+		const address = "localhost";
+		const url = `http://localhost:${ port }`;
+		return { id, name, pkg, port, address, url };
 	}
 
 	applyMiddlewares() {
@@ -78,7 +100,7 @@ export class ExpressApplication implements IApplication<Express> {
 	}
 
 	registerRestApis() {
-		const handler = ( api: RestApi<ServiceContext> ) => async ( req: Request, res: Response ) => {
+		const handler = ( api: RestApi ) => async ( req: Request, res: Response ) => {
 			const context = await this.createContext( { req, res } );
 			api.handler( context );
 		};
@@ -120,16 +142,8 @@ export class ExpressApplication implements IApplication<Express> {
 
 	createContext: ServiceContextFn = async ( { req, res } ) => {
 		const { consul, commandBus, queryBus, eventBus, appInfo, healthChecker } = this;
-		return { req, res, logger, consul, commandBus, queryBus, eventBus, appInfo, healthChecker };
+		const idCookie = req.cookies[ "identity" ];
+		return { req, res, consul, commandBus, queryBus, eventBus, appInfo, healthChecker, idCookie };
 	};
-
-	private generateAppInfo( id: string ): AppInfo {
-		const port = parseInt( process.env[ `${ constantCase( id ) }_PORT` ] || "8000" );
-		const name = `Shaastra ${ capitalCase( id ) }`;
-		const pkg = `@shaastra/${ id }`;
-		const address = "localhost";
-		const url = `http://localhost:${ port }`;
-		return { id, name, pkg, port, address, url };
-	}
 
 }

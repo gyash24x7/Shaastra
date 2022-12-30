@@ -9,14 +9,15 @@ import type { HealthChecker } from "../health/index.js";
 
 export interface IApplicationOptions {
 	name: string;
-	restApis?: RestApi<ServiceContext>[];
-	cqrs: {
+	restApis?: RestApi[];
+	cqrs?: {
 		commands: ICommands;
 		queries: IQueries;
 		events: IEvents;
 	};
 	graphql: {
-		resolvers: any;
+		gateway?: boolean,
+		resolvers?: any
 	};
 }
 
@@ -29,15 +30,15 @@ export interface IApplication<A = any> {
 	readonly httpServer: http.Server;
 	readonly applyMiddlewares: () => void;
 	readonly registerRestApis: () => void;
-	readonly restApis: RestApi<ServiceContext>[];
-	readonly healthChecker: HealthChecker<ServiceContext>;
+	readonly restApis: RestApi[];
+	readonly healthChecker: HealthChecker;
 	readonly commandBus: CommandBus;
 	readonly queryBus: QueryBus;
 	readonly eventBus: EventBus;
 	readonly createContext: ServiceContextFn;
 }
 
-export const defaultApplicationOptions: IApplicationOptions = {
+export const defaultOptions: IApplicationOptions = {
 	cqrs: {
 		commands: {},
 		events: {},

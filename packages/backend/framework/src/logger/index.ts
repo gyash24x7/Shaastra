@@ -35,4 +35,4 @@ export const logger = pino( {
 	}
 } );
 
-export const expressLoggingMiddleware: ExpressMiddleware = pinoHttp( { logger } );
+export const expressLoggingMiddleware: ExpressMiddleware = pinoHttp( { logger, autoLogging: false } );

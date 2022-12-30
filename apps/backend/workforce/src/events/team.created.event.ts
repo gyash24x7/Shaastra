@@ -7,7 +7,7 @@ export default async function teamCreatedEventHandler( _data: unknown, _context:
 	const data = _data as Team & { members: Member[] };
 
 	logger.debug( `Handling ${ AppCommands.CREATE_MEMBER_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const subject = `Welcome to ${ data.name } Team`;
 	const content = `You have been added to a new team under ${ data.department }`;

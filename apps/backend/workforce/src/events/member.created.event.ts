@@ -8,7 +8,7 @@ export default async function memberCreatedEventHandler( _data: unknown, context
 	const data = _data as Member;
 
 	logger.debug( `Handling ${ AppEvents.MEMBER_CREATED_EVENT }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const member: Member = await context.queryBus.execute(
 		AppQueries.DEPT_CORE_QUERY,

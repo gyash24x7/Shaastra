@@ -7,7 +7,7 @@ export default async function teamQueryHandler( _data: unknown, _context: Servic
 	const data = _data as { id: string };
 
 	logger.debug( `Handling ${ AppQueries.TEAM_QUERY }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	return prisma.team.findUnique( { where: { id: data.id } } );
 };

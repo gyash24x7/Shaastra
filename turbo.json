@@ -26,16 +26,13 @@
 			"outputs": [ ]
 		},
 		"gql:generate": {
+			"dependsOn": [ "gql:publish" ],
 			"inputs": [ "src/graphql/schema.graphql" ],
 			"outputs": [ "src/graphql/generated" ]
 		},
-		"@shaastra/gateway#gql:generate": {
-			"inputs": [ "supergraph-compose.yml" ],
-			"dependsOn": [
-				"@shaastra/identity#gql:generate",
-				"@shaastra/connect#gql:generate",
-				"@shaastra/workforce#gql:generate"
-			]
+		"gql:publish": {
+			"inputs": [ "src/graphql/schema.graphql" ],
+			"outputs": [ ]
 		}
 	}
 }

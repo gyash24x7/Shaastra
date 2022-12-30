@@ -8,7 +8,7 @@ export default async function createMessageCommandHandler( _data: unknown, conte
 	const data = _data as CreateMessageInput;
 
 	logger.debug( `Handling ${ AppCommands.CREATE_MESSAGE_COMMAND }...` );
-	logger.debug( "Data: ", data );
+	logger.debug( "Data: %o", data );
 
 	const message = await prisma.message.create( {
 		data: { ...data, createdById: context.authInfo!.id }

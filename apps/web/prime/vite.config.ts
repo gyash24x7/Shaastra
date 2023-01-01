@@ -1,7 +1,7 @@
 import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
-import solid from "solid-start/vite";
+import solid from "vite-plugin-solid";
 import tailwindConfig from "./tailwind.config.js";
 
 export default defineConfig( {

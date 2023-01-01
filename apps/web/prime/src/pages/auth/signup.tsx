@@ -16,7 +16,7 @@ export default function SignUpPage() {
 				placeholder = { "Enter your Roll Number" }
 				iconAfter = { user }
 				value = { rollNumber }
-				onChange = { setRollNumber }
+				setValue = { setRollNumber }
 			/>
 			<TextInput
 				name = { "password" }
@@ -24,7 +24,7 @@ export default function SignUpPage() {
 				placeholder = { "Enter your Password" }
 				iconAfter = { lockClosed }
 				value = { password }
-				onChange = { setPassword }
+				setValue = { setPassword }
 			/>
 			<Button appearance = { "primary" } type = { "submit" } buttonText = { "Submit" } fullWidth/>
 		</VStack>

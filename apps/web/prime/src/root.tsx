@@ -1,31 +1,30 @@
-// @refresh reload
-import { Suspense } from "solid-js";
-import { Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Routes, Scripts, Title } from "solid-start";
 import "@fontsource/fjalla-one/400.css";
 import "@fontsource/montserrat/300.css";
 import "@fontsource/montserrat/500.css";
 import "@fontsource/montserrat/600.css";
 import "@fontsource/montserrat/800.css";
+import { Route, Router, Routes } from "@solidjs/router";
+import { render } from "solid-js/web";
+import AuthLayout from "./layouts/auth.layout.js";
+import LoginPage from "./pages/auth/login.js";
+import SignUpPage from "./pages/auth/signup.js";
+import HomePage from "./pages/index.js";
 import "./styles/global.css";
 
-export default function Root() {
+function App() {
 	return (
-		<Html lang = "en">
-			<Head>
-				<Title>Shaastra Prime</Title>
-				<Meta charset = "utf-8"/>
-				<Meta name = "viewport" content = "width=device-width, initial-scale=1"/>
-			</Head>
-			<Body>
-				<ErrorBoundary>
-					<Suspense fallback = { <div>Loading</div> }>
-						<Routes>
-							<FileRoutes/>
-						</Routes>
-					</Suspense>
-				</ErrorBoundary>
-				<Scripts/>
-			</Body>
-		</Html>
+		<Router>
+			<Routes>
+				<Route path = { "/" }>
+					<Route path = { "/" } component = { HomePage }/>
+					<Route path = { "/auth" } component = { AuthLayout }>
+						<Route path = { "/login" } component = { LoginPage }/>
+						<Route path = { "/signup" } component = { SignUpPage }/>
+					</Route>
+				</Route>
+			</Routes>
+		</Router>
 	);
 }
+
+render( () => <App/>, document.getElementById( "root" ) as HTMLElement );

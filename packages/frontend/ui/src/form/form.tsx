@@ -55,7 +55,9 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 		};
 	};
 
-	const getFieldError = ( name: FieldOf<T> ) => errors()[ name ];
+	const getFieldError = ( name: FieldOf<T> ) => !!touched()[ name ]
+		? !!errors()[ name ] ? errors()[ name ] : "Looks Good!"
+		: "";
 
 	const setFieldError = ( name: FieldOf<T>, error: string ) => {
 		setErrors( errors => (
@@ -64,6 +66,10 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 	};
 
 	const getFieldTouched = ( name: FieldOf<T> ) => touched()[ name ];
+
+	const getFieldAppearance = ( name: FieldOf<T> ) => !!touched()[ name ]
+		? !!errors()[ name ] ? "danger" : "success"
+		: "default";
 
 	const setFieldTouched = ( name: FieldOf<T>, value: boolean ) => {
 		setTouched( produce( touched => (
@@ -86,7 +92,8 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 		fields,
 		onSubmit,
 		getFieldValue,
-		getFieldTouched
+		getFieldTouched,
+		getFieldAppearance
 	};
 }
 
@@ -105,7 +112,8 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 		setFieldValue,
 		fields,
 		getFieldError,
-		getFieldTouched
+		getFieldTouched,
+		getFieldAppearance
 	} = createForm<T>( props );
 	const SubmitButton = props.submitBtn;
 
@@ -121,6 +129,7 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 							setValue = { setFieldValue( name, validations ? validations[ name ] : [] ) }
 							error = { getFieldError( name ) }
 							touched = { getFieldTouched( name ) }
+							appearance = { getFieldAppearance( name ) }
 						/>
 					) }
 				</For>

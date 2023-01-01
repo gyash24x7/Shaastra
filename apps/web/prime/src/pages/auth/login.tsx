@@ -23,36 +23,27 @@ export default function LoginPage() {
 					);
 				} }
 				renderMap = { {
-					rollNumber( { touched, error, ...props }: any ) {
-						const appearance = () => !!touched ? !!error ? "danger" : "success" : "default";
-						const message = () => !!touched ? !!error ? error : "Looks Good!" : "";
-						return (
-							<TextInput
-								{ ...props }
-								label = { "Roll Number" }
-								placeholder = { "Enter your Roll Number" }
-								iconAfter = { user }
-								appearance = { appearance() }
-								message = { message() }
-							/>
-						);
-					},
-					password( { touched, error, ...props }: any ) {
-						const appearance = () => !!touched ? !!error ? "danger" : "success" : "default";
-						const message = () => !!touched ? !!error ? error : "Looks Good!" : "";
-
-						return (
-							<TextInput
-								{ ...props }
-								type = { "password" }
-								label = { "Password" }
-								placeholder = { "Enter you Password" }
-								iconAfter = { lockClosed }
-								appearance = { appearance() }
-								message = { message() }
-							/>
-						);
-					}
+					rollNumber: ( { appearance, error, ...props } ) => (
+						<TextInput
+							{ ...props }
+							label = { "Roll Number" }
+							placeholder = { "Enter your Roll Number" }
+							iconAfter = { user }
+							appearance = { appearance }
+							message = { error }
+						/>
+					),
+					password: ( { appearance, error, ...props } ) => (
+						<TextInput
+							{ ...props }
+							type = { "password" }
+							label = { "Password" }
+							placeholder = { "Enter you Password" }
+							iconAfter = { lockClosed }
+							appearance = { appearance }
+							message = { error }
+						/>
+					)
 				} }
 				validations = { {
 					rollNumber: [ patternValidator( rollNumberRegex, "Invalid Roll Number!" ) ],

@@ -20,7 +20,7 @@ export interface ListSelectProps<T = any> {
 	label?: string;
 	placeholder?: string;
 	value?: SelectOption<T>;
-	onChange: ( value?: SelectOption<T> ) => void;
+	onChange: ( value: SelectOption<T> ) => void;
 	appearance?: "default" | "success" | "danger"
 	message?: string;
 }
@@ -72,7 +72,7 @@ export default function ListSelect<T>( props: ListSelectProps<T> ) {
 			<Listbox<SelectOption<T>>
 				defaultOpen = { false }
 				value = { props.value || props.options[ 0 ] }
-				onSelectChange = { props.onChange }
+				onSelectChange = { props.onChange as any }
 			>
 				<Show when = { !!props.label } keyed>
 					<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name }>

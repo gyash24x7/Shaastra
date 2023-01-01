@@ -42,6 +42,7 @@ Thumbs.db
 keys
 .private.key
 .public.key.pem
+keys.json
 
 dist
 .solid

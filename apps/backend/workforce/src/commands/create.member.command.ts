@@ -20,7 +20,7 @@ export default async function createMemberCommandHandler( _data: unknown, contex
 		name: data.name,
 		email: data.email,
 		password,
-		username: data.rollNumber,
+		username: data.rollNumber.toLowerCase(),
 		roles: [ `MEMBER_${ data.department }`, `POSITION_${ data.position }` ]
 	};
 

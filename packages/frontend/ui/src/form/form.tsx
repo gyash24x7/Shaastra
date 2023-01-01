@@ -102,7 +102,7 @@ export interface FormProps<T> {
 	onSubmit?: ( values: T ) => void | Promise<void>;
 	submitBtn: () => JSXElement;
 	renderMap: Record<FieldOf<T>, FieldRenderFn<T, FieldOf<T>>>;
-	validations?: Record<FieldOf<T>, Array<ValidatorFn<FieldValueOf<T, FieldOf<T>>>>>;
+	validations?: Record<FieldOf<T>, Array<ValidatorFn<FieldValueOf<T, FieldOf<T>>>> | undefined>;
 }
 
 export default function Form<T extends Object>( { validations, ...props }: FormProps<T> ) {
@@ -126,7 +126,7 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 							name = { name }
 							value = { getFieldValue( name ) }
 							render = { props.renderMap[ name ] }
-							setValue = { setFieldValue( name, validations ? validations[ name ] : [] ) }
+							setValue = { setFieldValue( name, validations ? validations[ name ] || [] : [] ) }
 							error = { getFieldError( name ) }
 							touched = { getFieldTouched( name ) }
 							appearance = { getFieldAppearance( name ) }

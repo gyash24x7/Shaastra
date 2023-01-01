@@ -1,4 +1,4 @@
-import type { Accessor, JSXElement, Setter } from "solid-js";
+import type { Accessor, JSXElement } from "solid-js";
 
 export type FieldOf<T> = keyof T;
 
@@ -9,7 +9,7 @@ export type FieldRenderFn<T, R extends keyof T> = ( data: Omit<FieldProps<T, R>,
 export interface FieldProps<T, R extends FieldOf<T>> {
 	name: R;
 	value: Accessor<T[R]>;
-	setValue: Setter<T[R]>;
+	setValue: ( value: T[R] ) => void;
 	render: FieldRenderFn<T, R>;
 	error?: string;
 	touched?: boolean;

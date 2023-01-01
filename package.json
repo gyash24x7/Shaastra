@@ -11,6 +11,7 @@
 	"scripts": {
 		"dev": "env-cmd turbo run dev --parallel",
 		"build": "env-cmd turbo run build --parallel",
+		"typecheck": "env-cmd turbo run typecheck --parallel",
 		"start": "env-cmd turbo run start --parallel"
 	},
 	"devDependencies": {

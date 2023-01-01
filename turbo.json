@@ -32,6 +32,7 @@
 		},
 		"gql:publish": {
 			"inputs": [ "src/graphql/schema.graphql" ],
+			"env": [ "APOLLO_KEY", "APOLLO_GRAPH_REF" ],
 			"outputs": [ ]
 		}
 	}

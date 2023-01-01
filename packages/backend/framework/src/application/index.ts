@@ -1,11 +1,20 @@
-import type { ApolloServer } from "@apollo/server";
 import type * as http from "node:http";
 import type { CommandBus, EventBus, ICommands, IEvents, IQueries, QueryBus } from "../cqrs/index.js";
 import type { RestApi } from "../rest/index.js";
-import type { AppInfo } from "../config/index.js";
 import type { Consul } from "../consul/index.js";
-import type { ServiceContext, ServiceContextFn } from "../context/index.js";
+import type { ServiceContextFn } from "../context/index.js";
 import type { HealthChecker } from "../health/index.js";
+import type { GraphQLServer } from "../graphql/index.js";
+import type { ExpressErrorHandler, ExpressMiddleware } from "../auth/index.js";
+
+export type AppInfo = {
+	id: string;
+	name: string;
+	url: string;
+	pkg: string;
+	port: number;
+	address: string;
+}
 
 export interface IApplicationOptions {
 	name: string;
@@ -19,12 +28,14 @@ export interface IApplicationOptions {
 		gateway?: boolean,
 		resolvers?: any
 	};
+	middlewares?: ExpressMiddleware[];
+	errorHandlers?: ExpressErrorHandler[];
 }
 
 export interface IApplication<A = any> {
 	readonly _app: A;
 	readonly appInfo: AppInfo;
-	readonly apolloServer: ApolloServer<ServiceContext>;
+	readonly graphQLServer: GraphQLServer;
 	readonly start: () => Promise<void>;
 	readonly consul: Consul;
 	readonly httpServer: http.Server;

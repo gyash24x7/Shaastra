@@ -3,6 +3,13 @@ import type { JwksClient } from "jwks-rsa";
 
 export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
 
+export type ExpressErrorHandler = (
+	err: unknown,
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => unknown | Promise<unknown>
+
 export const requireUser: ExpressMiddleware = function ( req: any, res, next ) {
 	if ( !req.user ) {
 		res.status( 403 ).send();

@@ -1,7 +1,7 @@
 import type { Consul as ConsulType } from "consul";
 import BaseConsul from "consul";
-import type { AppInfo, ConsulConfig } from "../config/index.js";
 import { logger } from "../logger/index.js";
+import type { AppInfo } from "../application/index.js";
 
 export type ConsulService = {
 	ID: string;
@@ -15,8 +15,11 @@ export type ConsulService = {
 export class Consul {
 	private readonly consul: ConsulType;
 
-	constructor( consulConfig: ConsulConfig ) {
-		this.consul = new BaseConsul( consulConfig );
+	constructor() {
+		this.consul = new BaseConsul( {
+			host: process.env[ "CONSUL_HOST" ] || "localhost",
+			port: process.env[ "CONSUL_PORT" ] || "8500"
+		} );
 	}
 
 	async getAllServices() {

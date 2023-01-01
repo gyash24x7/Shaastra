@@ -17,7 +17,7 @@
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate --accept-data-loss",
 		"gql:generate": "graphql-codegen",
-		"gql:publish": "rover subgraph publish shaastra-in1yu@current --schema=src/graphql/schema.graphql --name=connect --routing-url http://localhost:8020/api/graphql"
+		"gql:publish": "rover subgraph publish shaastra-9q8lz@current --schema=src/graphql/schema.graphql --name=connect --routing-url http://localhost:8020/api/graphql"
 	},
 	"keywords": [ ],
 	"author": "",

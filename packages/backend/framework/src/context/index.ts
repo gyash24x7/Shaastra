@@ -2,20 +2,14 @@ import type { BaseContext, ContextFunction } from "@apollo/server";
 import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
 import type { CommandBus, EventBus, QueryBus } from "../cqrs/index.js";
 import type { Request, Response } from "express";
-import type { AppInfo } from "../config/index.js";
 import type { HealthChecker } from "../health/index.js";
 import type { Consul } from "../consul/index.js";
 import type { UserAuthInfo } from "../auth/index.js";
-import type { IncomingMessage, OutgoingMessage } from "http";
+import type { AppInfo } from "../application/index.js";
 
 export type ExpressContext = BaseContext & {
 	req: Request;
 	res: Response;
-}
-
-export type StandaloneContext = BaseContext & {
-	req: IncomingMessage;
-	res: OutgoingMessage;
 }
 
 export type CqrsContext = {

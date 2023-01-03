@@ -7,7 +7,7 @@ export enum AppEvents {
 	USER_CREATED_EVENT = "USER_CREATED_EVENT"
 }
 
-const events: IEvents<AppEvents> = {
+const events: IEvents = {
 	USER_CREATED_EVENT: userCreatedEventHandler
 };
 

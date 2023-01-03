@@ -1,13 +1,17 @@
-import type { ServiceContext } from "@shaastra/framework";
-import { logger } from "@shaastra/framework";
-import { AppQueries } from "./index.js";
-import { prisma } from "../index.js";
+import { prisma } from "../prisma/index.js";
+import { builder } from "../schema/builder.js";
+import { messageRef } from "../entities/index.js";
 
-export default async function messagesQueryHandler( _data: unknown, _context: ServiceContext ) {
-	const data = _data as { channelId: string };
+const messagesInputRef = builder.inputType( "MessagesInput", {
+	fields: t => ( {
+		channelId: t.string( { required: true } )
+	} )
+} );
 
-	logger.debug( `Handling ${ AppQueries.MESSAGES_QUERY }...` );
-	logger.debug( "Data: %o", data );
-
-	return prisma.channel.findUniqueOrThrow( { where: { id: data.channelId } } ).messages();
-}
+builder.queryField( "messages", t => t.prismaField( {
+	type: [ messageRef ],
+	args: { data: t.arg( { type: messagesInputRef, required: true } ) },
+	async resolve( _query, _parent, { data }, _context, _info ) {
+		return prisma.channel.findUniqueOrThrow( { where: { id: data.channelId } } ).messages();
+	}
+} ) );

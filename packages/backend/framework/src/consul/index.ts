@@ -26,30 +26,28 @@ export class Consul {
 		return this.consul.agent.service.list<Record<string, ConsulService>>();
 	}
 
-	async getRegisteredServices( appId: string ) {
-		logger.trace( `>> Consul::getRegisteredServices() AppId: ${ appId }` );
-
-		const serviceMap = await this.consul.agent.service.list<Record<string, ConsulService>>();
-		return Object.values( serviceMap ).filter( service => service.ID !== appId );
+	async getRegisteredServices() {
+		logger.trace( `>> Consul::getRegisteredServices()` );
+		const services = await this.getAllServices();
+		return Object.values( services );
 	}
 
 	async registerService( appInfo: AppInfo ) {
 		logger.trace( `>> Consul::registerService() AppInfo: ${ JSON.stringify( appInfo ) }` );
 
-		const { id, name, port, address, pkg } = appInfo;
-		const url = `http://${ address }:${ port }`;
+		const { id, name, port, address, pkg, url } = appInfo;
 
-		const check = {
-			id: `${ id }-health-check`,
-			name: `${ name } API Health Check`,
-			http: `${ url }/api/health`,
-			method: "GET",
-			header: { "Content-Type": [ "application/json" ] },
-			interval: "30s",
-			timeout: "1s"
-		};
+		// const check = {
+		// 	id: `${ id }-health-check`,
+		// 	name: `${ name } API Health Check`,
+		// 	http: `${ url }/api/health`,
+		// 	method: "GET",
+		// 	header: { "Content-Type": [ "application/json" ] },
+		// 	interval: "30s",
+		// 	timeout: "1s"
+		// };
 
-		await this.consul.agent.service.register( { id, name, port, address, meta: { pkg }, check } );
+		await this.consul.agent.service.register( { id, name, port, address, meta: { pkg, url } } );
 		logger.debug( `${ name } Service registered in Consul!` );
 		this.applyShutdownHook( id );
 	}

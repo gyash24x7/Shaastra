@@ -15,57 +15,28 @@
 		"test": "jest --coverage",
 		"test:e2e": "jest --config test/jest-e2e.json",
 		"db:generate": "prisma generate",
-		"db:push": "prisma db push --skip-generate --accept-data-loss",
-		"gql:generate": "graphql-codegen",
-		"gql:publish": "rover subgraph publish shaastra-9q8lz@current --schema=src/graphql/schema.graphql --name=connect --routing-url http://localhost:8020/api/graphql"
+		"db:push": "prisma db push --skip-generate --accept-data-loss"
 	},
 	"keywords": [ ],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
-		"@graphql-codegen/cli": "2.16.2",
-		"@graphql-codegen/typescript": "2.8.6",
-		"@graphql-codegen/typescript-resolvers": "2.7.11",
 		"@shaastra/tsconfig": "workspace:*",
 		"prisma": "4.8.0",
 		"typescript": "4.9.4"
 	},
 	"dependencies": {
+		"@pothos/core": "3.24.0",
+		"@pothos/plugin-directives": "3.9.1",
+		"@pothos/plugin-federation": "3.7.0",
+		"@pothos/plugin-prisma": "3.39.0",
 		"@prisma/client": "4.8.0",
 		"@shaastra/framework": "workspace:*",
-		"graphql": "16.6.0"
+		"graphql": "16.6.0",
+		"graphql-scalars": "1.20.1"
 	},
 	"prisma": {
 		"schema": "./prisma/schema.prisma"
-	},
-	"codegen": {
-		"schema": "./src/graphql/schema.graphql",
-		"generates": {
-			"./src/graphql/generated/index.ts": {
-				"plugins": [ "typescript-resolvers" ],
-				"config": {
-					"federation": true,
-					"useTypeImports": true,
-					"skipTypename": true,
-					"contextType": "ServiceContext",
-					"avoidOptionals": false,
-					"mappers": {
-						"ServiceContext": "@shaastra/framework#ServiceContext",
-						"Channel": "@prisma/client/connect/index.js#Channel",
-						"Message": "@prisma/client/connect/index.js#Message",
-						"ChannelType": "@prisma/client/connect/index.js#ChannelType",
-						"CreateChannelInput": "../inputs.js#CreateChannelInput",
-						"CreateMessageInput": "../inputs.js#CreateMessageInput",
-						"GetMessagesInput": "../inputs.js#GetMessagesInput",
-						"MutationCreateChannelArgs": "../inputs.js#MutationCreateChannelArgs",
-						"MutationCreateMessageArgs": "../inputs.js#MutationCreateMessageArgs",
-						"QueryGetMessagesArgs": "../inputs.js#QueryGetMessagesArgs",
-						"Maybe": "@shaastra/framework#Maybe",
-						"Scalars": "@shaastra/framework#Scalars"
-					}
-				}
-			}
-		}
 	},
 	"jest": {
 		"moduleFileExtensions": [ "js", "json", "ts" ],

@@ -1,16 +1,9 @@
-import { PrismaClient } from "@prisma/client/connect/index.js";
-import { resolvers } from "./graphql/resolvers.js";
 import { ExpressApplication } from "@shaastra/framework";
-import commands from "./commands/index.js";
-import queries from "./queries/index.js";
 import events from "./events/index.js";
+import { schema } from "./schema/index.js";
 
-export const prisma = new PrismaClient();
+const application = new ExpressApplication( { name: "connect", graphql: { schema }, events } );
 
-const application = new ExpressApplication( {
-	name: "connect",
-	graphql: { resolvers },
-	cqrs: { commands, queries, events }
-} );
+export const { consul, logger } = application;
 
 await application.start();

@@ -13,7 +13,7 @@ export enum AppEvents {
 	TEAM_CREATED_EVENT = "TEAM_CREATED_EVENT"
 }
 
-const events: IEvents<AppEvents> = {
+const events: IEvents = {
 	MEMBER_CREATED_EVENT: memberCreatedEventHandler,
 	MEMBER_ENABLED_EVENT: memberEnabledEventHandler,
 	TEAM_CREATED_EVENT: teamCreatedEventHandler

@@ -7,7 +7,8 @@
 	"scripts": {
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --delete-dir-on-start src",
 		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch --delete-dir-on-start src",
-		"start:dev": "wait-on dist/index.js && nodemon",
+		"start:dev": "wait-on dist/index.js && pnpm run wait && nodemon",
+		"wait": "wait-on tcp:8000 && wait-on tcp:8010 && wait-on tcp:8020",
 		"typecheck": "tsc",
 		"dev": "run-p build:dev start:dev",
 		"start": "node dist",

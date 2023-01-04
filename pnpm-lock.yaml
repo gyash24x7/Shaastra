@@ -195,6 +195,7 @@ importers:
       '@apollo/gateway': 2.2.2
       '@apollo/server': 4.3.0
       '@apollo/subgraph': 2.2.2
+      '@godaddy/terminus': 4.11.2
       '@shaastra/tsconfig': workspace:*
       '@types/body-parser': 1.19.2
       '@types/consul': 0.40.0
@@ -219,6 +220,7 @@ importers:
       '@apollo/gateway': 2.2.2_graphql@16.6.0
       '@apollo/server': 4.3.0_graphql@16.6.0
       '@apollo/subgraph': 2.2.2_graphql@16.6.0
+      '@godaddy/terminus': 4.11.2
       body-parser: 1.20.1
       change-case: 4.1.2
       consul: 1.2.0
@@ -2108,6 +2110,12 @@ packages:
 
   /@fontsource/montserrat/4.5.13:
     resolution: {integrity: sha512-/XlcNsMFjdWX4Away8Ax/4NgND8Ckk9gVDwgz1sfxF6h+gFHChLOV0IvPrUfCQjZ1F35igg+nR9bSxmjsYEskQ==}
+    dev: false
+
+  /@godaddy/terminus/4.11.2:
+    resolution: {integrity: sha512-e/kbOWpGKME42eltM/wXM3RxSUOrfureZxEd6Dt6NXyFoJ7E8lnmm7znXydJsL3B7ky4HRFZI+eHrep54NZbeQ==}
+    dependencies:
+      stoppable: 1.1.0
     dev: false
 
   /@graphql-tools/batch-execute/8.5.1_graphql@16.6.0:
@@ -9815,6 +9823,11 @@ packages:
   /statuses/2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
     engines: {node: '>= 0.8'}
+
+  /stoppable/1.1.0:
+    resolution: {integrity: sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==}
+    engines: {node: '>=4', npm: '>=6'}
+    dev: false
 
   /store2/2.14.2:
     resolution: {integrity: sha512-siT1RiqlfQnGqgT/YzXVUNsom9S0H1OX+dpdGN1xkyYATo4I6sep5NmsRD/40s3IIOvlCq6akxkqG82urIZW1w==}

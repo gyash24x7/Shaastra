@@ -12,6 +12,7 @@ import process from "node:process";
 import { pinoHttp } from "pino-http";
 import { expressMiddleware } from "@apollo/server/express4";
 import { logger as frameworkLogger } from "../../logger/index.js";
+import { HealthCheck } from "../../health/index.js";
 
 export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
 
@@ -34,6 +35,7 @@ export class ExpressApplication implements IApplication<Express> {
 	readonly middlewares: ExpressMiddleware[];
 	readonly errorHandlers: ExpressErrorHandler[];
 	readonly jwtUtils: JwtUtils;
+	readonly healthCheck: HealthCheck;
 
 	constructor( options: IApplicationOptions ) {
 		const { name, restApis = [], graphql: { schema, gateway }, events } = options;
@@ -53,6 +55,7 @@ export class ExpressApplication implements IApplication<Express> {
 		this.consul = new Consul();
 		this.graphQLServer = new GraphQLServer( { httpServer: this.httpServer, gateway, schema } );
 		this.eventBus = new EventBus( events || {} );
+		this.healthCheck = new HealthCheck( this.httpServer, this.consul, this.appInfo );
 	}
 
 	generateAppInfo( id: string ): AppInfo {

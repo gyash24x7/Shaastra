@@ -3,10 +3,12 @@ import type { RestApi } from "../rest/index.js";
 import type { Consul } from "../consul/index.js";
 import type { ServiceContextFn } from "../context/index.js";
 import type { GraphQLServer } from "../graphql/index.js";
-import type { ExpressErrorHandler, ExpressMiddleware, JwtUtils } from "../auth/index.js";
+import type { JwtUtils } from "../auth/index.js";
 import type { GraphQLSchema } from "graphql";
 import type { Logger } from "pino";
 import type { EventBus, IEvents } from "../events/index.js";
+import type { HealthCheck } from "../health/index.js";
+import type { ExpressErrorHandler, ExpressMiddleware } from "./adapters/express.js";
 
 export type AppInfo = {
 	id: string;
@@ -43,6 +45,7 @@ export interface IApplication<A = any> {
 	readonly eventBus: EventBus;
 	readonly createContext: ServiceContextFn;
 	readonly jwtUtils: JwtUtils;
+	readonly healthCheck: HealthCheck;
 }
 
 export * from "./adapters/express.js";

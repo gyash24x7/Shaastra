@@ -37,25 +37,22 @@ export class Consul {
 
 		const { id, name, port, address, pkg, url } = appInfo;
 
-		// const check = {
-		// 	id: `${ id }-health-check`,
-		// 	name: `${ name } API Health Check`,
-		// 	http: `${ url }/api/health`,
-		// 	method: "GET",
-		// 	header: { "Content-Type": [ "application/json" ] },
-		// 	interval: "30s",
-		// 	timeout: "1s"
-		// };
+		const check = {
+			id: `${ id }-health-check`,
+			name: `${ name } API Health Check`,
+			http: `${ url }/api/health`,
+			method: "GET",
+			header: { "Content-Type": [ "application/json" ] },
+			interval: "30s",
+			timeout: "1s"
+		};
 
-		await this.consul.agent.service.register( { id, name, port, address, meta: { pkg, url } } );
+		await this.consul.agent.service.register( { id, name, port, address, meta: { pkg, url }, check } );
 		logger.debug( `${ name } Service registered in Consul!` );
-		this.applyShutdownHook( id );
 	}
 
-	private applyShutdownHook( appId: string ) {
-		process.on( "beforeExit", async () => {
-			logger.debug( `Unregistering ${ appId } from consul...` );
-			await this.consul.agent.service.deregister( appId );
-		} );
+	async deregisterService( appId: string ) {
+		logger.debug( `Unregistering ${ appId } from consul...` );
+		await this.consul.agent.service.deregister( appId );
 	}
 }

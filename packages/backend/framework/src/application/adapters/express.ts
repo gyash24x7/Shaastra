@@ -1,15 +1,7 @@
-import type {
-	AppInfo,
-	ExpressContext,
-	ExpressErrorHandler,
-	ExpressMiddleware,
-	IApplication,
-	IApplicationOptions,
-	ServiceContext
-} from "../../index.js";
-import { EventBus, GraphQLServer } from "../../index.js";
+import type { AppInfo, ExpressContext, IApplication, IApplicationOptions, ServiceContext } from "../../index.js";
+import { deserializeUser, EventBus, GraphQLServer, JwtUtils } from "../../index.js";
 import type { Express, Request, Response } from "express";
-import express from "express";
+import express, { NextFunction } from "express";
 import { Consul } from "../../consul/index.js";
 import http from "http";
 import bodyParser from "body-parser";
@@ -20,6 +12,15 @@ import process from "node:process";
 import { pinoHttp } from "pino-http";
 import { expressMiddleware } from "@apollo/server/express4";
 import { logger as frameworkLogger } from "../../logger/index.js";
+
+export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
+
+export type ExpressErrorHandler = (
+	err: unknown,
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => unknown | Promise<unknown>
 
 export class ExpressApplication implements IApplication<Express> {
 	readonly _app: Express;
@@ -32,6 +33,7 @@ export class ExpressApplication implements IApplication<Express> {
 	readonly eventBus: EventBus;
 	readonly middlewares: ExpressMiddleware[];
 	readonly errorHandlers: ExpressErrorHandler[];
+	readonly jwtUtils: JwtUtils;
 
 	constructor( options: IApplicationOptions ) {
 		const { name, restApis = [], graphql: { schema, gateway }, events } = options;
@@ -40,6 +42,10 @@ export class ExpressApplication implements IApplication<Express> {
 		this.restApis.push( ...restApis );
 		this.middlewares = options.middlewares || [];
 		this.errorHandlers = options.errorHandlers || [];
+		this.jwtUtils = new JwtUtils( {
+			audience: process.env[ "AUTH_AUDIENCE" ]!,
+			domain: process.env[ "AUTH_DOMAIN" ]!
+		} );
 
 		this._app = express();
 		this.httpServer = http.createServer( this._app );
@@ -62,6 +68,7 @@ export class ExpressApplication implements IApplication<Express> {
 		this._app.use( bodyParser.json() );
 		this._app.use( cookieParser() );
 		this._app.use( pinoHttp( { logger: this.logger, autoLogging: false } ) );
+		this._app.use( deserializeUser( this.jwtUtils ) );
 
 		this.middlewares.forEach( middleware => {
 			this._app.use( middleware );
@@ -118,6 +125,7 @@ export class ExpressApplication implements IApplication<Express> {
 
 	async createContext( { req, res }: ExpressContext ): Promise<ServiceContext> {
 		const idCookie = req.cookies[ "identity" ];
-		return { req, res, idCookie };
+		const authInfo = res.locals[ "authInfo" ];
+		return { req, res, idCookie, authInfo };
 	};
 }

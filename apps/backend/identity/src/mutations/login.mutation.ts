@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { UserMessages } from "../messages/user.messages.js";
-import { logger } from "../index.js";
+import { jwtUtils, logger } from "../index.js";
 import { prisma } from "../prisma/index.js";
 import { builder } from "../schema/builder.js";
 import { userRef } from "../entities/index.js";
@@ -20,7 +20,7 @@ export type LoginInput = {
 builder.mutationField( "login", t => t.prismaField( {
 	type: userRef,
 	args: { data: t.arg( { type: loginInputRef, required: true } ) },
-	async resolve( _query, _parent, { data }, _context, _info ) {
+	async resolve( _query, _parent, { data }, context, _info ) {
 		logger.trace( `>> Resolvers::Mutation::login()` );
 		logger.debug( "Data: %o", data );
 
@@ -47,6 +47,7 @@ builder.mutationField( "login", t => t.prismaField( {
 		}
 
 		const payload = {
+			id: existingUser.id,
 			roles: existingUser.roles,
 			verified: existingUser.verified,
 			sub: existingUser.id,
@@ -54,7 +55,8 @@ builder.mutationField( "login", t => t.prismaField( {
 			iat: Math.floor( Date.now() / 1000 )
 		};
 
-		logger.debug( payload );
+		const token = await jwtUtils.sign( payload );
+		context.res.setHeader( "x-access-token", token );
 
 		return existingUser;
 	}

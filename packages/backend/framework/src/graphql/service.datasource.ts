@@ -5,7 +5,6 @@ import { logger } from "../logger/index.js";
 export class ServiceDataSource extends RemoteGraphQLDataSource<ServiceContext> {
 
 	override willSendRequest( { request, context }: GraphQLDataSourceProcessOptions<ServiceContext> ) {
-		logger.debug( `Id Cookie: ${ context.idCookie }` );
 		if ( !!context.idCookie ) {
 			request.http?.headers.set( "Authorization", `Bearer ${ context.idCookie }` );
 		}

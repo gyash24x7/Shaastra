@@ -41,6 +41,7 @@ importers:
       '@pothos/plugin-directives': 3.9.1
       '@pothos/plugin-federation': 3.7.0
       '@pothos/plugin-prisma': 3.39.0
+      '@pothos/plugin-scope-auth': 3.16.0
       '@prisma/client': 4.8.0
       '@shaastra/framework': workspace:*
       '@shaastra/tsconfig': workspace:*
@@ -53,6 +54,7 @@ importers:
       '@pothos/plugin-directives': 3.9.1_graphql@16.6.0
       '@pothos/plugin-federation': 3.7.0_4p3ncnxpr5gi77e77lirh4ncqi
       '@pothos/plugin-prisma': 3.39.0_othbu5op3pl5cskpxhl7kizrje
+      '@pothos/plugin-scope-auth': 3.16.0_5x3kpsrmsr73lbgajjxj5qtieq
       '@prisma/client': 4.8.0_prisma@4.8.0
       '@shaastra/framework': link:../../../packages/backend/framework
       graphql: 16.6.0
@@ -85,6 +87,7 @@ importers:
       '@pothos/plugin-directives': 3.9.1
       '@pothos/plugin-federation': 3.7.0
       '@pothos/plugin-prisma': 3.39.0
+      '@pothos/plugin-scope-auth': 3.16.0
       '@prisma/client': 4.8.0
       '@shaastra/framework': workspace:*
       '@shaastra/tsconfig': workspace:*
@@ -95,6 +98,7 @@ importers:
       dayjs: 1.11.7
       graphql: 16.6.0
       graphql-scalars: 1.20.1
+      jose: 4.11.1
       jsonwebtoken: 8.5.1
       pem-jwk: 2.0.0
       prisma: 4.8.0
@@ -104,12 +108,14 @@ importers:
       '@pothos/plugin-directives': 3.9.1_graphql@16.6.0
       '@pothos/plugin-federation': 3.7.0_4p3ncnxpr5gi77e77lirh4ncqi
       '@pothos/plugin-prisma': 3.39.0_othbu5op3pl5cskpxhl7kizrje
+      '@pothos/plugin-scope-auth': 3.16.0_5x3kpsrmsr73lbgajjxj5qtieq
       '@prisma/client': 4.8.0_prisma@4.8.0
       '@shaastra/framework': link:../../../packages/backend/framework
       bcryptjs: 2.4.3
       dayjs: 1.11.7
       graphql: 16.6.0
       graphql-scalars: 1.20.1_graphql@16.6.0
+      jose: 4.11.1
       jsonwebtoken: 8.5.1
       pem-jwk: 2.0.0
     devDependencies:
@@ -126,6 +132,7 @@ importers:
       '@pothos/plugin-directives': 3.9.1
       '@pothos/plugin-federation': 3.7.0
       '@pothos/plugin-prisma': 3.39.0
+      '@pothos/plugin-scope-auth': 3.16.0
       '@prisma/client': 4.8.0
       '@shaastra/framework': workspace:*
       '@shaastra/tsconfig': workspace:*
@@ -139,6 +146,7 @@ importers:
       '@pothos/plugin-directives': 3.9.1_graphql@16.6.0
       '@pothos/plugin-federation': 3.7.0_4p3ncnxpr5gi77e77lirh4ncqi
       '@pothos/plugin-prisma': 3.39.0_othbu5op3pl5cskpxhl7kizrje
+      '@pothos/plugin-scope-auth': 3.16.0_5x3kpsrmsr73lbgajjxj5qtieq
       '@prisma/client': 4.8.0_prisma@4.8.0
       '@shaastra/framework': link:../../../packages/backend/framework
       got: 12.5.3
@@ -2395,6 +2403,16 @@ packages:
       typescript: 4.9.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@pothos/plugin-scope-auth/3.16.0_5x3kpsrmsr73lbgajjxj5qtieq:
+    resolution: {integrity: sha512-VMIKjIrqQQirK7eTSeVcW7KY/ss+cE5kfjp58fhAiDtY8DXdBiRl2w6K4G/CaqZH8XuZ3HcuVvcahdkFHHw7cQ==}
+    peerDependencies:
+      '@pothos/core': '*'
+      graphql: '>=15.1.0'
+    dependencies:
+      '@pothos/core': 3.24.0_graphql@16.6.0
+      graphql: 16.6.0
     dev: false
 
   /@prisma/client/4.8.0_prisma@4.8.0:

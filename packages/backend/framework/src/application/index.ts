@@ -3,7 +3,7 @@ import type { RestApi } from "../rest/index.js";
 import type { Consul } from "../consul/index.js";
 import type { ServiceContextFn } from "../context/index.js";
 import type { GraphQLServer } from "../graphql/index.js";
-import type { ExpressErrorHandler, ExpressMiddleware } from "../auth/index.js";
+import type { ExpressErrorHandler, ExpressMiddleware, JwtUtils } from "../auth/index.js";
 import type { GraphQLSchema } from "graphql";
 import type { Logger } from "pino";
 import type { EventBus, IEvents } from "../events/index.js";
@@ -42,6 +42,7 @@ export interface IApplication<A = any> {
 	readonly restApis: RestApi[];
 	readonly eventBus: EventBus;
 	readonly createContext: ServiceContextFn;
+	readonly jwtUtils: JwtUtils;
 }
 
 export * from "./adapters/express.js";

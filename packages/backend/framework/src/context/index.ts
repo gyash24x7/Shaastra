@@ -10,7 +10,6 @@ export type ExpressContext = BaseContext & {
 
 export type AuthContext = {
 	authInfo?: UserAuthInfo;
-	jwtUtils?: { sign: ( payload: any ) => string }
 }
 
 export type ServiceContext =

@@ -3,12 +3,10 @@
 	"display": "Backend",
 	"extends": "./base.json",
 	"compilerOptions": {
-		"module": "NodeNext",
 		"types": [ "node" ],
 		"target": "ES2020",
 		"esModuleInterop": true,
-		"moduleResolution": "Node16",
 		"sourceMap": true
 	},
-	"exclude": [ "jest.config.ts", "**/*.spec.ts", "**/*.test.ts" ]
+	"exclude": [ "**/*.spec.ts", "**/*.test.ts" ]
 }

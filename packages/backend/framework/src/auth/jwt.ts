@@ -1,29 +1,22 @@
-import {
-	createRemoteJWKSet,
-	importJWK,
-	importPKCS8,
-	importSPKI,
-	JWK,
-	jwtDecrypt,
-	JWTPayload,
-	jwtVerify,
-	SignJWT
-} from "jose";
+import { importJWK, importPKCS8, importSPKI, JWK, JWTPayload, jwtVerify, SignJWT } from "jose";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import got from "got";
+import superagent from "superagent";
 import type { Request } from "express";
-import { logger } from "../logger/index.js";
+import { logger } from "../logger";
+import process from "node:process";
 
 export interface JWTPayloadExtension {
-	id?: string,
-	roles?: string[],
-	verified?: boolean
+	id: string,
+	roles: string[],
+	verified: boolean
 }
 
 export interface JwtUtilsConfig {
 	audience: string;
 	domain: string;
+	privateKeyPath?: string;
+	publicKeyPath?: string;
 }
 
 export type AuthPayload = JWTPayloadExtension & JWTPayload;
@@ -42,17 +35,20 @@ export class JwtUtils {
 	constructor( private readonly config: JwtUtilsConfig ) {}
 
 	async getJwks() {
-		const { keys } = await got.get( `http://${ this.config.domain }/api/keys` ).json<{ keys: JWK[] }>();
+		const response = await superagent.get( `http://${ this.config.domain }/api/keys` );
+		const { keys } = response.body as { keys: JWK[] };
 		return keys[ 0 ];
 	}
 
 	async getPrivateKey() {
-		const privateKey = await readFile( join( process.cwd(), JwtUtils.PRIVATE_KEY_PATH ), "utf-8" );
+		const privateKeyPath = this.config.privateKeyPath || JwtUtils.PRIVATE_KEY_PATH;
+		const privateKey = await readFile( join( process.cwd(), privateKeyPath ), "utf-8" );
 		return importPKCS8( privateKey, JwtUtils.ALGORITHM );
 	}
 
 	async getPublicKey() {
-		const publicKey = await readFile( join( process.cwd(), JwtUtils.PUBLIC_KEY_PATH ), "utf-8" );
+		const publicKeyPath = this.config.publicKeyPath || JwtUtils.PUBLIC_KEY_PATH;
+		const publicKey = await readFile( join( process.cwd(), publicKeyPath ), "utf-8" );
 		return importSPKI( publicKey, JwtUtils.ALGORITHM );
 	}
 
@@ -72,8 +68,7 @@ export class JwtUtils {
 	async verify( token: string ): Promise<UserAuthInfo | undefined> {
 		const publicKey = await importJWK( await this.getJwks(), JwtUtils.ALGORITHM );
 
-		let authPayload: AuthPayload | undefined;
-
+		let authPayload: AuthPayload;
 
 		try {
 			const { payload } = await jwtVerify(
@@ -86,17 +81,17 @@ export class JwtUtils {
 				}
 			);
 
-			authPayload = { ...payload };
+			authPayload = { ...payload as AuthPayload };
 		} catch ( e ) {
 			logger.error( "Error Verifying Token!" );
 			return;
 		}
 
-		const departmentRole = authPayload?.roles?.find( role => role.startsWith( "MEMBER_" ) )!;
-		const positionRole = authPayload?.roles?.find( role => role.startsWith( "POSITION_" ) )!;
+		const departmentRole = authPayload.roles.find( role => role.startsWith( "MEMBER_" ) )!;
+		const positionRole = authPayload.roles.find( role => role.startsWith( "POSITION_" ) )!;
 
 		return {
-			id: authPayload?.sub!,
+			id: authPayload.sub!,
 			department: departmentRole.substring( 7 ),
 			position: positionRole.substring( 9 )
 		};
@@ -114,13 +109,5 @@ export class JwtUtils {
 			}
 		}
 		return token;
-	}
-
-	async deserializeUser( token: string ): Promise<JWTPayload> {
-		const url = new URL( `http://${ this.config.domain }/api/keys` );
-		const jwks: any = createRemoteJWKSet( url );
-
-		const { payload } = await jwtDecrypt( token, jwks );
-		return payload;
 	}
 }

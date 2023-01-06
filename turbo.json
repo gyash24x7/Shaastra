@@ -10,12 +10,16 @@
 			"outputs": [ "dist/**" ]
 		},
 		"typecheck": {
-			"dependsOn": [ "build", "^typecheck" ],
+			"dependsOn": [ "^typecheck" ],
 			"outputs": [ ]
 		},
 		"start": {
 			"dependsOn": [ "build", "typecheck" ],
 			"cache": false
+		},
+		"test": {
+			"dependsOn": [ "typecheck" ],
+			"outputs": [ "coverage/**" ]
 		},
 		"db:push": {
 			"inputs": [ "prisma/schema.prisma" ],

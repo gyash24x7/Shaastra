@@ -1,6 +1,6 @@
 import { pino } from "pino";
-import type { ExpressMiddleware } from "../auth/index.js";
 import { pinoHttp } from "pino-http";
+import type { ExpressMiddleware } from "../application";
 
 export const logger = pino( {
 	level: process.env[ "NODE_ENV" ] === "production" ? "info" : "debug",
@@ -12,4 +12,6 @@ export const logger = pino( {
 	}
 } );
 
-export const expressLoggingMiddleware: ExpressMiddleware = pinoHttp( { logger, autoLogging: false } );
+export function expressLoggingMiddleware(): ExpressMiddleware {
+	return pinoHttp( { logger, autoLogging: false } );
+}

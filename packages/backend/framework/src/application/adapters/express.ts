@@ -1,18 +1,17 @@
-import type { AppInfo, ExpressContext, IApplication, IApplicationOptions, ServiceContext } from "../../index.js";
-import { deserializeUser, EventBus, GraphQLServer, JwtUtils } from "../../index.js";
+import type { AppInfo, ExpressContext, IApplication, IApplicationOptions, ServiceContext } from "../..";
+import { deserializeUser, EventBus, GraphQLServer, JwtUtils } from "../..";
 import type { Express, Request, Response } from "express";
 import express, { NextFunction } from "express";
-import { Consul } from "../../consul/index.js";
+import { Consul } from "../../consul";
 import http from "http";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { capitalCase, constantCase } from "change-case";
-import type { RestApi } from "../../rest/index.js";
+import type { RestApi } from "../../rest";
 import process from "node:process";
-import { pinoHttp } from "pino-http";
 import { expressMiddleware } from "@apollo/server/express4";
-import { logger as frameworkLogger } from "../../logger/index.js";
-import { HealthCheck } from "../../health/index.js";
+import { expressLoggingMiddleware, logger as frameworkLogger } from "../../logger";
+import { HealthChecker } from "../../health";
 
 export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
 
@@ -35,7 +34,7 @@ export class ExpressApplication implements IApplication<Express> {
 	readonly middlewares: ExpressMiddleware[];
 	readonly errorHandlers: ExpressErrorHandler[];
 	readonly jwtUtils: JwtUtils;
-	readonly healthCheck: HealthCheck;
+	readonly healthCheck: HealthChecker;
 
 	constructor( options: IApplicationOptions ) {
 		const { name, restApis = [], graphql: { schema, gateway }, events } = options;
@@ -55,7 +54,7 @@ export class ExpressApplication implements IApplication<Express> {
 		this.consul = new Consul();
 		this.graphQLServer = new GraphQLServer( { httpServer: this.httpServer, gateway, schema } );
 		this.eventBus = new EventBus( events || {} );
-		this.healthCheck = new HealthCheck( this.httpServer, this.consul, this.appInfo );
+		this.healthCheck = new HealthChecker( this.httpServer, this.consul, this.appInfo );
 	}
 
 	generateAppInfo( id: string ): AppInfo {
@@ -70,7 +69,7 @@ export class ExpressApplication implements IApplication<Express> {
 	async applyMiddlewares() {
 		this._app.use( bodyParser.json() );
 		this._app.use( cookieParser() );
-		this._app.use( pinoHttp( { logger: this.logger, autoLogging: false } ) );
+		this._app.use( expressLoggingMiddleware() );
 		this._app.use( deserializeUser( this.jwtUtils ) );
 
 		this.middlewares.forEach( middleware => {

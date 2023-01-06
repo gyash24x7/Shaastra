@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client/connect/index.js";
 import { logger } from "../index.js";
 
 export const prisma = new PrismaClient( {
-	log: [ "query" ]
+	log: [ "query", "info", "warn", "error" ]
 } );
 
 prisma.$use( async ( params, next ) => {

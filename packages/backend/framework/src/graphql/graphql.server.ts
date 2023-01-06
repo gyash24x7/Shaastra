@@ -1,18 +1,18 @@
 import type { Server } from "http";
-import type { GraphQLSchema } from "graphql/index.js";
+import type { GraphQLSchema } from "graphql";
 import { ApolloServer } from "@apollo/server";
-import type { ServiceContext } from "../context/index.js";
-import type { Consul } from "../consul/index.js";
+import type { ServiceContext } from "../context";
+import type { Consul } from "../consul";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import {
 	ApolloServerPluginLandingPageDisabled,
 	ApolloServerPluginUsageReportingDisabled
 } from "@apollo/server/plugin/disabled";
-import { CookiePlugin } from "./cookie.plugin.js";
+import { CookiePlugin } from "./cookie.plugin";
 import { ApolloGateway, IntrospectAndCompose, ServiceEndpointDefinition } from "@apollo/gateway";
-import { ServiceDataSource } from "./service.datasource.js";
-import { logger } from "../logger/index.js";
-import { LandingPagePlugin } from "./landing.page.plugin.js";
+import { ServiceDataSource } from "./service.datasource";
+import { logger } from "../logger";
+import { LandingPagePlugin } from "./landing.page.plugin";
 
 export type GraphQLServerOptions = {
 	gateway?: boolean;

@@ -22,13 +22,9 @@ export class Consul {
 		} );
 	}
 
-	async getAllServices() {
-		return this.consul.agent.service.list<Record<string, ConsulService>>();
-	}
-
 	async getRegisteredServices() {
 		logger.trace( `>> Consul::getRegisteredServices()` );
-		const services = await this.getAllServices();
+		const services = await this.consul.agent.service.list<Record<string, ConsulService>>();
 		return Object.values( services );
 	}
 

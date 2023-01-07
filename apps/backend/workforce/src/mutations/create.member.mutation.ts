@@ -1,6 +1,6 @@
 import { AppEvents } from "../events/index.js";
 import { MemberMessages } from "../messages/member.messages.js";
-import got from "got";
+import superagent from "superagent";
 import { consul, eventBus, logger } from "../index.js";
 import { prisma } from "../prisma/index.js";
 import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
@@ -38,12 +38,12 @@ builder.mutationField( "createMember", t => t.prismaField( {
 			roles: [ `MEMBER_${ data.department }`, `POSITION_${ MemberPosition.COORD }` ]
 		};
 
-		const response = await got.post( url, { json: input } ).text();
+		const response = await superagent.post( url ).send( input );
 
-		logger.debug( `Response: ${ response }` );
+		logger.debug( "Response Body: %o", response.body );
 
 		const existingMember = await prisma.member.findUnique( {
-			where: { id: response }
+			where: { id: response.body }
 		} );
 
 		if ( existingMember ) {
@@ -54,7 +54,7 @@ builder.mutationField( "createMember", t => t.prismaField( {
 		const member = await prisma.member.create( {
 			data: {
 				...data,
-				id: response,
+				id: response.body,
 				position: MemberPosition.COORD
 			}
 		} );

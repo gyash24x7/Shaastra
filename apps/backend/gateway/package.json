@@ -9,35 +9,21 @@
 		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch --delete-dir-on-start src",
 		"start:dev": "wait-on dist/index.js && pnpm run wait && nodemon",
 		"wait": "wait-on tcp:8000 && wait-on tcp:8010 && wait-on tcp:8020",
-		"typecheck": "tsc",
+		"typecheck": "tsc -p tsconfig.build.json",
 		"dev": "run-p build:dev start:dev",
-		"start": "node dist",
-		"test": "jest --coverage",
-		"test:e2e": "jest --config test/jest-e2e.json"
+		"start": "node dist"
 	},
 	"keywords": [ ],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
 		"@shaastra/tsconfig": "workspace:*",
-		"@types/cors": "2.8.13",
-		"typescript": "4.9.4"
+		"@types/cors": "2.8.13"
 	},
 	"dependencies": {
 		"@shaastra/framework": "workspace:*",
 		"cors": "2.8.5",
 		"graphql": "16.6.0"
-	},
-	"jest": {
-		"moduleFileExtensions": [ "js", "json", "ts" ],
-		"rootDir": "src",
-		"testRegex": ".*\\.spec\\.ts$",
-		"transform": {
-			"^.+\\.(t|j)s$": "ts-jest"
-		},
-		"collectCoverageFrom": [ "**/*.(t|j)s" ],
-		"coverageDirectory": "../coverage",
-		"testEnvironment": "node"
 	},
 	"nodemonConfig": {
 		"verbose": true,

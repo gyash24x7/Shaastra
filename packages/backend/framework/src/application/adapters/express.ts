@@ -1,17 +1,20 @@
-import type { AppInfo, ExpressContext, IApplication, IApplicationOptions, ServiceContext } from "../..";
-import { deserializeUser, EventBus, GraphQLServer, JwtUtils } from "../..";
+import type { AppInfo, IApplication, IApplicationOptions } from "../index.js";
 import type { Express, Request, Response } from "express";
 import express, { NextFunction } from "express";
-import { Consul } from "../../consul";
+import { Consul } from "../../consul/index.js";
 import http from "http";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { capitalCase, constantCase } from "change-case";
-import type { RestApi } from "../../rest";
+import type { RestApi } from "../../rest/index.js";
 import process from "node:process";
 import { expressMiddleware } from "@apollo/server/express4";
-import { expressLoggingMiddleware, logger as frameworkLogger } from "../../logger";
-import { HealthChecker } from "../../health";
+import { expressLoggingMiddleware, logger as frameworkLogger } from "../../logger/index.js";
+import { HealthChecker } from "../../health/index.js";
+import { GraphQLServer } from "../../graphql/index.js";
+import { EventBus } from "../../events/index.js";
+import { deserializeUser, JwtUtils } from "../../auth/index.js";
+import type { ExpressContext, ServiceContext } from "../../context/index.js";
 
 export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
 

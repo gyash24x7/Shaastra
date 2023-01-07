@@ -1,1 +1,1 @@
-export * from "./health.checker";
+export * from "./health.checker.js";

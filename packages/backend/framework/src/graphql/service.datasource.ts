@@ -1,6 +1,6 @@
 import { GraphQLDataSourceProcessOptions, RemoteGraphQLDataSource } from "@apollo/gateway";
-import type { ServiceContext } from "../context";
-import { logger } from "../logger";
+import type { ServiceContext } from "../context/index.js";
+import { logger } from "../logger/index.js";
 
 export class ServiceDataSource extends RemoteGraphQLDataSource<ServiceContext> {
 

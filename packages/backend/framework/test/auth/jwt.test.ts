@@ -1,17 +1,17 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from "@jest/globals";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { exportJWK, exportPKCS8, exportSPKI, generateKeyPair, JWK, jwtVerify, KeyLike } from "jose";
 import { unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import * as process from "node:process";
-import { mock, mockReset } from "jest-mock-extended";
+import { mock, mockReset } from "vitest-mock-extended";
 import type { Request } from "express";
 import nock from "nock";
-import { JwtUtils } from "./jwt";
+import { JwtUtils } from "../../src/index.js";
 
 describe( "JwtUtils", () => {
 
-	const publicKeyPath = "src/auth/__mocks__/keys/.public.key.pem";
-	const privateKeyPath = "src/auth/__mocks__/keys/.private.key";
+	const publicKeyPath = "test/auth/__mocks__/keys/.public.key.pem";
+	const privateKeyPath = "test/auth/__mocks__/keys/.private.key";
 	const signPayload = { id: "1234", roles: [ "POSITION_CORE", "MEMBER_WEBOPS" ], verified: true };
 
 	const mockRequest = mock<Request>();

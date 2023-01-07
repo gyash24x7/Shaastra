@@ -9,11 +9,9 @@
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
 		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch  --delete-dir-on-start src",
 		"start:dev": "wait-on dist/index.js && nodemon",
-		"typecheck": "tsc",
+		"typecheck": "tsc -p tsconfig.build.json",
 		"dev": "run-p build:dev start:dev",
 		"start": "node dist",
-		"test": "jest --coverage",
-		"test:e2e": "jest --config test/jest-e2e.json",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate --accept-data-loss"
 	},
@@ -22,8 +20,8 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@shaastra/tsconfig": "workspace:*",
-		"prisma": "4.8.0",
-		"typescript": "4.9.4"
+		"@types/superagent": "4.1.16",
+		"prisma": "4.8.0"
 	},
 	"dependencies": {
 		"@pothos/core": "3.24.0",
@@ -33,23 +31,12 @@
 		"@pothos/plugin-scope-auth": "3.16.0",
 		"@prisma/client": "4.8.0",
 		"@shaastra/framework": "workspace:*",
-		"got": "12.5.3",
 		"graphql": "16.6.0",
-		"graphql-scalars": "1.20.1"
+		"graphql-scalars": "1.20.1",
+		"superagent": "8.0.6"
 	},
 	"prisma": {
 		"schema": "./prisma/schema.prisma"
-	},
-	"jest": {
-		"moduleFileExtensions": [ "js", "json", "ts" ],
-		"rootDir": "src",
-		"testRegex": ".*\\.spec\\.ts$",
-		"transform": {
-			"^.+\\.(t|j)s$": "ts-jest"
-		},
-		"collectCoverageFrom": [ "**/*.(t|j)s" ],
-		"coverageDirectory": "../coverage",
-		"testEnvironment": "node"
 	},
 	"nodemonConfig": {
 		"verbose": true,

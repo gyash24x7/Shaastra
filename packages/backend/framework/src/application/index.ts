@@ -1,14 +1,14 @@
 import type * as http from "node:http";
-import type { RestApi } from "../rest";
-import type { Consul } from "../consul";
-import type { ServiceContextFn } from "../context";
-import type { GraphQLServer } from "../graphql";
-import type { JwtUtils } from "../auth";
+import type { RestApi } from "../rest/index.js";
+import type { Consul } from "../consul/index.js";
+import type { ServiceContextFn } from "../context/index.js";
+import type { GraphQLServer } from "../graphql/index.js";
+import type { JwtUtils } from "../auth/index.js";
 import type { GraphQLSchema } from "graphql";
 import type { Logger } from "pino";
-import type { EventBus, IEvents } from "../events";
-import type { HealthChecker } from "../health";
-import type { ExpressErrorHandler, ExpressMiddleware } from "./adapters/express";
+import type { EventBus, IEvents } from "../events/index.js";
+import type { HealthChecker } from "../health/index.js";
+import type { ExpressErrorHandler, ExpressMiddleware } from "./adapters/express.js";
 
 export type AppInfo = {
 	id: string;
@@ -48,4 +48,4 @@ export interface IApplication<A = any> {
 	readonly healthCheck: HealthChecker;
 }
 
-export * from "./adapters/express";
+export * from "./adapters/express.js";

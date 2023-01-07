@@ -1,11 +1,10 @@
-import { afterAll, describe, expect, it, jest } from "@jest/globals";
-import { mock, mockReset } from "jest-mock-extended";
+import { afterAll, describe, expect, it, vi } from "vitest";
 import type { Server } from "http";
-import type { Consul } from "../consul/index";
-import type { AppInfo } from "../application/index";
-import { HealthChecker } from "./health.checker";
+import type { AppInfo, Consul } from "../../src/index.js";
+import { HealthChecker } from "../../src/health/index.js";
+import { mock, mockReset } from "vitest-mock-extended";
 
-jest.mock( "@godaddy/terminus" );
+vi.mock( "@godaddy/terminus" );
 
 describe( "HealthChecker", function () {
 

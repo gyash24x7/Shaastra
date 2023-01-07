@@ -1,6 +1,6 @@
 import { EventEmitter } from "node:events";
-import type { ServiceContext } from "../context";
-import { logger } from "../logger";
+import type { ServiceContext } from "../context/index.js";
+import { logger } from "../logger/index.js";
 
 export type IEventHandler = ( data: any, context: ServiceContext ) => Promise<void>
 

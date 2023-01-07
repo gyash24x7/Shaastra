@@ -1,7 +1,7 @@
 import type { Consul as ConsulType } from "consul";
 import BaseConsul from "consul";
-import { logger } from "../logger";
-import type { AppInfo } from "../application";
+import { logger } from "../logger/index.js";
+import type { AppInfo } from "../application/index.js";
 
 export type ConsulService = {
 	ID: string;

@@ -1,10 +1,8 @@
 {
 	"extends": "@shaastra/tsconfig/backend.json",
 	"compilerOptions": {
-		"rootDir": "src",
-		"noEmit": true
+		"rootDir": "."
 	},
-	"include": [ "src/*" ],
-	"exclude": [ "node_modules", "dist", ".turbo", "coverage", "*.test.ts", "*.spec.ts", "__mocks__" ],
-	"references": [ { "path": "tsconfig.test.json" } ]
+	"include": [ "test/**/*.test.ts", "src", "vitest.config.ts" ],
+	"exclude": [ "node_modules", "dist", ".turbo", "coverage" ]
 }

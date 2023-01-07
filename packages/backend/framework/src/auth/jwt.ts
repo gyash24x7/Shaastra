@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import superagent from "superagent";
 import type { Request } from "express";
-import { logger } from "../logger";
+import { logger } from "../logger/index.js";
 import process from "node:process";
 
 export interface JWTPayloadExtension {

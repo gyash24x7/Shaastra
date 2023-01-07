@@ -1,1 +1,1 @@
-export * from "./consul";
+export * from "./consul.js";

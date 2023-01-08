@@ -39,7 +39,7 @@ export default function TextArea( props: TextAreaProps ) {
 				name={ props.name.toString() }
 				rows={ props.rows || 3 }
 				placeholder={ props.placeholder || "" }
-				value={ props.value ? props.value() : "" }
+				value={ props.value || "" }
 				onInput={ e => props.setValue && props.setValue( e.currentTarget.value ) }
 				style={ { all: "unset", width: "100%" } }
 			/>

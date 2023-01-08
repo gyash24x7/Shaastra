@@ -16,9 +16,13 @@ import {
 	requiredValidator,
 	rollNumberValidator,
 	TextInput,
-	VStack
+	VStack,
+	Flex
 } from "@shaastra/ui";
 import { When } from "react-if";
+import { Link } from "react-router-dom";
+
+const departments = [ "WEBOPS" ];
 
 export default function SignUpPage() {
 	return (
@@ -91,12 +95,16 @@ export default function SignUpPage() {
 					),
 					department: ( { appearance, error, value, setValue, name } ) => (
 						<ListSelect<string>
+							label={ "Department" }
+							placeholder={ "Select Department" }
 							name={ name }
-							options={ [] }
+							options={ departments.map( d => (
+								{ label: d, value: d }
+							) ) }
 							onChange={ ( { value } ) => setValue( value ) }
 							appearance={ appearance }
 							message={ error }
-							value={ { label: "Department", value } }
+							value={ { label: value, value } }
 						/>
 					)
 				} }
@@ -109,6 +117,12 @@ export default function SignUpPage() {
 					password: [ minLengthValidator( 8, "Password too Short!" ) ]
 				} }
 			/>
+			<Flex justify={ "space-between" }>
+				<span>Already have an account?</span>
+				<span>
+					<Link to={ "/auth/login" }>Login</Link>
+				</span>
+			</Flex>
 			<When condition={ false }>
 				<Banner
 					message={ "Some Error!" }

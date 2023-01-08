@@ -1,3 +1,8 @@
+/**
+ *
+ * @type {import("@storybook/react-vite").StorybookConfig}
+ */
+
 const config = {
 	stories: [
 		"../src/**/*.mdx",
@@ -6,7 +11,13 @@ const config = {
 	addons: [
 		"@storybook/addon-links",
 		"@storybook/addon-essentials",
-		"@storybook/addon-interactions"
+		"@storybook/addon-interactions",
+		{
+			name: "storybook-addon-swc",
+			options: {
+				enable: true
+			}
+		}
 	],
 	framework: {
 		name: "@storybook/react-vite",

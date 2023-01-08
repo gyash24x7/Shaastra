@@ -13,7 +13,7 @@ export interface VStackProps {
 const vStackItemVS = new VariantSchema(
 	"last-of-type:mb-0",
 	{
-		spacing: { xs: "mb-1", sm: "mb-2", md: "mb-3", lg: "mb-4", xl: "mb-5", "2xl": "mb-6" },
+		spacing: { xs: "mb-1", sm: "mb-2", md: "mb-4", lg: "mb-6", xl: "mb-8", "2xl": "mb-9" },
 		centered: { true: "flex justify-center", false: "" }
 	},
 	{ spacing: "md", centered: "false" }

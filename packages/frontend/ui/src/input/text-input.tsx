@@ -50,7 +50,7 @@ export default function TextInput( props: TextInputProps ) {
 					type={ props.type || "text" }
 					name={ props.name.toString() }
 					placeholder={ props.placeholder }
-					value={ props.value ? props.value() : "" }
+					value={ props.value || "" }
 					onInput={ e => props.setValue && props.setValue( e.currentTarget.value ) }
 					autoComplete={ "" }
 				/>

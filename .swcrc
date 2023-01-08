@@ -4,10 +4,14 @@
 		"target": "es2020",
 		"parser": {
 			"syntax": "typescript",
-			"tsx": false,
-			"dts": true
+			"tsx": true
 		},
-		"externalHelpers": true
+		"externalHelpers": true,
+		"transform": {
+			"react": {
+				"runtime": "automatic"
+			}
+		}
 	},
 	"minify": false,
 	"module": {

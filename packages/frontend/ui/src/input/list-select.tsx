@@ -87,10 +87,7 @@ export default function ListSelect<T>( props: ListSelectProps<T> ) {
 					leaveTo={ "opacity-0" }
 				>
 					<Listbox.Options
-						className={
-							"absolute w-full py-1 mt-1 bg-light-100 rounded-md "
-							+ "border border-light-700 max-h-60 text-base"
-						}
+						className={ "py-1 mt-1 bg-light-100 rounded-md border border-light-700 max-h-60 text-base" }
 					>
 						{ props.options.map( ( option ) => (
 							<ListSelectOption option={ option } key={ option.label }/>

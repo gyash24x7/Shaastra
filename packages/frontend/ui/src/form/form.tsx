@@ -117,18 +117,19 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 
 	return (
 		<form onSubmit={ onSubmit } noValidate>
-			<VStack>
+			<VStack spacing={ "xl" }>
 				{ fields.map( fieldName => (
-					<Field<T, typeof fieldName>
-						key={ fieldName.toString() }
-						name={ fieldName }
-						value={ getFieldValue( fieldName ) }
-						render={ props.renderMap[ fieldName ] }
-						setValue={ setFieldValue( fieldName, validations ? validations[ fieldName ] || [] : [] ) }
-						error={ getFieldError( fieldName ) }
-						touched={ getFieldTouched( fieldName ) }
-						appearance={ getFieldAppearance( fieldName ) }
-					/>
+					<div key={ fieldName.toString() }>
+						<Field<T, typeof fieldName>
+							name={ fieldName }
+							value={ getFieldValue( fieldName ) }
+							render={ props.renderMap[ fieldName ] }
+							setValue={ setFieldValue( fieldName, validations ? validations[ fieldName ] || [] : [] ) }
+							error={ getFieldError( fieldName ) }
+							touched={ getFieldTouched( fieldName ) }
+							appearance={ getFieldAppearance( fieldName ) }
+						/>
+					</div>
 				) ) }
 				<SubmitButton/>
 			</VStack>

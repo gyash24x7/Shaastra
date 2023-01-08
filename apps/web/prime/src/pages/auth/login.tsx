@@ -1,6 +1,7 @@
 import { UserIcon, LockClosedIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { Banner, Button, Form, minLengthValidator, patternValidator, TextInput, VStack } from "@shaastra/ui";
+import { Banner, Button, Form, minLengthValidator, patternValidator, TextInput, VStack, Flex } from "@shaastra/ui";
 import { When } from "react-if";
+import { Link } from "react-router-dom";
 
 export const rollNumberRegex = /^[A-Z]{2}[0-9]{2}[A-Z][0-9]{3}$/;
 
@@ -50,6 +51,12 @@ export default function LoginPage() {
 					password: [ minLengthValidator( 8, "Password too Short!" ) ]
 				} }
 			/>
+			<Flex justify={ "space-between" }>
+				<span>Don't have an account?</span>
+				<span>
+					<Link to={ "/auth/signup" }>Signup</Link>
+				</span>
+			</Flex>
 			<When condition={ false }>
 				<Banner
 					message={ "Some Error!" }

@@ -1,5 +1,5 @@
 import { Flex } from "@shaastra/ui";
-import { Outlet } from "@tanstack/react-router";
+import { Outlet } from "react-router-dom";
 
 export default function AuthLayout() {
 	return (

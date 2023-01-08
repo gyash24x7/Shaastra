@@ -23,10 +23,11 @@ export default function SingleSelect<T>( props: SingleSelectProps<T> ) {
 	return (
 		<RadioGroup<"div", T> value={ props.value } onChange={ props.onChange }>
 			<HStack wrap spacing={ "xs" }>
-				{ props.options.map( ( option ) => (
+				{ props.options.map( ( option, index ) => (
 					<RadioGroup.Option
 						value={ option }
 						className={ ( { checked } ) => radioSelectOptionClassname( checked ) }
+						key={ index }
 					>
 						{ ( { checked } ) => props.renderOption( option, checked ) }
 					</RadioGroup.Option>

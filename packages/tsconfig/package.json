@@ -2,7 +2,7 @@
 	"name": "@shaastra/tsconfig",
 	"version": "0.0.0",
 	"private": true,
-	"files": [ "base.json", "backend.json", "ui-library.json" ],
+	"files": [ "base.json", "backend.json", "ui.json" ],
 	"devDependencies": {
 		"@tsconfig/node16-strictest": "1.0.4"
 	}

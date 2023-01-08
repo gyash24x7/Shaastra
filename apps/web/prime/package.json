@@ -4,26 +4,32 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"divine": "vite",
-		"waitbuild": "tsc && vite build",
+		"dev": "vite",
+		"build": "vite build",
+		"typecheck": "tsc -p tsconfig.build.json",
 		"preview": "vite preview"
 	},
 	"dependencies": {
 		"@fontsource/fjalla-one": "4.5.9",
 		"@fontsource/montserrat": "4.5.13",
+		"@headlessui/react": "1.7.7",
+		"@heroicons/react": "2.0.13",
 		"@shaastra/ui": "workspace:*",
-		"@solid-primitives/bounds": "0.0.105",
-		"@solidjs/router": "0.5.1",
-		"solid-headless": "0.13.0",
-		"solid-heroicons": "3.1.1",
-		"solid-js": "1.6.5"
+		"@tanstack/react-query": "4.21.0",
+		"@tanstack/react-router": "0.0.1-beta.48",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-if": "4.1.4"
 	},
 	"devDependencies": {
 		"@shaastra/tsconfig": "workspace:*",
+		"@types/react": "18.0.26",
+		"@types/react-dom": "18.0.10",
+		"@vitejs/plugin-react-swc": "3.0.1",
 		"autoprefixer": "10.4.13",
-		"postcss": "8.4.19",
+		"postcss": "8.4.21",
 		"tailwindcss": "3.2.4",
-		"vite": "4.0.1",
-		"vite-plugin-solid": "2.5.0"
+		"typescript": "4.9.4",
+		"vite": "4.0.4"
 	}
 }

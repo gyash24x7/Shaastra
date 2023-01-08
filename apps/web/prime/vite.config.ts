@@ -1,11 +1,11 @@
+import react from "@vitejs/plugin-react-swc";
 import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
-import solid from "vite-plugin-solid";
 import tailwindConfig from "./tailwind.config.js";
 
 export default defineConfig( {
-	plugins: [ solid() ],
+	plugins: [ react() ],
 	css: {
 		postcss: {
 			plugins: [

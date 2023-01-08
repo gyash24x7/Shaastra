@@ -33,7 +33,9 @@ export default function VStack( { children, ...props }: VStackProps ) {
 
 	return (
 		<div className={ props.className }>
-			{ stackItems.map( child => <div className={ stackItemClassname }>{ child }</div> ) }
+			{ stackItems.map( ( child, index ) => (
+				<div className={ stackItemClassname } key={ index }>{ child }</div>
+			) ) }
 		</div>
 	);
 };

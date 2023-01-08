@@ -1,22 +1,12 @@
 {
-	"extends": "@shaastra/tsconfig/ui-library.json",
+	"extends": "@shaastra/tsconfig/ui.json",
 	"compilerOptions": {
-		"rootDir": "src",
+		"rootDir": ".",
 		"resolveJsonModule": true,
-		"declaration": true,
-		"declarationDir": "dist",
 		"outDir": "dist",
-		"noEmit": false
+		"noEmit": false,
+		"types": [ "vite/client" ]
 	},
-	"include": [ "src" ],
-	"exclude": [
-		"dist",
-		"build",
-		"node_modules",
-		".storybook",
-		"**/*.spec.(ts|tsx|js|jsx)",
-		"**/*.test.(ts|tsx|js|jsx)",
-		"**/*.stories.(ts|tsx|js|jsx)"
-	],
-	"references": [ { "path": "./tsconfig.node.json" } ]
+	"include": [ "src", "package.json", "vite.config.ts", "tailwind.config.ts" ],
+	"exclude": [ "dist", "build", "node_modules" ]
 }

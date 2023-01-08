@@ -50,7 +50,9 @@ export default function HStack( { children, ...props }: HStackProps ) {
 			className={ flexClassname }
 			wrap={ props.wrap }
 		>
-			{ stackItems.map( child => <div className={ stackItemClassname }>{ child }</div> ) }
+			{ stackItems.map( ( child, index ) => (
+				<div className={ stackItemClassname } key={ index }>{ child }</div>
+			) ) }
 		</Flex>
 	);
 };

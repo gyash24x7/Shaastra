@@ -1,4 +1,11 @@
 import {
+	UserIcon,
+	LockClosedIcon,
+	ExclamationCircleIcon,
+	EnvelopeIcon,
+	DevicePhoneMobileIcon
+} from "@heroicons/react/24/solid";
+import {
 	Banner,
 	Button,
 	emailValidator,
@@ -11,14 +18,13 @@ import {
 	TextInput,
 	VStack
 } from "@shaastra/ui";
-import { envelope, exclamationTriangle, lockClosed, user } from "solid-heroicons/solid";
-import { Show } from "solid-js";
+import { When } from "react-if";
 
 export default function SignUpPage() {
 	return (
 		<VStack className={ "h-screen p-8" }>
-			<img src={ "/images/DarkLogo.png" } alt={ "Shaastra Logo" } class={ "w-60 h-auto mx-auto my-4" }/>
-			<h2 class={ "font-light text-3xl" }>SIGN UP</h2>
+			<img src={ "/images/DarkLogo.png" } alt={ "Shaastra Logo" } className={ "w-60 h-auto mx-auto my-4" }/>
+			<h2 className={ "font-light text-3xl" }>SIGN UP</h2>
 			<Form
 				initialValue={ { rollNumber: "", password: "", name: "", email: "", mobile: "", department: "" } }
 				onSubmit={ ( { password, rollNumber }: any ) => console.log( { username: rollNumber, password } ) }
@@ -47,7 +53,7 @@ export default function SignUpPage() {
 							{ ...props }
 							label={ "Email" }
 							placeholder={ "Enter your Email" }
-							iconAfter={ envelope }
+							renderIconAfter={ ( props ) => <EnvelopeIcon { ...props }/> }
 							appearance={ appearance }
 							message={ error }
 						/>
@@ -57,7 +63,7 @@ export default function SignUpPage() {
 							{ ...props }
 							label={ "Roll Number" }
 							placeholder={ "Enter your Roll Number" }
-							iconAfter={ user }
+							renderIconAfter={ ( props ) => <UserIcon { ...props }/> }
 							appearance={ appearance }
 							message={ error }
 						/>
@@ -68,7 +74,7 @@ export default function SignUpPage() {
 							type={ "password" }
 							label={ "Password" }
 							placeholder={ "Enter you Password" }
-							iconAfter={ lockClosed }
+							renderIconAfter={ ( props ) => <LockClosedIcon { ...props }/> }
 							appearance={ appearance }
 							message={ error }
 						/>
@@ -78,7 +84,7 @@ export default function SignUpPage() {
 							{ ...props }
 							label={ "Mobile" }
 							placeholder={ "Enter your 10 digit Mobile Number" }
-							iconAfter={ user }
+							renderIconAfter={ ( props ) => <DevicePhoneMobileIcon { ...props }/> }
 							appearance={ appearance }
 							message={ error }
 						/>
@@ -90,7 +96,7 @@ export default function SignUpPage() {
 							onChange={ ( { value } ) => setValue( value ) }
 							appearance={ appearance }
 							message={ error }
-							value={ { label: "Department", value: value() } }
+							value={ { label: "Department", value } }
 						/>
 					)
 				} }
@@ -103,13 +109,13 @@ export default function SignUpPage() {
 					password: [ minLengthValidator( 8, "Password too Short!" ) ]
 				} }
 			/>
-			<Show when={ false } keyed>
+			<When condition={ false }>
 				<Banner
 					message={ "Some Error!" }
 					appearance={ "danger" }
-					icon={ exclamationTriangle }
+					renderIcon={ ( props ) => <ExclamationCircleIcon { ...props }/> }
 				/>
-			</Show>
+			</When>
 		</VStack>
 	);
 }

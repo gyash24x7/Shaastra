@@ -3,7 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"main": "dist/index.js",
+	"main": "dist/ui.js",
 	"types": "src/index.ts",
 	"scripts": {
 		"build": "vite build",
@@ -31,13 +31,13 @@
 		"@types/react-dom": "18.0.10",
 		"@vitejs/plugin-react-swc": "3.0.1",
 		"autoprefixer": "10.4.13",
-		"postcss": "8.4.20",
+		"postcss": "8.4.21",
 		"prop-types": "15.8.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"storybook": "7.0.0-beta.20",
 		"tailwindcss": "3.2.4",
-		"vite": "4.0.3"
+		"vite": "4.0.4"
 	},
 	"dependencies": {
 		"react-if": "4.1.4"

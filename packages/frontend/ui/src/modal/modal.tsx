@@ -1,19 +1,20 @@
-import { Dialog, DialogDescription, DialogOverlay, DialogTitle, Transition, TransitionChild } from "solid-headless";
-import { createMemo, JSXElement, Show } from "solid-js";
+import { Dialog, Transition } from "@headlessui/react";
+import { useMemo, Fragment } from "react";
+import { When } from "react-if";
 import { VariantSchema } from "../utils/variant";
 
 export interface ModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	title?: string;
-	children?: JSXElement;
+	children?: JSX.Element;
 }
 
 export function ModalTitle( props: { title: string } ) {
 	return (
-		<DialogTitle as = "h3" class = { "text-xl font-semibold leading-6 mb-4" }>
+		<Dialog.Title as="h3" className={ "text-xl font-semibold leading-6 mb-4" }>
 			{ props.title }
-		</DialogTitle>
+		</Dialog.Title>
 	);
 }
 
@@ -24,53 +25,50 @@ const modalBodyVS = new VariantSchema(
 );
 
 export default function Modal( { isOpen, onClose, children, title }: ModalProps ) {
-	const modalBodyClassname = createMemo( () => {
+	const modalBodyClassname = useMemo( () => {
 		return modalBodyVS.getClassname( { withTitle: !!title ? "true" : "false" } );
-	} );
+	}, [ title ] );
 
 	return (
-		<Transition appear show = { isOpen }>
-			<Dialog class = { "fixed inset-0 z-10 overflow-y-auto" } onClose = { onClose } isOpen>
-				<div class = { "min-h-screen px-4 text-center" }>
-					<TransitionChild
-						enter = "ease-out duration-300"
-						enterFrom = "opacity-0"
-						enterTo = "opacity-100"
-						leave = "ease-in duration-200"
-						leaveFrom = "opacity-100"
-						leaveTo = "opacity-0"
-					>
-						<DialogOverlay class = { "fixed inset-0 bg-dark-700/50" }/>
-					</TransitionChild>
-					<span class = { "inline-block h-screen align-middle" } aria-hidden = "true"/>
-					<TransitionChild
-						enter = "ease-out duration-300"
-						enterFrom = "opacity-0 scale-90"
-						enterTo = "opacity-100 scale-100"
-						leave = "ease-in duration-200"
-						leaveFrom = "opacity-100 scale-100"
-						leaveTo = "opacity-0 scale-90"
-					>
-						<div
-							style = { { "max-width": "600px" } }
-							class = {
-								"inline-block p-6 my-8 overflow-hidden text-left align-middle "
-								+ "transition-all transform bg-light-100 shadow-xl rounded-md "
-								+ "w-5/6 sm:w-4/5 md:w-3/5 lg:w-1/2"
-							}
+		<Transition appear show={ isOpen } as={ Fragment }>
+			<Dialog className={ "relative z-10" } onClose={ onClose }>
+				<Transition.Child
+					as={ Fragment }
+					enter="ease-out duration-300"
+					enterFrom="opacity-0"
+					enterTo="opacity-100"
+					leave="ease-in duration-200"
+					leaveFrom="opacity-100"
+					leaveTo="opacity-0"
+				>
+					<div className={ "fixed inset-0 bg-dark-700/50" }/>
+				</Transition.Child>
+				<div className="fixed inset-0 overflow-y-auto">
+					<div className="flex min-h-full items-center justify-center p-4 text-center">
+						<Transition.Child
+							as={ Fragment }
+							enter="ease-out duration-300"
+							enterFrom="opacity-0 scale-90"
+							enterTo="opacity-100 scale-100"
+							leave="ease-in duration-200"
+							leaveFrom="opacity-100 scale-100"
+							leaveTo="opacity-0 scale-90"
 						>
-							<Show when = { !!title } keyed>
-								<ModalTitle title = { title! }/>
-							</Show>
-							<Show when = { !!children } keyed>
-								<div class = { modalBodyClassname() }>
-									<DialogDescription>
-										{ children }
-									</DialogDescription>
-								</div>
-							</Show>
-						</div>
-					</TransitionChild>
+							<Dialog.Panel
+								className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+								<When condition={ !!title }>
+									<ModalTitle title={ title! }/>
+								</When>
+								<When condition={ !!children }>
+									<div className={ modalBodyClassname }>
+										<Dialog.Description>
+											{ children }
+										</Dialog.Description>
+									</div>
+								</When>
+							</Dialog.Panel>
+						</Transition.Child>
+					</div>
 				</div>
 			</Dialog>
 		</Transition>

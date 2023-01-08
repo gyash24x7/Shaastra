@@ -1,11 +1,13 @@
+import { messageRef } from "../entities/index.js";
 import { prisma } from "../prisma/index.js";
 import { builder } from "../schema/builder.js";
-import { messageRef } from "../entities/index.js";
 
 const messagesInputRef = builder.inputType( "MessagesInput", {
-	fields: t => ( {
-		channelId: t.string( { required: true } )
-	} )
+	fields: t => (
+		{
+			channelId: t.string( { required: true } )
+		}
+	)
 } );
 
 builder.queryField( "messages", t => t.prismaField( {

@@ -1,14 +1,7 @@
-import {
-	HeadlessDisclosureChild,
-	Listbox,
-	ListboxButton,
-	ListboxOption,
-	ListboxOptions,
-	Transition
-} from "solid-headless";
-import { Icon } from "solid-heroicons";
-import { checkCircle, chevronUpDown } from "solid-heroicons/solid";
-import { For, Show } from "solid-js";
+import { Listbox, Transition } from "@headlessui/react";
+import { ChevronUpDownIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
+import { Fragment } from "react";
+import { When } from "react-if";
 import { VariantSchema } from "../utils/variant";
 import InputMessage from "./input-message";
 
@@ -51,70 +44,62 @@ function ListSelectOption<T>( { option }: ListSelectOptionProps<T> ) {
 	};
 
 	return (
-		<ListboxOption value = { option }>
-			{ ( { isSelected, isActive } ) => (
-				<div class = { optionClassname( isActive() ) }>
-					<span class = { "block truncate" }>{ option.label }</span>
-					<Show when = { isSelected() } keyed>
-						<span class = { optionIconClassname( isActive() ) }>
-							<Icon path = { checkCircle } class = { "w-4 h-4" } aria-hidden = "true"/>
+		<Listbox.Option value={ option }>
+			{ ( { selected, active } ) => (
+				<div className={ optionClassname( active ) }>
+					<span className={ "block truncate" }>{ option.label }</span>
+					<When condition={ selected }>
+						<span className={ optionIconClassname( active ) }>
+							<CheckCircleIcon className={ "w-4 h-4" } aria-hidden="true"/>
 						</span>
-					</Show>
+					</When>
 				</div>
 			) }
-		</ListboxOption>
+		</Listbox.Option>
 	);
 }
 
 export default function ListSelect<T>( props: ListSelectProps<T> ) {
 	return (
-		<div class = { "w-full" }>
-			<Listbox<SelectOption<T>>
-				defaultOpen = { false }
-				value = { props.value || props.options[ 0 ] }
-				onSelectChange = { props.onChange as any }
-			>
-				<Show when = { !!props.label } keyed>
-					<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name }>
+		<div className={ "w-full" }>
+			<Listbox<"div", SelectOption<T>> value={ props.value || props.options[ 0 ] } onChange={ props.onChange }>
+				<When condition={ !!props.label }>
+					<label className={ "text-sm text-dark-100 font-semibold" } htmlFor={ props.name }>
 						{ props.label }
 					</label>
-				</Show>
+				</When>
 				<div
-					class = {
+					className={
 						"flex w-full text-left rounded-md cursor-default"
 						+ "focus:outline-none focus-visible:ring-0 overflow-hidden "
 						+ "border-2 border-light-700 text-dark p-2 text-base"
 					}
 				>
-					<ListboxButton class = { "h-5 text-light-700 flex items-center w-full justify-between" }>
+					<Listbox.Button className={ "h-5 text-light-700 flex items-center w-full justify-between" }>
 						<span>{ props.placeholder }</span>
-						<Icon path = { chevronUpDown } aria-hidden = "true" class = { "w-3 h-3" }/>
-					</ListboxButton>
+						<ChevronUpDownIcon aria-hidden="true" className={ "w-3 h-3" }/>
+					</Listbox.Button>
 				</div>
-				<HeadlessDisclosureChild>
-					{ ( { isOpen } ) => (
-						<Transition
-							leave = { "transition ease-in duration-100" }
-							leaveFrom = { "opacity-100" }
-							leaveTo = { "opacity-0" }
-							show = { isOpen() }
-						>
-							<ListboxOptions
-								class = {
-									"absolute w-full py-1 mt-1 bg-light-100 rounded-md "
-									+ "border border-light-700 max-h-60 text-base"
-								}
-							>
-								<For each = { props.options }>
-									{ ( option ) => <ListSelectOption option = { option }/> }
-								</For>
-							</ListboxOptions>
-						</Transition>
-					) }
-				</HeadlessDisclosureChild>
-				<Show keyed when = { !!props.message }>
-					<InputMessage text = { props.message! } appearance = { props.appearance }/>
-				</Show>
+				<Transition
+					as={ Fragment }
+					leave={ "transition ease-in duration-100" }
+					leaveFrom={ "opacity-100" }
+					leaveTo={ "opacity-0" }
+				>
+					<Listbox.Options
+						className={
+							"absolute w-full py-1 mt-1 bg-light-100 rounded-md "
+							+ "border border-light-700 max-h-60 text-base"
+						}
+					>
+						{ props.options.map( ( option ) => (
+							<ListSelectOption option={ option } key={ option.label }/>
+						) ) }
+					</Listbox.Options>
+				</Transition>
+				<When condition={ !!props.message }>
+					<InputMessage text={ props.message! } appearance={ props.appearance }/>
+				</When>
 			</Listbox>
 		</div>
 	);

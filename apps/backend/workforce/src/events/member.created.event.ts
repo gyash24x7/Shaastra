@@ -1,7 +1,7 @@
 import type { Member } from "@prisma/client/workforce/index.js";
 import { MemberPosition } from "@prisma/client/workforce/index.js";
-import { logger } from "../index.js";
 import type { ServiceContext } from "@shaastra/framework";
+import { logger } from "../index.js";
 import { prisma } from "../prisma/index.js";
 
 export default async function memberCreatedEventHandler( data: Member, _context: ServiceContext ) {

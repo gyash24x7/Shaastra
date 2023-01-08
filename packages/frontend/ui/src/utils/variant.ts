@@ -15,7 +15,6 @@ export class VariantSchema<V extends VariantSet> {
 	private readonly variantSet: V;
 	private readonly defaultVariants: VariantDefaultValue<V>;
 
-
 	constructor( baseClasses: string, variantSet: V, defaultVariants: VariantDefaultValue<V> ) {
 		this.baseClasses = baseClasses;
 		this.variantSet = variantSet;

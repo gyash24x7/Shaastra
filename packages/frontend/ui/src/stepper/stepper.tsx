@@ -1,12 +1,13 @@
-import { arrowLeft, arrowRight } from "solid-heroicons/solid";
-import type { JSXElement } from "solid-js";
-import { createSignal, Show } from "solid-js";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+
+import { useState, Fragment } from "react";
+import { If, Else, Then } from "react-if";
 import Button from "../button/button";
 import HStack from "../stack/h-stack";
 
 export interface StepperStep {
 	name: string;
-	content: JSXElement;
+	content: JSX.Element;
 }
 
 export interface StepperProps {
@@ -21,19 +22,29 @@ interface StepperButtonProps {
 }
 
 const PreviousButton = ( props: StepperButtonProps & { disabled?: boolean } ) => (
-	<Button iconBefore = { arrowLeft } size = { "sm" } appearance = { "default" } { ...props } />
+	<Button
+		renderIconBefore={ props => <ArrowLeftIcon { ...props }/> }
+		size={ "sm" }
+		appearance={ "default" }
+		{ ...props }
+	/>
 );
 
 const NextButton = ( props: StepperButtonProps ) => (
-	<Button iconAfter = { arrowRight } size = { "sm" } appearance = { "primary" } { ...props } />
+	<Button
+		renderIconAfter={ props => <ArrowRightIcon { ...props } /> }
+		size={ "sm" }
+		appearance={ "primary" }
+		{ ...props }
+	/>
 );
 
 const EndButton = ( props: StepperButtonProps ) => (
-	<Button buttonText = { "Submit" } size = { "sm" } appearance = { "primary" } { ...props } />
+	<Button buttonText={ "Submit" } size={ "sm" } appearance={ "primary" } { ...props } />
 );
 
 export default function Stepper( props: StepperProps ) {
-	const stepMap: Record<string, JSXElement> = {};
+	const stepMap: Record<string, JSX.Element> = {};
 	const stepNames: string[] = [];
 
 	props.steps.forEach( step => {
@@ -41,12 +52,12 @@ export default function Stepper( props: StepperProps ) {
 		stepNames.push( step.name );
 	} );
 
-	const [ activeStep, setActiveStep ] = createSignal( stepNames[ 0 ] );
+	const [ activeStep, setActiveStep ] = useState( stepNames[ 0 ] );
 
 	const handlePrevious = () => {
 		for ( let i = 1; i < stepNames.length; i++ ) {
 			const stepName = stepNames[ i ];
-			if ( stepName === activeStep() ) {
+			if ( stepName === activeStep ) {
 				setActiveStep( stepNames[ i - 1 ] );
 				break;
 			}
@@ -56,7 +67,7 @@ export default function Stepper( props: StepperProps ) {
 	const handleNext = () => {
 		for ( let i = 0; i < stepNames.length - 1; i++ ) {
 			const stepName = stepNames[ i ];
-			if ( stepName === activeStep() ) {
+			if ( stepName === activeStep ) {
 				setActiveStep( stepNames[ i + 1 ] );
 				break;
 			}
@@ -64,26 +75,22 @@ export default function Stepper( props: StepperProps ) {
 	};
 
 	return (
-		<>
-			{ stepMap[ activeStep() ] }
-			<Show
-				when = { activeStep() === stepNames[ stepNames.length - 1 ] }
-				keyed
-				fallback = {
-					<HStack className = { "mt-6" } spacing = { "sm" }>
-						<PreviousButton
-							onClick = { handlePrevious }
-							disabled = { stepNames[ 0 ] === activeStep() }
-						/>
-						<NextButton onClick = { handleNext }/>
+		<Fragment>
+			{ stepMap[ activeStep ] }
+			<If condition={ activeStep === stepNames[ stepNames.length - 1 ] }>
+				<Then>
+					<HStack className={ "mt-6" } spacing={ "sm" }>
+						<PreviousButton onClick={ handlePrevious }/>
+						<EndButton onClick={ props.onEnd } isLoading={ props.isLoading }/>
 					</HStack>
-				}
-			>
-				<HStack className = { "mt-6" } spacing = { "sm" }>
-					<PreviousButton onClick = { handlePrevious }/>
-					<EndButton onClick = { props.onEnd } isLoading = { props.isLoading }/>
-				</HStack>
-			</Show>
-		</>
+				</Then>
+				<Else>
+					<HStack className={ "mt-6" } spacing={ "sm" }>
+						<PreviousButton onClick={ handlePrevious } disabled={ stepNames[ 0 ] === activeStep }/>
+						<NextButton onClick={ handleNext }/>
+					</HStack>
+				</Else>
+			</If>
+		</Fragment>
 	);
 }

@@ -1,17 +1,18 @@
-import type { JSX } from "solid-js/jsx-runtime";
-import Stepper, { StepperProps } from "./stepper";
+import type { Meta, StoryObj } from "@storybook/react";
+import Stepper from "./stepper";
 
-export default { component: Stepper, title: "Stepper" };
+const meta: Meta<typeof Stepper> = { component: Stepper, title: "Stepper" };
 
+export default meta;
 
-const Template: any = ( args: JSX.IntrinsicAttributes & StepperProps ) => <Stepper { ...args } />;
-
-export const Playground = Template.bind( {} );
-Playground.args = {
-	steps: [
-		{ name: "Step 1", content: <h1>Step 1</h1> },
-		{ name: "Step 2", content: <h1>Step 2</h1> },
-		{ name: "Step 3", content: <h1>Step 3</h1> }
-	],
-	onEnd: () => console.log( "On End Called!" )
-} as StepperProps;
+export const Playground: StoryObj<typeof Stepper> = {
+	render: ( props ) => <Stepper { ...props } />,
+	args: {
+		steps: [
+			{ name: "Step 1", content: <h1>Step 1</h1> },
+			{ name: "Step 2", content: <h1>Step 2</h1> },
+			{ name: "Step 3", content: <h1>Step 3</h1> }
+		],
+		onEnd: () => console.log( "On End Called!" )
+	}
+};

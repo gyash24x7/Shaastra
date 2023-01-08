@@ -1,17 +1,17 @@
+import { channelRef } from "../entities/index.js";
 import { logger } from "../index.js";
 import { prisma } from "../prisma/index.js";
 import { builder } from "../schema/builder.js";
-import { channelRef } from "../entities/index.js";
 import { channelTypeRef } from "../schema/scalars.js";
 
-
-
 const createChannelInputRef = builder.inputType( "CreateChannelInput", {
-	fields: t => ( {
-		name: t.string( { required: true } ),
-		description: t.string( { required: true } ),
-		type: t.field( { type: channelTypeRef, required: true } )
-	} )
+	fields: t => (
+		{
+			name: t.string( { required: true } ),
+			description: t.string( { required: true } ),
+			type: t.field( { type: channelTypeRef, required: true } )
+		}
+	)
 } );
 
 builder.mutationField( "createChannel", t => t.prismaField( {

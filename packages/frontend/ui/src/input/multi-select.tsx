@@ -1,5 +1,3 @@
-import type { JSXElement } from "solid-js";
-import { For } from "solid-js";
 import HStack from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
 import type { SelectOption } from "./list-select";
@@ -8,7 +6,7 @@ export interface MultiSelectProps<T> {
 	values: SelectOption<T>[];
 	onChange: ( v: SelectOption<T>[] ) => void | Promise<void>;
 	options: SelectOption<T>[];
-	renderOption: ( option: SelectOption<T>, checked: boolean ) => JSXElement;
+	renderOption: ( option: SelectOption<T>, checked: boolean ) => JSX.Element;
 }
 
 const radioSelectOptionVS = new VariantSchema(
@@ -35,17 +33,16 @@ export default function MultiSelect<T>( props: MultiSelectProps<T> ) {
 	};
 
 	return (
-		<HStack wrap spacing = { "xs" }>
-			<For each = { props.options }>
-				{ option => (
-					<div
-						class = { radioSelectOptionClassname( isChecked( option.label ) ) }
-						onClick = { handleOptionClick( option ) }
-					>
-						{ props.renderOption( option, isChecked( option.label ) ) }
-					</div>
-				) }
-			</For>
+		<HStack wrap spacing={ "xs" }>
+			{ props.options.map( option => (
+				<div
+					className={ radioSelectOptionClassname( isChecked( option.label ) ) }
+					onClick={ handleOptionClick( option ) }
+					key={ option.label }
+				>
+					{ props.renderOption( option, isChecked( option.label ) ) }
+				</div>
+			) ) }
 		</HStack>
 	);
 }

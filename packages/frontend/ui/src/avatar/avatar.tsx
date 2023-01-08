@@ -1,4 +1,5 @@
-import { createMemo, Show } from "solid-js";
+import { useMemo } from "react";
+import { If, Then, Else } from "react-if";
 import type { Size } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
 
@@ -68,16 +69,21 @@ const avatarDivVariantSchema = new VariantSchema(
 );
 
 export default function Avatar( { size, src, name }: AvatarProps ) {
-	const rootClassname = createMemo( () => avatarRootVariantSchema.getClassname( { size } ) );
-	const imageClassname = createMemo( () => avatarImageVariantSchema.getClassname() );
-	const divClassname = createMemo( () => avatarDivVariantSchema.getClassname( { size } ) );
-	const initials = createMemo( () => initialsFromName( name ) );
+	const rootClassname = useMemo( () => avatarRootVariantSchema.getClassname( { size } ), [ size ] );
+	const imageClassname = useMemo( () => avatarImageVariantSchema.getClassname(), [] );
+	const divClassname = useMemo( () => avatarDivVariantSchema.getClassname( { size } ), [ size ] );
+	const initials = useMemo( () => initialsFromName( name ), [] );
 
 	return (
-		<div class = { rootClassname() }>
-			<Show keyed when = { !!src } fallback = { <div class = { divClassname() }>{ initials() }</div> }>
-				<img src = { src! } alt = { "avatar-img" } class = { imageClassname() }/>
-			</Show>
+		<div className={ rootClassname }>
+			<If condition={ !!src }>
+				<Then>
+					<img src={ src! } alt={ "avatar-img" } className={ imageClassname }/>
+				</Then>
+				<Else>
+					<div className={ divClassname }>{ initials }</div>
+				</Else>
+			</If>
 		</div>
 	);
 }

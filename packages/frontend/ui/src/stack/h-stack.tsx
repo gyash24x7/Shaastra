@@ -1,4 +1,4 @@
-import { createMemo, For, JSXElement } from "solid-js";
+import { useMemo } from "react";
 import Flex from "../flex";
 import type { Size } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
@@ -8,7 +8,7 @@ export interface HStackProps {
 	className?: string;
 	centered?: boolean;
 	stackItemClassName?: string;
-	children: JSXElement[] | JSXElement;
+	children: JSX.Element[] | JSX.Element;
 	wrap?: boolean;
 	stackItemExpand?: boolean;
 }
@@ -29,28 +29,28 @@ const hStackItemVs = new VariantSchema(
 );
 
 export default function HStack( { children, ...props }: HStackProps ) {
-	const flexClassname = createMemo( () => {
+	const flexClassname = useMemo( () => {
 		return `${ hStackFlexVS.getClassname( { spacing: props.spacing } ) } ${ props.className }`;
-	} );
+	}, [ props.spacing, props.className ] );
 
-	const stackItemClassname = createMemo( () => {
+	const stackItemClassname = useMemo( () => {
 		const hStackItemClassname = hStackItemVs.getClassname( {
 			expand: props.stackItemExpand ? "true" : "false",
 			spacing: props.spacing
 		} );
 		return `${ hStackItemClassname } ${ props.stackItemClassName }`;
-	} );
+	}, [ props.stackItemClassName, props.stackItemExpand, props.spacing ] );
+
+	const stackItems = Array.isArray( children ) ? children : [ children ];
 
 	return (
 		<Flex
-			justify = { props.centered ? "center" : "start" }
-			align = { "center" }
-			className = { flexClassname() }
-			wrap = { props.wrap }
+			justify={ props.centered ? "center" : "start" }
+			align={ "center" }
+			className={ flexClassname }
+			wrap={ props.wrap }
 		>
-			<For each = { Array.isArray( children ) ? children : [ children ] }>
-				{ ( child ) => <div class = { stackItemClassname() }>{ child }</div> }
-			</For>
+			{ stackItems.map( child => <div className={ stackItemClassname }>{ child }</div> ) }
 		</Flex>
 	);
 };

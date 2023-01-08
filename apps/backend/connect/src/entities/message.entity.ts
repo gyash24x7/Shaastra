@@ -1,17 +1,17 @@
-import { builder } from "../schema/builder.js";
 import { logger } from "../index.js";
 import { prisma } from "../prisma/index.js";
+import { builder } from "../schema/builder.js";
 import { dateRef } from "../schema/scalars.js";
 
-
-
 export const messageRef = builder.prismaObject( "Message", {
-	fields: t => ( {
-		id: t.exposeID( "id" ),
-		content: t.exposeString( "content" ),
-		createdOn: t.expose( "createdOn", { type: dateRef } ),
-		channel: t.relation( "channel" )
-	} )
+	fields: t => (
+		{
+			id: t.exposeID( "id" ),
+			content: t.exposeString( "content" ),
+			createdOn: t.expose( "createdOn", { type: dateRef } ),
+			channel: t.relation( "channel" )
+		}
+	)
 } );
 
 builder.asEntity( messageRef, {

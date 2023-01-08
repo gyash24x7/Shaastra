@@ -1,7 +1,7 @@
-import { Icon } from "solid-heroicons";
-import { createMemo, Show } from "solid-js";
+import { useMemo } from "react";
+import { If, Else, Then, When } from "react-if";
 import Spinner from "../spinner/spinner";
-import type { Appearance, IconType, Size } from "../utils/types";
+import type { Appearance, Size, RenderIcon } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
 
 export interface ButtonProps {
@@ -15,11 +15,15 @@ export interface ButtonProps {
 
 	buttonText?: string;
 	isLoading?: boolean;
-	iconBefore?: IconType;
-	iconAfter?: IconType;
+	renderIconBefore?: RenderIcon;
+	renderIconAfter?: RenderIcon;
 }
 
-function renderButtonIcon( icon: IconType, size: Size = "md" ) {
+function renderButtonIcon( renderIcon?: RenderIcon, size: Size = "md" ) {
+	if ( !renderIcon ) {
+		return;
+	}
+
 	const sizeMap = {
 		xs: { width: 10, height: 10 },
 		sm: { width: 12, height: 12 },
@@ -29,7 +33,7 @@ function renderButtonIcon( icon: IconType, size: Size = "md" ) {
 		"2xl": { width: 24, height: 24 }
 	};
 	const { width, height } = sizeMap[ size ];
-	return <Icon width = { width } height = { height } path = { icon } class = { "mx-2" }/>;
+	return renderIcon( { width, height, className: "mx-4" } );
 }
 
 const buttonVariantSchema = new VariantSchema(
@@ -65,39 +69,40 @@ const buttonVariantSchema = new VariantSchema(
 );
 
 export default function Button( props: ButtonProps ) {
-	const spinnerAppearance = createMemo( () => {
+	const spinnerAppearance = useMemo( () => {
 		return props.appearance === "warning" || props.appearance === "default" ? "dark" : "default";
-	} );
+	}, [ props.appearance ] );
 
-	const buttonClassname = createMemo( () => buttonVariantSchema.getClassname( {
+	const buttonClassname = useMemo( () => buttonVariantSchema.getClassname( {
 		appearance: props.appearance,
 		size: props.size,
 		fullWidth: props.fullWidth ? "true" : "false",
 		disabled: props.disabled || props.isLoading ? "true" : "false"
-	} ) );
+	} ), [ props.appearance, props.size, props.fullWidth, props.disabled ] );
 
 	return (
 		<button
-			disabled = { props.disabled || props.isLoading }
-			onClick = { props.onClick }
-			type = { props.type }
-			class = { buttonClassname() }
+			disabled={ props.disabled || props.isLoading }
+			onClick={ props.onClick }
+			type={ props.type }
+			className={ buttonClassname }
 		>
-			<Show
-				keyed
-				when = { !props.isLoading }
-				fallback = { <Spinner size = { props.size } appearance = { spinnerAppearance() }/> }
-			>
-				<Show when = { !!props.iconBefore } keyed>
-					{ renderButtonIcon( props.iconBefore!, props.size ) }
-				</Show>
-				<Show when = { !!props.buttonText } keyed>
-					<span>{ props.buttonText }</span>
-				</Show>
-				<Show when = { !!props.iconAfter } keyed>
-					{ renderButtonIcon( props.iconAfter!, props.size ) }
-				</Show>
-			</Show>
+			<If condition={ !props.isLoading }>
+				<Then>
+					<When condition={ !!props.renderIconBefore }>
+						{ renderButtonIcon( props.renderIconBefore, props.size ) }
+					</When>
+					<When condition={ !!props.buttonText }>
+						<span>{ props.buttonText }</span>
+					</When>
+					<When condition={ !!props.renderIconAfter }>
+						{ renderButtonIcon( props.renderIconAfter, props.size ) }
+					</When>
+				</Then>
+				<Else>
+					<Spinner size={ props.size } appearance={ spinnerAppearance }/>
+				</Else>
+			</If>
 		</button>
 	);
 }

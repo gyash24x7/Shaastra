@@ -15,11 +15,11 @@ function App() {
 	return (
 		<Router>
 			<Routes>
-				<Route path = { "/" }>
-					<Route path = { "/" } component = { HomePage }/>
-					<Route path = { "/auth" } component = { AuthLayout }>
-						<Route path = { "/login" } component = { LoginPage }/>
-						<Route path = { "/signup" } component = { SignUpPage }/>
+				<Route path={ "/" }>
+					<Route path={ "/" } component={ HomePage }/>
+					<Route path={ "/auth" } component={ AuthLayout }>
+						<Route path={ "/login" } component={ LoginPage }/>
+						<Route path={ "/signup" } component={ SignUpPage }/>
 					</Route>
 				</Route>
 			</Routes>

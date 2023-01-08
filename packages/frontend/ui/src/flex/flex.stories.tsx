@@ -1,7 +1,7 @@
-import type { JSX } from "solid-js/jsx-runtime";
-import Flex, { FlexProps } from "./flex";
+import type { Meta, StoryObj } from "@storybook/react";
+import Flex from "./flex";
 
-export default {
+const meta: Meta<typeof Flex> = {
 	component: Flex,
 	subcomponents: {},
 	title: "Flex",
@@ -27,14 +27,15 @@ export default {
 	}
 };
 
+export default meta;
 
-const Template: any = ( args: JSX.IntrinsicAttributes & FlexProps ) => (
-	<Flex { ...args }>
-		<div class = { "bg-blue-300 p-4" }>Flex Child 1</div>
-		<div class = { "bg-blue-500 p-4" }>Flex Child 2</div>
-		<div class = { "bg-blue-700 p-4" }>Flex Child 3</div>
-	</Flex>
-);
-
-export const Playground = Template.bind( {} );
-Playground.args = { direction: "row", align: "start", justify: "start" } as FlexProps;
+export const Playground: StoryObj<typeof Flex> = {
+	render: ( args ) => (
+		<Flex { ...args }>
+			<div className={ "bg-blue-300 p-4" }>Flex Child 1</div>
+			<div className={ "bg-blue-500 p-4" }>Flex Child 2</div>
+			<div className={ "bg-blue-700 p-4" }>Flex Child 3</div>
+		</Flex>
+	),
+	args: { direction: "row", align: "start", justify: "start" }
+};

@@ -1,15 +1,17 @@
 import bcrypt from "bcryptjs";
-import { UserMessages } from "../messages/user.messages.js";
+import { userRef } from "../entities/index.js";
 import { jwtUtils, logger } from "../index.js";
+import { UserMessages } from "../messages/user.messages.js";
 import { prisma } from "../prisma/index.js";
 import { builder } from "../schema/builder.js";
-import { userRef } from "../entities/index.js";
 
 const loginInputRef = builder.inputType( "LoginInput", {
-	fields: t => ( {
-		username: t.string( { required: true } ),
-		password: t.string( { required: true } )
-	} )
+	fields: t => (
+		{
+			username: t.string( { required: true } ),
+			password: t.string( { required: true } )
+		}
+	)
 } );
 
 export type LoginInput = {

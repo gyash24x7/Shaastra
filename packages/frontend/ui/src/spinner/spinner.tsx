@@ -1,4 +1,4 @@
-import { createMemo } from "solid-js";
+import { useMemo } from "react";
 import type { Appearance, Size } from "../utils";
 import { VariantSchema } from "../utils";
 
@@ -40,12 +40,12 @@ const spinnerCircleVS = new VariantSchema(
 );
 
 export default function Spinner( { appearance, size }: SpinnerProps ) {
-	const svgClassname = createMemo( () => spinnerRootVS.getClassname( { size } ) );
-	const circleClassname = createMemo( () => spinnerCircleVS.getClassname( { appearance } ) );
+	const svgClassname = useMemo( () => spinnerRootVS.getClassname( { size } ), [ size ] );
+	const circleClassname = useMemo( () => spinnerCircleVS.getClassname( { appearance } ), [ appearance ] );
 
 	return (
-		<svg viewBox = "0 0 50 50" class = { svgClassname() }>
-			<circle cx = { 25 } cy = { 25 } r = { 20 } class = { circleClassname() }/>
+		<svg viewBox="0 0 50 50" className={ svgClassname }>
+			<circle cx={ 25 } cy={ 25 } r={ 20 } className={ circleClassname }/>
 		</svg>
 	);
 }

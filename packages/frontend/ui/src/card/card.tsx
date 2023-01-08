@@ -1,10 +1,10 @@
-import type { JSXElement } from "solid-js";
-import { createMemo, Show } from "solid-js";
+import { useMemo, ReactNode } from "react";
+import { When } from "react-if";
 import { VariantSchema } from "../utils/variant";
 
 export interface CardProps {
 	title?: string;
-	content: JSXElement;
+	content: ReactNode;
 	centered?: boolean;
 }
 
@@ -15,15 +15,15 @@ const cardTitleVariantSchema = new VariantSchema(
 );
 
 export default function Card( { centered, title, content }: CardProps ) {
-	const titleClass = createMemo( () => cardTitleVariantSchema.getClassname( {
+	const titleClass = useMemo( () => cardTitleVariantSchema.getClassname( {
 		centered: centered ? "true" : "false"
-	} ) );
+	} ), [ centered ] );
 
 	return (
-		<div class = { "rounded-md p-4 flex-1 bg-light-100" }>
-			<Show when = { !!title } keyed>
-				<h2 class = { titleClass() }>{ title }</h2>
-			</Show>
+		<div className={ "rounded-md p-4 flex-1 bg-light-100" }>
+			<When condition={ !!title }>
+				<h2 className={ titleClass }>{ title }</h2>
+			</When>
 			{ content }
 		</div>
 	);

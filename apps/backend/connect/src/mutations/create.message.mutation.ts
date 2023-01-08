@@ -1,15 +1,15 @@
+import { messageRef } from "../entities/index.js";
 import { logger } from "../index.js";
 import { prisma } from "../prisma/index.js";
 import { builder } from "../schema/builder.js";
-import { messageRef } from "../entities/index.js";
-
-
 
 const createMessageInputRef = builder.inputType( "CreateMessageInput", {
-	fields: t => ( {
-		content: t.string( { required: true } ),
-		channelId: t.string( { required: true } )
-	} )
+	fields: t => (
+		{
+			content: t.string( { required: true } ),
+			channelId: t.string( { required: true } )
+		}
+	)
 } );
 
 builder.mutationField( "createMessage", t => t.prismaField( {

@@ -1,8 +1,8 @@
 import { RestApi } from "@shaastra/framework";
+import bcrypt from "bcryptjs";
+import { AppEvents } from "../events/index.js";
 import { eventBus, logger } from "../index.js";
 import { UserMessages } from "../messages/user.messages.js";
-import { AppEvents } from "../events/index.js";
-import bcrypt from "bcryptjs";
 import { prisma } from "../prisma/index.js";
 
 export type CreateUserInput = {

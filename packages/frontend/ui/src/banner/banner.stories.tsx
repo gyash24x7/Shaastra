@@ -1,14 +1,14 @@
-import { exclamationCircle } from "solid-heroicons/solid";
-import type { JSX } from "solid-js/jsx-runtime";
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid/index.js";
+import type { Meta, StoryObj } from "@storybook/react";
 import type { Appearance } from "../utils";
-import Banner, { BannerProps } from "./banner";
+import Banner from "./banner";
 
-export default {
+const meta: Meta<typeof Banner> = {
 	component: Banner,
 	title: "Banner",
 	argTypes: {
-		icon: {
-			description: "Sets the icon before the banner message"
+		renderIcon: {
+			description: "Renders the icon before the banner message"
 		},
 		isLoading: {
 			description: "Sets loading state of the banner",
@@ -29,11 +29,14 @@ export default {
 	}
 };
 
+export default meta;
 
-const Template: any = ( args: JSX.IntrinsicAttributes & BannerProps ) => <Banner { ...args } />;
+export const Playground: StoryObj<typeof Banner> = {
+	render: ( props ) => <Banner { ...props } />,
+	args: { appearance: "default" }
+};
 
-export const Playground = Template.bind( {} );
-Playground.args = { appearance: "default" } as BannerProps;
-
-export const BannerWithIcon = Template.bind( {} );
-BannerWithIcon.args = { appearance: "default", icon: exclamationCircle } as BannerProps;
+export const BannerWithIcon: StoryObj<typeof Banner> = {
+	render: ( props ) => <Banner { ...props } />,
+	args: { appearance: "default", renderIcon: ( props ) => <ExclamationCircleIcon { ...props }/> }
+};

@@ -1,16 +1,18 @@
-import { logger } from "../index.js";
-import { builder } from "../schema/builder.js";
-import { userRef } from "../entities/index.js";
-import { prisma } from "../prisma/index.js";
-import { UserMessages } from "../messages/user.messages.js";
-import { TokenMessages } from "../messages/token.messages.js";
 import dayjs from "dayjs";
+import { userRef } from "../entities/index.js";
+import { logger } from "../index.js";
+import { TokenMessages } from "../messages/token.messages.js";
+import { UserMessages } from "../messages/user.messages.js";
+import { prisma } from "../prisma/index.js";
+import { builder } from "../schema/builder.js";
 
 const verifyUserInputRef = builder.inputType( "VerifyUserInput", {
-	fields: t => ( {
-		userId: t.string( { required: true } ),
-		tokenId: t.string( { required: true } )
-	} )
+	fields: t => (
+		{
+			userId: t.string( { required: true } ),
+			tokenId: t.string( { required: true } )
+		}
+	)
 } );
 
 export type VerifyUserInput = {

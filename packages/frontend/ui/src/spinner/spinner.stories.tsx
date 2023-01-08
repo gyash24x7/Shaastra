@@ -1,9 +1,8 @@
-import type { JSX } from "solid-js/jsx-runtime";
+import type { Meta, StoryObj } from "@storybook/react";
 import type { Appearance, Size } from "../utils";
-import Spinner, { SpinnerProps } from "./spinner";
+import Spinner from "./spinner";
 
-
-export default {
+const meta: Meta<typeof Spinner> = {
 	component: Spinner,
 	title: "Spinner",
 	argTypes: {
@@ -22,8 +21,9 @@ export default {
 	}
 };
 
+export default meta;
 
-const Template: any = ( args: JSX.IntrinsicAttributes & SpinnerProps ) => <Spinner { ...args } />;
-
-export const Playground = Template.bind( {} );
-Playground.args = { size: "md" };
+export const Playground: StoryObj<typeof Spinner> = {
+	render: ( props ) => <Spinner { ...props } />,
+	args: { size: "md" }
+};

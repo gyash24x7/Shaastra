@@ -10,8 +10,7 @@
 		"moduleResolution": "Node",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
-		"jsxImportSource": "solid-js",
-		"jsx": "preserve",
+		"jsx": "react-jsx",
 		"types": [ "vite/client" ]
 	}
 }

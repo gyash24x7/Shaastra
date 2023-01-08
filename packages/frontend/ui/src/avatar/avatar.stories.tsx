@@ -1,7 +1,7 @@
-import type { JSX } from "solid-js/jsx-runtime";
-import Avatar, { AvatarProps } from "./avatar";
+import type { Meta, StoryObj } from "@storybook/react";
+import Avatar from "./avatar";
 
-export default {
+const meta: Meta<typeof Avatar> = {
 	component: Avatar,
 	title: "Avatar",
 	argTypes: {
@@ -17,7 +17,9 @@ export default {
 	}
 };
 
-const Template: any = ( args: JSX.IntrinsicAttributes & AvatarProps ) => <Avatar { ...args } />;
+export default meta;
 
-export const Playground = Template.bind( {} );
-Playground.args = { size: "md", name: "Yash Gupta" } as AvatarProps;
+export const Playground: StoryObj<typeof Avatar> = {
+	render: ( props ) => <Avatar { ...props } />,
+	args: { size: "md", name: "Yash Gupta" }
+};

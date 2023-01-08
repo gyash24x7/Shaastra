@@ -1,8 +1,8 @@
-import { afterAll, describe, expect, it, vi } from "vitest";
 import type { Server } from "http";
-import type { AppInfo, Consul } from "../../src/index.js";
-import { HealthChecker } from "../../src/health/index.js";
+import { afterAll, describe, expect, it, vi } from "vitest";
 import { mock, mockReset } from "vitest-mock-extended";
+import { HealthChecker } from "../../src/health/index.js";
+import type { AppInfo, Consul } from "../../src/index.js";
 
 vi.mock( "@godaddy/terminus" );
 

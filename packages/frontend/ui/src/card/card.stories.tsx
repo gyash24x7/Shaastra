@@ -1,10 +1,11 @@
-import type { JSX } from "solid-js/jsx-runtime";
-import Card, { CardProps } from "./card";
+import type { Meta, StoryObj } from "@storybook/react";
+import Card from "./card";
 
-export default { component: Card, title: "Card" };
+const meta: Meta<typeof Card> = { component: Card, title: "Card" };
 
+export default meta;
 
-const Template: any = ( args: JSX.IntrinsicAttributes & CardProps ) => <Card { ...args } />;
-
-export const Playground = Template.bind( {} );
-Playground.args = { title: "Card Title", content: "This is Card Content" } as CardProps;
+export const Playground: StoryObj<typeof Card> = {
+	render: ( props ) => <Card { ...props } />,
+	args: { title: "Card Title", content: "This is Card Content" }
+};

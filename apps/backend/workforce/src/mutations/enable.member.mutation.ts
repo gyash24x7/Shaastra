@@ -1,13 +1,15 @@
+import { memberRef } from "../entities/index.js";
+import { AppEvents } from "../events/index.js";
 import { eventBus, logger } from "../index.js";
 import { prisma } from "../prisma/index.js";
-import { AppEvents } from "../events/index.js";
 import { builder } from "../schema/builder.js";
-import { memberRef } from "../entities/index.js";
 
 const enableMemberInputRef = builder.inputType( "EnableMemberInput", {
-	fields: t => ( {
-		id: t.string( { required: true } )
-	} )
+	fields: t => (
+		{
+			id: t.string( { required: true } )
+		}
+	)
 } );
 
 builder.mutationField( "enableMember", t => t.prismaField( {

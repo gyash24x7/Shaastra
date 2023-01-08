@@ -1,9 +1,9 @@
-import type { Server } from "http";
 import { createTerminus } from "@godaddy/terminus";
-import { logger } from "../logger/index.js";
+import type { Server } from "http";
 import { hrtime, uptime } from "node:process";
-import type { Consul } from "../consul/index.js";
 import type { AppInfo } from "../application/index.js";
+import type { Consul } from "../consul/index.js";
+import { logger } from "../logger/index.js";
 
 export type HealthCheckResponse = {
 	uptime: number;

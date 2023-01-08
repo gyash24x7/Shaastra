@@ -1,46 +1,28 @@
-import type { StoryFn } from "@storybook/html";
-import { envelope, user } from "solid-heroicons/solid";
+import type { Meta, StoryObj } from "@storybook/react";
 import Button from "../button";
 import { TextInput } from "../input";
-import Form, { FormProps } from "./form";
-
-export default {
-	title: "Form",
-	component: Form
-};
+import Form from "./form";
 
 interface DemoFormData {
 	name: string;
 	email: string;
 }
 
-const Template: StoryFn<FormProps<DemoFormData>> = args => <Form { ...args } /> as any;
+const meta: Meta<typeof Form<DemoFormData>> = {
+	title: "Form",
+	component: Form
+};
 
-export const Playground = Template.bind( {} );
-Playground.args = {
-	initialValue: { name: "", email: "" },
-	submitBtn: () => <Button buttonText = { "Submit" }/>,
-	renderMap: {
-		name( props ) {
-			return (
-				<TextInput
-					{ ...props }
-					label = { "Name" }
-					placeholder = { "Enter your Name" }
-					iconAfter = { user }
-				/>
-			);
-		},
-		email( props ) {
-			return (
-				<TextInput
-					{ ...props }
-					type = { "email" }
-					label = { "Email" }
-					placeholder = { "Enter you Email" }
-					iconAfter = { envelope }
-				/>
-			);
+export default meta;
+
+export const Playground: StoryObj<typeof Form<DemoFormData>> = {
+	render: ( args ) => <Form { ...args } />,
+	args: {
+		initialValue: { name: "", email: "" },
+		submitBtn: () => <Button buttonText={ "Submit" }/>,
+		renderMap: {
+			name: props => <TextInput{ ...props } label={ "Name" } placeholder={ "Enter Name" }/>,
+			email: props => <TextInput { ...props } type={ "email" } label={ "Email" } placeholder={ "Enter Email" }/>
 		}
 	}
-} as FormProps<DemoFormData>;
+};

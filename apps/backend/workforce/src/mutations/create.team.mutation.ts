@@ -1,15 +1,17 @@
+import type { Department } from "@prisma/client/workforce/index.js";
+import { teamRef } from "../entities/index.js";
 import { AppEvents } from "../events/index.js";
-import { TeamMessages } from "../messages/team.messages.js";
 import { eventBus, logger } from "../index.js";
+import { TeamMessages } from "../messages/team.messages.js";
 import { prisma } from "../prisma/index.js";
 import { builder } from "../schema/builder.js";
-import { teamRef } from "../entities/index.js";
-import type { Department } from "@prisma/client/workforce/index.js";
 
 const createTeamInputRef = builder.inputType( "CreateTeamInput", {
-	fields: t => ( {
-		name: t.string( { required: true } )
-	} )
+	fields: t => (
+		{
+			name: t.string( { required: true } )
+		}
+	)
 } );
 
 builder.mutationField( "createTeam", t => t.prismaField( {

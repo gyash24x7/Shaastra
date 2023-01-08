@@ -1,10 +1,10 @@
+import type { Request } from "express";
 import { importJWK, importPKCS8, importSPKI, JWK, JWTPayload, jwtVerify, SignJWT } from "jose";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import superagent from "superagent";
-import type { Request } from "express";
-import { logger } from "../logger/index.js";
 import process from "node:process";
+import superagent from "superagent";
+import { logger } from "../logger/index.js";
 
 export interface JWTPayloadExtension {
 	id: string,

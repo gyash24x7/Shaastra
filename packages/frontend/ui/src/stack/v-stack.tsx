@@ -1,5 +1,4 @@
-import type { JSXElement } from "solid-js";
-import { createMemo, For } from "solid-js";
+import { useMemo, ReactNode } from "react";
 import type { Size } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
 
@@ -8,7 +7,7 @@ export interface VStackProps {
 	className?: string;
 	centered?: boolean;
 	stackItemClassName?: string;
-	children: JSXElement[] | JSXElement;
+	children: ReactNode;
 }
 
 const vStackItemVS = new VariantSchema(
@@ -21,20 +20,20 @@ const vStackItemVS = new VariantSchema(
 );
 
 export default function VStack( { children, ...props }: VStackProps ) {
-	const stackItemClassname = createMemo( () => {
+	const stackItemClassname = useMemo( () => {
 		const vStackItemClassname = vStackItemVS.getClassname( {
 			centered: props.centered ? "true" : "false",
 			spacing: props.spacing
 		} );
 
 		return `${ vStackItemClassname } ${ props.stackItemClassName }`;
-	} );
+	}, [ props.stackItemClassName, props.spacing, props.centered ] );
+
+	const stackItems = Array.isArray( children ) ? children : [ children ];
 
 	return (
-		<div class = { props.className }>
-			<For each = { Array.isArray( children ) ? children : [ children ] }>
-				{ child => <div class = { stackItemClassname() }>{ child }</div> }
-			</For>
+		<div className={ props.className }>
+			{ stackItems.map( child => <div className={ stackItemClassname }>{ child }</div> ) }
 		</div>
 	);
 };

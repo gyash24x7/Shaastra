@@ -1,8 +1,8 @@
+import type { Request, Response } from "express";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mock, mockReset } from "vitest-mock-extended";
 import type { JwtUtils } from "../../src/index.js";
 import { deserializeUser } from "../../src/index.js";
-import type { Request, Response } from "express";
 
 describe( "Deserialize User Middleware", function () {
 
@@ -25,7 +25,6 @@ describe( "Deserialize User Middleware", function () {
 		expect( mockJwtUtils.verify ).toHaveBeenCalledWith( "some_jwt_token" );
 		expect( mockNextFn ).toHaveBeenCalled();
 	} );
-
 
 	it( "should verify token and set nothing if invalid token", async () => {
 		mockJwtUtils.extractTokenFromRequest.mockReturnValue( "some_jwt_token" );

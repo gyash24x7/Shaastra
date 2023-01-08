@@ -1,13 +1,12 @@
-import { RadioGroup, RadioGroupOption } from "solid-headless";
-import { Accessor, For, JSXElement, Setter } from "solid-js";
+import { RadioGroup } from "@headlessui/react";
 import HStack from "../stack/h-stack";
 import { VariantSchema } from "../utils/variant";
 
 export interface SingleSelectProps<T> {
-	value: Accessor<T>;
-	onChange: Setter<T>;
+	value: T;
+	onChange: ( value: T ) => void;
 	options: Array<T>;
-	renderOption: ( option: T, checked: boolean ) => JSXElement;
+	renderOption: ( option: T, checked: boolean ) => JSX.Element;
 }
 
 const radioSelectOptionVS = new VariantSchema(
@@ -22,21 +21,17 @@ const radioSelectOptionClassname = ( checked: boolean ) => {
 
 export default function SingleSelect<T>( props: SingleSelectProps<T> ) {
 	return (
-		<RadioGroup<T> value = { props.value() } onChange = { props.onChange }>
-			{ ( { isSelected } ) => (
-				<HStack wrap spacing = { "xs" }>
-					<For each = { props.options }>
-						{ ( option ) => (
-							<RadioGroupOption
-								value = { option }
-								class = { radioSelectOptionClassname( isSelected( option ) ) }
-							>
-								{ props.renderOption( option, isSelected( option ) ) }
-							</RadioGroupOption>
-						) }
-					</For>
-				</HStack>
-			) }
+		<RadioGroup<"div", T> value={ props.value } onChange={ props.onChange }>
+			<HStack wrap spacing={ "xs" }>
+				{ props.options.map( ( option ) => (
+					<RadioGroup.Option
+						value={ option }
+						className={ ( { checked } ) => radioSelectOptionClassname( checked ) }
+					>
+						{ ( { checked } ) => props.renderOption( option, checked ) }
+					</RadioGroup.Option>
+				) ) }
+			</HStack>
 		</RadioGroup>
 	);
 }

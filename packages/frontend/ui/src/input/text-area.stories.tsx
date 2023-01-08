@@ -1,8 +1,8 @@
-import type { JSX } from "solid-js/jsx-runtime";
+import type { Meta, StoryObj } from "@storybook/react";
 import type { Appearance } from "../utils";
-import TextArea, { TextAreaProps } from "./text-area";
+import TextArea from "./text-area";
 
-export default {
+const meta: Meta<typeof TextArea> = {
 	component: TextArea,
 	title: "TextArea",
 	argTypes: {
@@ -15,13 +15,14 @@ export default {
 	}
 };
 
+export default meta;
 
-const Template: any = ( args: JSX.IntrinsicAttributes & TextAreaProps ) => <TextArea { ...args } />;
-
-export const Playground = Template.bind( {} );
-Playground.args = {
-	name: "message",
-	label: "Message",
-	placeholder: "Enter your message",
-	message: "Write a beautiful message here..."
-} as TextAreaProps;
+export const Playground: StoryObj<typeof TextArea> = {
+	render: ( props ) => <TextArea { ...props } />,
+	args: {
+		name: "message",
+		label: "Message",
+		placeholder: "Enter your message",
+		message: "Write a beautiful message here..."
+	}
+};

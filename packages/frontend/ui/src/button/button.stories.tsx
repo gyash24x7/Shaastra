@@ -1,18 +1,17 @@
-import { arrowLeft, arrowRight } from "solid-heroicons/solid";
-import type { JSX } from "solid-js/jsx-runtime";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+import type { Meta, StoryObj } from "@storybook/react";
 import type { Appearance, Size } from "../utils";
-import Button, { ButtonProps } from "./button";
+import Button from "./button";
 
-
-export default {
+const meta: Meta<typeof Button> = {
 	component: Button,
 	title: "Button",
 	argTypes: {
-		iconBefore: {
-			description: "Sets the icon before the button text"
+		renderIconBefore: {
+			description: "Renders the icon before the button text"
 		},
-		iconAfter: {
-			description: "Sets the icon after the button text"
+		renderIconAfter: {
+			description: "Renders the icon after the button text"
 		},
 		fullWidth: {
 			description: "Sets the width of the button to container",
@@ -44,24 +43,29 @@ export default {
 	}
 };
 
+export default meta;
 
-const Template: any = ( args: JSX.IntrinsicAttributes & ButtonProps ) => <Button { ...args } />;
+export const Playground: StoryObj<typeof Button> = {
+	render: ( props ) => <Button { ...props } />,
+	args: { buttonText: "Submit", appearance: "default", size: "md" }
+};
 
-export const Playground = Template.bind( {} );
-Playground.args = { buttonText: "Submit", appearance: "default", size: "md" } as ButtonProps;
+export const ButtonWithIconBefore: StoryObj<typeof Button> = {
+	render: ( props ) => <Button { ...props } />,
+	args: {
+		buttonText: "Submit",
+		appearance: "default",
+		size: "md",
+		renderIconBefore: ( props ) => <ArrowLeftIcon { ...props }/>
+	}
+};
 
-export const ButtonWithIconBefore = Template.bind( {} );
-ButtonWithIconBefore.args = {
-	buttonText: "Submit",
-	appearance: "default",
-	size: "md",
-	iconBefore: arrowLeft
-} as ButtonProps;
-
-export const ButtonWithIconAfter = Template.bind( {} );
-ButtonWithIconAfter.args = {
-	buttonText: "Submit",
-	appearance: "default",
-	size: "md",
-	iconAfter: arrowRight
-} as ButtonProps;
+export const ButtonWithIconAfter: StoryObj<typeof Button> = {
+	render: ( props ) => <Button { ...props } />,
+	args: {
+		buttonText: "Submit",
+		appearance: "default",
+		size: "md",
+		renderIconAfter: ( props ) => <ArrowRightIcon { ...props }/>
+	}
+};

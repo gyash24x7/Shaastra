@@ -1,4 +1,5 @@
-import { createMemo, Show } from "solid-js";
+import { useMemo, Fragment } from "react";
+import { When } from "react-if";
 import { VariantSchema } from "../utils";
 import InputMessage from "./input-message";
 import type { InputProps } from "./text-input";
@@ -21,31 +22,31 @@ const inputRootVS = new VariantSchema(
 );
 
 export default function TextArea( props: TextAreaProps ) {
-	const inputRootClassname = createMemo( () => inputRootVS.getClassname( {
+	const inputRootClassname = useMemo( () => inputRootVS.getClassname( {
 		valid: props.appearance === "success" ? "true" : "false",
 		invalid: props.appearance === "danger" ? "true" : "false"
-	} ) );
+	} ), [ props.appearance ] );
 
 	return (
-		<>
-			<Show when = { !!props.label } keyed>
-				<label class = { "text-sm text-dark-100 font-semibold" } for = { props.name.toString() }>
+		<Fragment>
+			<When condition={ !!props.label }>
+				<label className={ "text-sm text-dark-100 font-semibold" } htmlFor={ props.name.toString() }>
 					{ props.label }
 				</label>
-			</Show>
-			<div class = { inputRootClassname() }>
-				<textarea
-					name = { props.name.toString() }
-					rows = { props.rows || 3 }
-					placeholder = { props.placeholder || "" }
-					value = { props.value ? props.value() : "" }
-					onInput = { e => props.setValue && props.setValue( e.currentTarget.value ) }
-					style = { { all: "unset", width: "100%" } }
-				/>
+			</When>
+			<div className={ inputRootClassname }>
+			<textarea
+				name={ props.name.toString() }
+				rows={ props.rows || 3 }
+				placeholder={ props.placeholder || "" }
+				value={ props.value ? props.value() : "" }
+				onInput={ e => props.setValue && props.setValue( e.currentTarget.value ) }
+				style={ { all: "unset", width: "100%" } }
+			/>
 			</div>
-			<Show keyed when = { !!props.message }>
-				<InputMessage text = { props.message! } appearance = { props.appearance }/>
-			</Show>
-		</>
+			<When condition={ !!props.message }>
+				<InputMessage text={ props.message! } appearance={ props.appearance }/>
+			</When>
+		</Fragment>
 	);
 }

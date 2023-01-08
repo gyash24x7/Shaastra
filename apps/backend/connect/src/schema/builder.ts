@@ -1,11 +1,11 @@
 import SchemaBuilder from "@pothos/core";
-import PrismaPlugin from "@pothos/plugin-prisma";
 import DirectivesPlugin from "@pothos/plugin-directives";
 import FederationPlugin from "@pothos/plugin-federation";
-import { prisma as client } from "../prisma/index.js";
-import type { ServiceContext } from "@shaastra/framework";
-import type PrismaTypes from "./pothos.js";
+import PrismaPlugin from "@pothos/plugin-prisma";
 import ScopeAuthPlugin from "@pothos/plugin-scope-auth";
+import type { ServiceContext } from "@shaastra/framework";
+import { prisma as client } from "../prisma/index.js";
+import type PrismaTypes from "./pothos.js";
 
 export const builder = new SchemaBuilder<{
 	Context: ServiceContext

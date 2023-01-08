@@ -1,6 +1,6 @@
-import { Icon } from "solid-heroicons";
-import { checkCircle, exclamationCircle } from "solid-heroicons/solid";
-import { createMemo, Show } from "solid-js";
+import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { useMemo } from "react";
+import { When, Then } from "react-if";
 import { VariantSchema } from "../utils/variant";
 
 export interface InputMessageProps {
@@ -18,29 +18,28 @@ const inputMessageVS = new VariantSchema(
 );
 
 export default function InputMessage( { appearance, text }: InputMessageProps ) {
-	const icon = createMemo( () => {
-		switch ( appearance ) {
-			case "success":
-				return checkCircle;
-			case "danger":
-				return exclamationCircle;
-			default:
-				return undefined;
-		}
-	} );
 
-	const inputMsgClassname = createMemo( () => inputMessageVS.getClassname( {
+	const inputMsgClassname = useMemo( () => inputMessageVS.getClassname( {
 		valid: appearance === "success" ? "true" : "false",
 		invalid: appearance === "danger" ? "true" : "false"
-	} ) );
+	} ), [ appearance ] );
 
 	return (
-		<div class = { inputMsgClassname() }>
-			<Show when = { !!icon() } keyed>
-				<span class = { "inline-block mr-1" }>
-					<Icon class = { "w-3 h-3" } path = { icon()! }/>
+		<div className={ inputMsgClassname }>
+			<When condition={ appearance === "success" || appearance === "danger" }>
+				<span className={ "inline-block mr-1" }>
+					<When condition={ appearance === "success" }>
+						<Then>
+							<CheckCircleIcon className={ "w-3 h-3" }/>
+						</Then>
+					</When>
+					<When condition={ appearance === "danger" }>
+						<Then>
+							<ExclamationCircleIcon className={ "w-3 h-3" }/>
+						</Then>
+					</When>
 				</span>
-			</Show>
+			</When>
 			<span>{ text }</span>
 		</div>
 	);

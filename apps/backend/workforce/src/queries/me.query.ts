@@ -1,7 +1,7 @@
+import { memberRef } from "../entities/index.js";
 import { logger } from "../index.js";
 import { prisma } from "../prisma/index.js";
 import { builder } from "../schema/builder.js";
-import { memberRef } from "../entities/index.js";
 
 builder.queryField( "me", t => t.prismaField( {
 	type: memberRef,

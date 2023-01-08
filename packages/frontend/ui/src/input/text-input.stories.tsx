@@ -1,9 +1,9 @@
-import { envelope, lockClosed } from "solid-heroicons/solid";
-import type { JSX } from "solid-js/jsx-runtime";
+import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
+import type { Meta, StoryObj } from "@storybook/react";
 import type { Appearance } from "../utils";
-import TextInput, { TextInputProps } from "./text-input";
+import TextInput from "./text-input";
 
-export default {
+const meta: Meta<typeof TextInput> = {
 	component: TextInput,
 	title: "TextInput",
 	argTypes: {
@@ -16,34 +16,39 @@ export default {
 	}
 };
 
+export default meta;
 
-const Template: any = ( args: JSX.IntrinsicAttributes & TextInputProps ) => <TextInput { ...args } />;
+export const Playground: StoryObj<typeof TextInput> = {
+	render: ( props ) => <TextInput { ...props } />,
+	args: {
+		name: "firstName",
+		message: "Helper Text",
+		label: "Name",
+		placeholder: "Enter your Name",
+		appearance: "default"
+	}
+};
 
-export const Playground = Template.bind( {} );
-Playground.args = {
-	name: "firstName",
-	message: "Helper Text",
-	label: "Name",
-	placeholder: "Enter your Name",
-	appearance: "default"
-} as TextInputProps;
+export const TextInputWithIconBefore: StoryObj<typeof TextInput> = {
+	render: ( props ) => <TextInput { ...props } />,
+	args: {
+		name: "email",
+		label: "Email",
+		type: "email",
+		placeholder: "Enter your Email",
+		appearance: "default",
+		renderIconBefore: ( props ) => <EnvelopeIcon { ...props }/>
+	}
+};
 
-export const TextInputWithIconBefore = Template.bind( {} );
-TextInputWithIconBefore.args = {
-	name: "email",
-	label: "Email",
-	type: "email",
-	placeholder: "Enter your Email",
-	appearance: "default",
-	iconBefore: envelope
-} as TextInputProps;
-
-export const TextInputWithIconAfter = Template.bind( {} );
-TextInputWithIconAfter.args = {
-	name: "password",
-	label: "Password",
-	type: "password",
-	placeholder: "Enter your Password",
-	appearance: "default",
-	iconAfter: lockClosed
-} as TextInputProps;
+export const TextInputWithIconAfter: StoryObj<typeof TextInput> = {
+	render: ( props ) => <TextInput { ...props } />,
+	args: {
+		name: "password",
+		label: "Password",
+		type: "password",
+		placeholder: "Enter your Password",
+		appearance: "default",
+		renderIconAfter: ( props ) => <LockClosedIcon { ...props }/>
+	}
+};

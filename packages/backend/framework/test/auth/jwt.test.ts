@@ -1,11 +1,11 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
+import type { Request } from "express";
 import { exportJWK, exportPKCS8, exportSPKI, generateKeyPair, JWK, jwtVerify, KeyLike } from "jose";
+import nock from "nock";
 import { unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import * as process from "node:process";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { mock, mockReset } from "vitest-mock-extended";
-import type { Request } from "express";
-import nock from "nock";
 import { JwtUtils } from "../../src/index.js";
 
 describe( "JwtUtils", () => {

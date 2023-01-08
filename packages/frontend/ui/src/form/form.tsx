@@ -1,6 +1,4 @@
-import type { JSXElement } from "solid-js";
-import { createSignal, For } from "solid-js";
-import { produce } from "solid-js/store";
+import { useState, FormEvent } from "react";
 import { VStack } from "../stack";
 import type { FieldOf, FieldRenderFn, FieldValueOf } from "./field";
 import Field from "./field";
@@ -26,12 +24,12 @@ function buildInitialValues<T extends Object, R>( initialValue: T, initializeWit
 }
 
 export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
-	const [ fields ] = createSignal( Object.keys( options.initialValue ) as Fields<T> );
-	const [ values, setValues ] = createSignal( options.initialValue );
-	const [ errors, setErrors ] = createSignal( buildInitialValues( options.initialValue, "" ) );
-	const [ touched, setTouched ] = createSignal( buildInitialValues( options.initialValue, false ) );
+	const [ fields ] = useState( Object.keys( options.initialValue ) as Fields<T> );
+	const [ values, setValues ] = useState( options.initialValue );
+	const [ errors, setErrors ] = useState( buildInitialValues( options.initialValue, "" ) );
+	const [ touched, setTouched ] = useState( buildInitialValues( options.initialValue, false ) );
 
-	const getFieldValue = ( name: FieldOf<T> ) => (): FieldValueOf<T, typeof name> => values()[ name ];
+	const getFieldValue = ( name: FieldOf<T> ): FieldValueOf<T, typeof name> => values[ name ];
 
 	const setFieldValue = (
 		name: FieldOf<T>,
@@ -40,9 +38,9 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 		return ( value: FieldValueOf<T, typeof name> ) => {
 			setFieldTouched( name, true );
 
-			setValues( produce( values => (
-				values[ name ] = value
-			) ) );
+			setValues( values => (
+				{ ...values, [ name ]: value }
+			) );
 
 			const errMsg = validate( value, validators );
 
@@ -55,8 +53,8 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 		};
 	};
 
-	const getFieldError = ( name: FieldOf<T> ) => !!touched()[ name ]
-		? !!errors()[ name ] ? errors()[ name ] : "Looks Good!"
+	const getFieldError = ( name: FieldOf<T> ) => !!touched[ name ]
+		? !!errors[ name ] ? errors[ name ] : "Looks Good!"
 		: "";
 
 	const setFieldError = ( name: FieldOf<T>, error: string ) => {
@@ -65,22 +63,22 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 		) );
 	};
 
-	const getFieldTouched = ( name: FieldOf<T> ) => touched()[ name ];
+	const getFieldTouched = ( name: FieldOf<T> ) => touched[ name ];
 
-	const getFieldAppearance = ( name: FieldOf<T> ) => !!touched()[ name ]
-		? !!errors()[ name ] ? "danger" : "success"
+	const getFieldAppearance = ( name: FieldOf<T> ) => !!touched[ name ]
+		? !!errors[ name ] ? "danger" : "success"
 		: "default";
 
 	const setFieldTouched = ( name: FieldOf<T>, value: boolean ) => {
-		setTouched( produce( touched => (
-			touched[ name ] = value
-		) ) );
+		setTouched( touched => (
+			{ ...touched, [ name ]: value }
+		) );
 	};
 
-	const onSubmit = ( e: Event ) => {
+	const onSubmit = ( e: FormEvent ) => {
 		e.preventDefault();
 		if ( options.onSubmit ) {
-			options.onSubmit( values() );
+			options.onSubmit( values );
 		}
 	};
 
@@ -100,7 +98,7 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 export interface FormProps<T> {
 	initialValue: T;
 	onSubmit?: ( values: T ) => void | Promise<void>;
-	submitBtn: () => JSXElement;
+	submitBtn: () => JSX.Element;
 	renderMap: Record<FieldOf<T>, FieldRenderFn<T, FieldOf<T>>>;
 	validations?: Record<FieldOf<T>, Array<ValidatorFn<FieldValueOf<T, FieldOf<T>>>> | undefined>;
 }
@@ -118,21 +116,20 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 	const SubmitButton = props.submitBtn;
 
 	return (
-		<form onSubmit = { onSubmit } noValidate>
+		<form onSubmit={ onSubmit } noValidate>
 			<VStack>
-				<For each = { fields() }>
-					{ ( name ) => (
-						<Field<T, typeof name>
-							name = { name }
-							value = { getFieldValue( name ) }
-							render = { props.renderMap[ name ] }
-							setValue = { setFieldValue( name, validations ? validations[ name ] || [] : [] ) }
-							error = { getFieldError( name ) }
-							touched = { getFieldTouched( name ) }
-							appearance = { getFieldAppearance( name ) }
-						/>
-					) }
-				</For>
+				{ fields.map( fieldName => (
+					<Field<T, typeof fieldName>
+						key={ fieldName.toString() }
+						name={ fieldName }
+						value={ getFieldValue( fieldName ) }
+						render={ props.renderMap[ fieldName ] }
+						setValue={ setFieldValue( fieldName, validations ? validations[ fieldName ] || [] : [] ) }
+						error={ getFieldError( fieldName ) }
+						touched={ getFieldTouched( fieldName ) }
+						appearance={ getFieldAppearance( fieldName ) }
+					/>
+				) ) }
 				<SubmitButton/>
 			</VStack>
 		</form>

@@ -1,18 +1,18 @@
-import type { Server } from "http";
-import type { GraphQLSchema } from "graphql";
+import { ApolloGateway, IntrospectAndCompose, ServiceEndpointDefinition } from "@apollo/gateway";
 import { ApolloServer } from "@apollo/server";
-import type { ServiceContext } from "../context/index.js";
-import type { Consul } from "../consul/index.js";
-import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import {
 	ApolloServerPluginLandingPageDisabled,
 	ApolloServerPluginUsageReportingDisabled
 } from "@apollo/server/plugin/disabled";
-import { CookiePlugin } from "./cookie.plugin.js";
-import { ApolloGateway, IntrospectAndCompose, ServiceEndpointDefinition } from "@apollo/gateway";
-import { ServiceDataSource } from "./service.datasource.js";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import type { GraphQLSchema } from "graphql";
+import type { Server } from "http";
+import type { Consul } from "../consul/index.js";
+import type { ServiceContext } from "../context/index.js";
 import { logger } from "../logger/index.js";
+import { CookiePlugin } from "./cookie.plugin.js";
 import { LandingPagePlugin } from "./landing.page.plugin.js";
+import { ServiceDataSource } from "./service.datasource.js";
 
 export type GraphQLServerOptions = {
 	gateway?: boolean;
@@ -42,7 +42,9 @@ export class GraphQLServer {
 			const supergraphSdl = new IntrospectAndCompose( {
 				subgraphs: services
 					.filter( service => service.ID !== "gateway" )
-					.map( service => ( { name: service.ID, url: `${ service.Meta[ "url" ] }/api/graphql` } ) )
+					.map( service => (
+						{ name: service.ID, url: `${ service.Meta[ "url" ] }/api/graphql` }
+					) )
 			} );
 
 			const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );

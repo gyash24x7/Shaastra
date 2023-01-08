@@ -1,21 +1,23 @@
-import { AppEvents } from "../events/index.js";
-import { MemberMessages } from "../messages/member.messages.js";
-import superagent from "superagent";
-import { consul, eventBus, logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
 import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
-import { builder } from "../schema/builder.js";
+import superagent from "superagent";
 import { memberRef } from "../entities/index.js";
+import { AppEvents } from "../events/index.js";
+import { consul, eventBus, logger } from "../index.js";
+import { MemberMessages } from "../messages/member.messages.js";
+import { prisma } from "../prisma/index.js";
+import { builder } from "../schema/builder.js";
 
 const createMemberInputRef = builder.inputType( "CreateMemberInput", {
-	fields: t => ( {
-		name: t.string( { required: true } ),
-		email: t.string( { required: true } ),
-		password: t.string( { required: true } ),
-		rollNumber: t.string( { required: true } ),
-		department: t.field( { type: Department, required: true } ),
-		mobile: t.string( { required: true } )
-	} )
+	fields: t => (
+		{
+			name: t.string( { required: true } ),
+			email: t.string( { required: true } ),
+			password: t.string( { required: true } ),
+			rollNumber: t.string( { required: true } ),
+			department: t.field( { type: Department, required: true } ),
+			mobile: t.string( { required: true } )
+		}
+	)
 } );
 
 builder.mutationField( "createMember", t => t.prismaField( {

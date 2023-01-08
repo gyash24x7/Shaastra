@@ -1,14 +1,14 @@
-import { Icon } from "solid-heroicons";
-import { createMemo, Show } from "solid-js";
+import { useMemo } from "react";
+import { If, Then, Else } from "react-if";
 import Spinner from "../spinner/spinner";
 import HStack from "../stack/h-stack";
-import type { Appearance, IconType } from "../utils/types";
+import type { Appearance, RenderIcon } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
 
 export interface BannerProps {
 	className?: string;
 	appearance?: Appearance;
-	icon?: IconType;
+	renderIcon?: RenderIcon;
 	message: string;
 	isLoading?: boolean;
 	centered?: boolean;
@@ -31,30 +31,29 @@ const bannerVariantSchema = new VariantSchema(
 );
 
 export default function Banner( props: BannerProps ) {
-	const { appearance = "default", isLoading, icon, message, centered = false, className } = props;
+	const { appearance = "default", isLoading, renderIcon, message, centered = false, className } = props;
 
-	const bannerClassname = createMemo( () => {
+	const bannerClassname = useMemo( () => {
 		return `${ bannerVariantSchema.getClassname( { appearance } ) } ${ className }`;
-	} );
+	}, [ appearance, className ] );
 
-	const spinnerAppearance = createMemo( () => {
+	const spinnerAppearance = useMemo( () => {
 		return appearance === "warning" || appearance === "default" ? "dark" : "default";
-	} );
+	}, [ appearance ] );
 
 	return (
-		<div class = { bannerClassname() }>
-			<HStack centered = { centered } spacing = { "sm" }>
-				<Show
-					keyed
-					when = { isLoading }
-					fallback = {
-						<Show keyed when = { !!icon && !isLoading }>
-							<Icon width = { 20 } height = { 20 } path = { icon! }/>
-						</Show>
-					}
-				>
-					<Spinner size = { "sm" } appearance = { spinnerAppearance() }/>
-				</Show>
+		<div className={ bannerClassname }>
+			<HStack centered={ centered } spacing={ "sm" }>
+				<If condition={ isLoading }>
+					<Then>
+						<Spinner size={ "sm" } appearance={ spinnerAppearance }/>
+					</Then>
+					<Else>
+						<If condition={ !!renderIcon && !isLoading }>
+							<Then>{ renderIcon && renderIcon() }</Then>
+						</If>
+					</Else>
+				</If>
 				<h2>{ message }</h2>
 			</HStack>
 		</div>

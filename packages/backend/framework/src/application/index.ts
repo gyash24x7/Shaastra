@@ -2,7 +2,6 @@ import type { GraphQLSchema } from "graphql";
 import type * as http from "node:http";
 import type { Logger } from "pino";
 import type { JwtUtils } from "../auth/index.js";
-import type { Consul } from "../consul/index.js";
 import type { ServiceContextFn } from "../context/index.js";
 import type { EventBus, IEvents } from "../events/index.js";
 import type { GraphQLServer } from "../graphql/index.js";
@@ -37,7 +36,6 @@ export interface IApplication<A = any> {
 	readonly appInfo: AppInfo;
 	readonly graphQLServer: GraphQLServer;
 	readonly start: () => Promise<void>;
-	readonly consul: Consul;
 	readonly httpServer: http.Server;
 	readonly applyMiddlewares: () => void;
 	readonly registerRestApis: () => void;

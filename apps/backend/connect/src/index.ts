@@ -4,6 +4,6 @@ import { schema } from "./schema/index.js";
 
 const application = new ExpressApplication( { name: "connect", graphql: { schema }, events } );
 
-export const { consul, logger } = application;
+export const { logger } = application;
 
 await application.start();

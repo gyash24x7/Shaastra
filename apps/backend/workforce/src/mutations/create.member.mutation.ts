@@ -2,7 +2,7 @@ import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
 import superagent from "superagent";
 import { memberRef } from "../entities/index.js";
 import { AppEvents } from "../events/index.js";
-import { consul, eventBus, logger } from "../index.js";
+import { eventBus, logger } from "../index.js";
 import { MemberMessages } from "../messages/member.messages.js";
 import { prisma } from "../prisma/index.js";
 import { builder } from "../schema/builder.js";
@@ -29,9 +29,7 @@ builder.mutationField( "createMember", t => t.prismaField( {
 		logger.trace( `>> Resolvers::Mutation::createMember()` );
 		logger.debug( "Data: %o", data );
 
-		const services = await consul.getRegisteredServices();
-		const { Address, Port } = services.find( service => service.ID === "identity" )!;
-		const url = `http://${ Address }:${ Port }/api/users`;
+		const url = `http://localhost:8000/api/users`;
 		const input = {
 			name: data.name,
 			email: data.email,

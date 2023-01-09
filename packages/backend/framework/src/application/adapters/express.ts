@@ -7,7 +7,6 @@ import express, { NextFunction } from "express";
 import http from "http";
 import process from "node:process";
 import { deserializeUser, JwtUtils } from "../../auth/index.js";
-import { Consul } from "../../consul/index.js";
 import type { ExpressContext, ServiceContext } from "../../context/index.js";
 import { EventBus } from "../../events/index.js";
 import { GraphQLServer } from "../../graphql/index.js";
@@ -30,7 +29,6 @@ export class ExpressApplication implements IApplication<Express> {
 	readonly logger = frameworkLogger;
 	readonly graphQLServer: GraphQLServer;
 	readonly appInfo: AppInfo;
-	readonly consul: Consul;
 	readonly restApis: RestApi[] = [];
 	readonly httpServer: http.Server;
 	readonly eventBus: EventBus;
@@ -54,10 +52,9 @@ export class ExpressApplication implements IApplication<Express> {
 		this._app = express();
 		this.httpServer = http.createServer( this._app );
 
-		this.consul = new Consul();
 		this.graphQLServer = new GraphQLServer( { httpServer: this.httpServer, gateway, schema } );
 		this.eventBus = new EventBus( events || {} );
-		this.healthCheck = new HealthChecker( this.httpServer, this.consul, this.appInfo );
+		this.healthCheck = new HealthChecker( this.httpServer );
 	}
 
 	generateAppInfo( id: string ): AppInfo {
@@ -117,15 +114,13 @@ export class ExpressApplication implements IApplication<Express> {
 	}
 
 	async start(): Promise<void> {
-		await this.graphQLServer.start( this.consul );
+		await this.graphQLServer.start();
 
 		await this.applyMiddlewares();
 		this.registerRestApis();
 
 		await new Promise<void>( ( resolve ) => this.httpServer.listen( { port: this.appInfo.port }, resolve ) );
 		this.logger.info( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
-
-		await this.consul.registerService( this.appInfo );
 	}
 
 	async createContext( { req, res }: ExpressContext ): Promise<ServiceContext> {

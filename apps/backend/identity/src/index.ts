@@ -11,6 +11,6 @@ const application = new ExpressApplication( {
 	events
 } );
 
-export const { consul, eventBus, logger, jwtUtils } = application;
+export const { eventBus, logger, jwtUtils } = application;
 
 await application.start();

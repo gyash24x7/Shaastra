@@ -1,8 +1,6 @@
 import { createTerminus } from "@godaddy/terminus";
 import type { Server } from "http";
 import { hrtime, uptime } from "node:process";
-import type { AppInfo } from "../application/index.js";
-import type { Consul } from "../consul/index.js";
 import { logger } from "../logger/index.js";
 
 export type HealthCheckResponse = {
@@ -13,13 +11,8 @@ export type HealthCheckResponse = {
 }
 
 export class HealthChecker {
-	private readonly consul: Consul;
-	private readonly appInfo: AppInfo;
 
-	constructor( httpServer: Server, consul: Consul, appInfo: AppInfo ) {
-		this.consul = consul;
-		this.appInfo = appInfo;
-
+	constructor( httpServer: Server ) {
 		createTerminus( httpServer, {
 			healthChecks: {
 				"/api/health": this.healthApiHandler
@@ -31,7 +24,6 @@ export class HealthChecker {
 
 	async onSignal() {
 		logger.warn( "Server is starting cleanup..." );
-		await this.consul.deregisterService( this.appInfo.id );
 	}
 
 	async healthApiHandler() {

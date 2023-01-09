@@ -1,0 +1,9 @@
+{
+	"extends": "@shaastra/tsconfig/ui.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"esModuleInterop": true
+	},
+	"include": [ "test", "src" ],
+	"exclude": [ "node_modules", "dist", ".turbo", "coverage" ]
+}

@@ -16,6 +16,5 @@
 	"minify": false,
 	"module": {
 		"type": "es6"
-	},
-	"exclude": [ "generated/*" ]
+	}
 }

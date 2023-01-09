@@ -1,0 +1,13 @@
+query me {
+    me {
+        id
+        name
+        email
+        rollNumber
+        position
+        profilePic
+        coverPic
+        department
+        enabled
+    }
+}

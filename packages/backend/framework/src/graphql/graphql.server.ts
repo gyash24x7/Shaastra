@@ -2,9 +2,11 @@ import { ApolloGateway, IntrospectAndCompose, ServiceEndpointDefinition } from "
 import { ApolloServer } from "@apollo/server";
 import {
 	ApolloServerPluginLandingPageDisabled,
-	ApolloServerPluginUsageReportingDisabled
+	ApolloServerPluginUsageReportingDisabled,
+	ApolloServerPluginSchemaReportingDisabled
 } from "@apollo/server/plugin/disabled";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { ApolloServerPluginSchemaReporting } from "@apollo/server/plugin/schemaReporting";
 import type { GraphQLSchema } from "graphql";
 import type { Server } from "http";
 import type { Consul } from "../consul/index.js";
@@ -21,6 +23,19 @@ export type GraphQLServerOptions = {
 }
 
 export class GraphQLServer {
+	private readonly apolloServicePlugins = [
+		ApolloServerPluginDrainHttpServer( { httpServer: this.options.httpServer } ),
+		ApolloServerPluginSchemaReportingDisabled(),
+		ApolloServerPluginLandingPageDisabled(),
+		ApolloServerPluginUsageReportingDisabled()
+	];
+	private readonly apolloGatewayPlugins = [
+		ApolloServerPluginDrainHttpServer( { httpServer: this.options.httpServer } ),
+		ApolloServerPluginSchemaReporting(),
+		LandingPagePlugin(),
+		CookiePlugin()
+	];
+
 	constructor( private readonly options: GraphQLServerOptions ) {}
 
 	private _apolloServer: ApolloServer<ServiceContext>;
@@ -30,11 +45,7 @@ export class GraphQLServer {
 	}
 
 	async start( consul: Consul ) {
-		const plugins = [
-			ApolloServerPluginDrainHttpServer( { httpServer: this.options.httpServer } ),
-			!!this.options.gateway ? LandingPagePlugin() : ApolloServerPluginLandingPageDisabled(),
-			!!this.options.gateway ? CookiePlugin() : ApolloServerPluginUsageReportingDisabled()
-		];
+		const plugins = !!this.options.gateway ? this.apolloGatewayPlugins : this.apolloServicePlugins;
 
 		if ( !!this.options.gateway ) {
 			const services = await consul.getRegisteredServices();

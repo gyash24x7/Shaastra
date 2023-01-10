@@ -1,7 +1,7 @@
 import type { Server } from "http";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { mock, mockReset } from "vitest-mock-extended";
-import { HealthChecker } from "../../src/health/index.js";
+import { HealthChecker } from "../../src/health";
 
 vi.mock( "@godaddy/terminus" );
 

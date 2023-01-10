@@ -1,8 +1,8 @@
-import { memberRef } from "../entities/index.js";
-import { AppEvents } from "../events/index.js";
-import { eventBus, logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import { eventBus, logger } from "..";
+import { memberRef } from "../entities";
+import { AppEvents } from "../events";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 const enableMemberInputRef = builder.inputType( "EnableMemberInput", {
 	fields: t => (

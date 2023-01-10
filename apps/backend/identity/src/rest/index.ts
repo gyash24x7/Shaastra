@@ -1,2 +1,2 @@
-export * from "./user.api.js";
-export * from "./jwks.api.js";
+export * from "./user.api";
+export * from "./jwks.api";

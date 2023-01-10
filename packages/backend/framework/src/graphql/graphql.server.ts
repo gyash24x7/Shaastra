@@ -2,18 +2,16 @@ import { ApolloGateway, ServiceEndpointDefinition } from "@apollo/gateway";
 import { ApolloServer } from "@apollo/server";
 import {
 	ApolloServerPluginLandingPageDisabled,
-	ApolloServerPluginUsageReportingDisabled,
-	ApolloServerPluginSchemaReportingDisabled
+	ApolloServerPluginUsageReportingDisabled
 } from "@apollo/server/plugin/disabled";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import { ApolloServerPluginSchemaReporting } from "@apollo/server/plugin/schemaReporting";
 import type { GraphQLSchema } from "graphql";
 import type { Server } from "http";
-import type { ServiceContext } from "../context/index.js";
-import { logger } from "../logger/index.js";
-import { CookiePlugin } from "./cookie.plugin.js";
-import { LandingPagePlugin } from "./landing.page.plugin.js";
-import { ServiceDataSource } from "./service.datasource.js";
+import type { ServiceContext } from "../context";
+import { logger } from "../logger";
+import { CookiePlugin } from "./cookie.plugin";
+import { LandingPagePlugin } from "./landing.page.plugin";
+import { ServiceDataSource } from "./service.datasource";
 
 export type GraphQLServerOptions = {
 	gateway?: boolean;
@@ -24,13 +22,11 @@ export type GraphQLServerOptions = {
 export class GraphQLServer {
 	private readonly apolloServicePlugins = [
 		ApolloServerPluginDrainHttpServer( { httpServer: this.options.httpServer } ),
-		ApolloServerPluginSchemaReportingDisabled(),
 		ApolloServerPluginLandingPageDisabled(),
 		ApolloServerPluginUsageReportingDisabled()
 	];
 	private readonly apolloGatewayPlugins = [
 		ApolloServerPluginDrainHttpServer( { httpServer: this.options.httpServer } ),
-		ApolloServerPluginSchemaReporting(),
 		LandingPagePlugin(),
 		CookiePlugin()
 	];

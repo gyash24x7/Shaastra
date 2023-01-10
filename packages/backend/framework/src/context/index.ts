@@ -1,7 +1,7 @@
 import type { BaseContext, ContextFunction } from "@apollo/server";
 import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
 import type { Request, Response } from "express";
-import type { UserAuthInfo } from "../auth/index.js";
+import type { UserAuthInfo } from "../auth";
 
 export type ExpressContext = BaseContext & {
 	req: Request;

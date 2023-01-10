@@ -28,6 +28,10 @@
 		"db:generate": {
 			"inputs": [ "prisma/schema.prisma" ],
 			"outputs": [ ]
+		},
+		"schema:publish": {
+			"dependsOn": [ "build" ],
+			"outputs": [ "src/schema.graphql" ]
 		}
 	}
 }

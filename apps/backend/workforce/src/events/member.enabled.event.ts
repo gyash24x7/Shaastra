@@ -1,5 +1,5 @@
-import type { Member } from "@prisma/client/workforce/index.js";
-import { logger } from "../index.js";
+import type { Member } from "@prisma/client/workforce";
+import { logger } from "..";
 
 export default async function memberEnabledEventHandler( data: Member ) {
 	const subject = `Your Shaastra Prime Account is Enabled`;

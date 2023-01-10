@@ -4,8 +4,9 @@ import FederationPlugin from "@pothos/plugin-federation";
 import PrismaPlugin from "@pothos/plugin-prisma";
 import ScopeAuthPlugin from "@pothos/plugin-scope-auth";
 import type { ServiceContext } from "@shaastra/framework";
-import { prisma as client } from "../prisma/index.js";
-import type PrismaTypes from "./pothos.js";
+import { logger } from "..";
+import { prisma as client } from "../prisma";
+import type PrismaTypes from "./pothos";
 
 export const builder = new SchemaBuilder<{
 	Context: ServiceContext
@@ -21,13 +22,14 @@ export const builder = new SchemaBuilder<{
 }>( {
 	plugins: [ ScopeAuthPlugin, PrismaPlugin, DirectivesPlugin, FederationPlugin ],
 	prisma: { client },
-	async authScopes( context ) {
+	async authScopes( { authInfo } ) {
+		logger.debug( "AuthInfo: %o", authInfo );
 		return {
 			public: true,
-			member: !!context.authInfo?.department,
-			core: context.authInfo?.position === "CORE",
-			head: context.authInfo?.position === "HEAD",
-			cocas: context.authInfo?.position === "COCAS"
+			member: !!authInfo?.department,
+			core: authInfo?.position === "CORE",
+			head: authInfo?.position === "HEAD",
+			cocas: authInfo?.position === "COCAS"
 		};
 	}
 } );

@@ -1,10 +1,10 @@
-import type { Department } from "@prisma/client/workforce/index.js";
-import { teamRef } from "../entities/index.js";
-import { AppEvents } from "../events/index.js";
-import { eventBus, logger } from "../index.js";
-import { TeamMessages } from "../messages/team.messages.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import type { Department } from "@prisma/client/workforce";
+import { eventBus, logger } from "..";
+import { teamRef } from "../entities";
+import { AppEvents } from "../events";
+import { TeamMessages } from "../messages/team.messages";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 const createTeamInputRef = builder.inputType( "CreateTeamInput", {
 	fields: t => (

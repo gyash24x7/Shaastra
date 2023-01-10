@@ -14,4 +14,4 @@ const application = new ExpressApplication( {
 	]
 } );
 
-await application.start();
+application.start().then();

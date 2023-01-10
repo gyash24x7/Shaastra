@@ -1,8 +1,8 @@
 import { ExpressApplication } from "@shaastra/framework";
-import events from "./events/index.js";
-import { jwksRestApi } from "./rest/jwks.api.js";
-import { userRestApi } from "./rest/user.api.js";
-import { schema } from "./schema/index.js";
+import events from "./events";
+import { jwksRestApi } from "./rest/jwks.api";
+import { userRestApi } from "./rest/user.api";
+import { schema } from "./schema";
 
 const application = new ExpressApplication( {
 	name: "identity",
@@ -13,4 +13,10 @@ const application = new ExpressApplication( {
 
 export const { eventBus, logger, jwtUtils } = application;
 
-await application.start();
+export { schema };
+
+const shouldStartApp = process.env[ "START_APP" ] === "true";
+
+if ( shouldStartApp ) {
+	application.start().then();
+}

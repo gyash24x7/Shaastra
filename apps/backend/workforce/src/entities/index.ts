@@ -1,2 +1,2 @@
-export * from "./member.entity.js";
-export * from "./team.entity.js";
+export * from "./member.entity";
+export * from "./team.entity";

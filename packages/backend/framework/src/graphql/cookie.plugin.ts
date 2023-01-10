@@ -1,7 +1,7 @@
 import type { ApolloServerPlugin, GraphQLRequestContextWillSendResponse } from "@apollo/server";
 import type { CookieOptions } from "express";
-import type { ServiceContext } from "../context/index.js";
-import { logger } from "../logger/index.js";
+import type { ServiceContext } from "../context";
+import { logger } from "../logger";
 
 const accessTokenCookieOptions: CookieOptions = {
 	maxAge: 9000000,

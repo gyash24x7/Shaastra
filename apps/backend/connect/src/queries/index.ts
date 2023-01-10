@@ -1,2 +1,2 @@
-export * from "./channels.query.js";
-export * from "./messages.query.js";
+export * from "./channels.query";
+export * from "./messages.query";

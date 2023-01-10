@@ -1,13 +1,13 @@
-import { memberRef } from "../entities/index.js";
-import { logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import { logger } from "..";
+import { memberRef } from "../entities";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 builder.queryField( "me", t => t.prismaField( {
 	type: memberRef,
 	nullable: true,
 	authScopes: {
-		member: true
+		member: false
 	},
 	async resolve( _query, _parent, _args, context, _info ) {
 		logger.trace( `>> Resolvers::Query::me()` );

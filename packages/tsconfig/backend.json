@@ -3,8 +3,7 @@
 	"display": "Backend",
 	"extends": "./base.json",
 	"compilerOptions": {
-		"module": "NodeNext",
-		"moduleResolution": "Node16",
+		"module": "CommonJS",
 		"types": [ "node" ],
 		"target": "ES2020",
 		"esModuleInterop": true,

@@ -1,7 +1,7 @@
-import { Department } from "@prisma/client/workforce/index.js";
-import { logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import { Department } from "@prisma/client/workforce";
+import { logger } from "..";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 export const teamRef = builder.prismaObject( "Team", {
 	fields: t => (

@@ -1,7 +1,7 @@
-import { messageRef } from "../entities/index.js";
-import { logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import { logger } from "..";
+import { messageRef } from "../entities";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 const createMessageInputRef = builder.inputType( "CreateMessageInput", {
 	fields: t => (

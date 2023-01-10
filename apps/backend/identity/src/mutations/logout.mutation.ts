@@ -1,5 +1,5 @@
-import { logger } from "../index.js";
-import { builder } from "../schema/builder.js";
+import { logger } from "..";
+import { builder } from "../schema/builder";
 
 builder.mutationField( "logout", t => t.boolean( {
 	resolve( _parent, _args, { authInfo, res }, _info ) {

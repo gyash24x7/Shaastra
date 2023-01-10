@@ -6,7 +6,7 @@ import { join } from "node:path";
 import * as process from "node:process";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { mock, mockReset } from "vitest-mock-extended";
-import { JwtUtils } from "../../src/index.js";
+import { JwtUtils } from "../../src";
 
 describe( "JwtUtils", () => {
 

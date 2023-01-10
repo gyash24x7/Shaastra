@@ -1,5 +1,5 @@
-import type { Member, Team } from "@prisma/client/workforce/index.js";
-import { logger } from "../index.js";
+import type { Member, Team } from "@prisma/client/workforce";
+import { logger } from "..";
 
 export default async function teamCreatedEventHandler( data: Team & { members: Member[] } ) {
 	const subject = `Welcome to ${ data.name } Team`;

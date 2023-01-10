@@ -1,6 +1,6 @@
-import { logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import { logger } from "..";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 export const userRef = builder.prismaObject( "User", {
 	fields: t => (

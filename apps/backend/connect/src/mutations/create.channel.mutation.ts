@@ -1,8 +1,8 @@
-import { channelRef } from "../entities/index.js";
-import { logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
-import { channelTypeRef } from "../schema/scalars.js";
+import { logger } from "..";
+import { channelRef } from "../entities";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
+import { channelTypeRef } from "../schema/scalars";
 
 const createChannelInputRef = builder.inputType( "CreateChannelInput", {
 	fields: t => (

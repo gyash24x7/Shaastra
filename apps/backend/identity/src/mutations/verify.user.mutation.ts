@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
-import { userRef } from "../entities/index.js";
-import { logger } from "../index.js";
-import { TokenMessages } from "../messages/token.messages.js";
-import { UserMessages } from "../messages/user.messages.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import { logger } from "..";
+import { userRef } from "../entities";
+import { TokenMessages } from "../messages/token.messages";
+import { UserMessages } from "../messages/user.messages";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 const verifyUserInputRef = builder.inputType( "VerifyUserInput", {
 	fields: t => (

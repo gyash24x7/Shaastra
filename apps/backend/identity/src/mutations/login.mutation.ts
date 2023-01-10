@@ -1,9 +1,9 @@
 import bcrypt from "bcryptjs";
-import { userRef } from "../entities/index.js";
-import { jwtUtils, logger } from "../index.js";
-import { UserMessages } from "../messages/user.messages.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import { jwtUtils, logger } from "..";
+import { userRef } from "../entities";
+import { UserMessages } from "../messages/user.messages";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 const loginInputRef = builder.inputType( "LoginInput", {
 	fields: t => (

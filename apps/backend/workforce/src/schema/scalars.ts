@@ -1,6 +1,6 @@
-import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
+import { Department, MemberPosition } from "@prisma/client/workforce";
 import { DateResolver } from "graphql-scalars";
-import { builder } from "./builder.js";
+import { builder } from "./builder";
 
 builder.addScalarType( "Date", DateResolver, {} );
 

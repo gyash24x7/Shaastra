@@ -2,7 +2,6 @@
 	"name": "shaastra",
 	"version": "0.0.0",
 	"private": true,
-	"type": "module",
 	"workspaces": [
 		"apps/**/*",
 		"packages/*",
@@ -13,6 +12,7 @@
 		"@swc/cli": "0.1.59",
 		"@swc/core": "1.3.24",
 		"@types/node": "16.18.11",
+		"@types/shelljs": "0.8.11",
 		"@vitest/coverage-istanbul": "0.26.3",
 		"chokidar": "3.5.3",
 		"env-cmd": "10.1.0",
@@ -30,7 +30,9 @@
 		"@swc/helpers": "0.4.14",
 		"pino": "8.8.0",
 		"pino-http": "8.3.0",
-		"pino-pretty": "9.1.1"
+		"pino-pretty": "9.1.1",
+		"shelljs": "0.8.5",
+		"tslib": "2.4.1"
 	},
 	"engines": {
 		"node": ">=16.0.0"

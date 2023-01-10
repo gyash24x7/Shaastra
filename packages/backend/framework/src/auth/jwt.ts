@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
 import superagent from "superagent";
-import { logger } from "../logger/index.js";
+import { logger } from "../logger";
 
 export interface JWTPayloadExtension {
 	id: string,

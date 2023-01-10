@@ -2,7 +2,7 @@
 	"name": "@shaastra/framework",
 	"version": "0.0.0",
 	"private": true,
-	"type": "module",
+	"type": "commonjs",
 	"main": "dist/index.js",
 	"types": "src/index.ts",
 	"scripts": {
@@ -27,7 +27,6 @@
 		"change-case": "4.1.2",
 		"cookie-parser": "1.4.6",
 		"cors": "2.8.5",
-		"execa": "6.1.0",
 		"express": "4.18.2",
 		"graphql": "16.6.0",
 		"jose": "4.11.1",

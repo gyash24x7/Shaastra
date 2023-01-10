@@ -2,7 +2,6 @@
 	"name": "@shaastra/identity",
 	"version": "1.0.0",
 	"description": "",
-	"type": "module",
 	"main": "dist/index.js",
 	"types": "src/index.ts",
 	"scripts": {
@@ -14,15 +13,19 @@
 		"start": "node dist",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate --accept-data-loss",
-		"keys:generate": "env-cmd node scripts/keys.generate.js"
+		"keys:generate": "node scripts/keys.generate.js",
+		"schema:publish": "START_APP=false node scripts/schema.publish.js"
 	},
 	"keywords": [ ],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@graphql-codegen/cli": "2.16.3",
+		"@graphql-codegen/schema-ast": "2.6.1",
 		"@shaastra/tsconfig": "workspace:*",
 		"@types/bcryptjs": "2.4.2",
-		"prisma": "4.8.0"
+		"prisma": "4.8.0",
+		"ts-node": "10.9.1"
 	},
 	"dependencies": {
 		"@pothos/core": "3.24.0",
@@ -43,6 +46,8 @@
 	},
 	"nodemonConfig": {
 		"verbose": true,
-		"watch": [ "./dist/*" ]
+		"watch": [
+			"./dist/*"
+		]
 	}
 }

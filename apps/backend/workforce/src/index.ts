@@ -1,9 +1,15 @@
 import { ExpressApplication } from "@shaastra/framework";
-import events from "./events/index.js";
-import { schema } from "./schema/index.js";
+import events from "./events";
+import { schema } from "./schema";
 
 const application = new ExpressApplication( { name: "workforce", graphql: { schema }, events } );
 
 export const { eventBus, logger, appInfo } = application;
 
-await application.start();
+export { schema };
+
+const shouldStartApp = process.env[ "START_APP" ] === "true";
+
+if ( shouldStartApp ) {
+	application.start().then();
+}

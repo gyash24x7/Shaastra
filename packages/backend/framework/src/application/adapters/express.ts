@@ -6,14 +6,14 @@ import type { Express, Request, Response } from "express";
 import express, { NextFunction } from "express";
 import http from "http";
 import process from "node:process";
-import { deserializeUser, JwtUtils } from "../../auth/index.js";
-import type { ExpressContext, ServiceContext } from "../../context/index.js";
-import { EventBus } from "../../events/index.js";
-import { GraphQLServer } from "../../graphql/index.js";
-import { HealthChecker } from "../../health/index.js";
-import { expressLoggingMiddleware, logger as frameworkLogger } from "../../logger/index.js";
-import type { RestApi } from "../../rest/index.js";
-import type { AppInfo, IApplication, IApplicationOptions } from "../index.js";
+import type { AppInfo, IApplication, IApplicationOptions } from "..";
+import { deserializeUser, JwtUtils } from "../../auth";
+import type { ExpressContext, ServiceContext } from "../../context";
+import { EventBus } from "../../events";
+import { GraphQLServer } from "../../graphql";
+import { HealthChecker } from "../../health";
+import { expressLoggingMiddleware, logger as frameworkLogger } from "../../logger";
+import type { RestApi } from "../../rest";
 
 export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
 

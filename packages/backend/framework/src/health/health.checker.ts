@@ -1,7 +1,7 @@
 import { createTerminus } from "@godaddy/terminus";
 import type { Server } from "http";
 import { hrtime, uptime } from "node:process";
-import { logger } from "../logger/index.js";
+import { logger } from "../logger";
 
 export type HealthCheckResponse = {
 	uptime: number;

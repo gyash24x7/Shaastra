@@ -8,8 +8,7 @@
 	"scripts": {
 		"fetch:schema": "rover graph fetch shaastra-prime-api@current >> ./src/schema.graphql",
 		"generate": "graphql-codegen-esm",
-		"swc": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
-		"build": "pnpm run fetch:schema && pnpm run generate && pnpm run swc",
+		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
 		"typecheck": "tsc -p tsconfig.build.json"
 	},
 	"keywords": [ ],

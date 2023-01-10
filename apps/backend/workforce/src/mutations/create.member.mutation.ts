@@ -1,11 +1,11 @@
-import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
+import { Department, MemberPosition } from "@prisma/client/workforce";
 import superagent from "superagent";
-import { memberRef } from "../entities/index.js";
-import { AppEvents } from "../events/index.js";
-import { eventBus, logger } from "../index.js";
-import { MemberMessages } from "../messages/member.messages.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
+import { eventBus, logger } from "..";
+import { memberRef } from "../entities";
+import { AppEvents } from "../events";
+import { MemberMessages } from "../messages/member.messages";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
 
 const createMemberInputRef = builder.inputType( "CreateMemberInput", {
 	fields: t => (

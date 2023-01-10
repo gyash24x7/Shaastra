@@ -1,7 +1,7 @@
-import { logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
-import { builder } from "../schema/builder.js";
-import { channelTypeRef, dateRef } from "../schema/scalars.js";
+import { logger } from "..";
+import { prisma } from "../prisma";
+import { builder } from "../schema/builder";
+import { channelTypeRef, dateRef } from "../schema/scalars";
 
 export const channelRef = builder.prismaObject( "Channel", {
 	fields: t => (

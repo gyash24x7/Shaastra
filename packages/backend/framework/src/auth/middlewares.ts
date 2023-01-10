@@ -1,5 +1,5 @@
-import type { ExpressMiddleware } from "../application/index.js";
-import type { JwtUtils } from "./jwt.js";
+import type { ExpressMiddleware } from "../application";
+import type { JwtUtils } from "./jwt";
 
 export function deserializeUser( jwtUtils: JwtUtils ): ExpressMiddleware {
 	return async ( req, res, next ) => {

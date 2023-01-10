@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client/workforce/index.js";
-import { logger } from "../index.js";
+import { PrismaClient } from "@prisma/client/workforce";
+import { logger } from "..";
 
 export const prisma = new PrismaClient( {
 	log: [ "query", "info", "warn", "error" ]

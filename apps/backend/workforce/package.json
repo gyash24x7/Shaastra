@@ -2,7 +2,6 @@
 	"name": "@shaastra/workforce",
 	"version": "1.0.0",
 	"description": "",
-	"type": "module",
 	"main": "dist/index.js",
 	"types": "src/index.ts",
 	"scripts": {
@@ -13,7 +12,8 @@
 		"dev": "run-p build:dev start:dev",
 		"start": "node dist",
 		"db:generate": "prisma generate",
-		"db:push": "prisma db push --skip-generate --accept-data-loss"
+		"db:push": "prisma db push --skip-generate --accept-data-loss",
+		"schema:publish": "START_APP=false node scripts/schema.publish.js"
 	},
 	"keywords": [ ],
 	"author": "",

@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client/identity/index.js";
-import { logger } from "../index.js";
+import { PrismaClient } from "@prisma/client/identity";
+import { logger } from "..";
 
 export const prisma = new PrismaClient( {
 	log: [ "query", "info", "warn", "error" ]

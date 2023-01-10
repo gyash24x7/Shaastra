@@ -1,4 +1,4 @@
-import type { ServiceContext } from "../context/index.js";
+import type { ServiceContext } from "../context";
 
 export interface RestApiOptions {
 	path: string;

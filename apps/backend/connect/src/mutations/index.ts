@@ -1,2 +1,2 @@
-export * from "./create.channel.mutation.js";
-export * from "./create.message.mutation.js";
+export * from "./create.channel.mutation";
+export * from "./create.message.mutation";

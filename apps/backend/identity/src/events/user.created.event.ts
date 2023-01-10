@@ -1,10 +1,10 @@
-import type { User } from "@prisma/client/identity/index.js";
+import type { User } from "@prisma/client/identity";
 import type { ServiceContext } from "@shaastra/framework";
 import crypto from "crypto";
 import dayjs from "dayjs";
-import { logger } from "../index.js";
-import { prisma } from "../prisma/index.js";
-import { AppEvents } from "./index.js";
+import { AppEvents } from ".";
+import { logger } from "..";
+import { prisma } from "../prisma";
 
 export default async function userCreatedEventHandler( data: User, _context: ServiceContext ) {
 	logger.debug( `Handling ${ AppEvents.USER_CREATED_EVENT }...` );

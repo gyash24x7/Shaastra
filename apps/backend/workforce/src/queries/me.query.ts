@@ -7,10 +7,12 @@ builder.queryField( "me", t => t.prismaField( {
 	type: memberRef,
 	nullable: true,
 	authScopes: {
-		member: false
+		member: true
 	},
 	async resolve( _query, _parent, _args, context, _info ) {
 		logger.trace( `>> Resolvers::Query::me()` );
-		return prisma.member.findUnique( { where: { id: context.authInfo?.id } } );
+		const member = await prisma.member.findUnique( { where: { id: context.authInfo?.id } } );
+		logger.debug( "Member found: %o", member );
+		return member;
 	}
 } ) );

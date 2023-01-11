@@ -44,7 +44,7 @@ export class GraphQLServer {
 
 		if ( !!this.options.gateway ) {
 			const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );
-			const gateway = new ApolloGateway( { buildService, logger, serviceHealthCheck: true } );
+			const gateway = new ApolloGateway( { buildService, logger } );
 			this._apolloServer = new ApolloServer( { gateway, logger, plugins } );
 		} else {
 			this._apolloServer = new ApolloServer( { schema: this.options.schema!, plugins, logger } );

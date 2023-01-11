@@ -25,7 +25,7 @@ builder.mutationField( "createMember", t => t.prismaField( {
 	args: {
 		data: t.arg( { type: createMemberInputRef, required: true } )
 	},
-	async resolve( _query, _parent, { data }, context, _info ) {
+	async resolve( _query, _parent, { data: { password, ...data } }, context, _info ) {
 		logger.trace( `>> Resolvers::Mutation::createMember()` );
 		logger.debug( "Data: %o", data );
 
@@ -33,7 +33,7 @@ builder.mutationField( "createMember", t => t.prismaField( {
 		const input = {
 			name: data.name,
 			email: data.email,
-			password: data.password,
+			password,
 			username: data.rollNumber.toLowerCase(),
 			roles: [ `MEMBER_${ data.department }`, `POSITION_${ MemberPosition.COORD }` ]
 		};
@@ -43,7 +43,7 @@ builder.mutationField( "createMember", t => t.prismaField( {
 		logger.debug( "Response Body: %o", response.body );
 
 		const existingMember = await prisma.member.findUnique( {
-			where: { id: response.body }
+			where: { id: response.body.id }
 		} );
 
 		if ( existingMember ) {
@@ -54,7 +54,7 @@ builder.mutationField( "createMember", t => t.prismaField( {
 		const member = await prisma.member.create( {
 			data: {
 				...data,
-				id: response.body,
+				id: response.body.id,
 				position: MemberPosition.COORD
 			}
 		} );

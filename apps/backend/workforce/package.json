@@ -13,12 +13,13 @@
 		"start": "node dist",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate --accept-data-loss",
-		"schema:publish": "START_APP=false node scripts/schema.publish.js"
+		"schema:publish": "START_APP=false node node_modules/@shaastra/scripts/schema.publish.js"
 	},
 	"keywords": [ ],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@shaastra/scripts": "workspace:*",
 		"@shaastra/tsconfig": "workspace:*",
 		"@types/superagent": "4.1.16",
 		"prisma": "4.8.0"

@@ -1,0 +1,16 @@
+{
+	"name": "@shaastra/scripts",
+	"version": "1.0.0",
+	"description": "",
+	"files": [
+		"schema.publish.js",
+		"keys.generate.ts"
+	],
+	"keywords": [ ],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"graphql": "16.6.0",
+		"jose": "4.11.1"
+	}
+}

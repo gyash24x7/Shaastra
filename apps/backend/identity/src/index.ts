@@ -11,7 +11,7 @@ const application = new ExpressApplication( {
 	events
 } );
 
-export const { eventBus, logger, jwtUtils } = application;
+export const { eventBus, logger, jwtUtils, appInfo } = application;
 
 export { schema };
 

@@ -7,6 +7,13 @@
 		"packages/*",
 		"packages/**/*"
 	],
+	"scripts": {
+		"dev": "env-cmd turbo run dev",
+		"build": "env-cmd turbo run build",
+		"start": "env-cmd turbo run start",
+		"typecheck": "env-cmd turbo run typecheck --parallel",
+		"test": "env-cmd turbo run test --parallel"
+	},
 	"devDependencies": {
 		"@apollo/rover": "0.10.0",
 		"@swc/cli": "0.1.59",

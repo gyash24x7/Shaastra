@@ -1,55 +1,53 @@
 import { ApolloGateway, ServiceEndpointDefinition } from "@apollo/gateway";
 import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
 import {
 	ApolloServerPluginLandingPageDisabled,
 	ApolloServerPluginUsageReportingDisabled
 } from "@apollo/server/plugin/disabled";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import type { GraphQLSchema } from "graphql";
-import type { Server } from "http";
-import type { ServiceContext } from "../context";
-import { logger } from "../logger";
-import { CookiePlugin } from "./cookie.plugin";
-import { LandingPagePlugin } from "./landing.page.plugin";
-import { ServiceDataSource } from "./service.datasource";
+import { buildSubgraphSchema } from "@apollo/subgraph";
+import { gql } from "graphql-tag";
+import { readFileSync } from "node:fs";
+import type http from "node:http";
+import { join } from "node:path";
+import type { Logger } from "pino";
+import type { ServiceContext, ServiceContextFn } from "../context/index.js";
+import { LandingPagePlugin } from "./landing.page.plugin.js";
+import { ServiceDataSource } from "./service.datasource.js";
 
-export type GraphQLServerOptions = {
-	gateway?: boolean;
-	httpServer: Server;
-	schema?: GraphQLSchema;
-}
+export class GraphQLServer<P> {
+	private apolloServer: ApolloServer<ServiceContext<P>>;
 
-export class GraphQLServer {
-	private readonly apolloServicePlugins = [
-		ApolloServerPluginDrainHttpServer( { httpServer: this.options.httpServer } ),
-		ApolloServerPluginLandingPageDisabled(),
-		ApolloServerPluginUsageReportingDisabled()
-	];
-	private readonly apolloGatewayPlugins = [
-		ApolloServerPluginDrainHttpServer( { httpServer: this.options.httpServer } ),
-		LandingPagePlugin(),
-		CookiePlugin()
-	];
+	async start( isGateway: boolean, resolvers: any, httpServer: http.Server, logger: Logger ) {
+		const plugins = this.getPlugins( httpServer, isGateway );
 
-	constructor( private readonly options: GraphQLServerOptions ) {}
-
-	private _apolloServer: ApolloServer<ServiceContext>;
-
-	get apolloServer() {
-		return this._apolloServer;
-	}
-
-	async start() {
-		const plugins = !!this.options.gateway ? this.apolloGatewayPlugins : this.apolloServicePlugins;
-
-		if ( !!this.options.gateway ) {
+		if ( isGateway ) {
 			const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );
 			const gateway = new ApolloGateway( { buildService, logger } );
-			this._apolloServer = new ApolloServer( { gateway, logger, plugins } );
+			this.apolloServer = new ApolloServer<ServiceContext<P>>( { gateway, logger, plugins } );
 		} else {
-			this._apolloServer = new ApolloServer( { schema: this.options.schema!, plugins, logger } );
+			const typeDefsString = readFileSync( join( process.cwd(), "src/graphql/schema.graphql" ), "utf-8" );
+			const typeDefs = gql( typeDefsString );
+			const schema = buildSubgraphSchema( { typeDefs, resolvers } );
+			this.apolloServer = new ApolloServer<ServiceContext<P>>( { schema, plugins, logger } );
 		}
 
-		await this._apolloServer.start();
+		await this.apolloServer.start();
+	}
+
+	middleware( context: ServiceContextFn<P> ) {
+		return expressMiddleware( this.apolloServer, { context } );
+	}
+
+	private getPlugins( httpServer: http.Server, isGateway: boolean = false ) {
+		return isGateway ? [
+			ApolloServerPluginDrainHttpServer( { httpServer } ),
+			LandingPagePlugin()
+		] : [
+			ApolloServerPluginDrainHttpServer( { httpServer } ),
+			ApolloServerPluginLandingPageDisabled(),
+			ApolloServerPluginUsageReportingDisabled()
+		];
 	}
 }

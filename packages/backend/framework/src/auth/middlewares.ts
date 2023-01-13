@@ -1,5 +1,5 @@
-import type { ExpressMiddleware } from "../application";
-import type { JwtUtils } from "./jwt";
+import type { ExpressMiddleware } from "../application/index.js";
+import type { JwtUtils } from "./jwt.js";
 
 export function deserializeUser( jwtUtils: JwtUtils ): ExpressMiddleware {
 	return async ( req, res, next ) => {
@@ -10,3 +10,5 @@ export function deserializeUser( jwtUtils: JwtUtils ): ExpressMiddleware {
 		next();
 	};
 }
+
+export function requireAuth() {}

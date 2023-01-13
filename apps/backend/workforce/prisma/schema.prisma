@@ -3,12 +3,6 @@ generator client {
 	output   = "../node_modules/@prisma/client/workforce"
 }
 
-generator pothos {
-	provider     = "prisma-pothos-types"
-	clientOutput = "@prisma/client/workforce/index.js"
-	output       = "../src/schema/pothos.ts"
-}
-
 datasource db {
 	provider = "postgresql"
 	url      = env("WORKFORCE_DB_URL")

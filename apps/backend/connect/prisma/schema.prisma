@@ -3,12 +3,6 @@ generator client {
 	output   = "../node_modules/@prisma/client/connect"
 }
 
-generator pothos {
-	provider     = "prisma-pothos-types"
-	clientOutput = "@prisma/client/connect/index.js"
-	output       = "../src/schema/pothos.ts"
-}
-
 datasource db {
 	provider = "postgresql"
 	url      = env("CONNECT_DB_URL")

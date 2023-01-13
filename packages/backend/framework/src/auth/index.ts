@@ -1,2 +1,2 @@
-export * from "./jwt";
-export * from "./middlewares";
+export * from "./jwt.js";
+export * from "./middlewares.js";

@@ -1,10 +1,12 @@
-import type { Member } from "@prisma/client/workforce";
-import { logger } from "..";
+import type { Member, PrismaClient } from "@prisma/client/workforce/index.js";
+import type { IEventHandler } from "@shaastra/framework";
 
-export default async function memberEnabledEventHandler( data: Member ) {
+const memberEnabledEventHandler: IEventHandler<PrismaClient> = async function ( data: Member, context ) {
 	const subject = `Your Shaastra Prime Account is Enabled`;
 	const content = `Hi ${ data.name }, You can now use Shaastra Prime.`;
-	logger.debug( `Need to send mail here!` );
-	logger.debug( `Subject: ${ subject }` );
-	logger.debug( `Content: ${ content }` );
+	context.logger.debug( `Need to send mail here!` );
+	context.logger.debug( `Subject: ${ subject }` );
+	context.logger.debug( `Content: ${ content }` );
 };
+
+export default memberEnabledEventHandler;

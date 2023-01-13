@@ -1,8 +1,7 @@
 import type { Request, Response } from "express";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mock, mockReset } from "vitest-mock-extended";
-import type { JwtUtils } from "../../src";
-import { deserializeUser } from "../../src";
+import { type JwtUtils, deserializeUser } from "../../src/index.js";
 
 describe( "Deserialize User Middleware", function () {
 

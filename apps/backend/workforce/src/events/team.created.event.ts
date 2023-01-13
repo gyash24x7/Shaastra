@@ -1,13 +1,18 @@
-import type { Member, Team } from "@prisma/client/workforce";
-import { logger } from "..";
+import type { Member, Team, PrismaClient } from "@prisma/client/workforce/index.js";
+import type { IEventHandler } from "@shaastra/framework";
 
-export default async function teamCreatedEventHandler( data: Team & { members: Member[] } ) {
+const teamCreatedEventHandler: IEventHandler<PrismaClient> = async function (
+	data: Team & { members: Member[] },
+	context
+) {
 	const subject = `Welcome to ${ data.name } Team`;
 	const content = `You have been added to a new team under ${ data.department }`;
 
 	await Promise.all( data.members.map( () => {
-		logger.debug( `Need to send mail here!` );
-		logger.debug( `Subject: ${ subject }` );
-		logger.debug( `Content: ${ content }` );
+		context.logger.debug( `Need to send mail here!` );
+		context.logger.debug( `Subject: ${ subject }` );
+		context.logger.debug( `Content: ${ content }` );
 	} ) );
 };
+
+export default teamCreatedEventHandler;

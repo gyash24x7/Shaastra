@@ -1,7 +1,7 @@
 import { createTerminus } from "@godaddy/terminus";
 import type { Server } from "http";
 import { hrtime, uptime } from "node:process";
-import { logger } from "../logger";
+import type { Logger } from "pino";
 
 export type HealthCheckResponse = {
 	uptime: number;
@@ -11,8 +11,10 @@ export type HealthCheckResponse = {
 }
 
 export class HealthChecker {
+	private readonly logger: Logger;
 
-	constructor( httpServer: Server ) {
+	constructor( httpServer: Server, logger: Logger ) {
+		this.logger = logger;
 		createTerminus( httpServer, {
 			healthChecks: {
 				"/api/health": this.healthApiHandler
@@ -23,11 +25,11 @@ export class HealthChecker {
 	}
 
 	async onSignal() {
-		logger.warn( "Server is starting cleanup..." );
+		this.logger.warn( "Server is starting cleanup..." );
 	}
 
 	async healthApiHandler() {
-		logger.trace( ">> HealthChecker::checkApiHealth()" );
+		this.logger.trace( ">> HealthChecker::checkApiHealth()" );
 		const healthCheck: HealthCheckResponse = {
 			uptime: uptime(),
 			responseTime: hrtime(),
@@ -35,8 +37,8 @@ export class HealthChecker {
 			timestamp: Date.now()
 		};
 
-		logger.debug( "HealthCheckResponse: %o", healthCheck );
-		logger.trace( "<< HealthChecker::checkApiHealth()" );
+		this.logger.debug( "HealthCheckResponse: %o", healthCheck );
+		this.logger.trace( "<< HealthChecker::checkApiHealth()" );
 		return healthCheck;
 	};
 }

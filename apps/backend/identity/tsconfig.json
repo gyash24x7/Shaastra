@@ -1,8 +1,0 @@
-{
-	"extends": "@shaastra/tsconfig/backend.json",
-	"compilerOptions": {
-		"rootDir": "."
-	},
-	"include": [ "test/**/*.test.ts", "src", "vitest.config.ts", "scripts" ],
-	"exclude": [ "node_modules", "dist", ".turbo", "coverage" ]
-}

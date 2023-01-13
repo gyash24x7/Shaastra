@@ -1,15 +1,21 @@
+import { PrismaClient } from "@prisma/client/workforce/index.js";
 import { ExpressApplication } from "@shaastra/framework";
-import events from "./events";
-import { schema } from "./schema";
+import events from "./events/index.js";
+import { teamResolvers, memberResolvers } from "./graphql/entity.resolvers.js";
+import type { Resolvers } from "./graphql/generated/index.js";
+import { mutationResolvers } from "./mutations/index.js";
+import { queryResolvers } from "./queries/index.js";
 
-const application = new ExpressApplication( { name: "workforce", graphql: { schema }, events } );
+export const prisma = new PrismaClient( {
+	log: [ "query", "info", "warn", "error" ]
+} );
 
-export const { eventBus, logger, appInfo } = application;
+const resolvers: Resolvers = {
+	Query: queryResolvers,
+	Mutation: mutationResolvers,
+	Member: memberResolvers,
+	Team: teamResolvers
+};
 
-export { schema };
-
-const shouldStartApp = process.env[ "START_APP" ] === "true";
-
-if ( shouldStartApp ) {
-	application.start().then();
-}
+const application = new ExpressApplication( { name: "workforce", events, prisma, resolvers } );
+await application.start();

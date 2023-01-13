@@ -2,6 +2,7 @@
 	"name": "@shaastra/scripts",
 	"version": "1.0.0",
 	"description": "",
+	"type": "module",
 	"files": [
 		"schema.publish.js",
 		"keys.generate.ts"
@@ -10,7 +11,9 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@types/shelljs": "0.8.11",
 		"graphql": "16.6.0",
-		"jose": "4.11.1"
+		"jose": "4.11.1",
+		"shelljs": "0.8.5"
 	}
 }

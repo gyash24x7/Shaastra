@@ -1,4 +1,4 @@
-import { expressMiddleware } from "@apollo/server/express4";
+import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
 import bodyParser from "body-parser";
 import { capitalCase, constantCase } from "change-case";
 import cookieParser from "cookie-parser";
@@ -6,14 +6,15 @@ import type { Express, Request, Response } from "express";
 import express, { NextFunction } from "express";
 import http from "http";
 import process from "node:process";
-import type { AppInfo, IApplication, IApplicationOptions } from "..";
-import { deserializeUser, JwtUtils } from "../../auth";
-import type { ExpressContext, ServiceContext } from "../../context";
-import { EventBus } from "../../events";
-import { GraphQLServer } from "../../graphql";
-import { HealthChecker } from "../../health";
-import { expressLoggingMiddleware, logger as frameworkLogger } from "../../logger";
-import type { RestApi } from "../../rest";
+import { deserializeUser, JwtUtils } from "../../auth/index.js";
+import type { ServiceContext } from "../../context/index.js";
+import { EventBus } from "../../events/index.js";
+import { GraphQLServer } from "../../graphql/index.js";
+import { HealthChecker } from "../../health/index.js";
+import { expressLoggingMiddleware, createLogger } from "../../logger/index.js";
+import type { BasePrisma } from "../../prisma/index.js";
+import type { RestApi } from "../../rest/index.js";
+import type { AppInfo, IApplication, IApplicationOptions } from "../index.js";
 
 export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
 
@@ -24,21 +25,37 @@ export type ExpressErrorHandler = (
 	next: NextFunction
 ) => unknown | Promise<unknown>
 
-export class ExpressApplication implements IApplication<Express> {
+export class ExpressApplication<P extends BasePrisma> implements IApplication<P, Express> {
 	readonly _app: Express;
-	readonly logger = frameworkLogger;
-	readonly graphQLServer: GraphQLServer;
+	readonly logger = createLogger();
+	readonly graphQLServer: GraphQLServer<P>;
 	readonly appInfo: AppInfo;
-	readonly restApis: RestApi[] = [];
+	readonly restApis: RestApi<P>[] = [];
 	readonly httpServer: http.Server;
-	readonly eventBus: EventBus;
+	readonly eventBus: EventBus<P>;
 	readonly middlewares: ExpressMiddleware[];
 	readonly errorHandlers: ExpressErrorHandler[];
 	readonly jwtUtils: JwtUtils;
 	readonly healthCheck: HealthChecker;
+	readonly prisma: P;
 
-	constructor( options: IApplicationOptions ) {
-		const { name, restApis = [], graphql: { schema, gateway }, events } = options;
+	private readonly isGateway: boolean = false;
+	private readonly resolvers: any;
+
+	constructor( options: IApplicationOptions<P> ) {
+		const { name, restApis = [], isGateway, resolvers, events, prisma } = options;
+
+		this.isGateway = !!isGateway;
+		this.prisma = prisma;
+		this.resolvers = resolvers;
+
+		this.prisma.$use( async ( params, next ) => {
+			const before = Date.now();
+			const result = await next( params );
+			const after = Date.now();
+			this.logger.debug( `Query ${ params.model }.${ params.action } took ${ after - before }ms` );
+			return result;
+		} );
 
 		this.appInfo = this.generateAppInfo( name );
 		this.restApis.push( ...restApis );
@@ -47,14 +64,14 @@ export class ExpressApplication implements IApplication<Express> {
 		this.jwtUtils = new JwtUtils( {
 			audience: process.env[ "AUTH_AUDIENCE" ]!,
 			domain: process.env[ "AUTH_DOMAIN" ]!
-		} );
+		}, this.logger );
 
 		this._app = express();
 		this.httpServer = http.createServer( this._app );
 
-		this.graphQLServer = new GraphQLServer( { httpServer: this.httpServer, gateway, schema } );
-		this.eventBus = new EventBus( events || {} );
-		this.healthCheck = new HealthChecker( this.httpServer );
+		this.graphQLServer = new GraphQLServer();
+		this.eventBus = new EventBus( events || {}, this.logger );
+		this.healthCheck = new HealthChecker( this.httpServer, this.logger );
 	}
 
 	generateAppInfo( id: string ): AppInfo {
@@ -66,28 +83,27 @@ export class ExpressApplication implements IApplication<Express> {
 		return { id, name, pkg, port, address, url };
 	}
 
-	async applyMiddlewares() {
+	applyMiddlewares() {
 		this._app.use( bodyParser.json() );
 		this._app.use( cookieParser() );
-		this._app.use( expressLoggingMiddleware() );
+		this._app.use( expressLoggingMiddleware( this.logger ) );
 		this._app.use( deserializeUser( this.jwtUtils ) );
 
 		this.middlewares.forEach( middleware => {
 			this._app.use( middleware );
 		} );
 
-		this._app.use(
-			"/api/graphql",
-			expressMiddleware( this.graphQLServer.apolloServer, { context: this.createContext } )
-		);
+		this._app.use( "/api/graphql", this.graphQLServer.middleware( this.createContext ) );
+	}
 
+	applyErrorHandlers() {
 		this.errorHandlers.forEach( errorHandler => {
 			this._app.use( errorHandler );
 		} );
 	}
 
 	registerRestApis() {
-		const handler = ( api: RestApi ) => async ( req: Request, res: Response ) => {
+		const handler = ( api: RestApi<P> ) => async ( req: Request, res: Response ) => {
 			const context = await this.createContext( { req, res } );
 			api.handler( context );
 		};
@@ -114,18 +130,26 @@ export class ExpressApplication implements IApplication<Express> {
 	}
 
 	async start(): Promise<void> {
-		await this.graphQLServer.start();
+		await this.graphQLServer.start( this.isGateway, this.resolvers, this.httpServer, this.logger );
 
-		await this.applyMiddlewares();
+		this.applyMiddlewares();
 		this.registerRestApis();
+		this.applyErrorHandlers();
 
 		await new Promise<void>( ( resolve ) => this.httpServer.listen( { port: this.appInfo.port }, resolve ) );
 		this.logger.info( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
 	}
 
-	async createContext( { req, res }: ExpressContext ): Promise<ServiceContext> {
-		const idCookie = req.cookies[ "identity" ];
+	async createContext( { req, res }: ExpressContextFunctionArgument ): Promise<ServiceContext<P>> {
 		const authInfo = res.locals[ "authInfo" ];
-		return { req, res, idCookie, authInfo };
+		return {
+			eventBus: this.eventBus,
+			jwtUtils: this.jwtUtils,
+			logger: this.logger,
+			req,
+			res,
+			authInfo,
+			prisma: this.prisma
+		};
 	};
 }

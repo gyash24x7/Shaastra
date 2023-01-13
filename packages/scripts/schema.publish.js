@@ -1,14 +1,14 @@
-const { lexicographicSortSchema, printSchema } = require( "graphql" );
-const shell = require( "shelljs" );
-const { join } = require( "path" );
-const { schema, appInfo } = require( join( process.cwd(), "dist" ) );
+import shell from "shelljs";
+import { join } from "node:path";
 
-const schemaString = printSchema( lexicographicSortSchema( schema ) );
+const schemaPath = join( process.cwd(), "src/graphql/schema.graphql" );
 
+const host = process.env[ "APP_HOST" ];
 const graphRef = process.env[ "APOLLO_GRAPH_REF" ];
-const subgraph = appInfo.id;
-const routingUrl = `${ appInfo.url }/api/graphql`;
+const subgraph = process.argv[ 2 ];
+const port = process.env[ `${ subgraph.toUpperCase() }_PORT` ] || "8000";
+const routingUrl = `http://${ host }:${ port }/api/graphql`;
 
-shell.echo( schemaString ).exec(
-	`rover subgraph publish --name ${ subgraph } --routing-url ${ routingUrl } --schema - ${ graphRef }`
+shell.exec(
+	`rover subgraph publish --name ${ subgraph } --routing-url ${ routingUrl } --schema ${ schemaPath } ${ graphRef }`
 );

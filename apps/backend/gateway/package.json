@@ -2,6 +2,7 @@
 	"name": "@shaastra/gateway",
 	"version": "1.0.0",
 	"description": "",
+	"type": "module",
 	"main": "dist/index.js",
 	"scripts": {
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --delete-dir-on-start src",
@@ -9,19 +10,33 @@
 		"start:dev": "wait-on dist/index.js && nodemon",
 		"typecheck": "tsc -p tsconfig.build.json",
 		"dev": "run-p build:dev start:dev",
-		"start": "node dist"
+		"start": "node dist",
+		"db:generate": "prisma generate",
+		"db:push": "prisma db push --skip-generate --accept-data-loss",
+		"keys:generate": "node node_modules/@shaastra/scripts/keys.generate.js"
 	},
 	"keywords": [ ],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@shaastra/scripts": "workspace:*",
 		"@shaastra/tsconfig": "workspace:*",
-		"@types/cors": "2.8.13"
+		"@types/bcryptjs": "2.4.2",
+		"@types/cors": "2.8.13",
+		"@types/express": "4.17.15",
+		"prisma": "4.8.1"
 	},
 	"dependencies": {
+		"@prisma/client": "4.8.1",
 		"@shaastra/framework": "workspace:*",
+		"bcryptjs": "2.4.3",
 		"cors": "2.8.5",
-		"graphql": "16.6.0"
+		"dayjs": "1.11.7",
+		"graphql": "16.6.0",
+		"jose": "4.11.1"
+	},
+	"prisma": {
+		"schema": "./prisma/schema.prisma"
 	},
 	"nodemonConfig": {
 		"verbose": true,

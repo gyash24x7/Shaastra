@@ -3,8 +3,8 @@ import { importJWK, importPKCS8, importSPKI, JWK, JWTPayload, jwtVerify, SignJWT
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
+import type { Logger } from "pino";
 import superagent from "superagent";
-import { logger } from "../logger";
 
 export interface JWTPayloadExtension {
 	id: string,
@@ -32,10 +32,10 @@ export class JwtUtils {
 	private static readonly PRIVATE_KEY_PATH = "src/assets/keys/.private.key";
 	private static readonly PUBLIC_KEY_PATH = "src/assets/keys/.public.key.pem";
 
-	constructor( private readonly config: JwtUtilsConfig ) {}
+	constructor( private readonly config: JwtUtilsConfig, private readonly logger: Logger ) {}
 
 	async getJwks() {
-		const response = await superagent.get( `http://${ this.config.domain }/api/keys` );
+		const response = await superagent.get( `http://${ this.config.domain }/api/auth/keys` );
 		const { keys } = response.body as { keys: JWK[] };
 		return keys[ 0 ];
 	}
@@ -83,7 +83,7 @@ export class JwtUtils {
 
 			authPayload = { ...payload as AuthPayload };
 		} catch ( e ) {
-			logger.error( "Error Verifying Token!" );
+			this.logger.error( "Error Verifying Token!" );
 			return;
 		}
 

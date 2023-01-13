@@ -1,34 +1,21 @@
-import type { Department } from "@prisma/client/workforce";
-import { eventBus, logger } from "..";
-import { teamRef } from "../entities";
-import { AppEvents } from "../events";
-import { TeamMessages } from "../messages/team.messages";
-import { prisma } from "../prisma";
-import { builder } from "../schema/builder";
+import type { Department } from "@prisma/client/workforce/index.js";
+import { TeamMessages } from "../constants/messages.js";
+import { AppEvents } from "../events/index.js";
+import type { MutationResolvers } from "../graphql/generated/index.js";
 
-const createTeamInputRef = builder.inputType( "CreateTeamInput", {
-	fields: t => (
-		{
-			name: t.string( { required: true } )
-		}
-	)
-} );
+export const createTeamMutationResolver: MutationResolvers["createTeam"] =
+	async function ( _parent, { data }, context, _info ) {
+		context.logger.trace( `>> Resolvers::Mutation::createTeam()` );
+		context.logger.debug( "Data: %o", data );
 
-builder.mutationField( "createTeam", t => t.prismaField( {
-	type: teamRef,
-	args: { data: t.arg( { type: createTeamInputRef, required: true } ) },
-	async resolve( _query, _parent, { data }, context, _info ) {
-		logger.trace( `>> Resolvers::Mutation::createTeam()` );
-		logger.debug( "Data: %o", data );
-
-		const existingTeam = await prisma.team.findUnique( { where: { name: data.name } } );
+		const existingTeam = await context.prisma.team.findUnique( { where: { name: data.name } } );
 
 		if ( existingTeam ) {
-			logger.debug( `Team already exists with Name ${ data.name }` );
+			context.logger.debug( `Team already exists with Name ${ data.name }` );
 			throw new Error( TeamMessages.ALREADY_EXISTS );
 		}
 
-		const team = await prisma.team.create( {
+		const team = await context.prisma.team.create( {
 			data: {
 				...data,
 				department: context.authInfo?.department! as Department,
@@ -40,8 +27,7 @@ builder.mutationField( "createTeam", t => t.prismaField( {
 			}
 		} );
 
-		logger.debug( `Team Created Successfully! ${ team.id }` );
-		eventBus.execute( AppEvents.TEAM_CREATED_EVENT, team, context );
+		context.logger.debug( `Team Created Successfully! ${ team.id }` );
+		context.eventBus.execute( AppEvents.TEAM_CREATED_EVENT, team, context );
 		return team;
-	}
-} ) );
+	};

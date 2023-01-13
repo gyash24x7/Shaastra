@@ -2,15 +2,15 @@
 	"$schema": "https://turbo.build/schema.json",
 	"pipeline": {
 		"dev": {
-			"dependsOn": [ "db:generate", "schema:publish" ],
+			"dependsOn": [ "db:generate", "gql:generate" ],
 			"cache": false
 		},
 		"build": {
-			"dependsOn": [ "^build", "db:generate" ],
+			"dependsOn": [ "^build", "db:generate", "gql:generate" ],
 			"outputs": [ "dist/**" ]
 		},
 		"typecheck": {
-			"dependsOn": [ "^typecheck" ],
+			"dependsOn": [ "^typecheck", "gql:generate", "db:generate" ],
 			"outputs": [ ]
 		},
 		"start": {
@@ -29,8 +29,12 @@
 			"inputs": [ "prisma/schema.prisma" ],
 			"outputs": [ ]
 		},
+		"gql:generate": {
+			"inputs": [ "src/graphql/schema.graphql" ],
+			"outputs": [ "src/graphql/generated/**" ]
+		},
 		"schema:publish": {
-			"dependsOn": [ "build" ],
+			"dependsOn": [ "src/graphql/schema.graphql" ],
 			"outputs": [ ]
 		}
 	}

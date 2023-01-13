@@ -1,0 +1,75 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable", "@extends"])
+
+type Team @key(fields: "id") {
+    id: ID!
+    createdById: String!
+    department: Department!
+    name: String!
+    members: [Member!]!
+}
+
+enum Department {
+    WEBOPS
+    SPONSORSHIP_AND_PR
+    SHOWS_AND_EXHIBITIONS
+    EVENTS_AND_WORKSHOPS
+    OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+    EVOLVE
+    ENVISAGE
+    FINANCE
+    CONCEPT_AND_DESIGN
+    PUBLICITY
+    QMS
+}
+
+type Member @key(fields: "id") {
+    id: ID!
+    about: String!
+    coverPic: String!
+    department: Department!
+    email: String!
+    enabled: Boolean!
+    mobile: String!
+    name: String!
+    position: MemberPosition!
+    profilePic: String!
+    rollNumber: String!
+    upi: String!
+    teams: [Team!]!
+}
+
+enum MemberPosition {
+    COORD
+    HEAD
+    CORE
+    COCAS
+}
+
+type Query {
+    me: Member!
+}
+
+type Mutation {
+    createMember(data: CreateMemberInput!): Member!
+    enableMember(data: EnableMemberInput!): Member!
+    createTeam(data: CreateTeamInput!): Team!
+}
+
+input CreateMemberInput {
+    name: String!
+    email: String!
+    password: String!
+    rollNumber: String!
+    department: Department!
+    position: MemberPosition!
+    mobile: String!
+}
+
+input EnableMemberInput {
+    id: String!
+}
+
+input CreateTeamInput {
+    name: String!
+    department: Department!
+}

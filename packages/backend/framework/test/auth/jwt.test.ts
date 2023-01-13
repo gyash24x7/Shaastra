@@ -6,7 +6,10 @@ import { join } from "node:path";
 import * as process from "node:process";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { mock, mockReset } from "vitest-mock-extended";
-import { JwtUtils } from "../../src";
+import { JwtUtils } from "../../src/index.js";
+import { createLogger } from "../../src/logger/index.js";
+
+const logger = createLogger();
 
 describe( "JwtUtils", () => {
 
@@ -25,7 +28,7 @@ describe( "JwtUtils", () => {
 		domain: "localhost:8000",
 		publicKeyPath,
 		privateKeyPath
-	} );
+	}, logger );
 
 	beforeAll( async () => {
 		const keyPair = await generateKeyPair( "RS256" );
@@ -36,7 +39,7 @@ describe( "JwtUtils", () => {
 
 		jwk = await exportJWK( publicKey );
 
-		nock( "http://localhost:8000" ).get( "/api/keys" ).times( 5 ).reply( 200, { keys: [ jwk ] } );
+		nock( "http://localhost:8000" ).get( "/api/auth/keys" ).times( 5 ).reply( 200, { keys: [ jwk ] } );
 	} );
 
 	it( "should call jwks endpoint to get the JWKs", async () => {

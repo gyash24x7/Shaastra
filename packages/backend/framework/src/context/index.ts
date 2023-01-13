@@ -1,22 +1,18 @@
 import type { BaseContext, ContextFunction } from "@apollo/server";
 import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
-import type { Request, Response } from "express";
-import type { UserAuthInfo } from "../auth";
+import type { Logger } from "pino";
+import type { UserAuthInfo, JwtUtils } from "../auth/index.js";
+import type { EventBus } from "../events/index.js";
 
-export type ExpressContext = BaseContext & {
-	req: Request;
-	res: Response;
-}
-
-export type AuthContext = {
+export type ServiceContext<P> = ExpressContextFunctionArgument & {
+	prisma: P;
+	eventBus: EventBus<P>;
+	jwtUtils: JwtUtils;
 	authInfo?: UserAuthInfo;
+	logger: Logger;
+	idCookie?: string;
 }
 
-export type ServiceContext =
-	ExpressContext
-	& AuthContext
-	& { token?: string, logout?: boolean, idCookie?: string }
-
-export type ServiceContextFn = ContextFn<ServiceContext>
+export type ServiceContextFn<P> = ContextFn<ServiceContext<P>>
 
 export type ContextFn<Ctx extends BaseContext> = ContextFunction<[ ExpressContextFunctionArgument ], Ctx>;

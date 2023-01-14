@@ -1,0 +1,120 @@
+schema {
+	query: Query
+	mutation: Mutation
+}
+
+type Channel {
+	id: ID!
+	archived: Boolean!
+	createdById: String!
+	createdOn: String!
+	description: String!
+	name: String!
+	type: ChannelType!
+	messages: [Message!]!
+}
+
+enum ChannelType {
+	DIRECT
+	GROUP
+}
+
+input CreateChannelInput {
+	name: String!
+	description: String!
+	type: ChannelType!
+}
+
+input CreateMemberInput {
+	name: String!
+	email: String!
+	userId: String!
+	rollNumber: String!
+	department: Department!
+	mobile: String!
+}
+
+input CreateMessageInput {
+	content: String!
+	channelId: String!
+}
+
+input CreateTeamInput {
+	name: String!
+	department: Department!
+}
+
+enum Department {
+	WEBOPS
+	SPONSORSHIP_AND_PR
+	SHOWS_AND_EXHIBITIONS
+	EVENTS_AND_WORKSHOPS
+	OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+	EVOLVE
+	ENVISAGE
+	FINANCE
+	CONCEPT_AND_DESIGN
+	PUBLICITY
+	QMS
+}
+
+input EnableMemberInput {
+	id: String!
+}
+
+type Member {
+	id: ID!
+	about: String!
+	coverPic: String!
+	department: Department!
+	email: String!
+	enabled: Boolean!
+	mobile: String!
+	name: String!
+	position: MemberPosition!
+	profilePic: String!
+	rollNumber: String!
+	upi: String!
+	teams: [Team!]!
+}
+
+enum MemberPosition {
+	COORD
+	HEAD
+	CORE
+	COCAS
+}
+
+type Message {
+	id: ID!
+	channelId: String!
+	content: String!
+	createdById: String!
+	channel: Channel!
+}
+
+input MessagesInput {
+	channelId: String!
+}
+
+type Mutation {
+	createChannel(data: CreateChannelInput!): Channel!
+	createMessage(data: CreateMessageInput!): Message!
+	createMember(data: CreateMemberInput!): Member!
+	enableMember(data: EnableMemberInput!): Member!
+	createTeam(data: CreateTeamInput!): Team!
+}
+
+type Query {
+	messages(data: MessagesInput!): [Message!]!
+	channels: [Channel!]!
+	me: Member!
+}
+
+type Team {
+	id: ID!
+	createdById: String!
+	department: Department!
+	name: String!
+	members: [Member!]!
+}

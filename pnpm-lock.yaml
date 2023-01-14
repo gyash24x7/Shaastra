@@ -206,6 +206,7 @@ importers:
 
   packages/frontend/client:
     specifiers:
+      '@shaastra/scripts': workspace:*
       '@shaastra/tsconfig': workspace:*
       '@tanstack/react-query': 4.21.0
       graphql: 16.6.0
@@ -213,6 +214,7 @@ importers:
       '@tanstack/react-query': 4.21.0_react@18.2.0
       graphql: 16.6.0
     devDependencies:
+      '@shaastra/scripts': link:../../scripts
       '@shaastra/tsconfig': link:../../tsconfig
 
   packages/frontend/ui:

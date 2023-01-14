@@ -4,7 +4,7 @@ import { AppEvents } from "../events/index.js";
 import type { MutationResolvers } from "../graphql/generated/index.js";
 
 export const createMemberMutationResolver: MutationResolvers["createMember"] =
-	async function ( _parent, { data: { password, userId, ...data } }, context, _info ) {
+	async function ( _parent, { data: { userId, ...data } }, context, _info ) {
 		context.logger.trace( `>> Resolvers::Mutation::createMember()` );
 		context.logger.debug( "Data: %o", data );
 
@@ -24,7 +24,7 @@ export const createMemberMutationResolver: MutationResolvers["createMember"] =
 				position: MemberPosition.COORD
 			}
 		} );
-		
+
 		context.logger.debug( `Member Created Successfully! ${ userId }` );
 
 		context.eventBus.execute( AppEvents.MEMBER_CREATED_EVENT, member, context );

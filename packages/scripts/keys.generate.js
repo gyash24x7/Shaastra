@@ -1,4 +1,4 @@
-import jose from "jose";
+import * as jose from "jose";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 

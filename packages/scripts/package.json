@@ -5,7 +5,8 @@
 	"type": "module",
 	"files": [
 		"schema.publish.js",
-		"keys.generate.ts"
+		"keys.generate.js",
+		"schema.fetch.js"
 	],
 	"keywords": [ ],
 	"author": "",

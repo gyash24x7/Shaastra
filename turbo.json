@@ -30,12 +30,29 @@
 			"outputs": [ ]
 		},
 		"gql:generate": {
-			"inputs": [ "src/graphql/schema.graphql" ],
+			"inputs": [ "src/**/schema.graphql" ],
 			"outputs": [ "src/graphql/generated/**" ]
 		},
 		"schema:publish": {
-			"dependsOn": [ "src/graphql/schema.graphql" ],
-			"outputs": [ ]
+			"inputs": [ "src/graphql/schema.graphql" ],
+			"outputs": [ ],
+			"env": [
+				"APOLLO_KEY",
+				"APOLLO_GRAPH_REF"
+			]
+		},
+		"schema:fetch": {
+			"dependsOn": [ "@shaastra/connect#schema:publish", "@shaastra/workforce#schema:publish" ],
+			"outputs": [ "src/schema.graphql" ],
+			"env": [
+				"APOLLO_KEY",
+				"APOLLO_GRAPH_REF"
+			]
+		},
+		"@shaastra/client#gql:generate": {
+			"inputs": [ "src/schema.graphql" ],
+			"dependsOn": [ "schema:fetch" ],
+			"outputs": [ "src/generated/**" ]
 		}
 	}
 }

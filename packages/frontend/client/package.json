@@ -6,8 +6,8 @@
 	"main": "dist/index.js",
 	"types": "src/index.ts",
 	"scripts": {
-		"fetch:schema": "rover graph fetch shaastra-prime-api@current >> ./src/schema.graphql",
-		"generate": "graphql-codegen-esm",
+		"schema:fetch": "env-cmd node node_modules/@shaastra/scripts/schema.fetch.js",
+		"gql:generate": "graphql-codegen-esm",
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
 		"typecheck": "tsc -p tsconfig.build.json"
 	},
@@ -19,6 +19,7 @@
 		"graphql": "16.6.0"
 	},
 	"devDependencies": {
+		"@shaastra/scripts": "workspace:*",
 		"@shaastra/tsconfig": "workspace:*"
 	},
 	"codegen": {

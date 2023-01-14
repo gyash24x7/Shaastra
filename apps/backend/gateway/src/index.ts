@@ -14,6 +14,7 @@ export const prisma = new PrismaClient( {
 
 const application = new ExpressApplication( {
 	name: "gateway",
+	isGateway: true,
 	middlewares: [
 		cors( {
 			origin: "http://localhost:3000",

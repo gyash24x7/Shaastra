@@ -40,7 +40,7 @@ export interface IApplication<P extends BasePrisma, A = any> {
 	readonly registerRestApis: () => void;
 	readonly restApis: RestApi<P>[];
 	readonly eventBus: EventBus<P>;
-	readonly createContext: ServiceContextFn<P>;
+	readonly createContext: () => ServiceContextFn<P>;
 	readonly jwtUtils: JwtUtils;
 	readonly healthCheck: HealthChecker;
 	readonly prisma: P;

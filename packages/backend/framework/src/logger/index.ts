@@ -8,9 +8,11 @@ export function createLogger() {
 		transport: {
 			target: "pino-pretty",
 			options: {
-				colorize: true
+				colorize: true,
+				messageFormat: `[{scope}] {msg}`
 			}
 		}
+
 	} );
 }
 

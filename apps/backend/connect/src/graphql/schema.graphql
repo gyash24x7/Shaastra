@@ -1,50 +1,50 @@
 extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable", "@extends"])
 
 enum ChannelType {
-    DIRECT
-    GROUP
+	DIRECT
+	GROUP
 }
 
 type Message @key(fields: "id") {
-    id: ID!
-    channelId: String!
-    content: String!
-    createdById: String!
-    channel: Channel!
+	id: ID!
+	channelId: String!
+	content: String!
+	createdById: String!
+	channel: Channel!
 }
 
 type Channel @key(fields: "id") {
-    id: ID!
-    archived: Boolean!
-    createdById: String!
-    createdOn: String!
-    description: String!
-    name: String!
-    type: ChannelType!
-    messages: [Message!]!
+	id: ID!
+	archived: Boolean!
+	createdById: String!
+	createdOn: String!
+	description: String!
+	name: String!
+	type: ChannelType!
+	messages: [Message!]!
 }
 
 type Query {
-    messages(data: MessagesInput!): [Message!]!
-    channels: [Channel!]!
+	messages(data: MessagesInput!): [Message!]!
+	channels: [Channel!]!
 }
 
 type Mutation {
-    createChannel(data: CreateChannelInput!): Channel!
-    createMessage(data: CreateMessageInput!): Message!
+	createChannel(data: CreateChannelInput!): Channel!
+	createMessage(data: CreateMessageInput!): Message!
 }
 
 input CreateChannelInput {
-    name: String!
-    description: String!
-    type: ChannelType!
+	name: String!
+	description: String!
+	type: ChannelType!
 }
 
 input CreateMessageInput {
-    content: String!
-    channelId: String!
+	content: String!
+	channelId: String!
 }
 
 input MessagesInput {
-    channelId: String!
+	channelId: String!
 }

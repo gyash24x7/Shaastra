@@ -1,10 +1,16 @@
 import { MemberPosition, PrismaClient, type Member } from "@prisma/client/workforce/index.js";
 import type { IEventHandler } from "@shaastra/framework";
+import { MemberMessages } from "../constants/messages.js";
 
 const memberCreatedEventHandler: IEventHandler<PrismaClient> = async function ( data: Member, context ) {
-	const member = await context.prisma.member.findFirstOrThrow( {
+	const member = await context.prisma.member.findFirst( {
 		where: { department: data.department, position: MemberPosition.CORE }
 	} );
+
+	if ( !member ) {
+		context.logger.error( MemberMessages.NOT_FOUND );
+		return;
+	}
 
 	const subject = `New Member requested to join ${ data.department }`;
 	const content = `Please log in to Shaastra Prime and approve this request.`;

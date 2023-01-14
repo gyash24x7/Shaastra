@@ -1,4 +1,3 @@
-import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
 import bodyParser from "body-parser";
 import { capitalCase, constantCase } from "change-case";
 import cookieParser from "cookie-parser";
@@ -7,7 +6,7 @@ import express, { NextFunction } from "express";
 import http from "http";
 import process from "node:process";
 import { deserializeUser, JwtUtils } from "../../auth/index.js";
-import type { ServiceContext } from "../../context/index.js";
+import type { ServiceContextFn } from "../../context/index.js";
 import { EventBus } from "../../events/index.js";
 import { GraphQLServer } from "../../graphql/index.js";
 import { HealthChecker } from "../../health/index.js";
@@ -93,7 +92,7 @@ export class ExpressApplication<P extends BasePrisma> implements IApplication<P,
 			this._app.use( middleware );
 		} );
 
-		this._app.use( "/api/graphql", this.graphQLServer.middleware( this.createContext ) );
+		this._app.use( "/api/graphql", this.graphQLServer.middleware( this.createContext() ) );
 	}
 
 	applyErrorHandlers() {
@@ -104,7 +103,7 @@ export class ExpressApplication<P extends BasePrisma> implements IApplication<P,
 
 	registerRestApis() {
 		const handler = ( api: RestApi<P> ) => async ( req: Request, res: Response ) => {
-			const context = await this.createContext( { req, res } );
+			const context = await this.createContext()( { req, res } );
 			api.handler( context );
 		};
 
@@ -131,25 +130,32 @@ export class ExpressApplication<P extends BasePrisma> implements IApplication<P,
 
 	async start(): Promise<void> {
 		await this.graphQLServer.start( this.isGateway, this.resolvers, this.httpServer, this.logger );
+		this.logger.debug( "Started GraphQL Server!" );
 
 		this.applyMiddlewares();
+		this.logger.debug( "Applied Middlewares!" );
+
 		this.registerRestApis();
+		this.logger.debug( "Registered Rest Apis!" );
+
 		this.applyErrorHandlers();
+		this.logger.debug( "Applied Error Handlers!" );
 
 		await new Promise<void>( ( resolve ) => this.httpServer.listen( { port: this.appInfo.port }, resolve ) );
 		this.logger.info( `🚀 ${ this.appInfo.name } ready at ${ this.appInfo.url }/api/graphql` );
 	}
 
-	async createContext( { req, res }: ExpressContextFunctionArgument ): Promise<ServiceContext<P>> {
-		const authInfo = res.locals[ "authInfo" ];
-		return {
+	createContext(): ServiceContextFn<P> {
+		const baseCtx = {
 			eventBus: this.eventBus,
 			jwtUtils: this.jwtUtils,
 			logger: this.logger,
-			req,
-			res,
-			authInfo,
 			prisma: this.prisma
+		};
+
+		return async ( { req, res } ) => {
+			const authInfo = res.locals[ "authInfo" ];
+			return { ...baseCtx, req, res, authInfo };
 		};
 	};
 }

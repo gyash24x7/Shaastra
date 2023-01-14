@@ -12,7 +12,7 @@ const userCreatedEventHandler: IEventHandler<PrismaClient> = async function ( da
 	const expiry = dayjs().add( 2, "days" ).toDate();
 	const token = await context.prisma.token.create( { data: { userId: data.id, hash, expiry } } );
 
-	const link = `http://localhost:3000/verify/${ data.id }/${ token.id }`;
+	const link = `http://localhost:9000/api/auth/verify-email/${ data.id }/${ token.hash }`;
 	const subject = "Verify your Shaastra Account";
 	const content = `Please click here to verify your Shaastra Account ${ link }`;
 	// await context.mailer.sendMail( { subject, content, email: user.email, name: user.name } );

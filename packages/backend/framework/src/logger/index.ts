@@ -8,8 +8,7 @@ export function createLogger() {
 		transport: {
 			target: "pino-pretty",
 			options: {
-				colorize: true,
-				messageFormat: `[{scope}] {msg}`
+				colorize: true
 			}
 		}
 
@@ -17,5 +16,5 @@ export function createLogger() {
 }
 
 export function expressLoggingMiddleware( logger: Logger ): ExpressMiddleware {
-	return pinoHttp( { logger, autoLogging: false } );
+	return pinoHttp( { logger } );
 }

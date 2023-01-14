@@ -97,7 +97,7 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 
 export interface FormProps<T> {
 	initialValue: T;
-	onSubmit?: ( values: T ) => void | Promise<void>;
+	onSubmit?: ( values: T ) => void | Promise<any>;
 	submitBtn: () => JSX.Element;
 	renderMap: Record<FieldOf<T>, FieldRenderFn<T, FieldOf<T>>>;
 	validations?: Record<FieldOf<T>, Array<ValidatorFn<FieldValueOf<T, FieldOf<T>>>> | undefined>;

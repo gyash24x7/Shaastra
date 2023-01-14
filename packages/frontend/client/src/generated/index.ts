@@ -51,7 +51,7 @@ export type Channel = {
 export const enum ChannelType {
 	Direct = "DIRECT",
 	Group = "GROUP"
-};
+}
 
 export type CreateChannelInput = {
 	readonly description: Scalars["String"];
@@ -90,7 +90,7 @@ export const enum Department {
 	ShowsAndExhibitions = "SHOWS_AND_EXHIBITIONS",
 	SponsorshipAndPr = "SPONSORSHIP_AND_PR",
 	Webops = "WEBOPS"
-};
+}
 
 export type EnableMemberInput = {
 	readonly id: Scalars["String"];
@@ -117,7 +117,7 @@ export const enum MemberPosition {
 	Coord = "COORD",
 	Core = "CORE",
 	Head = "HEAD"
-};
+}
 
 export type Message = {
 	readonly channel: Channel;

@@ -1,7 +1,13 @@
 import type { PrismaClient } from "@prisma/client/identity";
 import { RestApi } from "@shaastra/framework";
+import crypto from "crypto";
 import dayjs from "dayjs";
 import { UserMessages, TokenMessages } from "../constants/messages.js";
+
+export type VerifyEmailInput = {
+	userId: string;
+	hash: string;
+}
 
 export const verifyEmailApi = new RestApi<PrismaClient>( {
 	path: "/api/auth/verify-email/:userId/:hash",
@@ -31,6 +37,10 @@ export const verifyEmailApi = new RestApi<PrismaClient>( {
 
 		await context.prisma.token.delete( { where: { id: token.id } } );
 
-		context.res.status( 200 ).send( user );
+		const newTokenHash = crypto.randomBytes( 32 ).toString( "hex" );
+		const newTokenExpiry = dayjs().add( 2, "hours" ).toDate();
+		await context.prisma.token.create( { data: { userId, hash: newTokenHash, expiry: newTokenExpiry } } );
+
+		context.res.redirect( `http://localhost:3000/members/create?hash=${ newTokenHash }&userId=${ userId }` );
 	}
 } );

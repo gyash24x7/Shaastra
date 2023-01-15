@@ -1,33 +1,8 @@
-import { useMutation, useQuery, type UseMutationOptions, type UseQueryOptions } from "@tanstack/react-query";
-
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [ key: string ]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-
-function fetcher<TData, TVariables>( query: string, variables?: TVariables ) {
-	return async (): Promise<TData> => {
-		const res = await fetch( "http://localhost:9000/api/graphql", {
-			method: "POST",
-			...(
-				{ "credentials": "include" }
-			),
-			body: JSON.stringify( { query, variables } )
-		} );
-
-		const json = await res.json();
-
-		if ( json.errors ) {
-			const { message } = json.errors[ 0 ];
-
-			throw new Error( message );
-		}
-
-		return json.data;
-	};
-}
-
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
 	ID: string;
@@ -176,74 +151,3 @@ export type Team = {
 	readonly members: ReadonlyArray<Member>;
 	readonly name: Scalars["String"];
 };
-
-export type CreateMemberMutationVariables = Exact<{
-	name: Scalars["String"];
-	email: Scalars["String"];
-	mobile: Scalars["String"];
-	department: Department;
-	rollNumber: Scalars["String"];
-	userId: Scalars["String"];
-}>;
-
-export type CreateMemberMutation = { readonly createMember: { readonly id: string, readonly name: string, readonly email: string, readonly rollNumber: string, readonly profilePic: string, readonly position: MemberPosition, readonly department: Department, readonly about: string } };
-
-export type MeQueryVariables = Exact<{ [ key: string ]: never; }>;
-
-export type MeQuery = { readonly me: { readonly id: string, readonly name: string, readonly email: string, readonly rollNumber: string, readonly position: MemberPosition, readonly profilePic: string, readonly coverPic: string, readonly department: Department, readonly enabled: boolean } };
-
-export const CreateMemberDocument = `
-    mutation createMember($name: String!, $email: String!, $mobile: String!, $department: Department!, $rollNumber: String!, $userId: String!) {
-  createMember(
-    data: {name: $name, email: $email, mobile: $mobile, rollNumber: $rollNumber, department: $department, userId: $userId}
-  ) {
-    id
-    name
-    email
-    rollNumber
-    profilePic
-    position
-    department
-    about
-  }
-}
-    `;
-export const useCreateMemberMutation = <
-	TError = unknown,
-	TContext = unknown
->( options?: UseMutationOptions<CreateMemberMutation, TError, CreateMemberMutationVariables, TContext> ) =>
-	useMutation<CreateMemberMutation, TError, CreateMemberMutationVariables, TContext>(
-		[ "createMember" ],
-		( variables?: CreateMemberMutationVariables ) => fetcher<CreateMemberMutation, CreateMemberMutationVariables>(
-			CreateMemberDocument,
-			variables
-		)(),
-		options
-	);
-export const MeDocument = `
-    query me {
-  me {
-    id
-    name
-    email
-    rollNumber
-    position
-    profilePic
-    coverPic
-    department
-    enabled
-  }
-}
-    `;
-export const useMeQuery = <
-	TData = MeQuery,
-	TError = unknown
->(
-	variables?: MeQueryVariables,
-	options?: UseQueryOptions<MeQuery, TError, TData>
-) =>
-	useQuery<MeQuery, TError, TData>(
-		variables === undefined ? [ "me" ] : [ "me", variables ],
-		fetcher<MeQuery, MeQueryVariables>( MeDocument, variables ),
-		options
-	);

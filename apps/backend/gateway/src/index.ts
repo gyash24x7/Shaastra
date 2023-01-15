@@ -7,6 +7,7 @@ import { loginApi } from "./rest/login.api.js";
 import { logoutApi } from "./rest/logout.api.js";
 import { signupApi } from "./rest/signup.api.js";
 import { verifyEmailApi } from "./rest/verify.email.api.js";
+import { verifyMemberCreateApi } from "./rest/verify.member.create.api.js";
 
 export const prisma = new PrismaClient( {
 	log: [ "query", "info", "warn", "error" ]
@@ -23,7 +24,7 @@ const application = new ExpressApplication( {
 	],
 	prisma,
 	events,
-	restApis: [ jwksRestApi, loginApi, logoutApi, signupApi, verifyEmailApi ]
+	restApis: [ jwksRestApi, loginApi, logoutApi, signupApi, verifyEmailApi, verifyMemberCreateApi ]
 } );
 
 application.start().then();

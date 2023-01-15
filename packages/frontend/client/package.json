@@ -6,7 +6,7 @@
 	"main": "dist/index.js",
 	"types": "src/index.ts",
 	"scripts": {
-		"schema:fetch": "env-cmd node node_modules/@shaastra/scripts/schema.fetch.js",
+		"schema:fetch": "node node_modules/@shaastra/scripts/schema.fetch.js",
 		"gql:generate": "graphql-codegen-esm",
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
 		"typecheck": "tsc -p tsconfig.build.json"
@@ -29,12 +29,11 @@
 	"codegen": {
 		"overwrite": true,
 		"schema": "src/schema.graphql",
-		"documents": "src/**/*.graphql",
 		"generates": {
 			"src/generated/index.ts": {
-				"plugins": [ "typescript", "typescript-operations", "typescript-react-query" ],
+				"plugins": [ "typescript" ],
 				"config": {
-					"avoidOptionals": false,
+					"avoidOptionals": true,
 					"constEnums": true,
 					"skipTypename": true,
 					"strictScalars": true,
@@ -44,13 +43,7 @@
 						"Date": "Date"
 					},
 					"immutableTypes": true,
-					"legacyMode": false,
-					"fetcher": {
-						"endpoint": "http://localhost:9000/api/graphql",
-						"fetchParams": {
-							"credentials": "include"
-						}
-					}
+					"legacyMode": false
 				}
 			}
 		}

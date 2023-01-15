@@ -8,7 +8,6 @@ export type CreateUserInput = {
 	name: string;
 	email: string;
 	password: string;
-	roles: string[];
 	username: string;
 }
 
@@ -26,7 +25,7 @@ export const signupApi = new RestApi<PrismaClient>( {
 
 		data.password = await bcrypt.hash( data.password, 10 );
 
-		const user = await context.prisma.user.create( { data: data } );
+		const user = await context.prisma.user.create( { data } );
 		context.eventBus.execute( AppEvents.USER_CREATED_EVENT, user, context );
 		context.res.send( user );
 	}

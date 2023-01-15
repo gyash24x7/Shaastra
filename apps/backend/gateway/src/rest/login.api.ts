@@ -28,7 +28,7 @@ export const loginApi = new RestApi<PrismaClient>( {
 		context.logger.debug( "Data: %o", data );
 
 		const existingUser = await context.prisma.user.findUnique( {
-			where: { username: data.username.toLowerCase() }
+			where: { username: data.username }
 		} );
 
 		context.logger.debug( `Existing User: ${ JSON.stringify( existingUser ) }` );

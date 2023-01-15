@@ -1,4 +1,6 @@
 import { useState, FormEvent } from "react";
+import type { ButtonProps } from "../button/index.js";
+import { Button } from "../index.js";
 import { VStack } from "../stack";
 import type { FieldOf, FieldRenderFn, FieldValueOf } from "./field";
 import Field from "./field";
@@ -96,14 +98,27 @@ export function createForm<T extends Object>( options: CreateFormOptions<T> ) {
 }
 
 export interface FormProps<T> {
+	isLoading?: boolean;
 	initialValue: T;
 	onSubmit?: ( values: T ) => void | Promise<any>;
-	submitBtn: () => JSX.Element;
+	submitBtn?: ( btnProps?: ButtonProps ) => JSX.Element;
 	renderMap: Record<FieldOf<T>, FieldRenderFn<T, FieldOf<T>>>;
 	validations?: Record<FieldOf<T>, Array<ValidatorFn<FieldValueOf<T, FieldOf<T>>>> | undefined>;
 }
 
-export default function Form<T extends Object>( { validations, ...props }: FormProps<T> ) {
+const DefaultSubmitBtn = ( props?: ButtonProps ) => {
+	return (
+		<Button
+			appearance={ "primary" }
+			buttonText={ "Submit" }
+			fullWidth
+			{ ...props }
+			type={ "submit" }
+		/>
+	);
+};
+
+export default function Form<T extends Object>( { validations, isLoading, ...props }: FormProps<T> ) {
 	const {
 		onSubmit,
 		getFieldValue,
@@ -113,7 +128,8 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 		getFieldTouched,
 		getFieldAppearance
 	} = createForm<T>( props );
-	const SubmitButton = props.submitBtn;
+
+	const SubmitButton = props.submitBtn || DefaultSubmitBtn;
 
 	return (
 		<form onSubmit={ onSubmit } noValidate>
@@ -131,7 +147,7 @@ export default function Form<T extends Object>( { validations, ...props }: FormP
 						/>
 					</div>
 				) ) }
-				<SubmitButton/>
+				<SubmitButton isLoading={ isLoading }/>
 			</VStack>
 		</form>
 	);

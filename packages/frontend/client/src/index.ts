@@ -1,3 +1,3 @@
 export * from "./generated/index.js";
-export * from "./rest/index.js";
-export * from "./components/index.js";
+export * from "./mutations/index.js";
+export * from "./utils/index.js";

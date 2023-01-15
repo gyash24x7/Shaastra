@@ -8,7 +8,6 @@ import {
 import { useSignupMutation } from "@shaastra/client";
 import {
 	Banner,
-	Button,
 	emailValidator,
 	Form,
 	minLengthValidator,
@@ -37,79 +36,65 @@ export default function SignUpPage() {
 					/>
 				</Then>
 				<Else>
-					<Form
-						initialValue={ { name: "", email: "", rollNumber: "", password: "" } }
-						onSubmit={ ( { rollNumber: username, ...data } ) => mutateAsync( {
-							...data,
-							username,
-							roles: []
-						} ) }
-						submitBtn={ () => {
-							return (
-								<Button
-									appearance={ "primary" }
-									type={ "submit" }
-									buttonText={ "Submit" }
-									fullWidth
-									isLoading={ isLoading }
-								/>
-							);
-						} }
-						renderMap={ {
-							name: ( { appearance, error, ...props } ) => (
-								<TextInput
-									{ ...props }
-									label={ "Name" }
-									placeholder={ "Enter your Name" }
-									appearance={ appearance }
-									message={ error }
-								/>
-							),
-							email: ( { appearance, error, ...props } ) => (
-								<TextInput
-									{ ...props }
-									label={ "Email" }
-									placeholder={ "Enter your Email" }
-									renderIconAfter={ ( props ) => <EnvelopeIcon { ...props }/> }
-									appearance={ appearance }
-									message={ error }
-								/>
-							),
-							rollNumber: ( { appearance, error, ...props } ) => (
-								<TextInput
-									{ ...props }
-									label={ "Roll Number" }
-									placeholder={ "Enter your Roll Number" }
-									renderIconAfter={ ( props ) => <UserIcon { ...props }/> }
-									appearance={ appearance }
-									message={ error }
-								/>
-							),
-							password: ( { appearance, error, ...props } ) => (
-								<TextInput
-									{ ...props }
-									type={ "password" }
-									label={ "Password" }
-									placeholder={ "Enter you Password" }
-									renderIconAfter={ ( props ) => <LockClosedIcon { ...props }/> }
-									appearance={ appearance }
-									message={ error }
-								/>
-							)
-						} }
-						validations={ {
-							name: [ requiredValidator( "Name is Required!" ) ],
-							email: [ emailValidator( "Invalid Email" ) ],
-							rollNumber: [ rollNumberValidator( "Invalid Roll Number!" ) ],
-							password: [ minLengthValidator( 8, "Password too Short!" ) ]
-						} }
-					/>
-					<Flex justify={ "space-between" }>
-						<span>Already have an account?</span>
-						<span>
-					<Link to={ "/auth/login" }>Login</Link>
-				</span>
-					</Flex>
+					<VStack>
+						<Form
+							isLoading={ isLoading }
+							initialValue={ { name: "", email: "", rollNumber: "", password: "" } }
+							onSubmit={ ( { rollNumber: username, ...data } ) => mutateAsync( { ...data, username } ) }
+							renderMap={ {
+								name: ( { appearance, error, ...props } ) => (
+									<TextInput
+										{ ...props }
+										label={ "Name" }
+										placeholder={ "Enter your Name" }
+										appearance={ appearance }
+										message={ error }
+									/>
+								),
+								email: ( { appearance, error, ...props } ) => (
+									<TextInput
+										{ ...props }
+										label={ "Email" }
+										placeholder={ "Enter your Email" }
+										renderIconAfter={ ( props ) => <EnvelopeIcon { ...props }/> }
+										appearance={ appearance }
+										message={ error }
+									/>
+								),
+								rollNumber: ( { appearance, error, ...props } ) => (
+									<TextInput
+										{ ...props }
+										label={ "Roll Number" }
+										placeholder={ "Enter your Roll Number" }
+										renderIconAfter={ ( props ) => <UserIcon { ...props }/> }
+										appearance={ appearance }
+										message={ error }
+									/>
+								),
+								password: ( { appearance, error, ...props } ) => (
+									<TextInput
+										{ ...props }
+										type={ "password" }
+										label={ "Password" }
+										placeholder={ "Enter you Password" }
+										renderIconAfter={ ( props ) => <LockClosedIcon { ...props }/> }
+										appearance={ appearance }
+										message={ error }
+									/>
+								)
+							} }
+							validations={ {
+								name: [ requiredValidator( "Name is Required!" ) ],
+								email: [ emailValidator( "Invalid Email" ) ],
+								rollNumber: [ rollNumberValidator( "Invalid Roll Number!" ) ],
+								password: [ minLengthValidator( 8, "Password too Short!" ) ]
+							} }
+						/>
+						<Flex justify={ "space-between" }>
+							<span>Already have an account?</span>
+							<span><Link to={ "/auth/login" }>Login</Link></span>
+						</Flex>
+					</VStack>
 					<When condition={ isError }>
 						<Banner
 							message={ "Some Error!" }

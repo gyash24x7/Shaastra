@@ -32,7 +32,7 @@ export type MeQueryData = {
 	}
 };
 
-export async function fetcher(): Promise<MeQueryData> {
+export async function meQueryFetcher(): Promise<MeQueryData> {
 	const response = await superagent
 		.post( "http://localhost:9000/api/graphql" )
 		.send( { query } )
@@ -46,6 +46,6 @@ export async function fetcher(): Promise<MeQueryData> {
 	return response.body.data;
 }
 
-export default function useMeQuery( options?: UseQueryOptions<MeQueryData> ) {
-	return useQuery<MeQueryData>( [ "me" ], fetcher, options );
+export function useMeQuery( options?: UseQueryOptions<MeQueryData> ) {
+	return useQuery<MeQueryData>( [ "me" ], meQueryFetcher, options );
 }

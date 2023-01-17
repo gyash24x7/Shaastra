@@ -4,7 +4,7 @@ import { Department, useCreateMemberMutation } from "@shaastra/client";
 import { Flex, VStack, Form, TextInput, ListSelect, Banner } from "@shaastra/ui";
 import { useState } from "react";
 import { When } from "react-if";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Navigate } from "react-router-dom";
 import { useMount } from "react-use";
 
 const departments: Department[] = [
@@ -34,11 +34,12 @@ export default function CreateMemberPage() {
 	} );
 
 	useMount( () => {
-		if ( !hash || !userId ) {
-			navigate( "/auth/login" );
-		}
 		setSearchParams();
 	} );
+
+	if ( !hash || !userId ) {
+		return <Navigate to={ "/auth/login" }/>;
+	}
 
 	return (
 		<Flex className={ "h-screen" }>

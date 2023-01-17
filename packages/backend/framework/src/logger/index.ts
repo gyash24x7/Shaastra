@@ -1,6 +1,6 @@
 import { pino, type Logger } from "pino";
 import { pinoHttp } from "pino-http";
-import type { ExpressMiddleware } from "../application/index.js";
+import type { ExpressMiddlewareFn } from "../application/index.js";
 
 export function createLogger() {
 	return pino( {
@@ -15,6 +15,6 @@ export function createLogger() {
 	} );
 }
 
-export function expressLoggingMiddleware( logger: Logger ): ExpressMiddleware {
+export function expressLoggingMiddleware( logger: Logger ): ExpressMiddlewareFn {
 	return pinoHttp( { logger } );
 }

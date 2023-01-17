@@ -17,10 +17,12 @@ import { LandingPagePlugin } from "./landing.page.plugin.js";
 import { ServiceDataSource } from "./service.datasource.js";
 
 export class GraphQLServer<P> {
-	private apolloServer: ApolloServer<ServiceContext<P>>;
+	private readonly apolloServer: ApolloServer<ServiceContext<P>>;
+	private readonly httpServer: http.Server;
 
-	async start( isGateway: boolean, resolvers: any, httpServer: http.Server, logger: Logger ) {
-		const plugins = this.getPlugins( httpServer, isGateway );
+	constructor( isGateway: boolean, resolvers: any, httpServer: http.Server, logger: Logger ) {
+		this.httpServer = httpServer;
+		const plugins = this.getPlugins( isGateway );
 
 		if ( isGateway ) {
 			const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );
@@ -32,7 +34,9 @@ export class GraphQLServer<P> {
 			const schema = buildSubgraphSchema( { typeDefs, resolvers } );
 			this.apolloServer = new ApolloServer<ServiceContext<P>>( { schema, plugins, logger } );
 		}
+	}
 
+	async start() {
 		await this.apolloServer.start();
 	}
 
@@ -40,12 +44,12 @@ export class GraphQLServer<P> {
 		return expressMiddleware( this.apolloServer, { context } );
 	}
 
-	private getPlugins( httpServer: http.Server, isGateway: boolean = false ) {
+	private getPlugins( isGateway: boolean = false ) {
 		return isGateway ? [
-			ApolloServerPluginDrainHttpServer( { httpServer } ),
+			ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
 			LandingPagePlugin()
 		] : [
-			ApolloServerPluginDrainHttpServer( { httpServer } ),
+			ApolloServerPluginDrainHttpServer( { httpServer: this.httpServer } ),
 			ApolloServerPluginLandingPageDisabled(),
 			ApolloServerPluginUsageReportingDisabled()
 		];

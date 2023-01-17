@@ -1,3 +1,1 @@
-import useMeQuery from "./me.query.js";
-
-export { useMeQuery };
+export * from "./me.query.js";

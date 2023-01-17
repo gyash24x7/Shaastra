@@ -18,7 +18,7 @@ export type SignupMutationVariables = {
 	username: string;
 };
 
-export async function fetcher( variables: SignupMutationVariables ): Promise<User> {
+export async function signupMutationfetcher( variables: SignupMutationVariables ): Promise<User> {
 	const response = await superagent
 		.post( "http://localhost:9000/api/auth/signup" )
 		.send( variables )
@@ -27,6 +27,6 @@ export async function fetcher( variables: SignupMutationVariables ): Promise<Use
 	return response.body;
 }
 
-export default function useSignupMutation( options?: UseMutationOptions<User, unknown, SignupMutationVariables> ) {
-	return useMutation( [ "signup" ], fetcher, options );
-};
+export function useSignupMutation( options?: UseMutationOptions<User, unknown, SignupMutationVariables> ) {
+	return useMutation( [ "signup" ], signupMutationfetcher, options );
+}

@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client/identity/index.js";
-import { ExpressApplication } from "@shaastra/framework";
+import { ExpressApplication, requireUser } from "@shaastra/framework";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import events from "./events/index.js";
 import { jwksRestApi } from "./rest/jwks.api.js";
@@ -17,10 +18,9 @@ const application = new ExpressApplication( {
 	name: "gateway",
 	isGateway: true,
 	middlewares: [
-		cors( {
-			origin: "http://localhost:3000",
-			credentials: true
-		} )
+		{ fn: cookieParser() },
+		{ fn: cors( { origin: "http://localhost:3000", credentials: true } ) },
+		{ path: "/api/graphql", fn: requireUser() }
 	],
 	prisma,
 	events,

@@ -52,7 +52,7 @@ export type CreateMemberMutationVariables = {
 	mobile: string;
 }
 
-export async function fetcher( variables: CreateMemberMutationVariables ): Promise<CreateMemberMutationData> {
+export async function createMemberMutationFetcher( variables: CreateMemberMutationVariables ): Promise<CreateMemberMutationData> {
 	const { userId, hash, mobile, department } = variables;
 
 	let response = await superagent
@@ -77,6 +77,6 @@ export async function fetcher( variables: CreateMemberMutationVariables ): Promi
 
 export type CreateMutationOptions = UseMutationOptions<CreateMemberMutationData, unknown, CreateMemberMutationVariables>;
 
-export default function useCreateMemberMutation( options?: CreateMutationOptions ) {
-	return useMutation( [ "createMember" ], fetcher, options );
+export function useCreateMemberMutation( options?: CreateMutationOptions ) {
+	return useMutation( [ "createMember" ], createMemberMutationFetcher, options );
 }

@@ -7,7 +7,7 @@ export type LoginMutationVariables = {
 	username: string;
 };
 
-export async function fetcher( variables: LoginMutationVariables ) {
+export async function loginMutationFetcher( variables: LoginMutationVariables ): Promise<User> {
 	const response = await superagent
 		.post( "http://localhost:9000/api/auth/login" )
 		.send( variables )
@@ -16,6 +16,6 @@ export async function fetcher( variables: LoginMutationVariables ) {
 	return response.body;
 }
 
-export default function useLoginMutation( options?: UseMutationOptions<User, unknown, LoginMutationVariables> ) {
-	return useMutation( [ "login" ], fetcher, options );
-};
+export function useLoginMutation( options?: UseMutationOptions<User, unknown, LoginMutationVariables> ) {
+	return useMutation( [ "login" ], loginMutationFetcher, options );
+}

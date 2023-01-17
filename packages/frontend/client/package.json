@@ -16,7 +16,6 @@
 	"license": "ISC",
 	"dependencies": {
 		"@tanstack/react-query": "4.21.0",
-		"graphql": "16.6.0",
 		"react": "18.2.0",
 		"superagent": "8.0.6"
 	},

@@ -52,40 +52,68 @@ export class JwtUtils {
 		return importSPKI( publicKey, JwtUtils.ALGORITHM );
 	}
 
+	async signOpaqueToken( id: string ) {
+		const privateKey = await this.getPrivateKey();
+
+		return new SignJWT( {} )
+			.setAudience( this.config.audience! )
+			.setIssuedAt()
+			.setExpirationTime( "1d" )
+			.setIssuer( `http://${ this.config.domain }` )
+			.setProtectedHeader( { alg: JwtUtils.ALGORITHM, typ: privateKey.type } )
+			.setSubject( id )
+			.sign( privateKey );
+	}
+
 	async sign( payload: { id: string, roles: string[], verified: boolean } ) {
 		const privateKey = await this.getPrivateKey();
 
 		return new SignJWT( payload )
 			.setAudience( this.config.audience! )
 			.setIssuedAt()
-			.setExpirationTime( "1d" )
+			.setExpirationTime( "1m" )
 			.setIssuer( `http://${ this.config.domain }` )
 			.setProtectedHeader( { alg: JwtUtils.ALGORITHM, typ: privateKey.type } )
 			.setSubject( payload.id )
 			.sign( privateKey );
 	}
 
+	async verifyOpaqueToken( token: string ) {
+		const publicKey = await this.getPublicKey();
+
+		const { payload } = await jwtVerify(
+			token,
+			publicKey,
+			{
+				audience: this.config.audience,
+				issuer: `http://${ this.config.domain }`,
+				algorithms: [ JwtUtils.ALGORITHM ]
+			}
+		).catch( () => {
+			this.logger.error( "Error Verifying Token!" );
+			return { payload: null };
+		} );
+
+		return payload;
+	}
+
 	async verify( token: string ): Promise<UserAuthInfo | undefined> {
 		const publicKey = await importJWK( await this.getJwks(), JwtUtils.ALGORITHM );
 
-		let authPayload: AuthPayload;
-
-		try {
-			const { payload } = await jwtVerify(
-				token,
-				publicKey,
-				{
-					audience: this.config.audience,
-					issuer: `http://${ this.config.domain }`,
-					algorithms: [ JwtUtils.ALGORITHM ]
-				}
-			);
-
-			authPayload = { ...payload as AuthPayload };
-		} catch ( e ) {
+		const { payload } = await jwtVerify(
+			token,
+			publicKey,
+			{
+				audience: this.config.audience,
+				issuer: `http://${ this.config.domain }`,
+				algorithms: [ JwtUtils.ALGORITHM ]
+			}
+		).catch( () => {
 			this.logger.error( "Error Verifying Token!" );
-			return;
-		}
+			return { payload: null };
+		} );
+
+		const authPayload = { ...payload as AuthPayload };
 
 		const departmentRole = authPayload.roles.find( role => role.startsWith( "MEMBER_" ) )!;
 		const positionRole = authPayload.roles.find( role => role.startsWith( "POSITION_" ) )!;

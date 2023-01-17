@@ -10,7 +10,6 @@ export type ServiceContext<P> = ExpressContextFunctionArgument & {
 	jwtUtils: JwtUtils;
 	authInfo?: UserAuthInfo;
 	logger: Logger;
-	idCookie?: string;
 }
 
 export type ServiceContextFn<P> = ContextFn<ServiceContext<P>>

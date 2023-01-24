@@ -1,6 +1,7 @@
-export * from "./application/index.js";
-export * from "./auth/index.js";
-export * from "./context/index.js";
-export * from "./events/index.js";
+export * from "./utils/index.js";
 export * from "./graphql/index.js";
-export * from "./rest/index.js";
+export * from "./discovery/index.js";
+export * from "./redis/index.js";
+export * from "./auth/index.js";
+export * from "./logger/index.js";
+

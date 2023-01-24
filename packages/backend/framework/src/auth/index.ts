@@ -1,2 +1,3 @@
-export * from "./jwt.js";
-export * from "./middlewares.js";
+export * from "./auth.module.js";
+export * from "./jwt.service.js";
+export * from "./auth.middleware.js";

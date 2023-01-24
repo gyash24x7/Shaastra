@@ -4,13 +4,16 @@
 		"target": "es2020",
 		"parser": {
 			"syntax": "typescript",
-			"tsx": true
+			"tsx": true,
+			"decorators": true
 		},
 		"externalHelpers": true,
 		"transform": {
 			"react": {
 				"runtime": "automatic"
-			}
+			},
+			"legacyDecorator": true,
+			"decoratorMetadata": true
 		}
 	},
 	"minify": false,

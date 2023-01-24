@@ -3,67 +3,33 @@
 	"version": "1.0.0",
 	"description": "",
 	"type": "module",
-	"main": "dist/index.js",
+	"module": "dist/main.js",
+	"main": "dist/main.js",
+	"types": "src/main.ts",
+	"private": true,
 	"scripts": {
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
-		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch  --delete-dir-on-start src",
-		"start:dev": "wait-on dist/index.js && nodemon",
+		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start --watch src",
+		"start:dev": "wait-on dist/main.js && nodemon",
 		"typecheck": "tsc -p tsconfig.build.json",
 		"dev": "run-p build:dev start:dev",
-		"start": "node dist",
+		"start": "node dist/main.js",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate --accept-data-loss",
-		"schema:publish": "node node_modules/@shaastra/scripts/schema.publish.js connect",
-		"gql:generate": "graphql-codegen"
-	},
-	"keywords": [ ],
-	"author": "",
-	"license": "ISC",
-	"devDependencies": {
-		"@shaastra/scripts": "workspace:*",
-		"@shaastra/tsconfig": "workspace:*",
-		"prisma": "4.8.1"
+		"schema:publish": "node node_modules/@shaastra/scripts/schema.publish.js connect"
 	},
 	"dependencies": {
-		"@prisma/client": "4.8.1",
-		"@shaastra/framework": "workspace:*",
-		"graphql": "16.6.0"
+		"@shaastra/framework": "workspace:*"
 	},
-	"prisma": {
-		"schema": "./prisma/schema.prisma"
+	"devDependencies": {
+		"@shaastra/scripts": "workspace:*",
+		"@shaastra/tsconfig": "workspace:*"
 	},
 	"nodemonConfig": {
 		"verbose": true,
 		"watch": [ "./dist/*" ]
 	},
-	"codegen": {
-		"schema": "./src/graphql/schema.graphql",
-		"generates": {
-			"./src/graphql/generated/index.ts": {
-				"plugins": [ "typescript-resolvers" ],
-				"config": {
-					"federation": true,
-					"useTypeImports": true,
-					"skipTypename": true,
-					"contextType": "ServiceContext<PrismaClient>",
-					"avoidOptionals": false,
-					"mappers": {
-						"ServiceContext": "@shaastra/framework#ServiceContext",
-						"PrismaClient": "@prisma/client/connect/index.js#PrismaClient",
-						"Channel": "@prisma/client/connect/index.js#Channel",
-						"Message": "@prisma/client/connect/index.js#Message",
-						"ChannelType": "@prisma/client/connect/index.js#ChannelType",
-						"CreateChannelInput": "../inputs.js#CreateChannelInput",
-						"CreateMessageInput": "../inputs.js#CreateMessageInput",
-						"MessagesInput": "../inputs.js#MessagesInput",
-						"MutationCreateChannelArgs": "../inputs.js#MutationCreateChannelArgs",
-						"MutationCreateMessageArgs": "../inputs.js#MutationCreateMessageArgs",
-						"QueryMessagesArgs": "../inputs.js#QueryMessagesArgs",
-						"Maybe": "@shaastra/framework#Maybe",
-						"Scalars": "@shaastra/framework#Scalars"
-					}
-				}
-			}
-		}
+	"prisma": {
+		"schema": "prisma/schema.prisma"
 	}
 }

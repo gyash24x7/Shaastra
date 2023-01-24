@@ -1,5 +1,5 @@
 {
-	"extends": "@shaastra/tsconfig/ui.json",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"rootDir": ".",
 		"resolveJsonModule": true,
@@ -7,6 +7,6 @@
 		"noEmit": false,
 		"types": [ "vite/client" ]
 	},
-	"include": [ "src", ".storybook", "package.json", "vite.config.ts", "tailwind.config.ts" ],
+	"include": [ "src", ".storybook", "package.json", "vite.config.ts", ".storybook/tailwind.config.ts" ],
 	"exclude": [ "dist", "build", "node_modules" ]
 }

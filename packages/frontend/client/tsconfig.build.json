@@ -1,5 +1,5 @@
 {
-	"extends": "@shaastra/tsconfig/ui.json",
+	"extends": "@shaastra/tsconfig/frontend.json",
 	"compilerOptions": {
 		"rootDir": "src",
 		"noEmit": true,

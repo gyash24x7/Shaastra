@@ -1,8 +1,9 @@
 {
-	"extends": "@shaastra/tsconfig/ui.json",
+	"extends": "@shaastra/tsconfig/frontend.json",
 	"compilerOptions": {
 		"rootDir": ".",
 		"resolveJsonModule": true,
+		"esModuleInterop": true,
 		"outDir": "dist",
 		"noEmit": false,
 		"types": [ "vite/client" ]

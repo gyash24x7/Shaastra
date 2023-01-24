@@ -15,7 +15,7 @@ function App() {
 	return (
 		<StrictMode>
 			<ClientProvider>
-				<AuthProvider>
+				<AuthProvider refresh={ async () => {} }>
 					<BrowserRouter>
 						<AppRoutes/>
 					</BrowserRouter>

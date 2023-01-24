@@ -1,5 +1,5 @@
 {
-	"extends": "@shaastra/tsconfig/ui.json",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"rootDir": "src",
 		"resolveJsonModule": true,

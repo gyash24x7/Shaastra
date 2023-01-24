@@ -1,8 +1,13 @@
+import react from "@vitejs/plugin-react-swc";
+import tailwindConfig from "./tailwind.config.js";
+import autoprefixer from "autoprefixer";
+import tailwindcss from "tailwindcss";
+import { mergeConfig } from "vite";
+
 /**
  *
  * @type {import("@storybook/react-vite").StorybookConfig}
  */
-
 const config = {
 	stories: [
 		"../src/**/*.mdx",
@@ -25,6 +30,19 @@ const config = {
 	},
 	docs: {
 		autodocs: "tag"
+	},
+	viteFinal( viteConfig ) {
+		return mergeConfig( viteConfig, {
+			plugins: [ react() ],
+			css: {
+				postcss: {
+					plugins: [
+						tailwindcss( tailwindConfig ),
+						autoprefixer()
+					]
+				}
+			}
+		} );
 	}
 };
 

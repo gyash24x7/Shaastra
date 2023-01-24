@@ -1,13 +1,13 @@
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import type { Request } from "express";
 import { importJWK, importPKCS8, importSPKI, JWK, jwtVerify, SignJWT } from "jose";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
 import superagent from "superagent";
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import type { AuthPayload, UserAuthInfo } from "../utils/index.js";
 import { LoggerFactory } from "../logger/index.js";
+import type { AuthPayload, UserAuthInfo } from "../utils/index.js";
 
 @Injectable()
 export class JwtService {

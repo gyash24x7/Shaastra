@@ -30,7 +30,7 @@ enum MemberPosition {
 }
 
 model Member {
-	id           String         @id
+	id           String         @id @default(cuid())
 	name         String
 	email        String         @unique
 	rollNumber   String         @unique

@@ -8,7 +8,9 @@
 		"types": [ "node" ],
 		"target": "ES2020",
 		"esModuleInterop": true,
-		"sourceMap": true
+		"sourceMap": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"exclude": [ "**/*.spec.ts", "**/*.test.ts" ]
 }

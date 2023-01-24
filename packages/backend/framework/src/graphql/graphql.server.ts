@@ -11,13 +11,13 @@ import { buildSubgraphSchema } from "@apollo/subgraph";
 import { BeforeApplicationShutdown, Injectable } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
 import { gql } from "graphql-tag";
+import type { GraphQLResolveInfo } from "graphql/type/index.js";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { LoggerFactory } from "../logger/index.js";
 import type { GraphQLResolverParams, ServiceContext } from "../utils/index.js";
 import { LandingPagePlugin } from "./landing.page.plugin.js";
 import { ServiceDataSource } from "./service.datasource.js";
-import { LoggerFactory } from "../logger/index.js";
-import type { GraphQLResolveInfo } from "graphql/type/index.js";
 
 export type ResolverFn = ( param: GraphQLResolverParams ) => any;
 

@@ -1,6 +1,6 @@
+import { ConfigService } from "@nestjs/config";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { REDIS_CLIENT } from "./redis.decorator.js";
-import { ConfigService } from "@nestjs/config";
 
 export const RedisClientModule = ClientsModule.registerAsync( [
 	{

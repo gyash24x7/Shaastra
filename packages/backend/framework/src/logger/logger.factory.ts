@@ -1,8 +1,8 @@
 import type { Type } from "@nestjs/common";
 import { Ogma } from "@ogma/logger";
-import process from "node:process";
 import { createWriteStream } from "node:fs";
 import { join } from "node:path";
+import process from "node:process";
 import { LoggerService } from "./logger.service.js";
 
 export class LoggerFactory {

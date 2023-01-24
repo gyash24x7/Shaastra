@@ -3,68 +3,33 @@
 	"version": "1.0.0",
 	"description": "",
 	"type": "module",
-	"main": "dist/index.js",
+	"module": "dist/main.js",
+	"main": "dist/main.js",
+	"types": "src/main.ts",
+	"private": true,
 	"scripts": {
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
-		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files --watch  --delete-dir-on-start src",
-		"start:dev": "wait-on dist/index.js && nodemon",
+		"build:dev": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start --watch src",
+		"start:dev": "wait-on dist/main.js && nodemon",
 		"typecheck": "tsc -p tsconfig.build.json",
 		"dev": "run-p build:dev start:dev",
-		"start": "node dist",
-		"gql:generate": "graphql-codegen",
+		"start": "node dist/main.js",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate --accept-data-loss",
 		"schema:publish": "node node_modules/@shaastra/scripts/schema.publish.js workforce"
 	},
-	"keywords": [ ],
-	"author": "",
-	"license": "ISC",
+	"dependencies": {
+		"@shaastra/framework": "workspace:*"
+	},
 	"devDependencies": {
 		"@shaastra/scripts": "workspace:*",
-		"@shaastra/tsconfig": "workspace:*",
-		"prisma": "4.8.1"
-	},
-	"dependencies": {
-		"@prisma/client": "4.8.1",
-		"@shaastra/framework": "workspace:*",
-		"graphql": "16.6.0"
-	},
-	"prisma": {
-		"schema": "./prisma/schema.prisma"
+		"@shaastra/tsconfig": "workspace:*"
 	},
 	"nodemonConfig": {
 		"verbose": true,
 		"watch": [ "./dist/*" ]
 	},
-	"codegen": {
-		"schema": "./src/graphql/schema.graphql",
-		"generates": {
-			"./src/graphql/generated/index.ts": {
-				"plugins": [ "typescript-resolvers" ],
-				"config": {
-					"federation": true,
-					"useTypeImports": true,
-					"skipTypename": true,
-					"contextType": "ServiceContext<PrismaClient>",
-					"avoidOptionals": false,
-					"mappers": {
-						"ServiceContext": "@shaastra/framework#ServiceContext",
-						"PrismaClient": "@prisma/client/workforce/index.js#PrismaClient",
-						"Member": "@prisma/client/workforce/index.js#Member",
-						"Team": "@prisma/client/workforce/index.js#Team",
-						"Department": "@prisma/client/workforce/index.js#Department",
-						"MemberPosition": "@prisma/client/workforce/index.js#MemberPosition",
-						"CreateMemberInput": "../inputs.js#CreateMemberInput",
-						"EnableMemberInput": "../inputs.js#EnableMemberInput",
-						"CreateTeamInput": "../inputs.js#CreateTeamInput",
-						"MutationEnableMemberArgs": "../inputs.js#MutationEnableMemberArgs",
-						"MutationCreateMemberArgs": "../inputs.js#MutationCreateMemberArgs",
-						"MutationCreateTeamArgs": "../inputs.js#MutationCreateTeamArgs",
-						"Maybe": "@shaastra/framework#Maybe",
-						"Scalars": "@shaastra/framework#Scalars"
-					}
-				}
-			}
-		}
+	"prisma": {
+		"schema": "prisma/schema.prisma"
 	}
 }

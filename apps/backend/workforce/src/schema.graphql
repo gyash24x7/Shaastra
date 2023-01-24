@@ -58,7 +58,7 @@ type Mutation {
 input CreateMemberInput {
 	name: String!
 	email: String!
-	userId: String!
+	password: String!
 	rollNumber: String!
 	department: Department!
 	mobile: String!

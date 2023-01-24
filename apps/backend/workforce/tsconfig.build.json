@@ -6,6 +6,6 @@
 		"resolveJsonModule": true,
 		"esModuleInterop": true
 	},
-	"include": [ "src" ],
+	"include": [ "src", "prisma" ],
 	"exclude": [ "node_modules", "dist", ".turbo", "coverage", "test", "vitest.config.ts" ]
 }

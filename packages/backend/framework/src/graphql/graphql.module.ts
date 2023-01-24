@@ -1,5 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { DiscoveredClassWithMeta, DiscoveryModule, DiscoveryService } from "../discovery/index.js";
+import { LoggerFactory } from "../logger/index.js";
 import {
 	GRAPHQL_FIELD_RESOLVER,
 	GRAPHQL_MUTATION_RESOLVER,
@@ -9,8 +11,6 @@ import {
 	GraphQLOperationType
 } from "./graphql.decorators.js";
 import { GraphQLServer } from "./graphql.server.js";
-import { ConfigService } from "@nestjs/config";
-import { LoggerFactory } from "../logger/index.js";
 
 @Module( {
 	imports: [ DiscoveryModule ],

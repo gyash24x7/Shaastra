@@ -1,24 +1,51 @@
-import { MemberPosition, PrismaClient, type Member } from "@prisma/client/workforce/index.js";
-import type { IEventHandler } from "@shaastra/framework";
+import type { IEvent, IEventHandler } from "@nestjs/cqrs";
+import { EventsHandler } from "@nestjs/cqrs";
+import { type Member, MemberPosition } from "@prisma/client/workforce/index.js";
 import { MemberMessages } from "../constants/messages.js";
+import { PrismaService } from "../prisma/prisma.service.js";
+import { LoggerFactory, RedisClient } from "@shaastra/framework";
+import { ClientProxy } from "@nestjs/microservices";
+import { OutboundEvents } from "../constants/outbound.events.js";
+import { firstValueFrom } from "rxjs";
 
-const memberCreatedEventHandler: IEventHandler<PrismaClient> = async function ( data: Member, context ) {
-	const member = await context.prisma.member.findFirst( {
-		where: { department: data.department, position: MemberPosition.CORE }
-	} );
+export class MemberCreatedEvent implements IEvent {
+	constructor( public readonly data: Member & { password: string } ) {}
+}
 
-	if ( !member ) {
-		context.logger.error( MemberMessages.NOT_FOUND );
-		return;
+@EventsHandler( MemberCreatedEvent )
+export class MemberCreatedEventHandler implements IEventHandler<MemberCreatedEvent> {
+	private readonly logger = LoggerFactory.getLogger( MemberCreatedEventHandler );
+
+	constructor(
+		@RedisClient() private readonly redisClient: ClientProxy,
+		private readonly prismaService: PrismaService
+	) {}
+
+	async handle( { data }: MemberCreatedEvent ) {
+		this.logger.debug( ">> handle()" );
+		this.logger.debug( "Data: %o", data );
+
+		const member = await this.prismaService.member.findFirst( {
+			where: { department: data.department, position: MemberPosition.CORE }
+		} );
+
+		if ( member ) {
+			const subject = `New Member requested to join ${ data.department }`;
+			const content = `Please log in to Shaastra Prime and approve this request.`;
+			// await this.mailer.sendMail( { subject, content, email: member.email, name: member.name } );
+			this.logger.debug( `Need to send mail here!` );
+			this.logger.debug( `Subject: ${ subject }` );
+			this.logger.debug( `Content: ${ content }` );
+			this.logger.debug( `Member: ${ member.name }` );
+		} else {
+			this.logger.error( MemberMessages.NOT_FOUND );
+		}
+
+		await firstValueFrom(
+			this.redisClient.emit(
+				OutboundEvents.MEMBER_CREATED,
+				{ ...data, password: data.password }
+			)
+		);
 	}
-
-	const subject = `New Member requested to join ${ data.department }`;
-	const content = `Please log in to Shaastra Prime and approve this request.`;
-	// await context.mailer.sendMail( { subject, content, email: member.email, name: member.name } );
-	context.logger.debug( `Need to send mail here!` );
-	context.logger.debug( `Subject: ${ subject }` );
-	context.logger.debug( `Content: ${ content }` );
-	context.logger.debug( `Member: ${ member.name }` );
-};
-
-export default memberCreatedEventHandler;
+}

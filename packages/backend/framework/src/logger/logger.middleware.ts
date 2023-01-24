@@ -1,6 +1,6 @@
-import type { ExpressMiddleware } from "../utils/index.js";
 import { constantCase } from "change-case";
 import { bgWhite, italic } from "colorette";
+import type { ExpressMiddleware } from "../utils/index.js";
 import { LoggerFactory } from "./logger.factory.js";
 
 export function loggerMiddleware(): ExpressMiddleware {

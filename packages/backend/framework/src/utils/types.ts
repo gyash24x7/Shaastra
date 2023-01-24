@@ -1,8 +1,8 @@
 import type { BaseContext, ContextFunction } from "@apollo/server";
 import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
-import type { JWTPayload } from "jose";
-import type { GraphQLResolveInfo } from "graphql/type/index.js";
 import type { NextFunction, Request, Response } from "express";
+import type { GraphQLResolveInfo } from "graphql/type/index.js";
+import type { JWTPayload } from "jose";
 
 export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
 

@@ -1,6 +1,6 @@
+import { capitalCase, constantCase } from "change-case";
 import process from "node:process";
 import type { AppConfig, AppInfo } from "./types.js";
-import { capitalCase, constantCase } from "change-case";
 
 export function generateAppInfo( id: string ): AppInfo {
 	const port = parseInt( process.env[ `${ constantCase( id ) }_PORT` ] || "8000" );

@@ -7,7 +7,6 @@ import { ClientProvider } from "@shaastra/client";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./auth/provider.js";
 import { AppRoutes } from "./routes/index.js";
 import "./styles/global.css";
 
@@ -15,11 +14,9 @@ function App() {
 	return (
 		<StrictMode>
 			<ClientProvider>
-				<AuthProvider refresh={ async () => {} }>
-					<BrowserRouter>
-						<AppRoutes/>
-					</BrowserRouter>
-				</AuthProvider>
+				<BrowserRouter>
+					<AppRoutes/>
+				</BrowserRouter>
 			</ClientProvider>
 		</StrictMode>
 	);

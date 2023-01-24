@@ -1,12 +1,12 @@
 import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { EventsHandler } from "@nestjs/cqrs";
-import { type Member, MemberPosition } from "@prisma/client/workforce/index.js";
-import { MemberMessages } from "../constants/messages.js";
-import { PrismaService } from "../prisma/prisma.service.js";
-import { LoggerFactory, RedisClient } from "@shaastra/framework";
 import { ClientProxy } from "@nestjs/microservices";
-import { OutboundEvents } from "../constants/outbound.events.js";
+import { type Member, MemberPosition } from "@prisma/client/workforce/index.js";
+import { LoggerFactory, RedisClient } from "@shaastra/framework";
 import { firstValueFrom } from "rxjs";
+import { MemberMessages } from "../constants/messages.js";
+import { OutboundEvents } from "../constants/outbound.events.js";
+import { PrismaService } from "../prisma/prisma.service.js";
 
 export class MemberCreatedEvent implements IEvent {
 	constructor( public readonly data: Member & { password: string } ) {}

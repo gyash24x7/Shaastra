@@ -34,6 +34,8 @@ export default function LoginPage() {
 					rollNumber: ( { appearance, error, ...props } ) => (
 						<TextInput
 							{ ...props }
+							value={ props.value.toUpperCase() }
+							setValue={ v => props.setValue( v.toLowerCase() ) }
 							label={ "Roll Number" }
 							placeholder={ "Enter your Roll Number" }
 							renderIconAfter={ ( props ) => <UserIcon { ...props }/> }
@@ -55,7 +57,7 @@ export default function LoginPage() {
 				} }
 				validations={ {
 					rollNumber: [ patternValidator( rollNumberRegex, "Invalid Roll Number!" ) ],
-					password: [ minLengthValidator( 8, "Password too Short!" ) ]
+					password: [ minLengthValidator( 7, "Password too Short!" ) ]
 				} }
 			/>
 			<Flex justify={ "space-between" }>

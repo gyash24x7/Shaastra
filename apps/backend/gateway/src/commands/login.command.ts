@@ -1,10 +1,10 @@
-import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
-import bcrypt from "bcryptjs";
-import { PrismaService } from "../prisma/prisma.service.js";
-import { UserMessages } from "../constants/messages.js";
-import { JwtService, LoggerFactory } from "@shaastra/framework";
+import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
 import type { User } from "@prisma/client/identity/index.js";
+import { JwtService, LoggerFactory } from "@shaastra/framework";
+import bcrypt from "bcryptjs";
+import { UserMessages } from "../constants/messages.js";
+import { PrismaService } from "../prisma/prisma.service.js";
 
 export class LoginInput {
 	username: string;

@@ -7,7 +7,6 @@ import HomeLayout from "../layouts/home.layout.js";
 import LoginPage from "../pages/auth/login.js";
 import SignUpPage from "../pages/auth/signup.js";
 import HomePage from "../pages/index.js";
-import CreateMemberPage from "../pages/members/create.js";
 
 export function PrivateRoute( props: { children: ReactNode } ) {
 	const { isLoggedIn } = useAuth();
@@ -36,7 +35,6 @@ export function AppRoutes() {
 					<Route path={ "login" } element={ <LoginPage/> }/>
 					<Route path={ "signup" } element={ <SignUpPage/> }/>
 				</Route>
-				<Route path={ "members/create" } element={ <PublicRoute><CreateMemberPage/></PublicRoute> }/>
 			</Route>
 		</Routes>
 	);

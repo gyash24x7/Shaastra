@@ -1,8 +1,8 @@
 import { Controller } from "@nestjs/common";
-import { EventPattern } from "@nestjs/microservices";
 import { CommandBus } from "@nestjs/cqrs";
-import { CreateUserCommand } from "../commands/create.user.command.js";
+import { EventPattern } from "@nestjs/microservices";
 import { LoggerFactory } from "@shaastra/framework";
+import { CreateUserCommand } from "../commands/create.user.command.js";
 import { InboundEvents } from "../constants/inbound.events.js";
 
 export type MemberCreatedInboundData = {
@@ -27,7 +27,7 @@ export class InboundController {
 		this.logger.debug( ">> handleMemberCreatedEvent()" );
 		this.logger.debug( "Data: %o", data );
 
-		console.log( data )
+		console.log( data );
 
 		return this.commandBus.execute(
 			new CreateUserCommand( {

@@ -1,5 +1,5 @@
 {
-	"extends": "@shaastra/tsconfig/frontend.json",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"rootDir": "src",
 		"resolveJsonModule": true,
@@ -15,6 +15,6 @@
 		"**/*.test.(ts|tsx|js|jsx)",
 		"**/*.stories.(ts|tsx|js|jsx)",
 		"vite.config.ts",
-		".storybook/tailwind.config.ts"
+		".storybook/tailwind.config.js"
 	]
 }

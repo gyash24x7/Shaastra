@@ -1,6 +1,15 @@
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import superagent from "superagent";
-import type { User } from "./signup.mutation.js";
+
+export type User = {
+	id: string
+	name: string
+	email: string
+	username: string
+	password: string
+	verified: boolean
+	roles: string[]
+}
 
 export type LoginMutationVariables = {
 	password: string;

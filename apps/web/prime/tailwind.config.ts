@@ -4,7 +4,7 @@ import type { Config } from "tailwindcss";
 const config: Config = {
 	content: [
 		join( __dirname, "src/**/*!(*.stories|*.spec).{ts,tsx,html}" ),
-		join( __dirname, "node_modules/@shaastra/ui/dist/ui.js" )
+		join( __dirname, "node_modules/@shaastra/ui/dist/**/*!(*.stories|*.spec).{js,jsx,html}" )
 	],
 	theme: {
 		fontWeight: {

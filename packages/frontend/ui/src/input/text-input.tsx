@@ -9,7 +9,7 @@ export interface InputProps<V = any> {
 	setValue?: ( value: V ) => void;
 }
 
-export interface TextInputProps<T = any> extends InputProps<T> {
+export interface TextInputProps extends InputProps<string> {
 	label?: string;
 	placeholder?: string;
 	message?: string;

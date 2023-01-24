@@ -29,7 +29,7 @@ const queryHandlers = [ MessagesQueryHandler, MessageQueryHandler, ChannelQueryH
 const commandHandlers = [ CreateMessageCommandHandler, CreateChannelCommandHandler ];
 const resolvers = [ QueryResolvers, MutationResolvers, MessageResolvers, ChannelResolvers ];
 
-const appConfig = registerAs( "app", appConfigFactory( "workforce" ) );
+const appConfig = registerAs( "app", appConfigFactory( "connect" ) );
 const ConfigModule = NestConfigModule.forRoot( { isGlobal: true, load: [ appConfig ] } );
 
 @Module( {

@@ -1,8 +1,8 @@
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
 import type { User } from "@prisma/client/identity/index.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 import { LoggerFactory } from "@shaastra/framework";
+import { PrismaService } from "../prisma/prisma.service.js";
 
 export class UserQuery implements IQuery {
 	constructor( public readonly userId: string ) {}

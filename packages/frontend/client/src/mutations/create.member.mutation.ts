@@ -1,7 +1,6 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import superagent from "superagent";
-import type { Department, MemberPosition } from "../generated/index.js";
-import type { User } from "./signup.mutation.js";
+import type { Department, MemberPosition, CreateMemberInput } from "../generated/index.js";
 
 export type CreateMemberMutationData = {
 	createMember: {
@@ -45,26 +44,10 @@ export const query = `
 	}
 `;
 
-export type CreateMemberMutationVariables = {
-	userId: string;
-	hash: string;
-	department: Department;
-	mobile: string;
-}
-
-export async function createMemberMutationFetcher( variables: CreateMemberMutationVariables ): Promise<CreateMemberMutationData> {
-	const { userId, hash, mobile, department } = variables;
-
-	let response = await superagent
-		.post( "http://localhost:9000/api/auth/verify-member-create" )
-		.send( { userId, hash } )
-		.withCredentials();
-
-	const { username: rollNumber, email, name }: User = response.body;
-
-	response = await superagent
+export async function createMemberMutationFetcher( variables: CreateMemberInput ): Promise<CreateMemberMutationData> {
+	const response = await superagent
 		.post( "http://localhost:9000/api/graphql" )
-		.send( { query, variables: { mobile, department, name, email, userId, rollNumber } } )
+		.send( { query, variables } )
 		.withCredentials();
 
 	if ( response.body.errors ) {
@@ -75,7 +58,7 @@ export async function createMemberMutationFetcher( variables: CreateMemberMutati
 	return response.body.data;
 }
 
-export type CreateMutationOptions = UseMutationOptions<CreateMemberMutationData, unknown, CreateMemberMutationVariables>;
+export type CreateMutationOptions = UseMutationOptions<CreateMemberMutationData, unknown, CreateMemberInput>;
 
 export function useCreateMemberMutation( options?: CreateMutationOptions ) {
 	return useMutation( [ "createMember" ], createMemberMutationFetcher, options );

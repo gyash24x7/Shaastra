@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule, UnauthorizedException } from "@nestjs/common";
+import { ConfigModule as NestConfigModule, registerAs } from "@nestjs/config";
 import { CqrsModule } from "@nestjs/cqrs";
 import {
 	appConfigFactory,
@@ -12,17 +13,16 @@ import {
 	RedisClientModule,
 	UserAuthInfo
 } from "@shaastra/framework";
-import { PrismaService } from "./prisma/prisma.service.js";
+import cookieParser from "cookie-parser";
 import { CreateTokenCommandHandler } from "./commands/create.token.command.js";
 import { CreateUserCommandHandler } from "./commands/create.user.command.js";
 import { LoginCommandHandler } from "./commands/login.command.js";
 import { VerifyUserCommandHandler } from "./commands/verify.user.command.js";
-import { UserCreatedEventHandler } from "./events/user.created.event.js";
-import { UserQueryHandler } from "./queries/user.query.js";
 import { AuthController } from "./controllers/auth.controller.js";
-import { ConfigModule as NestConfigModule, registerAs } from "@nestjs/config";
 import { InboundController } from "./controllers/inbound.controller.js";
-import cookieParser from "cookie-parser";
+import { UserCreatedEventHandler } from "./events/user.created.event.js";
+import { PrismaService } from "./prisma/prisma.service.js";
+import { UserQueryHandler } from "./queries/user.query.js";
 
 const eventHandlers = [ UserCreatedEventHandler ];
 const queryHandlers = [ UserQueryHandler ];
@@ -76,4 +76,4 @@ class AppModule implements NestModule {
 
 }
 
-await bootstrap( AppModule, PrismaService );
+await bootstrap( AppModule, PrismaService, true );

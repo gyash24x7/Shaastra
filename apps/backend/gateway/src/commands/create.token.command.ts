@@ -1,10 +1,10 @@
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
-import crypto from "crypto";
 import type { Token } from "@prisma/client/identity/index.js";
-import { PrismaService } from "../prisma/prisma.service.js";
-import dayjs from "dayjs";
 import { LoggerFactory } from "@shaastra/framework";
+import crypto from "crypto";
+import dayjs from "dayjs";
+import { PrismaService } from "../prisma/prisma.service.js";
 
 export type CreateTokenInput = { userId: string };
 

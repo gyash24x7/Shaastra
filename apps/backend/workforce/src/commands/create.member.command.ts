@@ -1,11 +1,11 @@
+import { ConflictException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
 import { Department, type Member, MemberPosition } from "@prisma/client/workforce/index.js";
+import { LoggerFactory } from "@shaastra/framework";
 import { MemberMessages } from "../constants/messages.js";
 import { MemberCreatedEvent } from "../events/member.created.event.js";
 import { PrismaService } from "../prisma/prisma.service.js";
-import { LoggerFactory } from "@shaastra/framework";
-import { ConflictException } from "@nestjs/common";
 
 export type CreateMemberInput = {
 	name: string;

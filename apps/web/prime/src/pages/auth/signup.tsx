@@ -5,7 +5,8 @@ import {
 	EnvelopeIcon,
 	CheckCircleIcon
 } from "@heroicons/react/24/solid";
-import { useSignupMutation } from "@shaastra/client";
+import { DevicePhoneMobileIcon } from "@heroicons/react/24/solid/index.js";
+import { useCreateMemberMutation, Department } from "@shaastra/client";
 import {
 	Banner,
 	emailValidator,
@@ -15,13 +16,28 @@ import {
 	rollNumberValidator,
 	TextInput,
 	VStack,
-	Flex
+	Flex,
+	ListSelect
 } from "@shaastra/ui";
 import { When, If, Then, Else } from "react-if";
 import { Link } from "react-router-dom";
 
+const departments: Department[] = [
+	Department.Envisage,
+	Department.Evolve,
+	Department.Finance,
+	Department.Publicity,
+	Department.Qms,
+	Department.Webops,
+	Department.ConceptAndDesign,
+	Department.EventsAndWorkshops,
+	Department.OperationsAndInfrastructurePlanning,
+	Department.ShowsAndExhibitions,
+	Department.SponsorshipAndPr
+];
+
 export default function SignUpPage() {
-	const { mutateAsync, data, isLoading, isError } = useSignupMutation();
+	const { mutateAsync, data, isLoading, isError } = useCreateMemberMutation();
 
 	return (
 		<VStack className={ "h-screen p-8" }>
@@ -39,8 +55,15 @@ export default function SignUpPage() {
 					<VStack>
 						<Form
 							isLoading={ isLoading }
-							initialValue={ { name: "", email: "", rollNumber: "", password: "" } }
-							onSubmit={ ( { rollNumber: username, ...data } ) => mutateAsync( { ...data, username } ) }
+							initialValue={ {
+								name: "",
+								email: "",
+								rollNumber: "",
+								password: "",
+								mobile: "",
+								department: Department.Webops
+							} }
+							onSubmit={ ( data ) => mutateAsync( data ) }
 							renderMap={ {
 								name: ( { appearance, error, ...props } ) => (
 									<TextInput
@@ -81,13 +104,39 @@ export default function SignUpPage() {
 										appearance={ appearance }
 										message={ error }
 									/>
+								),
+								mobile: ( { appearance, error, ...props } ) => (
+									<TextInput
+										{ ...props }
+										label={ "Mobile" }
+										placeholder={ "Enter your 10 digit Mobile Number" }
+										renderIconAfter={ ( props ) => <DevicePhoneMobileIcon { ...props }/> }
+										appearance={ appearance }
+										message={ error }
+									/>
+								),
+								department: ( { appearance, error, value, setValue, name } ) => (
+									<ListSelect<string>
+										label={ "Department" }
+										placeholder={ "Select Department" }
+										name={ name }
+										options={ departments.map( d => (
+											{ label: d, value: d }
+										) ) }
+										onChange={ ( { value } ) => setValue( value ) }
+										appearance={ appearance }
+										message={ error }
+										value={ { label: value, value } }
+									/>
 								)
 							} }
 							validations={ {
 								name: [ requiredValidator( "Name is Required!" ) ],
 								email: [ emailValidator( "Invalid Email" ) ],
 								rollNumber: [ rollNumberValidator( "Invalid Roll Number!" ) ],
-								password: [ minLengthValidator( 8, "Password too Short!" ) ]
+								password: [ minLengthValidator( 7, "Password too Short!" ) ],
+								mobile: [ requiredValidator( "Mobile Number is Required!" ) ],
+								department: [ requiredValidator( "Department is Required!" ) ]
 							} }
 						/>
 						<Flex justify={ "space-between" }>

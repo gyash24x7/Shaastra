@@ -1,13 +1,12 @@
 import { Body, Controller, Get, Param, Post, Res } from "@nestjs/common";
-import { JwtService, LoggerFactory } from "@shaastra/framework";
-import * as jose from "jose";
 import { CommandBus } from "@nestjs/cqrs";
-import { LoginCommand, LoginCommandResponse, LoginInput } from "../commands/login.command.js";
+import { JwtService, LoggerFactory } from "@shaastra/framework";
 import type { CookieOptions, Response } from "express";
+import * as jose from "jose";
+import { LoginCommand, LoginCommandResponse, LoginInput } from "../commands/login.command.js";
 import { VerifyUserCommand, VerifyUserInput } from "../commands/verify.user.command.js";
-import type { User } from "@prisma/client/identity/index.js";
 
-const accessTokenCookieOptions: CookieOptions = {
+export const accessTokenCookieOptions: CookieOptions = {
 	maxAge: 9000000,
 	httpOnly: true,
 	domain: "localhost",
@@ -35,21 +34,21 @@ export class AuthController {
 	}
 
 	@Post( "login" )
-	async login( @Body() data: LoginInput, @Res() res: Response ): Promise<User> {
+	async login( @Body() data: LoginInput, @Res() res: Response ) {
 		this.logger.debug( ">> login()" );
 		this.logger.debug( "Data: %o", data );
 
 		const { token, user }: LoginCommandResponse = await this.commandBus.execute( new LoginCommand( data ) );
 		res.cookie( "identity", token, accessTokenCookieOptions );
-		return user;
+		res.status( 200 ).send( user );
 	}
 
 	@Get( "verify-email/:userId/:hash" )
-	async verifyEmail( @Param() data: VerifyUserInput ): Promise<User> {
+	async verifyEmail( @Param() data: VerifyUserInput, @Res() res: Response ) {
 		this.logger.debug( ">> verifyEmail()" );
 		this.logger.debug( "Data: %o", data );
-
-		return this.commandBus.execute( new VerifyUserCommand( data ) );
+		await this.commandBus.execute( new VerifyUserCommand( data ) );
+		res.redirect( "http://localhost:3000/auth/login" );
 	}
 
 	@Post( "logout" )

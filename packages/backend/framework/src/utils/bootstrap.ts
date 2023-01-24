@@ -9,9 +9,20 @@ export interface WithShutdownHook {
 	applyShutdownHooks: ( app: INestApplication ) => void;
 }
 
-export async function bootstrap<P extends WithShutdownHook = any>( AppModule: any, PrismaService?: Type<P> ) {
+export async function bootstrap<P extends WithShutdownHook = any>(
+	AppModule: any,
+	PrismaService?: Type<P>,
+	isGateway: boolean = false
+) {
 	const logger = LoggerFactory.getLogger( "Bootstrap" );
 	const app = await NestFactory.create( AppModule, { logger } );
+
+	if ( isGateway ) {
+		app.enableCors( {
+			origin: "http://localhost:3000",
+			credentials: true
+		} );
+	}
 
 	app.use( bodyParser.json() );
 	app.use( loggerMiddleware() );

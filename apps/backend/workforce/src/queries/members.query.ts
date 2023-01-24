@@ -1,8 +1,8 @@
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
 import type { Member } from "@prisma/client/workforce/index.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 import { LoggerFactory } from "@shaastra/framework";
+import { PrismaService } from "../prisma/prisma.service.js";
 
 export class MembersQuery implements IQuery {
 	constructor( public readonly teamId: string ) {}

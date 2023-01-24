@@ -1,10 +1,10 @@
-import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { ConflictException } from "@nestjs/common";
+import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
+import { LoggerFactory } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
+import { UserMessages } from "../constants/messages.js";
 import { UserCreatedEvent } from "../events/user.created.event.js";
 import { PrismaService } from "../prisma/prisma.service.js";
-import { UserMessages } from "../constants/messages.js";
-import { LoggerFactory } from "@shaastra/framework";
 
 export type CreateUserInput = {
 	id: string;

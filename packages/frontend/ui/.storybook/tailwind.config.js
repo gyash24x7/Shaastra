@@ -1,7 +1,6 @@
 import { join } from "path";
-import type { Config } from "tailwindcss";
 
-const config: Config = {
+const config = {
 	content: [
 		join( __dirname, "src/**/*!(*.stories|*.spec).{ts,tsx,html}" ),
 		join( __dirname, "../../../libs/ui/**/*!(*.stories|*.spec).{ts,tsx,html}" )

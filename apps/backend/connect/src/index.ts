@@ -1,21 +1,50 @@
-import { PrismaClient } from "@prisma/client/connect/index.js";
-import { ExpressApplication } from "@shaastra/framework";
-import events from "./events/index.js";
-import { channelResolvers, messageResolvers } from "./graphql/entity.resolvers.js";
-import type { Resolvers } from "./graphql/generated/index.js";
-import { mutationResolvers } from "./mutations/index.js";
-import { queryResolvers } from "./queries/index.js";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { ConfigModule as NestConfigModule, registerAs } from "@nestjs/config";
+import { CqrsModule } from "@nestjs/cqrs";
+import {
+	appConfigFactory,
+	AuthModule,
+	bootstrap,
+	deserializeAuthInfo,
+	GraphQLModule,
+	JwtService,
+	LoggerFactory,
+	RedisClientModule
+} from "@shaastra/framework";
+import { CreateChannelCommandHandler } from "./commands/create.channel.command.js";
+import { CreateMessageCommandHandler } from "./commands/create.message.command.js";
+import { ChannelCreatedEventHandler } from "./events/channel.created.event.js";
+import { MessageCreatedEventHandler } from "./events/message.created.event.js";
+import { PrismaService } from "./prisma/prisma.service.js";
+import { ChannelQueryHandler } from "./queries/channel.query.js";
+import { MessageQueryHandler } from "./queries/message.query.js";
+import { MessagesQueryHandler } from "./queries/messages.query.js";
+import { ChannelResolvers } from "./resolvers/channel.resolvers.js";
+import { MessageResolvers } from "./resolvers/message.resolvers.js";
+import { MutationResolvers } from "./resolvers/mutation.resolvers.js";
+import { QueryResolvers } from "./resolvers/query.resolvers.js";
 
-export const prisma = new PrismaClient( {
-	log: [ "query", "info", "warn", "error" ]
-} );
+const eventHandlers = [ MessageCreatedEventHandler, ChannelCreatedEventHandler ];
+const queryHandlers = [ MessagesQueryHandler, MessageQueryHandler, ChannelQueryHandler ];
+const commandHandlers = [ CreateMessageCommandHandler, CreateChannelCommandHandler ];
+const resolvers = [ QueryResolvers, MutationResolvers, MessageResolvers, ChannelResolvers ];
 
-const resolvers: Resolvers = {
-	Query: queryResolvers,
-	Mutation: mutationResolvers,
-	Channel: channelResolvers,
-	Message: messageResolvers
-};
+const appConfig = registerAs( "app", appConfigFactory( "workforce" ) );
+const ConfigModule = NestConfigModule.forRoot( { isGlobal: true, load: [ appConfig ] } );
 
-const application = new ExpressApplication( { name: "connect", events, prisma, resolvers } );
-await application.start();
+@Module( {
+	imports: [ CqrsModule, RedisClientModule, AuthModule, GraphQLModule, ConfigModule ],
+	providers: [ PrismaService, ...commandHandlers, ...queryHandlers, ...eventHandlers, ...resolvers ]
+} )
+class AppModule implements NestModule {
+	private readonly logger = LoggerFactory.getLogger( AppModule );
+
+	constructor( private readonly jwtService: JwtService ) {}
+
+	configure( consumer: MiddlewareConsumer ) {
+		consumer.apply( deserializeAuthInfo( this.jwtService, false ) ).forRoutes( "*" );
+		this.logger.info( "AppModule Middlewares Applied!" );
+	}
+}
+
+await bootstrap( AppModule, PrismaService );

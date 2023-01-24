@@ -71,7 +71,7 @@ export type Scalars = {
 export type OperationArgs<I> = { data: I };
 
 export type GraphQLResolverParams<A = {}> = {
-	parent: { id?: string };
+	parent: { id?: string } & { [ key: string ]: any };
 	args: OperationArgs<A>;
 	context: ServiceContext;
 	info: GraphQLResolveInfo

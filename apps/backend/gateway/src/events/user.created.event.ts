@@ -1,24 +1,30 @@
-import type { User, PrismaClient } from "@prisma/client/identity/index.js";
-import type { IEventHandler } from "@shaastra/framework";
-import crypto from "crypto";
-import dayjs from "dayjs";
-import { AppEvents } from "./index.js";
+import type { IEvent, IEventHandler } from "@nestjs/cqrs";
+import { CommandBus, EventsHandler } from "@nestjs/cqrs";
+import type { Token, User } from "@prisma/client/identity/index.js";
+import { CreateTokenCommand } from "../commands/create.token.command.js";
+import { LoggerFactory } from "@shaastra/framework";
 
-const userCreatedEventHandler: IEventHandler<PrismaClient> = async function ( data: User, context ) {
-	context.logger.debug( `Handling ${ AppEvents.USER_CREATED_EVENT }...` );
-	context.logger.debug( "Data: ", data );
+export class UserCreatedEvent implements IEvent {
+	constructor( public readonly data: User ) {}
+}
 
-	const hash = crypto.randomBytes( 32 ).toString( "hex" );
-	const expiry = dayjs().add( 2, "days" ).toDate();
-	const token = await context.prisma.token.create( { data: { userId: data.id, hash, expiry } } );
+@EventsHandler( UserCreatedEvent )
+export class UserCreatedEventHandler implements IEventHandler<UserCreatedEvent> {
+	private readonly logger = LoggerFactory.getLogger( UserCreatedEventHandler );
 
-	const link = `http://localhost:9000/api/auth/verify-email/${ data.id }/${ token.hash }`;
-	const subject = "Verify your Shaastra Account";
-	const content = `Please click here to verify your Shaastra Account ${ link }`;
-	// await context.mailer.sendMail( { subject, content, email: user.email, name: user.name } );
-	context.logger.debug( `Need to send mail here!` );
-	context.logger.debug( `Subject: ${ subject }` );
-	context.logger.debug( `Content: ${ content }` );
-};
+	constructor( private readonly commandBus: CommandBus ) {}
 
-export default userCreatedEventHandler;
+	async handle( { data }: UserCreatedEvent ) {
+		this.logger.debug( ">> handle()" );
+		this.logger.debug( "Data: %o", data );
+
+		const token: Token = await this.commandBus.execute( new CreateTokenCommand( { userId: data.id } ) );
+		const link = `http://localhost:9000/api/auth/verify-email/${ data.id }/${ token.hash }`;
+		const subject = "Verify your Shaastra Account";
+		const content = `Please click here to verify your Shaastra Account ${ link }`;
+
+		this.logger.debug( `Need to send mail here!` );
+		this.logger.debug( `Subject: ${ subject }` );
+		this.logger.debug( `Content: ${ content }` );
+	}
+}

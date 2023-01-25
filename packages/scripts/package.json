@@ -8,6 +8,11 @@
 		"keys.generate.js",
 		"schema.fetch.js"
 	],
+	"devDependencies": {
+		"@types/shelljs": "0.8.11",
+		"jose": "4.11.2",
+		"shelljs": "0.8.5"
+	},
 	"keywords": [ ],
 	"author": "",
 	"license": "ISC"

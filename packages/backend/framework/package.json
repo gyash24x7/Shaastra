@@ -15,6 +15,33 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
-		"@shaastra/tsconfig": "workspace:*"
+		"@shaastra/tsconfig": "workspace:*",
+		"@types/superagent": "4.1.16",
+		"@types/body-parser": "1.19.2",
+		"@types/express": "4.17.15"
+	},
+	"dependencies": {
+		"@apollo/gateway": "2.2.3",
+		"@apollo/server": "4.3.1",
+		"@apollo/subgraph": "2.2.3",
+		"@nestjs/common": "9.2.1",
+		"@nestjs/config": "2.2.0",
+		"@nestjs/core": "9.2.1",
+		"@nestjs/cqrs": "9.0.1",
+		"@nestjs/microservices": "9.2.1",
+		"@nestjs/platform-express": "9.2.1",
+		"@nestjs/terminus": "9.1.4",
+		"@ogma/logger": "2.4.2",
+		"@prisma/client": "4.9.0",
+		"body-parser": "1.20.1",
+		"change-case": "4.1.2",
+		"colorette": "2.0.19",
+		"graphql": "16.6.0",
+		"graphql-tag": "2.12.6",
+		"jose": "4.11.2",
+		"reflect-metadata": "0.1.13",
+		"rimraf": "4.1.1",
+		"rxjs": "7.8.0",
+		"superagent": "8.0.8"
 	}
 }

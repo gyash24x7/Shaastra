@@ -4,7 +4,7 @@ import { Banner, Button, Form, minLengthValidator, patternValidator, TextInput, 
 import { When } from "react-if";
 import { Link, useNavigate } from "react-router-dom";
 
-export const rollNumberRegex = /^[A-Z]{2}[0-9]{2}[A-Z][0-9]{3}$/;
+export const rollNumberRegex = /^[a-z]{2}[0-9]{2}[a-z][0-9]{3}$/;
 
 export default function LoginPage() {
 	const navigate = useNavigate();

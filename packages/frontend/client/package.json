@@ -14,9 +14,17 @@
 	"keywords": [ ],
 	"author": "",
 	"license": "ISC",
+	"dependencies": {
+		"@tanstack/react-query": "4.23.0",
+		"superagent": "8.0.8"
+	},
 	"devDependencies": {
+		"@graphql-codegen/cli": "2.16.4",
+		"@graphql-codegen/typescript": "2.8.7",
+		"@graphql-codegen/typescript-resolvers": "2.7.12",
 		"@shaastra/scripts": "workspace:*",
-		"@shaastra/tsconfig": "workspace:*"
+		"@shaastra/tsconfig": "workspace:*",
+		"@types/superagent": "4.1.16"
 	},
 	"codegen": {
 		"overwrite": true,

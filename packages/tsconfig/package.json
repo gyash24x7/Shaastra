@@ -2,5 +2,8 @@
 	"name": "@shaastra/tsconfig",
 	"version": "1.0.0",
 	"private": true,
-	"files": [ "base.json", "backend.json", "frontend.json" ]
+	"files": [ "base.json", "backend.json", "frontend.json" ],
+	"devDependencies": {
+		"@tsconfig/node16-strictest": "1.0.4"
+	}
 }

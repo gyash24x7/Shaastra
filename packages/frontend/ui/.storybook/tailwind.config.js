@@ -1,10 +1,7 @@
 import { join } from "path";
 
 const config = {
-	content: [
-		join( __dirname, "src/**/*!(*.stories|*.spec).{ts,tsx,html}" ),
-		join( __dirname, "../../../libs/ui/**/*!(*.stories|*.spec).{ts,tsx,html}" )
-	],
+	content: [ join( __dirname, "../src/**/*!(*.stories|*.spec).{ts,tsx,html}" ) ],
 	theme: {
 		fontWeight: {
 			light: "300",

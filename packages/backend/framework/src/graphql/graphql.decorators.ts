@@ -1,34 +1,31 @@
-import { applyDecorators, Controller, SetMetadata } from "@nestjs/common";
+import { applyDecorators, SetMetadata, Injectable } from "@nestjs/common";
+import type { IRule } from "graphql-shield";
 
 export const GRAPHQL_RESOLVER_META_KEY = "GRAPHQL_RESOLVER";
-export const GRAPHQL_QUERY_RESOLVER = "GRAPHQL_QUERY_RESOLVER";
-export const GRAPHQL_MUTATION_RESOLVER = "GRAPHQL_MUTATION_RESOLVER";
-export const GRAPHQL_REFERENCE_RESOLVER = "GRAPHQL_REFERENCE_RESOLVER";
-export const GRAPHQL_FIELD_RESOLVER = "GRAPHQL_FIELD_RESOLVER";
+export const GRAPHQL_SHIELD_META = "GRAPHQL_SHIELD_META";
+export const GRAPHQL_RESOLVER_TYPE = "GRAPHQL_RESOLVER_TYPE";
 
-export type GraphQLOperationType =
-	typeof GRAPHQL_QUERY_RESOLVER
-	| typeof GRAPHQL_MUTATION_RESOLVER
-	| typeof GRAPHQL_REFERENCE_RESOLVER
-	| typeof GRAPHQL_FIELD_RESOLVER
-
-export const Resolver = ( meta: string ) => applyDecorators(
-	SetMetadata( GRAPHQL_RESOLVER_META_KEY, meta ),
-	Controller()
+export const Resolver = () => applyDecorators(
+	SetMetadata( GRAPHQL_RESOLVER_META_KEY, true ),
+	Injectable()
 );
 
 export const Query = () => applyDecorators(
-	SetMetadata( GRAPHQL_QUERY_RESOLVER, true )
+	SetMetadata( GRAPHQL_RESOLVER_TYPE, "Query" )
 );
 
 export const Mutation = () => applyDecorators(
-	SetMetadata( GRAPHQL_MUTATION_RESOLVER, true )
+	SetMetadata( GRAPHQL_RESOLVER_TYPE, "Mutation" )
 );
 
-export const ResolveReference = () => applyDecorators(
-	SetMetadata( GRAPHQL_REFERENCE_RESOLVER, true )
+export const ResolveReference = ( parentType: string ) => applyDecorators(
+	SetMetadata( GRAPHQL_RESOLVER_TYPE, parentType )
 );
 
-export const FieldResolver = () => applyDecorators(
-	SetMetadata( GRAPHQL_FIELD_RESOLVER, true )
+export const FieldResolver = ( parentType: string ) => applyDecorators(
+	SetMetadata( GRAPHQL_RESOLVER_TYPE, parentType )
+);
+
+export const GraphQLShield = ( rule: IRule ) => applyDecorators(
+	SetMetadata( GRAPHQL_SHIELD_META, rule )
 );

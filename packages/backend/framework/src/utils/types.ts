@@ -1,6 +1,7 @@
 import type { BaseContext, ContextFunction } from "@apollo/server";
 import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
 import type { NextFunction, Request, Response } from "express";
+import type { IRule } from "graphql-shield";
 import type { GraphQLResolveInfo } from "graphql/type/index.js";
 import type { JWTPayload } from "jose";
 
@@ -21,7 +22,7 @@ export type ServiceContextFn = ContextFn<ServiceContext>
 
 export interface UserAuthInfo {
 	id: string;
-	department: string;
+	department?: string;
 	position: string;
 }
 
@@ -76,3 +77,25 @@ export type GraphQLResolverParams<A = {}> = {
 	context: ServiceContext;
 	info: GraphQLResolveInfo
 }
+
+export type Resolvers = {
+	[ key: string ]: ( parent: any, args: any, context: ServiceContext, info: GraphQLResolveInfo ) => any
+};
+
+export type Permissions = {
+	[ key: string ]: IRule
+};
+
+export type ResolverMap = {
+	Query: Resolvers;
+	Mutation: Resolvers;
+	[ key: string ]: Resolvers;
+}
+
+export type PermissionsMap = {
+	Query: Permissions;
+	Mutation: Permissions;
+	[ key: string ]: Permissions;
+}
+
+export type ResolverFn = ( param: GraphQLResolverParams ) => any;

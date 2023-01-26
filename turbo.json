@@ -6,6 +6,7 @@
 			"cache": false
 		},
 		"build": {
+			"inputs": [ "../../../.swcrc" ],
 			"dependsOn": [ "^build", "db:generate", "gql:generate" ],
 			"outputs": [ "dist/**" ]
 		},

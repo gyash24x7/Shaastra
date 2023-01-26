@@ -9,7 +9,8 @@ import type {
 	DiscoveredClassWithMeta,
 	DiscoveredMethodWithMeta,
 	Filter,
-	MetaKey
+	MetaKey,
+	DiscoveredMethod
 } from "./discovery.interfaces.js";
 
 export function getComponentMetaAtKey<T>( key: MetaKey, component: DiscoveredClass ): T | undefined {
@@ -27,7 +28,7 @@ export function getComponentMetaAtKey<T>( key: MetaKey, component: DiscoveredCla
 
 export function withMetaAtKey( key: MetaKey ): Filter<DiscoveredClass> {
 	return component => [ component.instance?.constructor, component.injectType as Function ]
-		.filter( ( x ) => x != null )
+		.filter( x => x != null )
 		.some( x => Reflect.getMetadata( key, x ) );
 }
 
@@ -64,6 +65,10 @@ export class DiscoveryService {
 				this.extractMethodMetaAtKey<T>( metaKey, component, prototype, name )
 			)
 			.filter( x => !!x.meta );
+	}
+
+	getMetaAtKey<T>( metaKey: MetaKey, method: DiscoveredMethod ): T | undefined {
+		return Reflect.getMetadata( metaKey, method.handler );
 	}
 
 	private readonly defaultFilter = () => true;

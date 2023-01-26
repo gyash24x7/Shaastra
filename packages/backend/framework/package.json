@@ -16,9 +16,11 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@shaastra/tsconfig": "workspace:*",
-		"@types/superagent": "4.1.16",
 		"@types/body-parser": "1.19.2",
-		"@types/express": "4.17.15"
+		"@types/express": "4.17.15",
+		"@types/superagent": "4.1.16",
+		"graphql-middleware": "6.1.33",
+		"graphql-shield": "7.6.5"
 	},
 	"dependencies": {
 		"@apollo/gateway": "2.2.3",

@@ -1,5 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/swcrc",
+	"exclude": [ ".*\\.spec|test|stories\\.(js|ts|tsx)$" ],
 	"jsc": {
 		"target": "es2020",
 		"parser": {

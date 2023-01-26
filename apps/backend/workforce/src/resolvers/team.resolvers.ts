@@ -10,20 +10,20 @@ import {
 import { TeamQuery } from "../queries/team.query.js";
 import { TeamsQuery } from "../queries/teams.query.js";
 
-@Resolver( "Team" )
+@Resolver()
 export class TeamResolvers {
 	private readonly logger = LoggerFactory.getLogger( TeamResolvers );
 
 	constructor( private readonly queryBus: QueryBus ) {}
 
-	@ResolveReference()
+	@ResolveReference( "Team" )
 	__resolveReference( { parent: { id } }: GraphQLResolverParams ): Promise<Team> {
 		this.logger.debug( ">> resolveReference()" );
 		this.logger.debug( "Team Id: %s", id );
 		return this.queryBus.execute( new TeamQuery( id! ) );
 	}
 
-	@FieldResolver()
+	@FieldResolver( "Team" )
 	members( { parent: { id } }: GraphQLResolverParams ): Promise<Array<Member>> {
 		this.logger.debug( ">> members()" );
 		this.logger.debug( "Team Id: %s", id );

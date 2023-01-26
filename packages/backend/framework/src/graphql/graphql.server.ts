@@ -7,48 +7,26 @@ import {
 	ApolloServerPluginUsageReportingDisabled
 } from "@apollo/server/plugin/disabled";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import { buildSubgraphSchema } from "@apollo/subgraph";
 import { BeforeApplicationShutdown, Injectable } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
-import { gql } from "graphql-tag";
-import type { GraphQLResolveInfo } from "graphql/type/index.js";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { LoggerFactory } from "../logger/index.js";
-import type { GraphQLResolverParams, ServiceContext } from "../utils/index.js";
+import type { ServiceContext } from "../utils/index.js";
 import { LandingPagePlugin } from "./landing.page.plugin.js";
+import { SchemaBuilderService } from "./schema.builder.service.js";
 import { ServiceDataSource } from "./service.datasource.js";
-
-export type ResolverFn = ( param: GraphQLResolverParams ) => any;
-
-function buildResolverFn( resolver: ResolverFn ) {
-	return ( parent: any, args: any, context: ServiceContext, info: GraphQLResolveInfo ) => {
-		return resolver( { parent, args, context, info } );
-	};
-}
 
 @Injectable()
 export class GraphQLServer implements BeforeApplicationShutdown {
 	private readonly logger = LoggerFactory.getLogger( GraphQLServer );
-	private resolvers: any = {};
 	private apolloServer: ApolloServer<ServiceContext>;
 
-	constructor( private readonly httpAdapterHost: HttpAdapterHost ) {}
-
-	registerResolver( resolverType: string, resolverName: string, resolverFn: ResolverFn ) {
-		this.logger.debug( "Resolver Registered!" );
-		this.resolvers = {
-			...this.resolvers,
-			[ resolverType ]: {
-				...this.resolvers[ resolverType ],
-				[ resolverName ]: buildResolverFn( resolverFn )
-			}
-		};
-	}
+	constructor(
+		private readonly httpAdapterHost: HttpAdapterHost,
+		private readonly schemaBuilder: SchemaBuilderService
+	) {}
 
 	async start( isGateway: boolean = false ) {
 		this.logger.debug( "Starting GraphQL Server..." );
-		this.logger.debug( this.resolvers );
 		const plugins = this.getPlugins( isGateway );
 
 		if ( isGateway ) {
@@ -56,9 +34,7 @@ export class GraphQLServer implements BeforeApplicationShutdown {
 			const gateway = new ApolloGateway( { buildService, logger: this.logger } );
 			this.apolloServer = new ApolloServer<ServiceContext>( { gateway, plugins, logger: this.logger } );
 		} else {
-			const typeDefsString = readFileSync( join( process.cwd(), "src/schema.graphql" ), "utf-8" );
-			const typeDefs = gql( typeDefsString );
-			const schema = buildSubgraphSchema( { typeDefs, resolvers: this.resolvers } );
+			const schema = await this.schemaBuilder.buildSchema();
 			this.apolloServer = new ApolloServer<ServiceContext>( { schema, plugins, logger: this.logger } );
 		}
 

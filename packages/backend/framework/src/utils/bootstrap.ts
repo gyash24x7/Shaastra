@@ -9,15 +9,17 @@ export interface WithShutdownHook {
 	applyShutdownHooks: ( app: INestApplication ) => void;
 }
 
-export async function bootstrap<P extends WithShutdownHook = any>(
-	AppModule: any,
-	PrismaService?: Type<P>,
-	isGateway: boolean = false
-) {
+export async function bootstrap<P extends WithShutdownHook = any>( AppModule: any, PrismaService?: Type<P> ) {
 	const logger = LoggerFactory.getLogger( "Bootstrap" );
 	const app = await NestFactory.create( AppModule, { logger } );
 
-	if ( isGateway ) {
+	const configService = app.get( ConfigService );
+	const port = configService.getOrThrow<number>( "app.port" );
+	const appName = configService.getOrThrow<string>( "app.name" );
+	const url = configService.getOrThrow<string>( "app.url" );
+	const id = configService.getOrThrow<string>( "app.id" );
+
+	if ( id === "gateway" ) {
 		app.enableCors( {
 			origin: "http://localhost:3000",
 			credentials: true
@@ -26,11 +28,6 @@ export async function bootstrap<P extends WithShutdownHook = any>(
 
 	app.use( bodyParser.json() );
 	app.use( loggerMiddleware() );
-
-	const configService = app.get( ConfigService );
-	const port = configService.getOrThrow<number>( "app.port" );
-	const appName = configService.getOrThrow<string>( "app.name" );
-	const url = configService.getOrThrow<string>( "app.url" );
 
 	app.connectMicroservice<RedisOptions>( {
 		transport: Transport.REDIS,

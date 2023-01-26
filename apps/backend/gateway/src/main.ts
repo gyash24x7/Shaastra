@@ -76,4 +76,4 @@ class AppModule implements NestModule {
 
 }
 
-await bootstrap( AppModule, PrismaService, true );
+await bootstrap( AppModule, PrismaService );

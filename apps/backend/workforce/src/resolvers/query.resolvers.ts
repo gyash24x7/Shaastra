@@ -1,15 +1,23 @@
 import { QueryBus } from "@nestjs/cqrs";
 import type { Member } from "@prisma/client/workforce/index.js";
-import { type GraphQLResolverParams, LoggerFactory, Query, Resolver } from "@shaastra/framework";
+import {
+	type GraphQLResolverParams,
+	LoggerFactory,
+	Query,
+	Resolver,
+	GraphQLShield,
+	isAuthenticated
+} from "@shaastra/framework";
 import { MemberQuery } from "../queries/member.query.js";
 
-@Resolver( "Query" )
+@Resolver()
 export class QueryResolvers {
 	private readonly logger = LoggerFactory.getLogger( QueryResolvers );
 
 	constructor( private readonly queryBus: QueryBus ) {}
 
 	@Query()
+	@GraphQLShield( isAuthenticated )
 	me( { context: { authInfo } }: GraphQLResolverParams ): Promise<Member> {
 		this.logger.debug( ">> me()" );
 		this.logger.debug( "AuthInfo: %o", authInfo );

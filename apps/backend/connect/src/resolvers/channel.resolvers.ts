@@ -10,20 +10,20 @@ import {
 import { ChannelQuery } from "../queries/channel.query.js";
 import { MessagesQuery } from "../queries/messages.query.js";
 
-@Resolver( "Channel" )
+@Resolver()
 export class ChannelResolvers {
 	private readonly logger = LoggerFactory.getLogger( ChannelResolvers );
 
 	constructor( private readonly queryBus: QueryBus ) {}
 
-	@ResolveReference()
+	@ResolveReference( "Channel" )
 	__resolveReference( { parent: { id } }: GraphQLResolverParams ): Promise<Channel> {
 		this.logger.debug( ">> resolveReference()" );
 		this.logger.debug( "Channel Id: %s", id );
 		return this.queryBus.execute( new ChannelQuery( id! ) );
 	}
 
-	@FieldResolver()
+	@FieldResolver( "Channel" )
 	messages( { parent: { id } }: GraphQLResolverParams ): Promise<Array<Message>> {
 		this.logger.debug( ">> messages()" );
 		this.logger.debug( "Channel Id: %s", id );

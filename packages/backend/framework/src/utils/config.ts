@@ -6,8 +6,8 @@ export function generateAppInfo( id: string ): AppInfo {
 	const port = parseInt( process.env[ `${ constantCase( id ) }_PORT` ] || "8000" );
 	const name = `Shaastra ${ capitalCase( id ) }`;
 	const pkg = `@shaastra/${ id }`;
-	const address = "localhost";
-	const url = `http://localhost:${ port }`;
+	const address = process.env[ "APP_HOST" ] || "localhost";
+	const url = `http://${ address }:${ port }`;
 	return { id, name, pkg, port, address, url };
 }
 
@@ -18,11 +18,16 @@ export function appConfigFactory( id: string ): () => AppConfig {
 			...appInfo,
 			auth: {
 				audience: process.env[ "AUTH_AUDIENCE" ]!,
-				domain: process.env[ "AUTH_DOMAIN" ]!
+				domain: process.env[ "AUTH_DOMAIN" ]!,
+				privateKeyPath: `src/assets/keys/.private.key`,
+				publicKeyPath: `src/assets/keys/.public.key.pem`
 			},
 			redis: {
-				host: process.env[ "REDIS_HOST" ] || "localhost",
-				port: parseInt( process.env[ "REDIS_PORT" ] || "6379" )
+				host: process.env[ "REDIS_HOST" ]!,
+				port: parseInt( process.env[ "REDIS_PORT" ]! )
+			},
+			graphql: {
+				schemaPath: `src/assets/schema.graphql`
 			}
 		}
 	);

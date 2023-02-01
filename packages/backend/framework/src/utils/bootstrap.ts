@@ -9,8 +9,8 @@ export interface WithShutdownHook {
 	applyShutdownHooks: ( app: INestApplication ) => void;
 }
 
-export async function bootstrap<P extends WithShutdownHook = any>( AppModule: any, PrismaService?: Type<P> ) {
-	const logger = LoggerFactory.getLogger( "Bootstrap" );
+export async function bootstrap<P extends WithShutdownHook = any>( AppModule: any, PrismaService: Type<P> ) {
+	const logger = LoggerFactory.getLogger( AppModule );
 	const app = await NestFactory.create( AppModule, { logger } );
 
 	const configService = app.get( ConfigService );
@@ -37,9 +37,7 @@ export async function bootstrap<P extends WithShutdownHook = any>( AppModule: an
 		}
 	} );
 
-	if ( PrismaService ) {
-		app.get( PrismaService ).applyShutdownHooks( app );
-	}
+	app.get( PrismaService ).applyShutdownHooks( app );
 
 	await app.startAllMicroservices();
 	await app.listen( port );

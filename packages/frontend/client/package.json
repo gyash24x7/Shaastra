@@ -28,7 +28,7 @@
 	},
 	"codegen": {
 		"overwrite": true,
-		"schema": "src/schema.graphql",
+		"schema": "src/assets/schema.graphql",
 		"generates": {
 			"src/generated/index.ts": {
 				"plugins": [ "typescript" ],

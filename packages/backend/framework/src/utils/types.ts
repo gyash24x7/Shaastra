@@ -1,8 +1,9 @@
 import type { BaseContext, ContextFunction } from "@apollo/server";
 import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
+import type { Type } from "@nestjs/common";
 import type { NextFunction, Request, Response } from "express";
+import type { GraphQLResolveInfo } from "graphql";
 import type { IRule } from "graphql-shield";
-import type { GraphQLResolveInfo } from "graphql/type/index.js";
 import type { JWTPayload } from "jose";
 
 export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
@@ -23,7 +24,7 @@ export type ServiceContextFn = ContextFn<ServiceContext>
 export interface UserAuthInfo {
 	id: string;
 	department?: string;
-	position: string;
+	position?: string;
 }
 
 export interface JWTPayloadExtension {
@@ -47,6 +48,8 @@ export type AppConfig = AppInfo & {
 	auth: {
 		audience: string;
 		domain: string;
+		privateKeyPath: string;
+		publicKeyPath: string;
 	},
 	redis: {
 		host: string;
@@ -87,15 +90,31 @@ export type Permissions = {
 };
 
 export type ResolverMap = {
-	Query: Resolvers;
-	Mutation: Resolvers;
 	[ key: string ]: Resolvers;
 }
 
 export type PermissionsMap = {
-	Query: Permissions;
-	Mutation: Permissions;
 	[ key: string ]: Permissions;
 }
 
 export type ResolverFn = ( param: GraphQLResolverParams ) => any;
+
+export type OperationType = "Query" | "Mutation" | "ResolveReference" | "FieldResolver"
+
+export interface DiscoveredProvider<T = object> {
+	name: string;
+	instance?: T;
+	injectType?: Function | Type;
+	dependencyType: Type<T>;
+}
+
+export interface DiscoveredResolver<T = object> extends DiscoveredProvider<T> {
+	resolverType: string;
+	instance: T;
+}
+
+export interface DiscoveredOperation {
+	handler: ( ...args: any[] ) => any;
+	name: string;
+	operationType: OperationType;
+}

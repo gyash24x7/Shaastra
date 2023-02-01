@@ -5,7 +5,7 @@ import { CreateMemberCommand, CreateMemberInput } from "../commands/create.membe
 import { CreateTeamCommand, CreateTeamInput } from "../commands/create.team.command.js";
 import { EnableMemberCommand, EnableMemberInput } from "../commands/enable.member.command.js";
 
-@Resolver()
+@Resolver( "Mutation" )
 export class MutationResolvers {
 	private readonly logger = LoggerFactory.getLogger( MutationResolvers );
 

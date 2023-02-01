@@ -4,6 +4,6 @@
 	"private": true,
 	"files": [ "base.json", "backend.json", "frontend.json" ],
 	"devDependencies": {
-		"@tsconfig/node16-strictest": "1.0.4"
+		"@tsconfig/node18-strictest-esm": "1.0.1"
 	}
 }

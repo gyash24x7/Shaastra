@@ -1,37 +1,34 @@
 import { rule } from "graphql-shield";
+import type { IRuleFunction } from "graphql-shield/typings/types.js";
 import type { UserAuthInfo, ServiceContext } from "../utils/index.js";
 
-export const isAuthenticated = rule( { cache: "contextual" } )(
-	async ( _parent, _args, ctx: ServiceContext ) => {
-		const authInfo: UserAuthInfo = ctx.res.locals[ "authInfo" ];
-		return !!authInfo;
-	}
-);
+export const isAuthenticatedRuleFunction: IRuleFunction = async ( _parent, _args, ctx: ServiceContext ) => {
+	const authInfo: UserAuthInfo | undefined = ctx.res.locals[ "authInfo" ];
+	return !!authInfo;
+};
 
-export const isMember = rule( { cache: "contextual" } )(
-	async ( _parent, _args, ctx: ServiceContext ) => {
-		const authInfo: UserAuthInfo = ctx.res.locals[ "authInfo" ];
-		return !!authInfo.department;
-	}
-);
+export const isMemberRuleFunction: IRuleFunction = async ( _parent, _args, ctx: ServiceContext ) => {
+	const authInfo: UserAuthInfo | undefined = ctx.res.locals[ "authInfo" ];
+	return !!authInfo?.department;
+};
 
-export const isCore = rule( { cache: "contextual" } )(
-	async ( _parent, _args, ctx: ServiceContext ) => {
-		const authInfo: UserAuthInfo = ctx.res.locals[ "authInfo" ];
-		return authInfo.position === "CORE";
-	}
-);
+export const isCoreRuleFunction: IRuleFunction = async ( _parent, _args, ctx: ServiceContext ) => {
+	const authInfo: UserAuthInfo | undefined = ctx.res.locals[ "authInfo" ];
+	return !!authInfo?.department && authInfo?.position === "CORE";
+};
 
-export const isCoord = rule( { cache: "contextual" } )(
-	async ( _parent, _args, ctx: ServiceContext ) => {
-		const authInfo: UserAuthInfo = ctx.res.locals[ "authInfo" ];
-		return authInfo.position === "COORD";
-	}
-);
+export const isCoordRuleFunction: IRuleFunction = async ( _parent, _args, ctx: ServiceContext ) => {
+	const authInfo: UserAuthInfo | undefined = ctx.res.locals[ "authInfo" ];
+	return !!authInfo?.department && authInfo?.position === "COORD";
+};
 
-export const isHead = rule( { cache: "contextual" } )(
-	async ( _parent, _args, ctx: ServiceContext ) => {
-		const authInfo: UserAuthInfo = ctx.res.locals[ "authInfo" ];
-		return authInfo.position === "HEAD";
-	}
-);
+export const isHeadRuleFunction: IRuleFunction = async ( _parent, _args, ctx: ServiceContext ) => {
+	const authInfo: UserAuthInfo | undefined = ctx.res.locals[ "authInfo" ];
+	return !!authInfo?.department && authInfo?.position === "HEAD";
+};
+
+export const isAuthenticated = rule( { cache: "contextual" } )( isAuthenticatedRuleFunction );
+export const isMember = rule( { cache: "contextual" } )( isMemberRuleFunction );
+export const isCore = rule( { cache: "contextual" } )( isCoreRuleFunction );
+export const isCoord = rule( { cache: "contextual" } )( isCoordRuleFunction );
+export const isHead = rule( { cache: "contextual" } )( isHeadRuleFunction );

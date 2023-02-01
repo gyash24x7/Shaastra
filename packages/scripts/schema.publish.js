@@ -1,7 +1,7 @@
 import shell from "shelljs";
 import { join } from "node:path";
 
-const schemaPath = join( process.cwd(), "src/schema.graphql" );
+const schemaPath = join( process.cwd(), "src/assets/schema.graphql" );
 
 const host = process.env[ "APP_HOST" ];
 const graphRef = process.env[ "APOLLO_GRAPH_REF" ];

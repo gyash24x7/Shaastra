@@ -34,7 +34,6 @@
 		"@nestjs/platform-express": "9.2.1",
 		"@nestjs/terminus": "9.1.4",
 		"@ogma/logger": "2.4.2",
-		"@prisma/client": "4.9.0",
 		"body-parser": "1.20.1",
 		"change-case": "4.1.2",
 		"colorette": "2.0.19",

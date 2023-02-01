@@ -5,14 +5,16 @@ export function deserializeAuthInfo( jwtService: JwtService, isGateway: boolean 
 	return async ( req, res, next ) => {
 		const token = isGateway
 			? req.cookies[ "identity" ]
-			: jwtService.extractTokenFromRequest( req );
+			: jwtService.extractTokenFromRequestHeaders( req );
 
-		console.log( `Token: ${ token }` );
+		if ( token ) {
+			const authInfo = await jwtService.verify( token, isGateway );
 
-		const authInfo = await jwtService.verify( token, isGateway );
-		if ( authInfo ) {
-			res.locals[ "authInfo" ] = authInfo;
+			if ( authInfo ) {
+				res.locals[ "authInfo" ] = authInfo;
+			}
 		}
+
 		next();
 	};
 }

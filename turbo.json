@@ -6,7 +6,7 @@
 			"cache": false
 		},
 		"build": {
-			"inputs": [ "../../../.swcrc" ],
+			"inputs": [ "../../../.swcrc", "src/**" ],
 			"dependsOn": [ "^build", "db:generate", "gql:generate" ],
 			"outputs": [ "dist/**" ]
 		},
@@ -31,12 +31,12 @@
 			"outputs": [ ]
 		},
 		"gql:generate": {
-			"inputs": [ "src/schema.graphql" ],
+			"inputs": [ "src/assets/schema.graphql" ],
 			"dependsOn": [ "schema:fetch" ],
 			"outputs": [ "src/generated/**" ]
 		},
 		"schema:publish": {
-			"inputs": [ "src/schema.graphql" ],
+			"inputs": [ "src/assets/schema.graphql" ],
 			"outputs": [ ],
 			"env": [
 				"APOLLO_KEY",
@@ -44,8 +44,9 @@
 			]
 		},
 		"schema:fetch": {
-			"dependsOn": [ "@shaastra/workforce#schema:publish" ],
-			"outputs": [ "src/schema.graphql" ],
+			"inputs": [ ],
+			"dependsOn": [ "@shaastra/workforce#schema:publish", "@shaastra/connect#schema:publish" ],
+			"outputs": [ "src/assets/schema.graphql" ],
 			"env": [
 				"APOLLO_KEY",
 				"APOLLO_GRAPH_REF"

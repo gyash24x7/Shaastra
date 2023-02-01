@@ -12,16 +12,18 @@ import type { AuthPayload, UserAuthInfo } from "../utils/index.js";
 @Injectable()
 export class JwtService {
 	private static readonly ALGORITHM = "RS256";
-	private static readonly PRIVATE_KEY_PATH = "src/assets/keys/.private.key";
-	private static readonly PUBLIC_KEY_PATH = "src/assets/keys/.public.key.pem";
 	private readonly logger = LoggerFactory.getLogger( JwtService );
 
 	private readonly domain: string;
 	private readonly audience: string;
+	private readonly privateKeyPath: string;
+	private readonly publicKeyPath: string;
 
 	constructor( readonly configService: ConfigService ) {
 		this.domain = configService.getOrThrow( "app.auth.domain" );
 		this.audience = configService.getOrThrow( "app.auth.audience" );
+		this.privateKeyPath = configService.getOrThrow( "app.auth.privateKeyPath" );
+		this.publicKeyPath = configService.getOrThrow( "app.auth.publicKeyPath" );
 	}
 
 	async getJwks() {
@@ -31,12 +33,12 @@ export class JwtService {
 	}
 
 	async getPrivateKey() {
-		const privateKey = await readFile( join( process.cwd(), JwtService.PRIVATE_KEY_PATH ), "utf-8" );
+		const privateKey = await readFile( join( process.cwd(), this.privateKeyPath ), "utf-8" );
 		return importPKCS8( privateKey, JwtService.ALGORITHM );
 	}
 
 	async getPublicKey() {
-		const publicKey = await readFile( join( process.cwd(), JwtService.PUBLIC_KEY_PATH ), "utf-8" );
+		const publicKey = await readFile( join( process.cwd(), this.publicKeyPath ), "utf-8" );
 		return importSPKI( publicKey, JwtService.ALGORITHM );
 	}
 
@@ -86,15 +88,14 @@ export class JwtService {
 		};
 	}
 
-	extractTokenFromRequest( req: Request ) {
+	extractTokenFromRequestHeaders( req: Request ) {
 		let token: string | undefined;
 		const authHeader = req.headers.authorization;
 
 		if ( authHeader ) {
-			const matches = authHeader.match( /(\S+)\s+(\S+)/ );
-			const authParams = matches && { scheme: matches[ 1 ], value: matches[ 2 ] };
-			if ( authParams && "bearer" === authParams.scheme.toLowerCase() ) {
-				token = authParams.value;
+			const [ scheme, tokenInHeader ] = authHeader.split( " " );
+			if ( scheme.toLowerCase() === "bearer" && !!tokenInHeader ) {
+				token = tokenInHeader;
 			}
 		}
 		return token;

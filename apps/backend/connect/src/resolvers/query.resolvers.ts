@@ -3,7 +3,7 @@ import type { Message, Channel } from "@prisma/client/connect/index.js";
 import { type GraphQLResolverParams, LoggerFactory, Query, Resolver } from "@shaastra/framework";
 import { MessagesQuery } from "../queries/messages.query.js";
 
-@Resolver()
+@Resolver( "Query" )
 export class QueryResolvers {
 	private readonly logger = LoggerFactory.getLogger( QueryResolvers );
 
@@ -22,5 +22,4 @@ export class QueryResolvers {
 		this.logger.debug( "Data: %o", args.data );
 		return [];
 	};
-
 }

@@ -4,7 +4,7 @@ import { type GraphQLResolverParams, LoggerFactory, Mutation, Resolver } from "@
 import { CreateChannelCommand, CreateChannelInput } from "../commands/create.channel.command.js";
 import { CreateMessageCommand, CreateMessageInput } from "../commands/create.message.command.js";
 
-@Resolver()
+@Resolver( "Mutation" )
 export class MutationResolvers {
 	private readonly logger = LoggerFactory.getLogger( MutationResolvers );
 

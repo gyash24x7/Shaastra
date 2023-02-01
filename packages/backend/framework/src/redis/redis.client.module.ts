@@ -1,19 +1,17 @@
-import { ConfigService } from "@nestjs/config";
-import { ClientsModule, Transport } from "@nestjs/microservices";
+import { ConfigService, ConfigModule } from "@nestjs/config";
+import { ClientsModule, Transport, RedisOptions } from "@nestjs/microservices";
 import { REDIS_CLIENT } from "./redis.decorator.js";
 
-export const RedisClientModule = ClientsModule.registerAsync( [
-	{
-		name: REDIS_CLIENT,
-		inject: [ ConfigService ],
-		useFactory( configService: ConfigService ) {
-			return {
-				transport: Transport.REDIS,
-				options: {
-					host: configService.getOrThrow( "app.redis.host" ),
-					port: configService.getOrThrow( "app.redis.port" )
-				}
-			};
+export function redisClientFactory( configService: ConfigService ): RedisOptions {
+	return {
+		transport: Transport.REDIS,
+		options: {
+			host: configService.getOrThrow<string>( "app.redis.host" ),
+			port: configService.getOrThrow<number>( "app.redis.port" )
 		}
-	}
+	};
+}
+
+export const RedisClientModule = ClientsModule.registerAsync( [
+	{ name: REDIS_CLIENT, inject: [ ConfigService ], useFactory: redisClientFactory, imports: [ ConfigModule ] }
 ] );

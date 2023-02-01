@@ -10,7 +10,7 @@ import {
 } from "@shaastra/framework";
 import { MemberQuery } from "../queries/member.query.js";
 
-@Resolver()
+@Resolver( "Query" )
 export class QueryResolvers {
 	private readonly logger = LoggerFactory.getLogger( QueryResolvers );
 

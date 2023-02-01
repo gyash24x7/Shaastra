@@ -15,7 +15,8 @@
 		"dev": "run-p build:dev start:dev",
 		"start": "node dist/main.js",
 		"db:generate": "prisma generate",
-		"db:push": "prisma db push --skip-generate --accept-data-loss"
+		"db:push": "prisma db push --skip-generate --accept-data-loss",
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"@shaastra/framework": "workspace:*",

@@ -27,8 +27,6 @@ export class InboundController {
 		this.logger.debug( ">> handleMemberCreatedEvent()" );
 		this.logger.debug( "Data: %o", data );
 
-		console.log( data );
-
 		return this.commandBus.execute(
 			new CreateUserCommand( {
 				id: data.id,

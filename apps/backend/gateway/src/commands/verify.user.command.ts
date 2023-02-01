@@ -40,14 +40,14 @@ export class VerifyUserCommandHandler implements ICommandHandler<VerifyUserComma
 			throw new BadRequestException( TokenMessages.EXPIRED );
 		}
 
-		await this.prismaService.user.update( {
+		const updatedUser = await this.prismaService.user.update( {
 			where: { id: userId },
 			data: { verified: true }
 		} );
 
 		await this.prismaService.token.delete( { where: { id: token.id } } );
 
-		return user;
+		return updatedUser;
 	}
 
 }

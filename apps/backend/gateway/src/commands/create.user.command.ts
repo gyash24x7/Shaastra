@@ -42,11 +42,9 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
 			}
 		} );
 
-		if ( existingUser ) {
+		if ( !!existingUser ) {
 			throw new ConflictException( UserMessages.ALREADY_EXISTS );
 		}
-
-		console.log( data );
 
 		data.password = await bcrypt.hash( data.password, 10 );
 

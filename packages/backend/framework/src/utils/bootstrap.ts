@@ -1,15 +1,11 @@
-import type { INestApplication, Type } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { RedisOptions, Transport } from "@nestjs/microservices";
 import bodyParser from "body-parser";
 import { LoggerFactory, loggerMiddleware } from "../logger/index.js";
+import { PrismaService } from "../prisma/index.js";
 
-export interface WithShutdownHook {
-	applyShutdownHooks: ( app: INestApplication ) => void;
-}
-
-export async function bootstrap<P extends WithShutdownHook = any>( AppModule: any, PrismaService: Type<P> ) {
+export async function bootstrap( AppModule: any ) {
 	const logger = LoggerFactory.getLogger( AppModule );
 	const app = await NestFactory.create( AppModule, { logger } );
 

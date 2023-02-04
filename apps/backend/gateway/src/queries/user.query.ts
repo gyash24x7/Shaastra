@@ -1,26 +1,24 @@
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
-import type { User } from "@prisma/client/identity/index.js";
-import { LoggerFactory } from "@shaastra/framework";
-import { PrismaService } from "../prisma/prisma.service.js";
+import type { PrismaClient, User } from "@prisma/client/identity/index.js";
+import { LoggerFactory, Prisma, PrismaService } from "@shaastra/framework";
 
 export class UserQuery implements IQuery {
 	constructor( public readonly userId: string ) {}
 }
 
 @QueryHandler( UserQuery )
-export class UserQueryHandler implements IQueryHandler<UserQuery, User> {
+export class UserQueryHandler implements IQueryHandler<UserQuery, User | null> {
 	private readonly logger = LoggerFactory.getLogger( UserQueryHandler );
 
-	constructor( private readonly prismaService: PrismaService ) {}
+	constructor( @Prisma() private readonly prismaService: PrismaService<PrismaClient> ) {}
 
-	async execute( { userId }: UserQuery ): Promise<User> {
+	async execute( { userId }: UserQuery ): Promise<User | null> {
 		this.logger.debug( ">> execute()" );
 		this.logger.debug( "Data: %o", { userId } );
 
-		const user = await this.prismaService.user.findUniqueOrThrow( { where: { id: userId } } );
+		const user = await this.prismaService.client.user.findUnique( { where: { id: userId } } );
 		this.logger.debug( "User found: %o", user );
 		return user;
 	}
-
 }

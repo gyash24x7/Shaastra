@@ -26,7 +26,7 @@ describe( "Schema Builder Service", () => {
 		expect( queryFields[ "exampleQuery" ].resolve ).toBeTruthy();
 
 		const resolveFn = queryFields[ "exampleQuery" ].resolve!;
-		
+
 		expect( await resolveFn( {}, {}, {}, mockGraphQLResolveInfo ) ).toBe( "ExampleQuery!" );
 		expect( mockResolverExplorer.buildResolversAndPermissions ).toHaveBeenCalled();
 	} );

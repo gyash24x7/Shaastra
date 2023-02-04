@@ -8,6 +8,7 @@ export default defineConfig( {
 			provider: "istanbul",
 			enabled: true,
 			include: [ "src/**/*.ts" ],
+			exclude: [ "src/main.ts" ],
 			all: true,
 			clean: true
 		}

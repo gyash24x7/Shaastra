@@ -1,10 +1,9 @@
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
-import type { User } from "@prisma/client/identity/index.js";
-import { JwtService, LoggerFactory } from "@shaastra/framework";
+import type { PrismaClient, User } from "@prisma/client/identity/index.js";
+import { JwtService, LoggerFactory, Prisma, PrismaService } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
 import { UserMessages } from "../constants/messages.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export class LoginInput {
 	username: string;
@@ -22,7 +21,7 @@ export class LoginCommandHandler implements ICommandHandler<LoginCommand, LoginC
 	private readonly logger = LoggerFactory.getLogger( LoginCommandHandler );
 
 	constructor(
-		private readonly prismaService: PrismaService,
+		@Prisma() private readonly prismaService: PrismaService<PrismaClient>,
 		private readonly jwtService: JwtService
 	) {}
 
@@ -30,7 +29,7 @@ export class LoginCommandHandler implements ICommandHandler<LoginCommand, LoginC
 		this.logger.debug( ">> execute()" );
 		this.logger.debug( "Data: %o", data );
 
-		const user = await this.prismaService.user.findUnique( {
+		const user = await this.prismaService.client.user.findUnique( {
 			where: { username: data.username }
 		} );
 

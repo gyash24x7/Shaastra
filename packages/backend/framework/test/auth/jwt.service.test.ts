@@ -92,7 +92,7 @@ describe( "Jwt Service", () => {
 		mockConfig = generateConfig( "gateway" );
 		mockConfig.auth.publicKeyPath = "test/auth/__mocks__/keys/.public.key.pem";
 		mockConfig.auth.privateKeyPath = "test/auth/__mocks__/keys/.private.key";
-		
+
 		const jwtService = new JwtService( mockConfig );
 		const authInfo = await jwtService.verify( signedToken );
 		expect( authInfo?.id ).toBe( signPayload.id );

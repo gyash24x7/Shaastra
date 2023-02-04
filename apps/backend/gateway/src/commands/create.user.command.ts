@@ -1,10 +1,10 @@
 import { ConflictException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
-import { LoggerFactory } from "@shaastra/framework";
+import type { PrismaClient } from "@prisma/client/identity/index.js";
+import { LoggerFactory, Prisma, PrismaService } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
 import { UserMessages } from "../constants/messages.js";
 import { UserCreatedEvent } from "../events/user.created.event.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export type CreateUserInput = {
 	id: string;
@@ -24,7 +24,7 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
 	private readonly logger = LoggerFactory.getLogger( CreateUserCommandHandler );
 
 	constructor(
-		private readonly prismaService: PrismaService,
+		@Prisma() private readonly prismaService: PrismaService<PrismaClient>,
 		private readonly eventBus: EventBus
 	) {}
 
@@ -32,7 +32,7 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
 		this.logger.debug( ">> execute()" );
 		this.logger.debug( "Data: %o", data );
 
-		const existingUser = await this.prismaService.user.findFirst( {
+		const existingUser = await this.prismaService.client.user.findFirst( {
 			where: {
 				OR: {
 					username: data.username,
@@ -48,7 +48,7 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
 
 		data.password = await bcrypt.hash( data.password, 10 );
 
-		const user = await this.prismaService.user.create( { data } );
+		const user = await this.prismaService.client.user.create( { data } );
 		this.eventBus.publish( new UserCreatedEvent( user ) );
 		return user.id;
 	}

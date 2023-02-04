@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Res } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { JwtService, LoggerFactory } from "@shaastra/framework";
 import type { CookieOptions, Response } from "express";
-import * as jose from "jose";
+import { exportJWK } from "jose";
 import { LoginCommand, LoginCommandResponse, LoginInput } from "../commands/login.command.js";
 import { VerifyUserCommand, VerifyUserInput } from "../commands/verify.user.command.js";
 
@@ -29,7 +29,7 @@ export class AuthController {
 		this.logger.debug( ">> getJwks()" );
 
 		const publicKey = await this.jwtService.getPublicKey();
-		const jwk = await jose.exportJWK( publicKey );
+		const jwk = await exportJWK( publicKey );
 		return { keys: [ jwk ] };
 	}
 

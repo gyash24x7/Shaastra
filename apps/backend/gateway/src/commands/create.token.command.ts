@@ -1,10 +1,9 @@
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
-import type { Token } from "@prisma/client/identity/index.js";
-import { LoggerFactory } from "@shaastra/framework";
+import type { PrismaClient, Token } from "@prisma/client/identity/index.js";
+import { PrismaService, Prisma, LoggerFactory } from "@shaastra/framework";
 import crypto from "crypto";
 import dayjs from "dayjs";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export type CreateTokenInput = { userId: string };
 
@@ -16,14 +15,14 @@ export class CreateTokenCommand implements ICommand {
 export class CreateTokenCommandHandler implements ICommandHandler<CreateTokenCommand, Token> {
 	private readonly logger = LoggerFactory.getLogger( CreateTokenCommandHandler );
 
-	constructor( private readonly prismaService: PrismaService ) {}
+	constructor( @Prisma() private readonly prismaService: PrismaService<PrismaClient> ) {}
 
-	execute( { data: { userId } }: CreateTokenCommand ): Promise<Token> {
+	execute( { data: { userId } }: CreateTokenCommand ) {
 		this.logger.debug( ">> execute()" );
 		this.logger.debug( "Data: %o", { userId } );
 
 		const hash = crypto.randomBytes( 32 ).toString( "hex" );
 		const expiry = dayjs().add( 2, "days" ).toDate();
-		return this.prismaService.token.create( { data: { userId, hash, expiry } } );
-	}
+		return this.prismaService.client.token.create( { data: { userId, hash, expiry } } );
+	};
 }

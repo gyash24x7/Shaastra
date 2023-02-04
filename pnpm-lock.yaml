@@ -89,13 +89,11 @@ importers:
   apps/backend/gateway:
     specifiers:
       '@nestjs/common': 9.2.1
-      '@nestjs/config': 2.2.0
       '@nestjs/core': 9.2.1
       '@nestjs/cqrs': 9.0.1
       '@nestjs/microservices': 9.2.1
       '@nestjs/platform-express': 9.2.1
       '@nestjs/terminus': 9.1.4
-      '@ogma/logger': 2.4.2
       '@prisma/client': 4.9.0
       '@shaastra/framework': workspace:*
       '@shaastra/scripts': workspace:*
@@ -115,13 +113,11 @@ importers:
       rxjs: 7.8.0
     dependencies:
       '@nestjs/common': 9.2.1_mnr6j2del53muneqly5h4y27ai
-      '@nestjs/config': 2.2.0_b4pxbpa7chblgbyake5iz5rdmu
       '@nestjs/core': 9.2.1_qpblwiuxxxv5ilgjwzmmgbtkcq
       '@nestjs/cqrs': 9.0.1_fyic65utxiftcghm7bf7rrj4z4
       '@nestjs/microservices': 9.2.1_wudnl2k5nerbmc3xod2vzwobyq
       '@nestjs/platform-express': 9.2.1_hjcqpoaebdr7gdo5hgc22hthbe
       '@nestjs/terminus': 9.1.4_c72eh54dvi6eqdhcygnbktsg64
-      '@ogma/logger': 2.4.2
       '@prisma/client': 4.9.0_prisma@4.9.0
       '@shaastra/framework': link:../../../packages/backend/framework
       bcryptjs: 2.4.3
@@ -231,14 +227,12 @@ importers:
       '@apollo/server': 4.3.1
       '@apollo/subgraph': 2.2.3
       '@nestjs/common': 9.2.1
-      '@nestjs/config': 2.2.0
       '@nestjs/core': 9.2.1
       '@nestjs/cqrs': 9.0.1
       '@nestjs/microservices': 9.2.1
       '@nestjs/platform-express': 9.2.1
       '@nestjs/terminus': 9.1.4
       '@ogma/logger': 2.4.2
-      '@prisma/client': 4.9.0
       '@shaastra/tsconfig': workspace:*
       '@types/body-parser': 1.19.2
       '@types/express': 4.17.15
@@ -260,14 +254,12 @@ importers:
       '@apollo/server': 4.3.1_graphql@16.6.0
       '@apollo/subgraph': 2.2.3_graphql@16.6.0
       '@nestjs/common': 9.2.1_mnr6j2del53muneqly5h4y27ai
-      '@nestjs/config': 2.2.0_b4pxbpa7chblgbyake5iz5rdmu
       '@nestjs/core': 9.2.1_qpblwiuxxxv5ilgjwzmmgbtkcq
       '@nestjs/cqrs': 9.0.1_fyic65utxiftcghm7bf7rrj4z4
       '@nestjs/microservices': 9.2.1_fyic65utxiftcghm7bf7rrj4z4
       '@nestjs/platform-express': 9.2.1_hjcqpoaebdr7gdo5hgc22hthbe
       '@nestjs/terminus': 9.1.4_c72eh54dvi6eqdhcygnbktsg64
       '@ogma/logger': 2.4.2
-      '@prisma/client': 4.9.0
       body-parser: 1.20.1
       change-case: 4.1.2
       colorette: 2.0.19
@@ -3430,19 +3422,6 @@ packages:
       tslib: 2.4.1
       webcrypto-core: 1.7.5
     dev: true
-
-  /@prisma/client/4.9.0:
-    resolution: { integrity: sha512-bz6QARw54sWcbyR1lLnF2QHvRW5R/Jxnbbmwh3u+969vUKXtBkXgSgjDA85nji31ZBlf7+FrHDy5x+5ydGyQDg== }
-    engines: { node: '>=14.17' }
-    requiresBuild: true
-    peerDependencies:
-      prisma: '*'
-    peerDependenciesMeta:
-      prisma:
-        optional: true
-    dependencies:
-      '@prisma/engines-version': 4.9.0-42.ceb5c99003b99c9ee2c1d2e618e359c14aef2ea5
-    dev: false
 
   /@prisma/client/4.9.0_prisma@4.9.0:
     resolution: { integrity: sha512-bz6QARw54sWcbyR1lLnF2QHvRW5R/Jxnbbmwh3u+969vUKXtBkXgSgjDA85nji31ZBlf7+FrHDy5x+5ydGyQDg== }

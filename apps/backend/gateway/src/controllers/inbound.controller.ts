@@ -19,11 +19,10 @@ export type MemberCreatedInboundData = {
 export class InboundController {
 	private readonly logger = LoggerFactory.getLogger( InboundController );
 
-	constructor(
-		private readonly commandBus: CommandBus ) {}
+	constructor( private readonly commandBus: CommandBus ) {}
 
 	@EventPattern( InboundEvents.MEMBER_CREATED )
-	async handleMemberCreatedEvent( data: MemberCreatedInboundData ) {
+	async handleMemberCreatedEvent( data: MemberCreatedInboundData ): Promise<string> {
 		this.logger.debug( ">> handleMemberCreatedEvent()" );
 		this.logger.debug( "Data: %o", data );
 

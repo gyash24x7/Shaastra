@@ -19,7 +19,6 @@
 			"cache": false
 		},
 		"test": {
-			"dependsOn": [ "typecheck" ],
 			"outputs": [ "coverage/**" ]
 		},
 		"db:push": {

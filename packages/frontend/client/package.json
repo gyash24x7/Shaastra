@@ -15,13 +15,13 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@tanstack/react-query": "4.23.0",
-		"superagent": "8.0.8"
+		"@tanstack/react-query": "4.24.4",
+		"superagent": "8.0.9"
 	},
 	"devDependencies": {
-		"@graphql-codegen/cli": "2.16.4",
-		"@graphql-codegen/typescript": "2.8.7",
-		"@graphql-codegen/typescript-resolvers": "2.7.12",
+		"@graphql-codegen/cli": "3.0.0",
+		"@graphql-codegen/typescript": "3.0.0",
+		"@graphql-codegen/typescript-resolvers": "3.0.0",
 		"@shaastra/scripts": "workspace:*",
 		"@shaastra/tsconfig": "workspace:*",
 		"@types/superagent": "4.1.16"
@@ -31,7 +31,9 @@
 		"schema": "src/assets/schema.graphql",
 		"generates": {
 			"src/generated/index.ts": {
-				"plugins": [ "typescript" ],
+				"plugins": [
+					"typescript"
+				],
 				"config": {
 					"avoidOptionals": true,
 					"constEnums": true,

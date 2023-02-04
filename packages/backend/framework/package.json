@@ -17,21 +17,21 @@
 	"devDependencies": {
 		"@shaastra/tsconfig": "workspace:*",
 		"@types/body-parser": "1.19.2",
-		"@types/express": "4.17.15",
+		"@types/express": "4.17.17",
 		"@types/superagent": "4.1.16",
 		"graphql-middleware": "6.1.33",
 		"graphql-shield": "7.6.5"
 	},
 	"dependencies": {
-		"@apollo/gateway": "2.2.3",
-		"@apollo/server": "4.3.1",
-		"@apollo/subgraph": "2.2.3",
-		"@nestjs/common": "9.2.1",
-		"@nestjs/core": "9.2.1",
+		"@apollo/gateway": "2.3.0",
+		"@apollo/server": "4.3.2",
+		"@apollo/subgraph": "2.3.0",
+		"@nestjs/common": "9.3.2",
+		"@nestjs/core": "9.3.2",
 		"@nestjs/cqrs": "9.0.1",
-		"@nestjs/microservices": "9.2.1",
-		"@nestjs/platform-express": "9.2.1",
-		"@nestjs/terminus": "9.1.4",
+		"@nestjs/microservices": "9.3.2",
+		"@nestjs/platform-express": "9.3.2",
+		"@nestjs/terminus": "9.2.0",
 		"@ogma/logger": "2.4.2",
 		"body-parser": "1.20.1",
 		"change-case": "4.1.2",
@@ -40,8 +40,8 @@
 		"graphql-tag": "2.12.6",
 		"jose": "4.11.2",
 		"reflect-metadata": "0.1.13",
-		"rimraf": "4.1.1",
+		"rimraf": "4.1.2",
 		"rxjs": "7.8.0",
-		"superagent": "8.0.8"
+		"superagent": "8.0.9"
 	}
 }

@@ -1,3 +1,5 @@
+import type { Type } from "@nestjs/common";
+
 export type PrismaMiddlewareParams = {
 	model?: any
 	action: any
@@ -19,7 +21,7 @@ export type PrismaClientLike = {
 };
 
 export interface PrismaModuleOptions<P extends PrismaClientLike> {
-	client: P;
+	client: Type<P>;
 }
 
 

@@ -1,14 +1,12 @@
 import type { MiddlewareConsumer } from "@nestjs/common";
 import { RequestMethod } from "@nestjs/common";
 import type { MiddlewareConfigProxy } from "@nestjs/common/interfaces";
-import type { ConfigService } from "@nestjs/config";
 import { vi } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
 import type { GraphQLServer } from "../../src/graphql/graphql.server.js";
 import { GraphQLModule } from "../../src/index.js";
 
 describe( "GraphQl Module", () => {
-	const mockConfigService = mockDeep<ConfigService>();
 	const mockGraphQLServer = mockDeep<GraphQLServer>();
 	const mockMiddlwareConfigProxy = mockDeep<MiddlewareConfigProxy>();
 	const mockMiddlewareConsumer = mockDeep<MiddlewareConsumer>();
@@ -20,13 +18,10 @@ describe( "GraphQl Module", () => {
 	} );
 
 	it( "should start graphql server and apply middleware", async () => {
-		mockConfigService.getOrThrow.mockReturnValueOnce( "test" );
-
-		const graphQLModule = new GraphQLModule( mockGraphQLServer, mockConfigService );
+		const graphQLModule = new GraphQLModule( mockGraphQLServer );
 		await graphQLModule.configure( mockMiddlewareConsumer );
 
-		expect( mockConfigService.getOrThrow ).toHaveBeenCalledWith( "app.id" );
-		expect( mockGraphQLServer.start ).toHaveBeenCalledWith( false );
+		expect( mockGraphQLServer.start ).toHaveBeenCalled();
 		expect( mockGraphQLServer.middleware ).toHaveBeenCalled();
 		expect( mockMiddlewareConsumer.apply ).toHaveBeenCalledWith( mockGraphQlMiddleware );
 		expect( mockMiddlwareConfigProxy.forRoutes )
@@ -34,13 +29,10 @@ describe( "GraphQl Module", () => {
 	} );
 
 	it( "should start graphql server in gateway mode and apply middleware", async () => {
-		mockConfigService.getOrThrow.mockReturnValueOnce( "gateway" );
-
-		const graphQLModule = new GraphQLModule( mockGraphQLServer, mockConfigService );
+		const graphQLModule = new GraphQLModule( mockGraphQLServer );
 		await graphQLModule.configure( mockMiddlewareConsumer );
 
-		expect( mockConfigService.getOrThrow ).toHaveBeenCalledWith( "app.id" );
-		expect( mockGraphQLServer.start ).toHaveBeenCalledWith( true );
+		expect( mockGraphQLServer.start ).toHaveBeenCalled();
 		expect( mockGraphQLServer.middleware ).toHaveBeenCalled();
 		expect( mockMiddlewareConsumer.apply ).toHaveBeenCalledWith( mockGraphQlMiddleware );
 		expect( mockMiddlwareConfigProxy.forRoutes )
@@ -48,7 +40,6 @@ describe( "GraphQl Module", () => {
 	} );
 
 	afterEach( () => {
-		mockClear( mockConfigService );
 		mockClear( mockGraphQlMiddleware );
 		mockClear( mockGraphQLServer );
 		mockClear( mockMiddlewareConsumer );

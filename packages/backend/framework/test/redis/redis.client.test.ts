@@ -1,18 +1,14 @@
 import { Injectable } from "@nestjs/common";
-import type { ConfigService } from "@nestjs/config";
-import { Transport, ClientProxy, ClientRedis, ClientsModule } from "@nestjs/microservices";
+import { Transport, ClientProxy, ClientRedis } from "@nestjs/microservices";
 import { Test } from "@nestjs/testing";
-
-import { mockDeep } from "vitest-mock-extended";
-import { redisClientFactory, RedisClient, REDIS_CLIENT } from "../../src/index.js";
+import { generateConfig } from "../../src/config/config.generate.js";
+import { redisClientFactory, RedisClient, ConfigModule, RedisClientModule } from "../../src/index.js";
 
 test( "Redis Client Factory should return correct redis options", () => {
-	const mockConfigService = mockDeep<ConfigService>();
-	mockConfigService.getOrThrow
-		.mockReturnValueOnce( "localhost" )
-		.mockReturnValueOnce( 6379 );
+	process.env = { REDIS_HOST: "localhost", REDIS_PORT: "6379" };
+	const mockConfig = generateConfig( "test" );
 
-	const redisOptions = redisClientFactory( mockConfigService );
+	const redisOptions = redisClientFactory( mockConfig );
 	expect( redisOptions ).toEqual( {
 		transport: Transport.REDIS,
 		options: {
@@ -34,15 +30,7 @@ class ExampleService {
 test( "RedisClient Decorator should inject redis client", async () => {
 	const testModuleMetadata = {
 		providers: [ ExampleService ],
-		imports: [
-			ClientsModule.register( [
-				{
-					transport: Transport.REDIS,
-					options: { host: "localhost", port: 6379 },
-					name: REDIS_CLIENT
-				}
-			] )
-		]
+		imports: [ ConfigModule.register( "test" ), RedisClientModule ]
 	};
 	const testModuleFixture = await Test.createTestingModule( testModuleMetadata ).compile();
 	await testModuleFixture.init();

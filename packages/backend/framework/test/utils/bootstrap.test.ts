@@ -1,23 +1,24 @@
-import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { Transport } from "@nestjs/microservices";
 import type { NestExpressApplication } from "@nestjs/platform-express";
+import type { Mock } from "vitest";
 
-import { mockDeep, mockReset, anyObject, DeepMockProxy } from "vitest-mock-extended";
-import type { WithShutdownHook } from "../../src/index.js";
-import { bootstrap } from "../../src/index.js";
+import { mockDeep, anyObject, DeepMockProxy, mockClear } from "vitest-mock-extended";
+import { generateConfig } from "../../src/config/config.generate.js";
+import { bootstrap, CONFIG_DATA, PRISMA_SERVICE } from "../../src/index.js";
 
 class MockAppModule {}
 
-class MockPrismaService implements WithShutdownHook {
+class MockPrismaService {
 	applyShutdownHooks = vi.fn();
 }
 
 describe( "Bootstrap Method", () => {
 	let mockNestApp: DeepMockProxy<NestExpressApplication>;
 	let mockCreateFn: Mock;
-	const mockConfigService = mockDeep<ConfigService>();
-	const mockPrismaService = mockDeep<MockPrismaService>();
+
+	let mockConfig = generateConfig( "test" );
+	const mockPrismaService = new MockPrismaService();
 
 	beforeEach( () => {
 		mockNestApp = mockDeep<NestExpressApplication>();
@@ -25,23 +26,15 @@ describe( "Bootstrap Method", () => {
 		NestFactory.create = mockCreateFn;
 	} );
 
-	it( "should start the application successfully!", async () => {
-		mockConfigService.getOrThrow
-			.mockReturnValueOnce( 7000 )
-			.mockReturnValueOnce( "Shaastra Test" )
-			.mockReturnValueOnce( "http://localhost:8000" )
-			.mockReturnValueOnce( "test" )
-			.mockReturnValueOnce( "localhost" )
-			.mockReturnValueOnce( 6379 );
+	it( "should start the application successfully", async () => {
+		mockNestApp.get.calledWith( CONFIG_DATA ).mockReturnValue( mockConfig );
+		mockNestApp.get.calledWith( PRISMA_SERVICE ).mockReturnValue( mockPrismaService );
 
-		mockNestApp.get.calledWith( ConfigService ).mockReturnValue( mockConfigService );
-		mockNestApp.get.calledWith( MockPrismaService ).mockReturnValue( mockPrismaService );
-
-		await bootstrap( MockAppModule, MockPrismaService );
+		await bootstrap( MockAppModule );
 
 		expect( mockCreateFn ).toHaveBeenCalledWith( MockAppModule, anyObject() );
-		expect( mockNestApp.get ).toHaveBeenCalledWith( ConfigService );
-		expect( mockNestApp.get ).toHaveBeenCalledWith( MockPrismaService );
+		expect( mockNestApp.get ).toHaveBeenCalledWith( CONFIG_DATA );
+		expect( mockNestApp.get ).toHaveBeenCalledWith( PRISMA_SERVICE );
 		expect( mockNestApp.enableCors ).toHaveBeenCalledTimes( 0 );
 		expect( mockNestApp.use ).toHaveBeenCalledTimes( 2 );
 		expect( mockNestApp.connectMicroservice ).toHaveBeenCalledWith( {
@@ -50,26 +43,19 @@ describe( "Bootstrap Method", () => {
 		} );
 		expect( mockPrismaService.applyShutdownHooks ).toHaveBeenCalledWith( mockNestApp );
 		expect( mockNestApp.startAllMicroservices ).toHaveBeenCalled();
-		expect( mockNestApp.listen ).toHaveBeenCalledWith( 7000 );
+		expect( mockNestApp.listen ).toHaveBeenCalledWith( 8000 );
 	} );
 
-	it( "should enable cors if gateway!", async () => {
-		mockConfigService.getOrThrow
-			.mockReturnValueOnce( 7000 )
-			.mockReturnValueOnce( "Shaastra Gateway" )
-			.mockReturnValueOnce( "http://localhost:8000" )
-			.mockReturnValueOnce( "gateway" )
-			.mockReturnValueOnce( "localhost" )
-			.mockReturnValueOnce( 6379 );
+	it( "should enable cors if gateway", async () => {
+		mockConfig = generateConfig( "gateway" );
+		mockNestApp.get.calledWith( CONFIG_DATA ).mockReturnValue( mockConfig );
+		mockNestApp.get.calledWith( PRISMA_SERVICE ).mockReturnValue( mockPrismaService );
 
-		mockNestApp.get.calledWith( ConfigService ).mockReturnValue( mockConfigService );
-		mockNestApp.get.calledWith( MockPrismaService ).mockReturnValue( mockPrismaService );
-
-		await bootstrap( MockAppModule, MockPrismaService );
+		await bootstrap( MockAppModule );
 
 		expect( mockCreateFn ).toHaveBeenCalledWith( MockAppModule, anyObject() );
-		expect( mockNestApp.get ).toHaveBeenCalledWith( ConfigService );
-		expect( mockNestApp.get ).toHaveBeenCalledWith( MockPrismaService );
+		expect( mockNestApp.get ).toHaveBeenCalledWith( CONFIG_DATA );
+		expect( mockNestApp.get ).toHaveBeenCalledWith( PRISMA_SERVICE );
 		expect( mockNestApp.enableCors ).toHaveBeenCalledWith( { origin: "http://localhost:3000", credentials: true } );
 		expect( mockNestApp.use ).toHaveBeenCalledTimes( 2 );
 		expect( mockNestApp.connectMicroservice ).toHaveBeenCalledWith( {
@@ -78,11 +64,10 @@ describe( "Bootstrap Method", () => {
 		} );
 		expect( mockPrismaService.applyShutdownHooks ).toHaveBeenCalledWith( mockNestApp );
 		expect( mockNestApp.startAllMicroservices ).toHaveBeenCalled();
-		expect( mockNestApp.listen ).toHaveBeenCalledWith( 7000 );
+		expect( mockNestApp.listen ).toHaveBeenCalledWith( 8000 );
 	} );
 
 	afterEach( () => {
-		mockReset( mockConfigService );
-		mockReset( mockNestApp );
+		mockClear( mockNestApp );
 	} );
 } );

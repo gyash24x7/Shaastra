@@ -76,7 +76,7 @@ test( "IsCoordRuleFunction should check if authenticted user is a coord member",
 	isCoord = await isCoordRuleFunction( {}, {}, mockCtx, mockGraphQLInfo );
 	expect( isCoord ).toBeFalsy();
 
-	mockCtx.res.locals[ "authInfo" ] = { id: "1234", position: "COORD", department: "WEBOPS" };
+	mockCtx.res.locals[ "authInfo" ] = { id: "1234", position: "HEAD", department: "WEBOPS" };
 	isCoord = await isCoordRuleFunction( {}, {}, mockCtx, mockGraphQLInfo );
 	expect( isCoord ).toBeFalsy();
 

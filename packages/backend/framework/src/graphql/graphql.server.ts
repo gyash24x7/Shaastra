@@ -9,8 +9,9 @@ import {
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { Injectable } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
+import { Config } from "../config/index.js";
 import { LoggerFactory } from "../logger/index.js";
-import type { ServiceContext, ContextFn } from "../utils/index.js";
+import type { ServiceContext, ContextFn, AppConfig } from "../utils/index.js";
 import { SchemaBuilderService } from "./schema.builder.service.js";
 import { ServiceDataSource } from "./service.datasource.js";
 
@@ -27,14 +28,15 @@ export class GraphQLServer {
 
 	constructor(
 		private readonly httpAdapterHost: HttpAdapterHost,
-		private readonly schemaBuilder: SchemaBuilderService
+		private readonly schemaBuilder: SchemaBuilderService,
+		@Config() private readonly config: AppConfig
 	) {}
 
-	async start( isGateway: boolean = false ) {
+	async start() {
 		this.logger.debug( "Starting GraphQL Server..." );
-		const plugins = this.getPlugins( isGateway );
+		const plugins = this.getPlugins();
 
-		const apolloServerConfig = isGateway
+		const apolloServerConfig = this.config.appInfo.isGateway
 			? { gateway: new ApolloGateway( { buildService, logger: this.logger } ) }
 			: { schema: await this.schemaBuilder.buildSchema() };
 
@@ -48,14 +50,14 @@ export class GraphQLServer {
 		return expressMiddleware( this.apolloServer, { context: createContext } );
 	}
 
-	getPlugins( isGateway: boolean = false ) {
+	getPlugins() {
 		const httpServer = this.httpAdapterHost.httpAdapter.getHttpServer();
 		const plugins = [
 			ApolloServerPluginDrainHttpServer( { httpServer } ),
 			ApolloServerPluginLandingPageDisabled()
 		];
 
-		if ( !isGateway ) {
+		if ( !this.config.appInfo.isGateway ) {
 			plugins.push( ApolloServerPluginUsageReportingDisabled() );
 		}
 

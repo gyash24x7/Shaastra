@@ -1,21 +1,18 @@
-import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { RedisOptions, Transport } from "@nestjs/microservices";
 import bodyParser from "body-parser";
+import { CONFIG_DATA } from "../config/index.js";
 import { LoggerFactory, loggerMiddleware } from "../logger/index.js";
-import { PrismaService } from "../prisma/index.js";
+import { PrismaService, PRISMA_SERVICE } from "../prisma/index.js";
+import type { AppConfig } from "./types.js";
 
 export async function bootstrap( AppModule: any ) {
 	const logger = LoggerFactory.getLogger( AppModule );
 	const app = await NestFactory.create( AppModule, { logger } );
 
-	const configService = app.get( ConfigService );
-	const port = configService.getOrThrow<number>( "app.port" );
-	const appName = configService.getOrThrow<string>( "app.name" );
-	const url = configService.getOrThrow<string>( "app.url" );
-	const id = configService.getOrThrow<string>( "app.id" );
+	const config = app.get<AppConfig>( CONFIG_DATA );
 
-	if ( id === "gateway" ) {
+	if ( config.appInfo.isGateway ) {
 		app.enableCors( {
 			origin: "http://localhost:3000",
 			credentials: true
@@ -28,15 +25,15 @@ export async function bootstrap( AppModule: any ) {
 	app.connectMicroservice<RedisOptions>( {
 		transport: Transport.REDIS,
 		options: {
-			host: configService.getOrThrow( "app.redis.host" ),
-			port: configService.getOrThrow( "app.redis.port" )
+			host: config.redis.host,
+			port: config.redis.port
 		}
 	} );
 
-	app.get( PrismaService ).applyShutdownHooks( app );
+	app.get<PrismaService<any>>( PRISMA_SERVICE ).applyShutdownHooks( app );
 
 	await app.startAllMicroservices();
-	await app.listen( port );
+	await app.listen( config.appInfo.port );
 
-	logger.info( `${ appName } started on ${ url }!` );
+	logger.info( `${ config.appInfo.name } started on ${ config.appInfo.url }!` );
 }

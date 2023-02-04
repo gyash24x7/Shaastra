@@ -6,6 +6,7 @@ import type { Request, Response } from "express";
 import type { GraphQLSchema } from "graphql";
 import type { Server } from "node:http";
 import { mockDeep, mockClear } from "vitest-mock-extended";
+import { generateConfig } from "../../src/config/config.generate.js";
 import { GraphQLServer, buildService, createContext } from "../../src/graphql/graphql.server.js";
 import type { SchemaBuilderService } from "../../src/graphql/schema.builder.service.js";
 import { ServiceDataSource } from "../../src/graphql/service.datasource.js";
@@ -46,6 +47,7 @@ test( "CreateContext should add authInfo to context", async () => {
 } );
 
 describe( "GraphQL Server", () => {
+
 	const mockHttpAdapterHost = mockDeep<HttpAdapterHost>();
 	const mockSchemaBuilder = mockDeep<SchemaBuilderService>();
 	const mockSchema = mockDeep<GraphQLSchema>();
@@ -57,7 +59,8 @@ describe( "GraphQL Server", () => {
 	} );
 
 	it( "should return 3 plugins when in service mode", () => {
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder );
+		const mockConfig = generateConfig( "test" );
+		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
 		const plugins = graphQLServer.getPlugins();
 
 		expect( plugins ).toHaveLength( 3 );
@@ -65,16 +68,18 @@ describe( "GraphQL Server", () => {
 	} );
 
 	it( "should return 2 plugin when in gateway mode", () => {
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder );
-		const plugins = graphQLServer.getPlugins( true );
+		const mockConfig = generateConfig( "gateway" );
+		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
+		const plugins = graphQLServer.getPlugins();
 
 		expect( plugins ).toHaveLength( 2 );
 		expect( mockHttpAdapterHost.httpAdapter.getHttpServer ).toHaveBeenCalled();
 	} );
 
 	it( "should run apollo server with gateway in gateway mode", async () => {
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder );
-		await graphQLServer.start( true );
+		const mockConfig = generateConfig( "gateway" );
+		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
+		await graphQLServer.start();
 
 		expect( mockSchemaBuilder.buildSchema ).toHaveBeenCalledTimes( 0 );
 		expect( mockHttpAdapterHost.httpAdapter.getHttpServer ).toHaveBeenCalled();
@@ -91,7 +96,8 @@ describe( "GraphQL Server", () => {
 	} );
 
 	it( "should return apollo server with schema in service mode", async () => {
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder );
+		const mockConfig = generateConfig( "test" );
+		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
 		await graphQLServer.start();
 
 		expect( mockSchemaBuilder.buildSchema ).toHaveBeenCalledTimes( 1 );
@@ -105,7 +111,8 @@ describe( "GraphQL Server", () => {
 	} );
 
 	it( "should return express middleware function", async () => {
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder );
+		const mockConfig = generateConfig( "test" );
+		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
 		await graphQLServer.start();
 		const middleware = graphQLServer.middleware();
 

@@ -42,9 +42,11 @@ export type AppInfo = {
 	pkg: string;
 	port: number;
 	address: string;
+	isGateway: boolean;
 }
 
-export type AppConfig = AppInfo & {
+export type AppConfig = {
+	appInfo: AppInfo,
 	auth: {
 		audience: string;
 		domain: string;
@@ -54,6 +56,9 @@ export type AppConfig = AppInfo & {
 	redis: {
 		host: string;
 		port: number;
+	},
+	graphql: {
+		schemaPath?: string;
 	}
 }
 

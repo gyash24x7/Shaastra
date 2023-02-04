@@ -5,16 +5,20 @@ import type { PrismaClientLike } from "./prisma.interfaces.js";
 import { prismaLoggingMiddleware } from "./prisma.middleware.js";
 
 @Injectable()
-export class PrismaService<P extends PrismaClientLike> {
+export class PrismaService<P extends PrismaClientLike = any> {
 	private readonly logger = LoggerFactory.getLogger( PrismaService );
 
 	constructor( @Inject( PRISMA_CLIENT ) public client: P ) {
 		client.$use( prismaLoggingMiddleware( this.logger ) );
 	}
 
-	applyShutdownHooks( app: INestApplicationContext ) {
-		this.client.$on( "beforeExit", async () => {
+	closeApp( app: INestApplicationContext ) {
+		return async () => {
 			await app.close();
-		} );
+		};
+	}
+
+	applyShutdownHooks( app: INestApplicationContext ) {
+		this.client.$on( "beforeExit", this.closeApp( app ) );
 	}
 }

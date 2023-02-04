@@ -1,11 +1,11 @@
 import { ConflictException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
+import type { PrismaClient } from "@prisma/client/workforce/index.js";
 import { Department, type Member, MemberPosition } from "@prisma/client/workforce/index.js";
-import { LoggerFactory } from "@shaastra/framework";
+import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
 import { MemberMessages } from "../constants/messages.js";
 import { MemberCreatedEvent } from "../events/member.created.event.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export type CreateMemberInput = {
 	name: string;
@@ -25,7 +25,7 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 	private readonly logger = LoggerFactory.getLogger( CreateMemberCommandHandler );
 
 	constructor(
-		private readonly prismaService: PrismaService,
+		@Prisma() private readonly prismaService: PrismaService<PrismaClient>,
 		private readonly eventBus: EventBus
 	) {}
 
@@ -33,7 +33,7 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 		this.logger.debug( `>> createMember()` );
 		this.logger.debug( "Data: %o", data );
 
-		const existingMember = await this.prismaService.member.findFirst( {
+		const existingMember = await this.prismaService.client.member.findFirst( {
 			where: {
 				OR: {
 					rollNumber: data.rollNumber,
@@ -51,7 +51,7 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 			throw new ConflictException( MemberMessages.ALREADY_EXISTS );
 		}
 
-		const member = await this.prismaService.member.create( {
+		const member = await this.prismaService.client.member.create( {
 			data: {
 				...data,
 				position: MemberPosition.COORD

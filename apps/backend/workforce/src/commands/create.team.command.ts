@@ -1,12 +1,11 @@
 import { ConflictException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Department, Team } from "@prisma/client/workforce/index.js";
+import type { Department, Team, PrismaClient } from "@prisma/client/workforce/index.js";
 import type { UserAuthInfo } from "@shaastra/framework";
-import { LoggerFactory } from "@shaastra/framework";
+import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
 import { TeamMessages } from "../constants/messages.js";
 import { TeamCreatedEvent } from "../events/team.created.event.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export type CreateTeamInput = {
 	name: string;
@@ -25,7 +24,7 @@ export class CreateTeamCommandHandler implements ICommandHandler<CreateTeamComma
 	private readonly logger = LoggerFactory.getLogger( CreateTeamCommandHandler );
 
 	constructor(
-		private readonly prismaService: PrismaService,
+		@Prisma() private readonly prismaService: PrismaService<PrismaClient>,
 		private readonly eventBus: EventBus
 	) {}
 
@@ -33,14 +32,14 @@ export class CreateTeamCommandHandler implements ICommandHandler<CreateTeamComma
 		this.logger.debug( `>> createTeam()` );
 		this.logger.debug( "Data: %o", data );
 
-		const existingTeam = await this.prismaService.team.findUnique( { where: { name: data.name } } );
+		const existingTeam = await this.prismaService.client.team.findUnique( { where: { name: data.name } } );
 
 		if ( existingTeam ) {
 			this.logger.error( "Team already exists with Name %s", data.name );
 			throw new ConflictException( TeamMessages.ALREADY_EXISTS );
 		}
 
-		const team = await this.prismaService.team.create( {
+		const team = await this.prismaService.client.team.create( {
 			data: {
 				...data,
 				department: authInfo?.department! as Department,

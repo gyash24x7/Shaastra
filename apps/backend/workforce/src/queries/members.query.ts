@@ -1,8 +1,7 @@
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
-import type { Member } from "@prisma/client/workforce/index.js";
-import { LoggerFactory } from "@shaastra/framework";
-import { PrismaService } from "../prisma/prisma.service.js";
+import type { Member, PrismaClient } from "@prisma/client/workforce/index.js";
+import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
 
 export class MembersQuery implements IQuery {
 	constructor( public readonly teamId: string ) {}
@@ -12,12 +11,12 @@ export class MembersQuery implements IQuery {
 export class MembersQueryHandler implements IQueryHandler<MembersQuery, Member[]> {
 	private readonly logger = LoggerFactory.getLogger( MembersQueryHandler );
 
-	constructor( private readonly prismaService: PrismaService ) {}
+	constructor( @Prisma() private readonly prismaService: PrismaService<PrismaClient> ) {}
 
 	async execute( { teamId }: MembersQuery ): Promise<Member[]> {
 		this.logger.debug( `>> execute()` );
 		this.logger.debug( "Data: %o", { teamId } );
-		const members = await this.prismaService.team.findUniqueOrThrow( { where: { id: teamId } } ).members();
+		const members = await this.prismaService.client.team.findUniqueOrThrow( { where: { id: teamId } } ).members();
 		this.logger.debug( "Members found: %o", members );
 		return members;
 	}

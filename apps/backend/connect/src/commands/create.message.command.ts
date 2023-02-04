@@ -1,10 +1,9 @@
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Message } from "@prisma/client/connect/index.js";
+import type { Message, PrismaClient } from "@prisma/client/connect/index.js";
 import type { UserAuthInfo } from "@shaastra/framework";
-import { LoggerFactory } from "@shaastra/framework";
+import { LoggerFactory, Prisma, PrismaService } from "@shaastra/framework";
 import { MessageCreatedEvent } from "../events/message.created.event.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export type CreateMessageInput = {
 	content: string;
@@ -23,7 +22,7 @@ export class CreateMessageCommandHandler implements ICommandHandler<CreateMessag
 	private readonly logger = LoggerFactory.getLogger( CreateMessageCommandHandler );
 
 	constructor(
-		private readonly prismaService: PrismaService,
+		@Prisma() private readonly prismaService: PrismaService<PrismaClient>,
 		private readonly eventBus: EventBus
 	) {}
 
@@ -31,7 +30,7 @@ export class CreateMessageCommandHandler implements ICommandHandler<CreateMessag
 		this.logger.debug( `>> createMessage()` );
 		this.logger.debug( "Data: %o", data );
 
-		const message = await this.prismaService.message.create( {
+		const message = await this.prismaService.client.message.create( {
 			data: { ...data, createdById: authInfo.id }
 		} );
 

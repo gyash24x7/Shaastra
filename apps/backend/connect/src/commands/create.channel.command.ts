@@ -1,11 +1,10 @@
 import { ConflictException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Channel, ChannelType } from "@prisma/client/connect/index.js";
-import { LoggerFactory, UserAuthInfo } from "@shaastra/framework";
+import type { Channel, ChannelType, PrismaClient } from "@prisma/client/connect/index.js";
+import { LoggerFactory, UserAuthInfo, Prisma, PrismaService } from "@shaastra/framework";
 import { ChannelMessages } from "../constants/messages.js";
 import { ChannelCreatedEvent } from "../events/channel.created.event.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export type CreateChannelInput = {
 	name: string;
@@ -25,7 +24,7 @@ export class CreateChannelCommandHandler implements ICommandHandler<CreateChanne
 	private readonly logger = LoggerFactory.getLogger( CreateChannelCommandHandler );
 
 	constructor(
-		private readonly prismaService: PrismaService,
+		@Prisma() private readonly prismaService: PrismaService<PrismaClient>,
 		private readonly eventBus: EventBus
 	) {}
 
@@ -33,7 +32,7 @@ export class CreateChannelCommandHandler implements ICommandHandler<CreateChanne
 		this.logger.debug( `>> createChannel()` );
 		this.logger.debug( "Data: %o", data );
 
-		const existingChannel = await this.prismaService.channel.findFirst( {
+		const existingChannel = await this.prismaService.client.channel.findFirst( {
 			where: { name: data.name }
 		} );
 
@@ -42,7 +41,7 @@ export class CreateChannelCommandHandler implements ICommandHandler<CreateChanne
 			throw new ConflictException( ChannelMessages.ALREADY_EXISTS );
 		}
 
-		const channel = await this.prismaService.channel.create( {
+		const channel = await this.prismaService.client.channel.create( {
 			data: { ...data, createdById: authInfo.id }
 		} );
 

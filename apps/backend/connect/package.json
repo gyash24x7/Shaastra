@@ -21,13 +21,10 @@
 	"dependencies": {
 		"@shaastra/framework": "workspace:*",
 		"@nestjs/common": "9.2.1",
-		"@nestjs/config": "2.2.0",
 		"@nestjs/core": "9.2.1",
 		"@nestjs/cqrs": "9.0.1",
 		"@nestjs/microservices": "9.2.1",
 		"@nestjs/platform-express": "9.2.1",
-		"@nestjs/terminus": "9.1.4",
-		"@ogma/logger": "2.4.2",
 		"@prisma/client": "4.9.0",
 		"graphql": "16.6.0",
 		"ioredis": "5.2.5",

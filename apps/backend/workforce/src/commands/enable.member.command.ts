@@ -1,9 +1,8 @@
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Member } from "@prisma/client/workforce/index.js";
-import { LoggerFactory } from "@shaastra/framework";
+import type { Member, PrismaClient } from "@prisma/client/workforce/index.js";
+import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
 import { MemberEnabledEvent } from "../events/member.enabled.event.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export type EnableMemberInput = {
 	id: string
@@ -18,7 +17,7 @@ export class EnableMemberCommandHandler implements ICommandHandler<EnableMemberC
 	private readonly logger = LoggerFactory.getLogger( EnableMemberCommandHandler );
 
 	constructor(
-		private readonly prismaService: PrismaService,
+		@Prisma() private readonly prismaService: PrismaService<PrismaClient>,
 		private readonly eventBus: EventBus
 	) {}
 
@@ -26,7 +25,7 @@ export class EnableMemberCommandHandler implements ICommandHandler<EnableMemberC
 		this.logger.debug( `>> enableMember()` );
 		this.logger.debug( "Data: %o", data );
 
-		const member = await this.prismaService.member.update( {
+		const member = await this.prismaService.client.member.update( {
 			where: { id: data.id },
 			data: { enabled: true }
 		} );

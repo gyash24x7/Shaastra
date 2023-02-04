@@ -1,12 +1,12 @@
 import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { EventsHandler } from "@nestjs/cqrs";
 import { ClientProxy } from "@nestjs/microservices";
+import type { PrismaClient } from "@prisma/client/workforce/index.js";
 import { type Member, MemberPosition } from "@prisma/client/workforce/index.js";
-import { LoggerFactory, RedisClient } from "@shaastra/framework";
+import { LoggerFactory, RedisClient, PrismaService, Prisma } from "@shaastra/framework";
 import { firstValueFrom } from "rxjs";
 import { MemberMessages } from "../constants/messages.js";
 import { OutboundEvents } from "../constants/outbound.events.js";
-import { PrismaService } from "../prisma/prisma.service.js";
 
 export class MemberCreatedEvent implements IEvent {
 	constructor( public readonly data: Member & { password: string } ) {}
@@ -18,14 +18,14 @@ export class MemberCreatedEventHandler implements IEventHandler<MemberCreatedEve
 
 	constructor(
 		@RedisClient() private readonly redisClient: ClientProxy,
-		private readonly prismaService: PrismaService
+		@Prisma() private readonly prismaService: PrismaService<PrismaClient>
 	) {}
 
 	async handle( { data }: MemberCreatedEvent ) {
 		this.logger.debug( ">> handle()" );
 		this.logger.debug( "Data: %o", data );
 
-		const member = await this.prismaService.member.findFirst( {
+		const member = await this.prismaService.client.member.findFirst( {
 			where: { department: data.department, position: MemberPosition.CORE }
 		} );
 

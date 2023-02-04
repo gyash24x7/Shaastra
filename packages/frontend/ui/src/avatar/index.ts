@@ -1,4 +1,4 @@
-import Avatar from "./avatar";
+import Avatar from "./avatar.js";
 
-export * from "./avatar";
+export * from "./avatar.js";
 export default Avatar;

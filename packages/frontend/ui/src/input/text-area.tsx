@@ -1,8 +1,8 @@
 import { useMemo, Fragment } from "react";
 import { When } from "react-if";
-import { VariantSchema } from "../utils";
-import InputMessage from "./input-message";
-import type { InputProps } from "./text-input";
+import { VariantSchema } from "../utils/index.js";
+import InputMessage from "./input-message.js";
+import type { InputProps } from "./text-input.js";
 
 export interface TextAreaProps extends InputProps {
 	label?: string;

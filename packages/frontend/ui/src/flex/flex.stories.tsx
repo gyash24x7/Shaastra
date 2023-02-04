@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Flex from "./flex";
+import Flex, { FlexProps } from "./flex.js";
 
-const meta: Meta<typeof Flex> = {
+const meta: Meta<FlexProps> = {
 	component: Flex,
 	subcomponents: {},
 	title: "Flex",
@@ -29,7 +29,7 @@ const meta: Meta<typeof Flex> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof Flex> = {
+export const Playground: StoryObj<FlexProps> = {
 	render: ( args ) => (
 		<Flex { ...args }>
 			<div className={ "bg-blue-300 p-4" }>Flex Child 1</div>

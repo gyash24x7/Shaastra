@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type { Appearance } from "../utils";
-import TextArea from "./text-area";
+import type { Appearance } from "../utils/index.js";
+import TextArea, { TextAreaProps } from "./text-area.js";
 
-const meta: Meta<typeof TextArea> = {
+const meta: Meta<TextAreaProps> = {
 	component: TextArea,
 	title: "TextArea",
 	argTypes: {
@@ -17,7 +17,7 @@ const meta: Meta<typeof TextArea> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof TextArea> = {
+export const Playground: StoryObj<TextAreaProps> = {
 	render: ( props ) => <TextArea { ...props } />,
 	args: {
 		name: "message",

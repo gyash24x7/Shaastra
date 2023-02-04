@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { Appearance, Size } from "../utils";
-import Spinner from "./spinner";
+import Spinner, { SpinnerProps } from "./spinner";
 
-const meta: Meta<typeof Spinner> = {
+const meta: Meta<SpinnerProps> = {
 	component: Spinner,
 	title: "Spinner",
 	argTypes: {
@@ -23,7 +23,7 @@ const meta: Meta<typeof Spinner> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof Spinner> = {
+export const Playground: StoryObj<SpinnerProps> = {
 	render: ( props ) => <Spinner { ...props } />,
 	args: { size: "md" }
 };

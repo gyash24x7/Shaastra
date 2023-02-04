@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import VStack from "./v-stack";
+import VStack, { VStackProps } from "./v-stack.js";
 
-const meta: Meta<typeof VStack> = {
+const meta: Meta<VStackProps> = {
 	component: VStack,
 	title: "VStack",
 	argTypes: {
@@ -21,7 +21,7 @@ const meta: Meta<typeof VStack> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof VStack> = {
+export const Playground: StoryObj<VStackProps> = {
 	render: ( props ) => (
 		<VStack { ...props }>
 			<div className={ "bg-blue-300 p-4" }>Stack Child 1</div>

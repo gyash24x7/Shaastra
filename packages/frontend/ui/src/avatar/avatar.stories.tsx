@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Avatar from "./avatar";
+import Avatar, { AvatarProps } from "./avatar.js";
 
-const meta: Meta<typeof Avatar> = {
+const meta: Meta<AvatarProps> = {
 	component: Avatar,
 	title: "Avatar",
 	argTypes: {
@@ -19,7 +19,7 @@ const meta: Meta<typeof Avatar> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof Avatar> = {
+export const Playground: StoryObj<AvatarProps> = {
 	render: ( props ) => <Avatar { ...props } />,
 	args: { size: "md", name: "Yash Gupta" }
 };

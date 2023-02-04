@@ -1,9 +1,9 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import type { Meta, StoryObj } from "@storybook/react";
 import type { Appearance, Size } from "../utils";
-import Button from "./button";
+import Button, { ButtonProps } from "./button";
 
-const meta: Meta<typeof Button> = {
+const meta: Meta<ButtonProps> = {
 	component: Button,
 	title: "Button",
 	argTypes: {
@@ -45,12 +45,12 @@ const meta: Meta<typeof Button> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof Button> = {
+export const Playground: StoryObj<ButtonProps> = {
 	render: ( props ) => <Button { ...props } />,
 	args: { buttonText: "Submit", appearance: "default", size: "md" }
 };
 
-export const ButtonWithIconBefore: StoryObj<typeof Button> = {
+export const ButtonWithIconBefore: StoryObj<ButtonProps> = {
 	render: ( props ) => <Button { ...props } />,
 	args: {
 		buttonText: "Submit",
@@ -60,7 +60,7 @@ export const ButtonWithIconBefore: StoryObj<typeof Button> = {
 	}
 };
 
-export const ButtonWithIconAfter: StoryObj<typeof Button> = {
+export const ButtonWithIconAfter: StoryObj<ButtonProps> = {
 	render: ( props ) => <Button { ...props } />,
 	args: {
 		buttonText: "Submit",

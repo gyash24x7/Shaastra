@@ -1,4 +1,4 @@
-import Flex from "./flex";
+import Flex from "./flex.js";
 
 export default Flex;
-export * from "./flex";
+export * from "./flex.js";

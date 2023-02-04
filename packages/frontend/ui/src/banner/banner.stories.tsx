@@ -1,9 +1,9 @@
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid/index.js";
 import type { Meta, StoryObj } from "@storybook/react";
-import type { Appearance } from "../utils";
-import Banner from "./banner";
+import type { Appearance, RenderIconProps } from "../utils/index.js";
+import Banner, { BannerProps } from "./banner.js";
 
-const meta: Meta<typeof Banner> = {
+const meta: Meta<BannerProps> = {
 	component: Banner,
 	title: "Banner",
 	argTypes: {
@@ -31,12 +31,12 @@ const meta: Meta<typeof Banner> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof Banner> = {
+export const Playground: StoryObj<BannerProps> = {
 	render: ( props ) => <Banner { ...props } />,
 	args: { appearance: "default" }
 };
 
-export const BannerWithIcon: StoryObj<typeof Banner> = {
+export const BannerWithIcon: StoryObj<BannerProps> = {
 	render: ( props ) => <Banner { ...props } />,
-	args: { appearance: "default", renderIcon: ( props ) => <ExclamationCircleIcon { ...props }/> }
+	args: { appearance: "default", renderIcon: ( props?: RenderIconProps ) => <ExclamationCircleIcon { ...props }/> }
 };

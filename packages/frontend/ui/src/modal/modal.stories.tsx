@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Modal from "./modal";
+import Modal, { ModalProps } from "./modal.js";
 
-const meta: Meta<typeof Modal> = {
+const meta: Meta<ModalProps> = {
 	component: Modal,
 	title: "Modal",
 	argTypes: {
@@ -13,7 +13,7 @@ const meta: Meta<typeof Modal> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof Modal> = {
+export const Playground: StoryObj<ModalProps> = {
 	render: ( props ) => <Modal { ...props } />,
 	args: {
 		title: "Modal Story",

@@ -1,9 +1,9 @@
 import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 import type { Meta, StoryObj } from "@storybook/react";
-import type { Appearance } from "../utils";
-import TextInput from "./text-input";
+import type { Appearance } from "../utils/index.js";
+import TextInput, { TextInputProps } from "./text-input.js";
 
-const meta: Meta<typeof TextInput> = {
+const meta: Meta<TextInputProps> = {
 	component: TextInput,
 	title: "TextInput",
 	argTypes: {
@@ -18,7 +18,7 @@ const meta: Meta<typeof TextInput> = {
 
 export default meta;
 
-export const Playground: StoryObj<typeof TextInput> = {
+export const Playground: StoryObj<TextInputProps> = {
 	render: ( props ) => <TextInput { ...props } />,
 	args: {
 		name: "firstName",
@@ -29,7 +29,7 @@ export const Playground: StoryObj<typeof TextInput> = {
 	}
 };
 
-export const TextInputWithIconBefore: StoryObj<typeof TextInput> = {
+export const TextInputWithIconBefore: StoryObj<TextInputProps> = {
 	render: ( props ) => <TextInput { ...props } />,
 	args: {
 		name: "email",
@@ -41,7 +41,7 @@ export const TextInputWithIconBefore: StoryObj<typeof TextInput> = {
 	}
 };
 
-export const TextInputWithIconAfter: StoryObj<typeof TextInput> = {
+export const TextInputWithIconAfter: StoryObj<TextInputProps> = {
 	render: ( props ) => <TextInput { ...props } />,
 	args: {
 		name: "password",

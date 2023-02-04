@@ -1,7 +1,7 @@
 import { Fragment, useMemo } from "react";
 import { When } from "react-if";
-import { VariantSchema, RenderIcon } from "../utils";
-import InputMessage from "./input-message";
+import { VariantSchema, RenderIcon } from "../utils/index.js";
+import InputMessage from "./input-message.js";
 
 export interface InputProps<V = any> {
 	name: string | number | symbol;

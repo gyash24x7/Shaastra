@@ -1,4 +1,4 @@
-import type { MeQueryData } from "@shaastra/client/src/queries/me.query.js";
+import type { MeQueryData } from "@shaastra/client";
 import { createContext, ReactNode, useMemo, useContext } from "react";
 
 export type AuthContextType =

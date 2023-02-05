@@ -1,19 +1,7 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import superagent from "superagent";
-import type { Department, MemberPosition, CreateMemberInput } from "../generated/index.js";
-
-export type CreateMemberMutationData = {
-	createMember: {
-		id: string,
-		name: string,
-		email: string,
-		rollNumber: string,
-		profilePic: string,
-		position: MemberPosition,
-		department: Department,
-		about: string
-	}
-};
+import type { CreateMemberInput } from "../types/inputs.js";
+import type { CreateMemberMutationData } from "../types/responses.js";
 
 export const query = `
     mutation createMember(

@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import superagent from "superagent";
-import type { MemberPosition, Department } from "../generated/index.js";
+import type { MeQueryData } from "../types/responses.js";
 
 const query = `
 	query me {
@@ -17,20 +17,6 @@ const query = `
     	}
 	}
 `;
-
-export type MeQueryData = {
-	readonly me: {
-		readonly id: string,
-		readonly name: string,
-		readonly email: string,
-		readonly rollNumber: string,
-		readonly position: MemberPosition,
-		readonly profilePic: string,
-		readonly coverPic: string,
-		readonly department: Department,
-		readonly enabled: boolean
-	}
-};
 
 export async function meQueryFetcher(): Promise<MeQueryData> {
 	const response = await superagent

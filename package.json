@@ -11,7 +11,7 @@
 	"scripts": {
 		"dev": "env-cmd turbo run dev",
 		"build": "turbo run build",
-		"start": "turbo run start",
+		"start": "env-cmd turbo run start",
 		"typecheck": "turbo run typecheck --parallel",
 		"test": "turbo run test --parallel"
 	},

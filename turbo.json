@@ -2,16 +2,17 @@
 	"$schema": "https://turbo.build/schema.json",
 	"pipeline": {
 		"dev": {
-			"dependsOn": [ "^build", "db:generate", "gql:generate" ],
+			"inputs": [ "../../../.swcrc", "src/**" ],
+			"dependsOn": [ "^build", "db:generate" ],
 			"cache": false
 		},
 		"build": {
 			"inputs": [ "../../../.swcrc", "src/**" ],
-			"dependsOn": [ "^build", "db:generate", "gql:generate" ],
+			"dependsOn": [ "^build", "db:generate" ],
 			"outputs": [ "dist/**" ]
 		},
 		"typecheck": {
-			"dependsOn": [ "^typecheck", "gql:generate", "db:generate" ],
+			"dependsOn": [ "^typecheck", "db:generate" ],
 			"outputs": [ ]
 		},
 		"start": {
@@ -29,27 +30,10 @@
 			"inputs": [ "prisma/schema.prisma" ],
 			"outputs": [ ]
 		},
-		"gql:generate": {
-			"inputs": [ "src/assets/schema.graphql" ],
-			"dependsOn": [ "schema:fetch" ],
-			"outputs": [ "src/generated/**" ]
-		},
 		"schema:publish": {
 			"inputs": [ "src/assets/schema.graphql" ],
 			"outputs": [ ],
-			"env": [
-				"APOLLO_KEY",
-				"APOLLO_GRAPH_REF"
-			]
-		},
-		"schema:fetch": {
-			"inputs": [ ],
-			"dependsOn": [ "@shaastra/workforce#schema:publish", "@shaastra/connect#schema:publish" ],
-			"outputs": [ "src/assets/schema.graphql" ],
-			"env": [
-				"APOLLO_KEY",
-				"APOLLO_GRAPH_REF"
-			]
+			"env": [ "APOLLO_KEY", "APOLLO_GRAPH_REF" ]
 		}
 	}
 }

@@ -6,8 +6,6 @@
 	"main": "dist/index.js",
 	"types": "src/index.ts",
 	"scripts": {
-		"schema:fetch": "node node_modules/@shaastra/scripts/schema.fetch.js",
-		"gql:generate": "graphql-codegen-esm",
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
 		"typecheck": "tsc -p tsconfig.build.json"
 	},
@@ -19,35 +17,7 @@
 		"superagent": "8.0.9"
 	},
 	"devDependencies": {
-		"@graphql-codegen/cli": "3.0.0",
-		"@graphql-codegen/typescript": "3.0.0",
-		"@graphql-codegen/typescript-resolvers": "3.0.0",
-		"@shaastra/scripts": "workspace:*",
 		"@shaastra/tsconfig": "workspace:*",
 		"@types/superagent": "4.1.16"
-	},
-	"codegen": {
-		"overwrite": true,
-		"schema": "src/assets/schema.graphql",
-		"generates": {
-			"src/generated/index.ts": {
-				"plugins": [
-					"typescript"
-				],
-				"config": {
-					"avoidOptionals": true,
-					"constEnums": true,
-					"skipTypename": true,
-					"strictScalars": true,
-					"useTypeImports": true,
-					"emitLegacyCommonJSImports": false,
-					"scalars": {
-						"Date": "Date"
-					},
-					"immutableTypes": true,
-					"legacyMode": false
-				}
-			}
-		}
 	}
 }

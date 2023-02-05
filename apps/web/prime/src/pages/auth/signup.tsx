@@ -23,17 +23,17 @@ import { When, If, Then, Else } from "react-if";
 import { Link } from "react-router-dom";
 
 const departments: Department[] = [
-	Department.Envisage,
-	Department.Evolve,
-	Department.Finance,
-	Department.Publicity,
-	Department.Qms,
-	Department.Webops,
-	Department.ConceptAndDesign,
-	Department.EventsAndWorkshops,
-	Department.OperationsAndInfrastructurePlanning,
-	Department.ShowsAndExhibitions,
-	Department.SponsorshipAndPr
+	Department.ENVISAGE,
+	Department.EVOLVE,
+	Department.FINANCE,
+	Department.PUBLICITY,
+	Department.QMS,
+	Department.WEBOPS,
+	Department.CONCEPT_AND_DESIGN,
+	Department.EVENTS_AND_WORKSHOPS,
+	Department.OPERATIONS_AND_INFRASTRUCTURE_PLANNING,
+	Department.SHOWS_AND_EXHIBITIONS,
+	Department.SPONSORSHIP_AND_PR
 ];
 
 export default function SignUpPage() {
@@ -61,7 +61,7 @@ export default function SignUpPage() {
 								rollNumber: "",
 								password: "",
 								mobile: "",
-								department: Department.Webops
+								department: Department.WEBOPS
 							} }
 							onSubmit={ ( data ) => mutateAsync( data ) }
 							renderMap={ {

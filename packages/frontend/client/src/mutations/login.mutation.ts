@@ -1,22 +1,9 @@
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import superagent from "superagent";
+import type { LoginInput } from "../types/inputs.js";
+import type { LoginMutationData } from "../types/responses.js";
 
-export type User = {
-	id: string
-	name: string
-	email: string
-	username: string
-	password: string
-	verified: boolean
-	roles: string[]
-}
-
-export type LoginMutationVariables = {
-	password: string;
-	username: string;
-};
-
-export async function loginMutationFetcher( variables: LoginMutationVariables ): Promise<User> {
+export async function loginMutationFetcher( variables: LoginInput ): Promise<LoginMutationData> {
 	const response = await superagent
 		.post( "http://localhost:9000/api/auth/login" )
 		.send( variables )
@@ -25,6 +12,6 @@ export async function loginMutationFetcher( variables: LoginMutationVariables ):
 	return response.body;
 }
 
-export function useLoginMutation( options?: UseMutationOptions<User, unknown, LoginMutationVariables> ) {
+export function useLoginMutation( options?: UseMutationOptions<LoginMutationData, unknown, LoginInput> ) {
 	return useMutation( [ "login" ], loginMutationFetcher, options );
 }

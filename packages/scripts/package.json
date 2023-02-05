@@ -3,11 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"type": "module",
-	"files": [
-		"schema.publish.js",
-		"keys.generate.js",
-		"schema.fetch.js"
-	],
+	"files": [ "schema.publish.js", "keys.generate.js" ],
 	"devDependencies": {
 		"@types/shelljs": "0.8.11",
 		"jose": "4.11.2",

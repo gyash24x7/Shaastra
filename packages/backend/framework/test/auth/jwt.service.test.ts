@@ -11,8 +11,8 @@ import { JwtService } from "../../src/index.js";
 
 describe( "Jwt Service", () => {
 	let mockConfig = generateConfig( "test" );
-	mockConfig.auth.publicKeyPath = "test/auth/__mocks__/keys/.public.key.pem";
-	mockConfig.auth.privateKeyPath = "test/auth/__mocks__/keys/.private.key";
+	mockConfig.auth.publicKeyPath = "test/auth/__mocks__/.public.key.pem";
+	mockConfig.auth.privateKeyPath = "test/auth/__mocks__/.private.key";
 
 	const mockRequest = mockDeep<Request>();
 	const signPayload = { id: "1234", roles: [ "POSITION_CORE", "MEMBER_WEBOPS" ], verified: true };
@@ -90,8 +90,8 @@ describe( "Jwt Service", () => {
 
 	it( "should read public key from local when app is gateway", async () => {
 		mockConfig = generateConfig( "gateway" );
-		mockConfig.auth.publicKeyPath = "test/auth/__mocks__/keys/.public.key.pem";
-		mockConfig.auth.privateKeyPath = "test/auth/__mocks__/keys/.private.key";
+		mockConfig.auth.publicKeyPath = "test/auth/__mocks__/.public.key.pem";
+		mockConfig.auth.privateKeyPath = "test/auth/__mocks__/.private.key";
 
 		const jwtService = new JwtService( mockConfig );
 		const authInfo = await jwtService.verify( signedToken );

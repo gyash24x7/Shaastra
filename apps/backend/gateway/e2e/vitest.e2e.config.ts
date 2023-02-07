@@ -2,10 +2,11 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig( {
 	test: {
-		include: [ "test/**/*.test.ts" ],
+		globals: true,
 		environment: "node",
+		include: [ "e2e/**/*.test.ts" ],
 		coverage: {
-			reportsDirectory: "coverage/test",
+			reportsDirectory: "coverage/e2e",
 			reporter: [ "text", "json", "html" ],
 			provider: "istanbul",
 			enabled: true,

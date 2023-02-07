@@ -1,4 +1,5 @@
 import type { INestApplication } from "@nestjs/common";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { PrismaService } from "../../src/index.js";
 import type { PrismaClientLike } from "../../src/prisma/prisma.interfaces.js";

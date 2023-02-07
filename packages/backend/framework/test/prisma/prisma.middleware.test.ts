@@ -1,3 +1,4 @@
+import { describe, expect, vi, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import type { LoggerService } from "../../src/logger/logger.service.js";
 import type { PrismaMiddlewareParams } from "../../src/prisma/prisma.interfaces.js";

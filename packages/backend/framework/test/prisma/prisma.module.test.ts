@@ -1,5 +1,6 @@
 import { Injectable, ModuleMetadata } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
+import { describe, expect, vi, it } from "vitest";
 import { Prisma, PrismaService, PrismaModule } from "../../src/index.js";
 
 class MockPrismaClientType {

@@ -1,4 +1,5 @@
 import type { GraphQLResolveInfo } from "graphql";
+import { test, expect } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import type { ServiceContext } from "../../src/index.js";
 import {

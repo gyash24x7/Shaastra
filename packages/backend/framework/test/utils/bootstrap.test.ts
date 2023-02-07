@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { Transport } from "@nestjs/microservices";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import type { Mock } from "vitest";
+import { describe, expect, vi, afterEach, beforeEach, it } from "vitest";
 
 import { mockDeep, anyObject, DeepMockProxy, mockClear } from "vitest-mock-extended";
 import { generateConfig } from "../../src/config/config.generate.js";

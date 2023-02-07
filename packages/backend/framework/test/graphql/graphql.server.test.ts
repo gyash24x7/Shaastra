@@ -5,6 +5,7 @@ import type { HttpAdapterHost } from "@nestjs/common";
 import type { Request, Response } from "express";
 import type { GraphQLSchema } from "graphql";
 import type { Server } from "node:http";
+import { test, describe, expect, vi, afterEach, beforeEach, it } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
 import { generateConfig } from "../../src/config/config.generate.js";
 import { GraphQLServer, buildService, createContext } from "../../src/graphql/graphql.server.js";

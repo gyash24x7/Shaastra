@@ -1,7 +1,6 @@
 {
 	"extends": "@shaastra/tsconfig/backend.json",
 	"compilerOptions": {
-		"types": [ "vitest/globals" ],
 		"rootDir": ".",
 		"esModuleInterop": true
 	},

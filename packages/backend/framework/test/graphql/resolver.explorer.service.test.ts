@@ -3,7 +3,7 @@ import { DiscoveryService, MetadataScanner } from "@nestjs/core";
 import { InstanceWrapper } from "@nestjs/core/injector/instance-wrapper.js";
 import type { GraphQLResolveInfo } from "graphql";
 import { not } from "graphql-shield";
-
+import { test, describe, expect, vi, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { ResolverExplorerService, buildResolverFn } from "../../src/graphql/resolver.explorer.service.js";
 import {

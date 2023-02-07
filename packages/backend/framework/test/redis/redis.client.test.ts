@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Transport, ClientProxy, ClientRedis } from "@nestjs/microservices";
 import { Test } from "@nestjs/testing";
+import { test, expect } from "vitest";
 import { generateConfig } from "../../src/config/config.generate.js";
 import { redisClientFactory, RedisClient, ConfigModule, RedisClientModule } from "../../src/index.js";
 

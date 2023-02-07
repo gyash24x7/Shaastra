@@ -2,6 +2,7 @@ import { HttpStatus, HttpException } from "@nestjs/common";
 import type { User, PrismaClient } from "@prisma/client/identity/index.js";
 import type { JwtService, PrismaService } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
+import { describe, it, expect, afterEach } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
 import type { LoginInput } from "../../src/commands/login.command.js";
 import { LoginCommandHandler } from "../../src/commands/login.command.js";

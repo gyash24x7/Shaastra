@@ -4,6 +4,7 @@ import type { JwtService } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
 import type { Response } from "express";
 import { generateKeyPair } from "jose";
+import { describe, it, expect, afterEach } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
 import { LoginCommand, LoginInput } from "../../src/commands/login.command.js";
 import { VerifyUserInput, VerifyUserCommand } from "../../src/commands/verify.user.command.js";

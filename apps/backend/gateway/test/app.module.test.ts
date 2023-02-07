@@ -1,5 +1,6 @@
 import type { MiddlewareConsumer } from "@nestjs/common";
 import type { MiddlewareConfigProxy } from "@nestjs/common/interfaces";
+import { describe, it, expect } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { AppModule } from "../src/app.module.js";
 

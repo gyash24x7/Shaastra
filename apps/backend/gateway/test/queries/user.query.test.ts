@@ -1,6 +1,7 @@
 import type { User, PrismaClient } from "@prisma/client/identity/index.js";
 import type { PrismaService } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
+import { describe, it, expect } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { UserQueryHandler } from "../../src/queries/user.query.js";
 

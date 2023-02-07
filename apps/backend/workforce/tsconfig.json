@@ -1,10 +1,9 @@
 {
 	"extends": "@shaastra/tsconfig/backend.json",
 	"compilerOptions": {
-		"types": [ "vitest/globals" ],
 		"rootDir": ".",
 		"esModuleInterop": true
 	},
-	"include": [ "test", "src", "vitest.config.ts" ],
+	"include": [ "test", "src", "vitest.config.ts", "e2e" ],
 	"exclude": [ "node_modules", "dist", ".turbo", "coverage" ]
 }

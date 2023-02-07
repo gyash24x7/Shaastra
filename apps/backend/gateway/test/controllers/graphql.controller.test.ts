@@ -1,6 +1,7 @@
 import type { Response } from "express";
 import { join } from "node:path";
 import process from "node:process";
+import { describe, it, expect } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { GraphQLController } from "../../src/controllers/graphql.controller.js";
 

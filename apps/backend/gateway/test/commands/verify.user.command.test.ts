@@ -3,6 +3,7 @@ import type { User, Token, PrismaClient } from "@prisma/client/identity/index.js
 import type { PrismaService } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
 import dayjs from "dayjs";
+import { describe, it, expect, afterEach } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
 import { VerifyUserCommandHandler, VerifyUserInput } from "../../src/commands/verify.user.command.js";
 import { TokenMessages, UserMessages } from "../../src/constants/messages.js";

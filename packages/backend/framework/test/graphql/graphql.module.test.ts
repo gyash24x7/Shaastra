@@ -1,7 +1,7 @@
 import type { MiddlewareConsumer } from "@nestjs/common";
 import { RequestMethod } from "@nestjs/common";
 import type { MiddlewareConfigProxy } from "@nestjs/common/interfaces";
-import { vi } from "vitest";
+import { vi, describe, expect, afterEach, beforeEach, it } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
 import type { GraphQLServer } from "../../src/graphql/graphql.server.js";
 import { GraphQLModule } from "../../src/index.js";

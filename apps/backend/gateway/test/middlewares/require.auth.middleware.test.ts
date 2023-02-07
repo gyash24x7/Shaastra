@@ -3,6 +3,7 @@ import type { QueryBus } from "@nestjs/cqrs";
 import type { User } from "@prisma/client/identity/index.js";
 import bcrypt from "bcryptjs";
 import type { Request, Response } from "express";
+import { describe, it, vi, expect, afterEach } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
 import { RequireAuthMiddleware } from "../../src/middlewares/require.auth.middleware.js";
 import { UserQuery } from "../../src/queries/user.query.js";

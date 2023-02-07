@@ -4,6 +4,7 @@ import type { KeyLike, JWK } from "jose";
 import { generateKeyPair, exportPKCS8, exportSPKI, exportJWK, jwtVerify } from "jose";
 import nock from "nock";
 import { join } from "node:path";
+import { describe, expect, beforeAll, afterAll, afterEach, it } from "vitest";
 
 import { mockDeep, mockReset } from "vitest-mock-extended";
 import { generateConfig } from "../../src/config/config.generate.js";

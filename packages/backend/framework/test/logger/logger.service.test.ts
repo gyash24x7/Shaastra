@@ -1,5 +1,5 @@
 import type { Ogma } from "@ogma/logger";
-
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { LoggerService } from "../../src/logger/logger.service.js";
 

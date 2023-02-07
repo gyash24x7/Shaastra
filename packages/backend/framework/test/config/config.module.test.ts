@@ -1,6 +1,7 @@
 import { Injectable, ModuleMetadata } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import process from "node:process";
+import { describe, expect, it } from "vitest";
 import type { AppConfig } from "../../src/index.js";
 import { Config, ConfigModule } from "../../src/index.js";
 

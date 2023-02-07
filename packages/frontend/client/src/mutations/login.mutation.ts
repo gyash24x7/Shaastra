@@ -1,7 +1,6 @@
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import superagent from "superagent";
-import type { LoginInput } from "../types/inputs.js";
-import type { LoginMutationData } from "../types/responses.js";
+import type { LoginMutationData, LoginInput } from "../types/index.js";
 
 export async function loginMutationFetcher( variables: LoginInput ): Promise<LoginMutationData> {
 	const response = await superagent

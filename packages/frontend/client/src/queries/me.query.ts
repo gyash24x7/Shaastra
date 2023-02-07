@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import superagent from "superagent";
-import type { MeQueryData } from "../types/responses.js";
+import type { MeQueryData } from "../types/index.js";
 
 const query = `
 	query me {

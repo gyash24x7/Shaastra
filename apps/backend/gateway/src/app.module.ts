@@ -1,6 +1,6 @@
 import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { PrismaClient } from "@prisma/client/identity";
+import { PrismaClient } from "@prisma/client/identity/index.js";
 import {
 	ConfigModule as BaseConfigModule,
 	PrismaModule as BasePrismaModule,
@@ -35,7 +35,7 @@ const PrismaModule = BasePrismaModule.register( { client: PrismaClient } );
 
 @Module( {
 	imports: [ CqrsModule, RedisClientModule, AuthModule, GraphQLModule, PrismaModule, ConfigModule ],
-	providers: [ ...commandHandlers, ...queryHandlers, ...eventHandlers ],
+	providers: [ ...commandHandlers, ...queryHandlers, ...eventHandlers, ExtractAuthMiddleware ],
 	controllers: [ AuthController, InboundController ]
 } )
 export class AppModule implements NestModule {

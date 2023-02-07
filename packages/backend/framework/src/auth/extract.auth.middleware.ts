@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import type { Request, Response, NextFunction } from "express";
 import { Config } from "../config/index.js";
 import type { AppConfig } from "../utils/index.js";
-import type { JwtService } from "./jwt.service.js";
+import { JwtService } from "./jwt.service.js";
 
 @Injectable()
 export class ExtractAuthMiddleware implements NestMiddleware {

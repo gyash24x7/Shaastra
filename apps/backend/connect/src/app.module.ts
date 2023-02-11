@@ -8,7 +8,9 @@ import {
 	AuthModule,
 	GraphQLModule,
 	LoggerFactory,
-	ExtractAuthMiddleware
+	ExtractAuthMiddleware,
+	CONFIG_DATA,
+	AppConfig
 } from "@shaastra/framework";
 import { CreateChannelCommandHandler } from "./commands/create.channel.command.js";
 import { CreateMessageCommandHandler } from "./commands/create.message.command.js";
@@ -27,8 +29,17 @@ const queryHandlers = [ MessagesQueryHandler, MessageQueryHandler, ChannelQueryH
 const commandHandlers = [ CreateMessageCommandHandler, CreateChannelCommandHandler ];
 const resolvers = [ QueryResolvers, MutationResolvers, MessageResolvers, ChannelResolvers ];
 
-const PrismaModule = BasePrismaModule.register( { client: PrismaClient } );
 const ConfigModule = BaseConfigModule.register( "connect" );
+const PrismaModule = BasePrismaModule.registerAsync( {
+	imports: [ ConfigModule ],
+	inject: [ CONFIG_DATA ],
+	useFactory( config: AppConfig ) {
+		return new PrismaClient( {
+			log: [ "query", "info", "warn", "error" ],
+			datasources: { db: config.db }
+		} );
+	}
+} );
 
 @Module( {
 	imports: [ CqrsModule, RedisClientModule, AuthModule, GraphQLModule, PrismaModule, ConfigModule ],

@@ -8,7 +8,9 @@ import {
 	AuthModule,
 	GraphQLModule,
 	LoggerFactory,
-	ExtractAuthMiddleware
+	ExtractAuthMiddleware,
+	CONFIG_DATA,
+	AppConfig
 } from "@shaastra/framework";
 import cookieParser from "cookie-parser";
 import { CreateTokenCommandHandler } from "./commands/create.token.command.js";
@@ -16,6 +18,7 @@ import { CreateUserCommandHandler } from "./commands/create.user.command.js";
 import { LoginCommandHandler } from "./commands/login.command.js";
 import { VerifyUserCommandHandler } from "./commands/verify.user.command.js";
 import { AuthController } from "./controllers/auth.controller.js";
+import { GraphQLController } from "./controllers/graphql.controller.js";
 import { InboundController } from "./controllers/inbound.controller.js";
 import { UserCreatedEventHandler } from "./events/user.created.event.js";
 import { RequireAuthMiddleware } from "./middlewares/require.auth.middleware.js";
@@ -31,12 +34,21 @@ const commandHandlers = [
 ];
 
 const ConfigModule = BaseConfigModule.register( "gateway" );
-const PrismaModule = BasePrismaModule.register( { client: PrismaClient } );
+const PrismaModule = BasePrismaModule.registerAsync( {
+	imports: [ ConfigModule ],
+	inject: [ CONFIG_DATA ],
+	useFactory( config: AppConfig ) {
+		return new PrismaClient( {
+			log: [ "query", "info", "warn", "error" ],
+			datasources: { db: config.db }
+		} );
+	}
+} );
 
 @Module( {
 	imports: [ CqrsModule, RedisClientModule, AuthModule, GraphQLModule, PrismaModule, ConfigModule ],
-	providers: [ ...commandHandlers, ...queryHandlers, ...eventHandlers, ExtractAuthMiddleware ],
-	controllers: [ AuthController, InboundController ]
+	providers: [ ...commandHandlers, ...queryHandlers, ...eventHandlers ],
+	controllers: [ AuthController, InboundController, GraphQLController ]
 } )
 export class AppModule implements NestModule {
 	private readonly logger = LoggerFactory.getLogger( AppModule );

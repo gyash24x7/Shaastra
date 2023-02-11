@@ -1,7 +1,7 @@
 import { Injectable, ModuleMetadata } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { describe, expect, vi, it } from "vitest";
-import { Prisma, PrismaService, PrismaModule } from "../../src/index.js";
+import { Prisma, PrismaService, PrismaModule, ConfigModule, CONFIG_DATA, AppConfig } from "../../src/index.js";
 
 class MockPrismaClientType {
 	$connect = vi.fn().mockImplementation( () => "$connect" );
@@ -24,7 +24,16 @@ describe( "Prisma Module", () => {
 
 	it( "should allow injection of prisma service", async () => {
 		const testModuleMetadata: ModuleMetadata = {
-			imports: [ PrismaModule.register( { client: MockPrismaClientType } ) ],
+			imports: [
+				ConfigModule.register( "test" ),
+				PrismaModule.registerAsync( {
+					imports: [ ConfigModule ],
+					inject: [ CONFIG_DATA ],
+					useFactory( _config: AppConfig ) {
+						return new MockPrismaClientType();
+					}
+				} )
+			],
 			providers: [ ExampleService ]
 		};
 

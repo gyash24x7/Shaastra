@@ -8,7 +8,9 @@ import {
 	AuthModule,
 	GraphQLModule,
 	LoggerFactory,
-	ExtractAuthMiddleware
+	ExtractAuthMiddleware,
+	CONFIG_DATA,
+	AppConfig
 } from "@shaastra/framework";
 import { CreateMemberCommandHandler } from "./commands/create.member.command.js";
 import { CreateTeamCommandHandler } from "./commands/create.team.command.js";
@@ -30,8 +32,17 @@ const queryHandlers = [ MembersQueryHandler, MemberQueryHandler, TeamsQueryHandl
 const commandHandlers = [ CreateMemberCommandHandler, CreateTeamCommandHandler, EnableMemberCommandHandler ];
 const resolvers = [ QueryResolvers, MutationResolvers, MemberResolvers, TeamResolvers ];
 
-const PrismaModule = BasePrismaModule.register( { client: PrismaClient } );
 const ConfigModule = BaseConfigModule.register( "workforce" );
+const PrismaModule = BasePrismaModule.registerAsync( {
+	imports: [ ConfigModule ],
+	inject: [ CONFIG_DATA ],
+	useFactory( config: AppConfig ) {
+		return new PrismaClient( {
+			log: [ "query", "info", "warn", "error" ],
+			datasources: { db: config.db }
+		} );
+	}
+} );
 
 @Module( {
 	imports: [ CqrsModule, RedisClientModule, AuthModule, GraphQLModule, PrismaModule, ConfigModule ],

@@ -6,15 +6,12 @@ import { PrismaService } from "./prisma.service.js";
 @Module( {} )
 export class PrismaModule {
 
-	static register<P extends PrismaClientLike>( { client: Client }: PrismaModuleOptions<P> ): DynamicModule {
-		const client = new Client( {
-			log: [ "query", "info", "warn", "error" ]
-		} );
-
+	static registerAsync<P extends PrismaClientLike>( options: PrismaModuleOptions<P> ): DynamicModule {
 		return {
 			module: PrismaModule,
+			imports: options.imports,
 			providers: [
-				{ provide: PRISMA_CLIENT, useValue: client },
+				{ provide: PRISMA_CLIENT, useFactory: options.useFactory, inject: options.inject },
 				{ provide: PRISMA_SERVICE, useClass: PrismaService }
 			],
 			exports: [ PRISMA_SERVICE ]

@@ -47,6 +47,9 @@ export type AppInfo = {
 
 export type AppConfig = {
 	appInfo: AppInfo,
+	db: {
+		url: string;
+	},
 	auth: {
 		audience: string;
 		domain: string;

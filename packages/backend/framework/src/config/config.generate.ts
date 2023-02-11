@@ -6,6 +6,7 @@ export function generateConfig( id: string ): AppConfig {
 	const address = process.env[ "APP_HOST" ] || "localhost";
 	const port = parseInt( process.env[ `${ constantCase( id ) }_PORT` ] || "8000" );
 	const isGateway = id === "gateway";
+	const dbUrl = process.env[ `${ constantCase( id ) }_DB_URL` ]!;
 	return {
 		appInfo: {
 			id,
@@ -15,6 +16,9 @@ export function generateConfig( id: string ): AppConfig {
 			port,
 			pkg: `@shaastra/${ id }`,
 			isGateway
+		},
+		db: {
+			url: dbUrl
 		},
 		auth: {
 			audience: process.env[ "AUTH_AUDIENCE" ]!,

@@ -1,4 +1,4 @@
-import type { Type } from "@nestjs/common";
+import type { InjectionToken, DynamicModule, ForwardReference, Type } from "@nestjs/common";
 
 export type PrismaMiddlewareParams = {
 	model?: any
@@ -21,7 +21,7 @@ export type PrismaClientLike = {
 };
 
 export interface PrismaModuleOptions<P extends PrismaClientLike> {
-	client: Type<P>;
+	imports: Array<Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference>;
+	useFactory: ( ...args: any[] ) => Promise<P> | P;
+	inject: InjectionToken[];
 }
-
-

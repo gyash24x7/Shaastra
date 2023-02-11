@@ -17,6 +17,7 @@ class ExampleService {
 
 describe( "ConfigModule", () => {
 	process.env = {
+		TEST_DB_URL: "postgresql://localhost:5432/test-db",
 		TEST_PORT: undefined,
 		APP_HOST: undefined,
 		AUTH_AUDIENCE: "audience.test.app",
@@ -44,6 +45,9 @@ describe( "ConfigModule", () => {
 				url: "http://localhost:8000",
 				address: "localhost",
 				isGateway: false
+			},
+			db: {
+				url: "postgresql://localhost:5432/test-db"
 			},
 			auth: {
 				audience: "audience.test.app",

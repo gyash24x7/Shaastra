@@ -16,19 +16,20 @@
 			"outputs": [ ]
 		},
 		"start": {
-			"dependsOn": [ "build", "typecheck" ],
+			"dependsOn": [ "db:push", "schema:publish", "build", "typecheck" ],
 			"cache": false
 		},
 		"test": {
 			"outputs": [ "coverage/**" ]
 		},
 		"db:push": {
+			"cache": false,
 			"inputs": [ "prisma/schema.prisma" ],
 			"outputs": [ ]
 		},
 		"db:generate": {
 			"inputs": [ "prisma/schema.prisma" ],
-			"outputs": [ ]
+			"outputs": [ "node_module/@prisma/client/**" ]
 		},
 		"schema:publish": {
 			"inputs": [ "src/assets/schema.graphql" ],

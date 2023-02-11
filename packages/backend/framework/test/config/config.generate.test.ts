@@ -6,6 +6,7 @@ describe( "GenerateConfig", () => {
 
 	it( "should return app config using default values when env not present", () => {
 		process.env = {
+			TEST_DB_URL: "postgresql://localhost:5432/test-db",
 			TEST_PORT: undefined,
 			APP_HOST: undefined,
 			AUTH_AUDIENCE: "audience.test.app",
@@ -26,6 +27,9 @@ describe( "GenerateConfig", () => {
 				address: "localhost",
 				isGateway: false
 			},
+			db: {
+				url: "postgresql://localhost:5432/test-db"
+			},
 			auth: {
 				audience: "audience.test.app",
 				domain: "domain.test.app",
@@ -44,6 +48,7 @@ describe( "GenerateConfig", () => {
 
 	it( "should return app config using env values", () => {
 		process.env = {
+			GATEWAY_DB_URL: "postgresql://localhost:5432/test-db",
 			GATEWAY_PORT: "12345",
 			APP_HOST: "127.0.0.1",
 			AUTH_AUDIENCE: "audience.test.app",
@@ -63,6 +68,9 @@ describe( "GenerateConfig", () => {
 				url: "http://127.0.0.1:12345",
 				address: "127.0.0.1",
 				isGateway: true
+			},
+			db: {
+				url: "postgresql://localhost:5432/test-db"
 			},
 			auth: {
 				audience: "audience.test.app",

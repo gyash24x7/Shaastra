@@ -2,7 +2,7 @@ import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
 import type { Member, PrismaClient } from "@prisma/client/workforce/index.js";
 import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
-import { MemberEnabledEvent } from "../events/member.enabled.event.js";
+import { MemberEnabledEvent } from "../events/index.js";
 
 export type EnableMemberInput = {
 	id: string

@@ -17,7 +17,7 @@ export class MemberResolvers {
 	constructor( private readonly queryBus: QueryBus ) {}
 
 	@ResolveReference()
-	__resolveReference( { parent: { id } }: GraphQLResolverParams ): Promise<Member> {
+	__resolveReference( { parent: { id } }: GraphQLResolverParams ): Promise<Member | null> {
 		this.logger.debug( ">> resolveReference()" );
 		this.logger.debug( "Member Id: %s", id );
 		return this.queryBus.execute( new MemberQuery( id! ) );

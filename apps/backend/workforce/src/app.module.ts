@@ -13,20 +13,13 @@ import {
 	AppConfig
 } from "@shaastra/framework";
 import commandHandlers from "./commands/index.js";
-import { MemberCreatedEventHandler } from "./events/member.created.event.js";
-import { MemberEnabledEventHandler } from "./events/member.enabled.event.js";
-import { TeamCreatedEventHandler } from "./events/team.created.event.js";
-import { MemberQueryHandler } from "./queries/member.query.js";
-import { MembersQueryHandler } from "./queries/members.query.js";
-import { TeamQueryHandler } from "./queries/team.query.js";
-import { TeamsQueryHandler } from "./queries/teams.query.js";
+import eventHandlers from "./events/index.js";
+import queryHandlers from "./queries/index.js";
 import { MemberResolvers } from "./resolvers/member.resolvers.js";
 import { MutationResolvers } from "./resolvers/mutation.resolvers.js";
 import { QueryResolvers } from "./resolvers/query.resolvers.js";
 import { TeamResolvers } from "./resolvers/team.resolvers.js";
 
-const eventHandlers = [ MemberCreatedEventHandler, MemberEnabledEventHandler, TeamCreatedEventHandler ];
-const queryHandlers = [ MembersQueryHandler, MemberQueryHandler, TeamsQueryHandler, TeamQueryHandler ];
 const resolvers = [ QueryResolvers, MutationResolvers, MemberResolvers, TeamResolvers ];
 
 export const prismaClientFactory = ( config: AppConfig ) => new PrismaClient( {

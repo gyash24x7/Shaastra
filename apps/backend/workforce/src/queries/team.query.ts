@@ -8,15 +8,15 @@ export class TeamQuery implements IQuery {
 }
 
 @QueryHandler( TeamQuery )
-export class TeamQueryHandler implements IQueryHandler<TeamQuery, Team> {
+export class TeamQueryHandler implements IQueryHandler<TeamQuery, Team | null> {
 	private readonly logger = LoggerFactory.getLogger( TeamQueryHandler );
 
 	constructor( @Prisma() private readonly prismaService: PrismaService<PrismaClient> ) {}
 
-	async execute( { teamId }: TeamQuery ): Promise<Team> {
+	async execute( { teamId }: TeamQuery ): Promise<Team | null> {
 		this.logger.debug( `>> execute()` );
 		this.logger.debug( "Data: %o", { teamId } );
-		const team = await this.prismaService.client.team.findUniqueOrThrow( { where: { id: teamId } } );
+		const team = await this.prismaService.client.team.findUnique( { where: { id: teamId } } );
 		this.logger.debug( "Team found: %o", team );
 		return team;
 	}

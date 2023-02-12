@@ -5,10 +5,9 @@ import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
 import type { PrismaService } from "@shaastra/framework";
 import { describe, it, expect, afterEach } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
-import type { CreateMemberInput } from "../../src/commands/create.member.command.js";
-import { CreateMemberCommandHandler, CreateMemberCommand } from "../../src/commands/create.member.command.js";
+import { type CreateMemberInput, CreateMemberCommandHandler, CreateMemberCommand } from "../../src/commands/index.js";
 import { MemberMessages } from "../../src/constants/messages.js";
-import { MemberCreatedEvent } from "../../src/events/member.created.event.js";
+import { MemberCreatedEvent } from "../../src/events/index.js";
 
 describe( "Create Member Command Handler", () => {
 

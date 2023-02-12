@@ -5,7 +5,7 @@ import type { PrismaClient } from "@prisma/client/workforce/index.js";
 import { Department, type Member, MemberPosition } from "@prisma/client/workforce/index.js";
 import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
 import { MemberMessages } from "../constants/messages.js";
-import { MemberCreatedEvent } from "../events/member.created.event.js";
+import { MemberCreatedEvent } from "../events/index.js";
 
 export type CreateMemberInput = {
 	name: string;

@@ -16,9 +16,14 @@ export class TeamsQueryHandler implements IQueryHandler<TeamsQuery, Team[]> {
 	async execute( { memberId }: TeamsQuery ): Promise<Team[]> {
 		this.logger.debug( `>> execute()` );
 		this.logger.debug( "Data: %o", { memberId } );
-		const teams = await this.prismaService.client.member.findUniqueOrThrow( { where: { id: memberId } } ).teams();
-		this.logger.debug( "Teams found: %o", teams );
-		return teams;
+
+		const member = await this.prismaService.client.member.findUniqueOrThrow( {
+			where: { id: memberId },
+			include: { teams: true }
+		} );
+
+		this.logger.debug( "Teams found: %o", member.teams );
+		return member.teams;
 	}
 
 }

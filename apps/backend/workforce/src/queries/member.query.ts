@@ -8,16 +8,16 @@ export class MemberQuery implements IQuery {
 }
 
 @QueryHandler( MemberQuery )
-export class MemberQueryHandler implements IQueryHandler<MemberQuery, Member> {
+export class MemberQueryHandler implements IQueryHandler<MemberQuery, Member | null> {
 	private readonly logger = LoggerFactory.getLogger( MemberQueryHandler );
 
 	constructor( @Prisma() private readonly prismaService: PrismaService<PrismaClient> ) {}
 
-	async execute( { memberId }: MemberQuery ): Promise<Member> {
+	async execute( { memberId }: MemberQuery ): Promise<Member | null> {
 		this.logger.debug( ">> execute()" );
 		this.logger.debug( "Data: %o", { memberId } );
 
-		const member = await this.prismaService.client.member.findUniqueOrThrow( { where: { id: memberId } } );
+		const member = await this.prismaService.client.member.findUnique( { where: { id: memberId } } );
 		this.logger.debug( "Member found: %o", member );
 
 		return member;

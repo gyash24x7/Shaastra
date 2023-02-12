@@ -5,7 +5,7 @@ import type { Department, Team, PrismaClient, Member } from "@prisma/client/work
 import type { UserAuthInfo } from "@shaastra/framework";
 import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
 import { TeamMessages } from "../constants/messages.js";
-import { TeamCreatedEvent } from "../events/team.created.event.js";
+import { TeamCreatedEvent } from "../events/index.js";
 
 export type CreateTeamInput = {
 	name: string;

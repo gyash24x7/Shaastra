@@ -5,10 +5,9 @@ import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
 import type { PrismaService, UserAuthInfo } from "@shaastra/framework";
 import { describe, it, expect, afterEach } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
-import type { CreateTeamInput } from "../../src/commands/create.team.command.js";
-import { CreateTeamCommandHandler, CreateTeamCommand } from "../../src/commands/create.team.command.js";
+import { type CreateTeamInput, CreateTeamCommandHandler, CreateTeamCommand } from "../../src/commands/index.js";
 import { TeamMessages } from "../../src/constants/messages.js";
-import { TeamCreatedEvent } from "../../src/events/team.created.event.js";
+import { TeamCreatedEvent } from "../../src/events/index.js";
 
 describe( "Create Team Command Handler", () => {
 
@@ -74,5 +73,5 @@ describe( "Create Team Command Handler", () => {
 	afterEach( () => {
 		mockClear( mockPrismaService );
 		mockClear( mockEventBus );
-	} )
+	} );
 } );

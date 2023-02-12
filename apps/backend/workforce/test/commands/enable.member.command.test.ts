@@ -4,9 +4,8 @@ import type { PrismaClient } from "@prisma/client/workforce/index.js";
 import type { PrismaService } from "@shaastra/framework";
 import { describe, afterEach, it, expect } from "vitest";
 import { mockDeep, mockClear } from "vitest-mock-extended";
-import type { EnableMemberInput } from "../../src/commands/enable.member.command.js";
-import { EnableMemberCommandHandler, EnableMemberCommand } from "../../src/commands/enable.member.command.js";
-import { MemberEnabledEvent } from "../../src/events/member.enabled.event.js";
+import { type EnableMemberInput, EnableMemberCommandHandler, EnableMemberCommand } from "../../src/commands/index.js";
+import { MemberEnabledEvent } from "../../src/events/index.js";
 
 describe( "Enable Member Command Handler", () => {
 

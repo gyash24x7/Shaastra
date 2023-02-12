@@ -4,8 +4,6 @@ import { ClientProxy } from "@nestjs/microservices";
 import type { PrismaClient } from "@prisma/client/workforce/index.js";
 import { type Member, MemberPosition } from "@prisma/client/workforce/index.js";
 import { LoggerFactory, RedisClient, PrismaService, Prisma } from "@shaastra/framework";
-import { firstValueFrom } from "rxjs";
-import { MemberMessages } from "../constants/messages.js";
 import { OutboundEvents } from "../constants/outbound.events.js";
 
 export class MemberCreatedEvent implements IEvent {
@@ -29,23 +27,14 @@ export class MemberCreatedEventHandler implements IEventHandler<MemberCreatedEve
 			where: { department: data.department, position: MemberPosition.CORE }
 		} );
 
-		if ( member ) {
-			const subject = `New Member requested to join ${ data.department }`;
-			const content = `Please log in to Shaastra Prime and approve this request.`;
-			// await this.mailer.sendMail( { subject, content, email: member.email, name: member.name } );
-			this.logger.debug( `Need to send mail here!` );
-			this.logger.debug( `Subject: ${ subject }` );
-			this.logger.debug( `Content: ${ content }` );
-			this.logger.debug( `Member: ${ member.name }` );
-		} else {
-			this.logger.error( MemberMessages.NOT_FOUND );
-		}
+		const subject = `New Member requested to join ${ data.department }`;
+		const content = `Please log in to Shaastra Prime and approve this request.`;
+		// await this.mailer.sendMail( { subject, content, email: member.email, name: member.name } );
+		this.logger.debug( `Need to send mail here!` );
+		this.logger.debug( `Subject: ${ subject }` );
+		this.logger.debug( `Content: ${ content }` );
+		this.logger.debug( `Member: ${ member?.name }` );
 
-		await firstValueFrom(
-			this.redisClient.emit(
-				OutboundEvents.MEMBER_CREATED,
-				{ ...data, password: data.password }
-			)
-		);
+		this.redisClient.emit( OutboundEvents.MEMBER_CREATED, data );
 	}
 }

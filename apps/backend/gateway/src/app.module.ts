@@ -13,42 +13,28 @@ import {
 	AppConfig
 } from "@shaastra/framework";
 import cookieParser from "cookie-parser";
-import { CreateTokenCommandHandler } from "./commands/create.token.command.js";
-import { CreateUserCommandHandler } from "./commands/create.user.command.js";
-import { LoginCommandHandler } from "./commands/login.command.js";
-import { VerifyUserCommandHandler } from "./commands/verify.user.command.js";
-import { AuthController } from "./controllers/auth.controller.js";
-import { GraphQLController } from "./controllers/graphql.controller.js";
-import { InboundController } from "./controllers/inbound.controller.js";
-import { UserCreatedEventHandler } from "./events/user.created.event.js";
-import { RequireAuthMiddleware } from "./middlewares/require.auth.middleware.js";
-import { UserQueryHandler } from "./queries/user.query.js";
+import commandHandlers from "./commands/index.js";
+import controllers from "./controllers/index.js";
+import eventHandlers from "./events/index.js";
+import { RequireAuthMiddleware } from "./middlewares/index.js";
+import queryHandlers from "./queries/index.js";
 
-const eventHandlers = [ UserCreatedEventHandler ];
-const queryHandlers = [ UserQueryHandler ];
-const commandHandlers = [
-	CreateTokenCommandHandler,
-	CreateUserCommandHandler,
-	LoginCommandHandler,
-	VerifyUserCommandHandler
-];
+export const prismaClientFactory = ( config: AppConfig ) => new PrismaClient( {
+	log: [ "query", "info", "warn", "error" ],
+	datasources: { db: config.db }
+} );
 
 const ConfigModule = BaseConfigModule.register( "gateway" );
 const PrismaModule = BasePrismaModule.registerAsync( {
 	imports: [ ConfigModule ],
 	inject: [ CONFIG_DATA ],
-	useFactory( config: AppConfig ) {
-		return new PrismaClient( {
-			log: [ "query", "info", "warn", "error" ],
-			datasources: { db: config.db }
-		} );
-	}
+	useFactory: prismaClientFactory
 } );
 
 @Module( {
 	imports: [ CqrsModule, RedisClientModule, AuthModule, GraphQLModule, PrismaModule, ConfigModule ],
 	providers: [ ...commandHandlers, ...queryHandlers, ...eventHandlers ],
-	controllers: [ AuthController, InboundController, GraphQLController ]
+	controllers
 } )
 export class AppModule implements NestModule {
 	private readonly logger = LoggerFactory.getLogger( AppModule );

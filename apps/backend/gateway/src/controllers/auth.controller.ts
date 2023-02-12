@@ -3,8 +3,13 @@ import { CommandBus } from "@nestjs/cqrs";
 import { JwtService, LoggerFactory } from "@shaastra/framework";
 import type { CookieOptions, Response } from "express";
 import { exportJWK } from "jose";
-import { LoginCommand, LoginCommandResponse, LoginInput } from "../commands/login.command.js";
-import { VerifyUserCommand, VerifyUserInput } from "../commands/verify.user.command.js";
+import {
+	LoginCommand,
+	LoginCommandResponse,
+	LoginInput,
+	VerifyUserCommand,
+	VerifyUserInput
+} from "../commands/index.js";
 
 export const accessTokenCookieOptions: CookieOptions = {
 	maxAge: 9000000,

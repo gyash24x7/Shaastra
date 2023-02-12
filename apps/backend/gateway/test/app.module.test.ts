@@ -1,8 +1,10 @@
 import type { MiddlewareConsumer } from "@nestjs/common";
 import type { MiddlewareConfigProxy } from "@nestjs/common/interfaces";
-import { describe, it, expect } from "vitest";
+import { PrismaClient } from "@prisma/client/identity/index.js";
+import { generateConfig } from "@shaastra/framework/src/config/config.generate.js";
+import { describe, it, expect, test } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { AppModule } from "../src/app.module.js";
+import { AppModule, prismaClientFactory } from "../src/app.module.js";
 
 describe( "App Module", () => {
 
@@ -24,4 +26,11 @@ describe( "App Module", () => {
 		expect( mockMiddlwareConfigProxy.forRoutes ).toHaveBeenNthCalledWith( 1, "*" );
 		expect( mockMiddlwareConfigProxy.forRoutes ).toHaveBeenNthCalledWith( 2, "/api/auth/logout" );
 	} );
+} );
+
+test( "Prisma Client Factory should return prisma client", async () => {
+	const mockConfig = generateConfig( "gateway" );
+	mockConfig.db = { url: "postgresql://user:pass@host:port/db" };
+	const client = prismaClientFactory( mockConfig );
+	expect( client ).toBeInstanceOf( PrismaClient );
 } );

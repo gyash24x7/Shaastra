@@ -2,7 +2,7 @@ import { Controller } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { EventPattern } from "@nestjs/microservices";
 import { LoggerFactory } from "@shaastra/framework";
-import { CreateUserCommand } from "../commands/create.user.command.js";
+import { CreateUserCommand } from "../commands/index.js";
 import { InboundEvents } from "../constants/inbound.events.js";
 
 export type MemberCreatedInboundData = {

@@ -16,8 +16,7 @@
 		"start": "node dist/main.js",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate --accept-data-loss",
-		"test": "vitest run",
-		"e2e": "vitest run --config=e2e/vitest.e2e.config.ts"
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"@nestjs/common": "9.3.8",
@@ -47,9 +46,7 @@
 	},
 	"nodemonConfig": {
 		"verbose": true,
-		"watch": [
-			"./dist/*"
-		]
+		"watch": [ "./dist/*" ]
 	},
 	"prisma": {
 		"schema": "prisma/schema.prisma"

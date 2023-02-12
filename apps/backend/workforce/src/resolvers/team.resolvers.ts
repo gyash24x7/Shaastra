@@ -7,8 +7,7 @@ import {
 	Resolver,
 	ResolveReference
 } from "@shaastra/framework";
-import { TeamQuery } from "../queries/team.query.js";
-import { TeamsQuery } from "../queries/teams.query.js";
+import { TeamQuery, MembersQuery } from "../queries/index.js";
 
 @Resolver( "Team" )
 export class TeamResolvers {
@@ -27,6 +26,6 @@ export class TeamResolvers {
 	members( { parent: { id } }: GraphQLResolverParams ): Promise<Array<Member>> {
 		this.logger.debug( ">> members()" );
 		this.logger.debug( "Team Id: %s", id );
-		return this.queryBus.execute( new TeamsQuery( id! ) );
+		return this.queryBus.execute( new MembersQuery( id! ) );
 	}
 }

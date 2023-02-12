@@ -7,8 +7,7 @@ import {
 	Resolver,
 	ResolveReference
 } from "@shaastra/framework";
-import { MemberQuery } from "../queries/member.query.js";
-import { TeamsQuery } from "../queries/teams.query.js";
+import { MemberQuery, TeamsQuery } from "../queries/index.js";
 
 @Resolver( "Member" )
 export class MemberResolvers {

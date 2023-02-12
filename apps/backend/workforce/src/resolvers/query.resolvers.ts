@@ -8,7 +8,7 @@ import {
 	GraphQLShield,
 	isAuthenticated
 } from "@shaastra/framework";
-import { MemberQuery } from "../queries/member.query.js";
+import { MemberQuery } from "../queries/index.js";
 
 @Resolver( "Query" )
 export class QueryResolvers {

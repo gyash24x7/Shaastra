@@ -15,12 +15,7 @@ import {
 import commandHandlers from "./commands/index.js";
 import eventHandlers from "./events/index.js";
 import queryHandlers from "./queries/index.js";
-import { MemberResolvers } from "./resolvers/member.resolvers.js";
-import { MutationResolvers } from "./resolvers/mutation.resolvers.js";
-import { QueryResolvers } from "./resolvers/query.resolvers.js";
-import { TeamResolvers } from "./resolvers/team.resolvers.js";
-
-const resolvers = [ QueryResolvers, MutationResolvers, MemberResolvers, TeamResolvers ];
+import resolvers from "./resolvers/index.js";
 
 export const prismaClientFactory = ( config: AppConfig ) => new PrismaClient( {
 	log: [ "query", "info", "warn", "error" ],

@@ -42,7 +42,7 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 			}
 		} );
 
-		if ( existingMember ) {
+		if ( !!existingMember ) {
 			this.logger.error(
 				"Member with Email (%s) or RollNumber (%s) already exists!",
 				data.email,
@@ -52,10 +52,7 @@ export class CreateMemberCommandHandler implements ICommandHandler<CreateMemberC
 		}
 
 		const member = await this.prismaService.client.member.create( {
-			data: {
-				...data,
-				position: MemberPosition.COORD
-			}
+			data: { ...data, position: MemberPosition.COORD }
 		} );
 
 		this.logger.debug( "Member Created Successfully! Id: %s", member.id );

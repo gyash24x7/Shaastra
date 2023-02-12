@@ -16,7 +16,8 @@
 		"start": "node dist/main.js",
 		"db:generate": "prisma generate",
 		"db:push": "prisma db push --skip-generate --accept-data-loss",
-		"schema:publish": "node node_modules/@shaastra/scripts/schema.publish.js workforce"
+		"schema:publish": "node node_modules/@shaastra/scripts/schema.publish.js workforce",
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"@nestjs/common": "9.3.8",

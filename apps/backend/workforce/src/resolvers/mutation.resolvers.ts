@@ -1,9 +1,14 @@
 import { CommandBus } from "@nestjs/cqrs";
 import type { Member, Team } from "@prisma/client/workforce/index.js";
 import { type GraphQLResolverParams, LoggerFactory, Mutation, Resolver } from "@shaastra/framework";
-import { CreateMemberCommand, CreateMemberInput } from "../commands/create.member.command.js";
-import { CreateTeamCommand, CreateTeamInput } from "../commands/create.team.command.js";
-import { EnableMemberCommand, EnableMemberInput } from "../commands/enable.member.command.js";
+import {
+	CreateMemberCommand,
+	CreateMemberInput,
+	CreateTeamCommand,
+	CreateTeamInput,
+	EnableMemberCommand,
+	EnableMemberInput
+} from "../commands/index.js";
 
 @Resolver( "Mutation" )
 export class MutationResolvers {

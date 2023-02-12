@@ -12,9 +12,7 @@ import {
 	CONFIG_DATA,
 	AppConfig
 } from "@shaastra/framework";
-import { CreateMemberCommandHandler } from "./commands/create.member.command.js";
-import { CreateTeamCommandHandler } from "./commands/create.team.command.js";
-import { EnableMemberCommandHandler } from "./commands/enable.member.command.js";
+import commandHandlers from "./commands/index.js";
 import { MemberCreatedEventHandler } from "./events/member.created.event.js";
 import { MemberEnabledEventHandler } from "./events/member.enabled.event.js";
 import { TeamCreatedEventHandler } from "./events/team.created.event.js";
@@ -29,19 +27,18 @@ import { TeamResolvers } from "./resolvers/team.resolvers.js";
 
 const eventHandlers = [ MemberCreatedEventHandler, MemberEnabledEventHandler, TeamCreatedEventHandler ];
 const queryHandlers = [ MembersQueryHandler, MemberQueryHandler, TeamsQueryHandler, TeamQueryHandler ];
-const commandHandlers = [ CreateMemberCommandHandler, CreateTeamCommandHandler, EnableMemberCommandHandler ];
 const resolvers = [ QueryResolvers, MutationResolvers, MemberResolvers, TeamResolvers ];
+
+export const prismaClientFactory = ( config: AppConfig ) => new PrismaClient( {
+	log: [ "query", "info", "warn", "error" ],
+	datasources: { db: config.db }
+} );
 
 const ConfigModule = BaseConfigModule.register( "workforce" );
 const PrismaModule = BasePrismaModule.registerAsync( {
 	imports: [ ConfigModule ],
 	inject: [ CONFIG_DATA ],
-	useFactory( config: AppConfig ) {
-		return new PrismaClient( {
-			log: [ "query", "info", "warn", "error" ],
-			datasources: { db: config.db }
-		} );
-	}
+	useFactory: prismaClientFactory
 } );
 
 @Module( {

@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import superagent from "superagent";
 import type { MeQueryData } from "../types/index.js";
+import { gqlFetcher } from "../utils/index.js";
 
 const query = `
 	query me {
@@ -18,20 +18,6 @@ const query = `
 	}
 `;
 
-export async function meQueryFetcher(): Promise<MeQueryData> {
-	const response = await superagent
-		.post( "http://localhost:9000/api/graphql" )
-		.send( { query } )
-		.withCredentials();
-
-	if ( response.body.errors ) {
-		const { message } = response.body.errors[ 0 ];
-		throw new Error( message );
-	}
-
-	return response.body.data;
-}
-
 export function useMeQuery( options?: UseQueryOptions<MeQueryData> ) {
-	return useQuery<MeQueryData>( [ "me" ], meQueryFetcher, options );
+	return useQuery<MeQueryData>( [ "me" ], gqlFetcher<MeQueryData>( query ), options );
 }

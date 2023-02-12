@@ -1,7 +1,7 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
-import superagent from "superagent";
+import type { CreateMemberMutationData } from "../types/index.js";
 import type { CreateMemberInput } from "../types/inputs.js";
-import type { CreateMemberMutationData } from "../types/responses.js";
+import { gqlFetcher } from "../utils/fetcher.js";
 
 export const query = `
     mutation createMember(
@@ -32,22 +32,8 @@ export const query = `
 	}
 `;
 
-export async function createMemberMutationFetcher( variables: CreateMemberInput ): Promise<CreateMemberMutationData> {
-	const response = await superagent
-		.post( "http://localhost:9000/api/graphql" )
-		.send( { query, variables } )
-		.withCredentials();
-
-	if ( response.body.errors ) {
-		const { message } = response.body.errors[ 0 ];
-		throw new Error( message );
-	}
-
-	return response.body.data;
-}
-
-export type CreateMutationOptions = UseMutationOptions<CreateMemberMutationData, unknown, CreateMemberInput>;
+export type CreateMutationOptions = UseMutationOptions<CreateMemberMutationData, Error, CreateMemberInput>;
 
 export function useCreateMemberMutation( options?: CreateMutationOptions ) {
-	return useMutation( [ "createMember" ], createMemberMutationFetcher, options );
+	return useMutation( [ "createMember" ], gqlFetcher<CreateMemberMutationData, CreateMemberInput>( query ), options );
 }

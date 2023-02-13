@@ -16,9 +16,12 @@ export class MessagesQueryHandler implements IQueryHandler<MessagesQuery, Messag
 	async execute( { channelId }: MessagesQuery ): Promise<Message[]> {
 		this.logger.debug( `>> execute()` );
 		this.logger.debug( "Data: %o", { channelId } );
-		const messages = await this.prismaService.client.channel.findUniqueOrThrow( { where: { id: channelId } } )
-			.messages();
-		this.logger.debug( "Messages found: %o", messages );
-		return messages;
+		const channel = await this.prismaService.client.channel.findUniqueOrThrow( {
+			where: { id: channelId },
+			include: { messages: true }
+		} );
+
+		this.logger.debug( "Messages found: %o", channel.messages );
+		return channel.messages;
 	}
 }

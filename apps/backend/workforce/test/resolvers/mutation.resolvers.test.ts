@@ -1,8 +1,8 @@
 import type { CommandBus } from "@nestjs/cqrs";
 import { Team, Department, MemberPosition, Member } from "@prisma/client/workforce/index.js";
 import type { UserAuthInfo, GraphQLResolverParams } from "@shaastra/framework";
-import { describe, it, expect } from "vitest";
-import { mockDeep } from "vitest-mock-extended";
+import { describe, it, expect, afterEach } from "vitest";
+import { mockDeep, mockClear } from "vitest-mock-extended";
 import {
 	CreateMemberCommand,
 	EnableMemberCommand,
@@ -80,7 +80,7 @@ describe( "Mutation Resolvers", () => {
 		const member = await resolver.createMember( mockGqlParams );
 
 		expect( member ).toEqual( mockMember );
-		expect( mockCommandBus.execute ).toHaveBeenCalledWith( new CreateTeamCommand( mockCreateMemberInput ) );
+		expect( mockCommandBus.execute ).toHaveBeenCalledWith( new CreateMemberCommand( mockCreateMemberInput ) );
 	} );
 
 	it( "should publish enable member command when enableMember is called", async () => {
@@ -95,4 +95,8 @@ describe( "Mutation Resolvers", () => {
 		expect( member ).toEqual( mockMember );
 		expect( mockCommandBus.execute ).toHaveBeenCalledWith( new EnableMemberCommand( mockEnableMemberInput ) );
 	} );
+
+	afterEach( () => {
+		mockClear( mockCommandBus );
+	} )
 } );

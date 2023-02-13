@@ -3,7 +3,6 @@ import { EventsHandler } from "@nestjs/cqrs";
 import { ClientProxy } from "@nestjs/microservices";
 import type { Channel } from "@prisma/client/connect/index.js";
 import { LoggerFactory, RedisClient } from "@shaastra/framework";
-import { firstValueFrom } from "rxjs";
 import { OutboundEvents } from "../constants/outbound.events.js";
 
 export class ChannelCreatedEvent implements IEvent {
@@ -20,6 +19,6 @@ export class ChannelCreatedEventHandler implements IEventHandler<ChannelCreatedE
 		this.logger.debug( ">> handle()" );
 		this.logger.debug( "Data: %o", data );
 
-		await firstValueFrom( this.redisClient.emit( OutboundEvents.CHANNEL_CREATED, data ) );
+		this.redisClient.emit( OutboundEvents.CHANNEL_CREATED, data );
 	}
 }

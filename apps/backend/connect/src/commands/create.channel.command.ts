@@ -36,7 +36,7 @@ export class CreateChannelCommandHandler implements ICommandHandler<CreateChanne
 			where: { name: data.name }
 		} );
 
-		if ( existingChannel ) {
+		if ( !!existingChannel ) {
 			this.logger.error( "Channel with Name (%s) already exists!", data.name );
 			throw new ConflictException( ChannelMessages.ALREADY_EXISTS );
 		}

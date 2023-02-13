@@ -1,8 +1,8 @@
 import type { QueryBus } from "@nestjs/cqrs";
 import { Member, Department, MemberPosition } from "@prisma/client/workforce/index.js";
 import type { UserAuthInfo, GraphQLResolverParams } from "@shaastra/framework";
-import { describe, it, expect } from "vitest";
-import { mockDeep } from "vitest-mock-extended";
+import { describe, it, expect, afterEach } from "vitest";
+import { mockDeep, mockClear } from "vitest-mock-extended";
 import { MemberQuery } from "../../src/queries/index.js";
 import { QueryResolvers } from "../../src/resolvers/index.js";
 
@@ -41,5 +41,9 @@ describe( "Query Resolvers", () => {
 
 		expect( mockQueryBus.execute ).toHaveBeenCalledWith( new MemberQuery( mockAuthInfo.id ) );
 		expect( me ).toEqual( mockMember );
+	} );
+
+	afterEach( () => {
+		mockClear( mockQueryBus );
 	} );
 } );

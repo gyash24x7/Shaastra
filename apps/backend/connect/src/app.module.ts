@@ -12,33 +12,21 @@ import {
 	CONFIG_DATA,
 	AppConfig
 } from "@shaastra/framework";
-import { CreateChannelCommandHandler } from "./commands/create.channel.command.js";
-import { CreateMessageCommandHandler } from "./commands/create.message.command.js";
-import { ChannelCreatedEventHandler } from "./events/channel.created.event.js";
-import { MessageCreatedEventHandler } from "./events/message.created.event.js";
-import { ChannelQueryHandler } from "./queries/channel.query.js";
-import { MessageQueryHandler } from "./queries/message.query.js";
-import { MessagesQueryHandler } from "./queries/messages.query.js";
-import { ChannelResolvers } from "./resolvers/channel.resolvers.js";
-import { MessageResolvers } from "./resolvers/message.resolvers.js";
-import { MutationResolvers } from "./resolvers/mutation.resolvers.js";
-import { QueryResolvers } from "./resolvers/query.resolvers.js";
+import commandHandlers from "./commands/index.js";
+import eventHandlers from "./events/index.js";
+import queryHandlers from "./queries/index.js";
+import resolvers from "./resolvers/index.js";
 
-const eventHandlers = [ MessageCreatedEventHandler, ChannelCreatedEventHandler ];
-const queryHandlers = [ MessagesQueryHandler, MessageQueryHandler, ChannelQueryHandler ];
-const commandHandlers = [ CreateMessageCommandHandler, CreateChannelCommandHandler ];
-const resolvers = [ QueryResolvers, MutationResolvers, MessageResolvers, ChannelResolvers ];
+export const prismaClientFactory = ( config: AppConfig ) => new PrismaClient( {
+	log: [ "query", "info", "warn", "error" ],
+	datasources: { db: config.db }
+} );
 
 const ConfigModule = BaseConfigModule.register( "connect" );
 const PrismaModule = BasePrismaModule.registerAsync( {
 	imports: [ ConfigModule ],
 	inject: [ CONFIG_DATA ],
-	useFactory( config: AppConfig ) {
-		return new PrismaClient( {
-			log: [ "query", "info", "warn", "error" ],
-			datasources: { db: config.db }
-		} );
-	}
+	useFactory: prismaClientFactory
 } );
 
 @Module( {

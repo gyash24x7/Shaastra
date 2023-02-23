@@ -1,33 +1,22 @@
-import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { PrismaClient } from "@prisma/client/workforce/index.js";
 import {
-	ConfigModule as BaseConfigModule,
-	PrismaModule as BasePrismaModule,
-	RedisClientModule,
 	AuthModule,
+	ConfigModule as BaseConfigModule,
+	ExtractAuthMiddleware,
 	GraphQLModule,
 	LoggerFactory,
-	ExtractAuthMiddleware,
-	CONFIG_DATA,
-	AppConfig
+	PrismaModule as BasePrismaModule,
+	RedisClientModule
 } from "@shaastra/framework";
 import commandHandlers from "./commands/index.js";
 import eventHandlers from "./events/index.js";
 import queryHandlers from "./queries/index.js";
 import resolvers from "./resolvers/index.js";
 
-export const prismaClientFactory = ( config: AppConfig ) => new PrismaClient( {
-	log: [ "query", "info", "warn", "error" ],
-	datasources: { db: config.db }
-} );
-
 const ConfigModule = BaseConfigModule.register( "workforce" );
-const PrismaModule = BasePrismaModule.registerAsync( {
-	imports: [ ConfigModule ],
-	inject: [ CONFIG_DATA ],
-	useFactory: prismaClientFactory
-} );
+const PrismaModule = BasePrismaModule.register( PrismaClient );
 
 @Module( {
 	imports: [ CqrsModule, RedisClientModule, AuthModule, GraphQLModule, PrismaModule, ConfigModule ],

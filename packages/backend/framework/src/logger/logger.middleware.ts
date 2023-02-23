@@ -1,11 +1,11 @@
 import { constantCase } from "change-case";
 import { green, yellow } from "colorette";
-import type { ExpressMiddleware } from "../utils/index.js";
+import type { NextFunction, Request, Response } from "express";
 import { LoggerFactory } from "./logger.factory.js";
 
-export function loggerMiddleware(): ExpressMiddleware {
+export function loggerMiddleware() {
 	const logger = LoggerFactory.getLogger();
-	return ( req, _res, next ) => {
+	return ( req: Request, _res: Response, next: NextFunction ) => {
 		logger.info( `${ green( constantCase( req.method ) ) } ${ yellow( req.path ) }` );
 		next();
 	};

@@ -1,5 +1,5 @@
 import { GraphQLDataSourceProcessOptions, RemoteGraphQLDataSource } from "@apollo/gateway";
-import type { ServiceContext } from "../utils/index.js";
+import type { ServiceContext } from "../graphql/index.js";
 
 export class ServiceDataSource extends RemoteGraphQLDataSource<ServiceContext> {
 	override willSendRequest( { request, context }: GraphQLDataSourceProcessOptions<ServiceContext> ) {

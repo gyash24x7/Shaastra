@@ -1,9 +1,9 @@
 import type { GraphQLResolveInfo } from "graphql";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { generateConfig } from "../../src/config/config.generate.js";
 import type { ResolverExplorerService } from "../../src/graphql/resolver.explorer.service.js";
 import { SchemaBuilderService } from "../../src/graphql/schema.builder.service.js";
+import { generateConfig } from "../../src/index.js";
 
 describe( "Schema Builder Service", () => {
 	const mockGraphQLResolveInfo = mockDeep<GraphQLResolveInfo>();

@@ -1,9 +1,0 @@
-{
-	"name": "@shaastra/tsconfig",
-	"version": "1.0.0",
-	"private": true,
-	"files": [ "base.json", "backend.json", "frontend.json" ],
-	"devDependencies": {
-		"@tsconfig/node18-strictest-esm": "1.0.1"
-	}
-}

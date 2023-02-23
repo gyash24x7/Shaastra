@@ -2,11 +2,10 @@ import { NestFactory } from "@nestjs/core";
 import { Transport } from "@nestjs/microservices";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import type { Mock } from "vitest";
-import { describe, expect, vi, afterEach, beforeEach, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { mockDeep, anyObject, DeepMockProxy, mockClear } from "vitest-mock-extended";
-import { generateConfig } from "../../src/config/config.generate.js";
-import { bootstrap, CONFIG_DATA, PRISMA_SERVICE } from "../../src/index.js";
+import { anyObject, DeepMockProxy, mockClear, mockDeep } from "vitest-mock-extended";
+import { bootstrap, CONFIG_DATA, generateConfig, PRISMA_SERVICE } from "../../src/index.js";
 
 class MockAppModule {}
 

@@ -1,6 +1,6 @@
 import process from "node:process";
 import { describe, expect, it } from "vitest";
-import { generateConfig } from "../../src/config/config.generate.js";
+import { generateConfig } from "../../src/index.js";
 
 describe( "GenerateConfig", () => {
 

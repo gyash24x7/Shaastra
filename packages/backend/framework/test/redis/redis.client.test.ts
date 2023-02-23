@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { Transport, ClientProxy, ClientRedis } from "@nestjs/microservices";
+import { ClientProxy, ClientRedis, Transport } from "@nestjs/microservices";
 import { Test } from "@nestjs/testing";
-import { test, expect } from "vitest";
-import { generateConfig } from "../../src/config/config.generate.js";
-import { redisClientFactory, RedisClient, ConfigModule, RedisClientModule } from "../../src/index.js";
+import { expect, test } from "vitest";
+import { ConfigModule, generateConfig, RedisClient, redisClientFactory, RedisClientModule } from "../../src/index.js";
 
 test( "Redis Client Factory should return correct redis options", () => {
 	process.env = { REDIS_HOST: "localhost", REDIS_PORT: "6379" };

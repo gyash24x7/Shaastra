@@ -1,8 +1,8 @@
-import { describe, expect, vi, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import type { LoggerService } from "../../src/logger/logger.service.js";
-import type { PrismaMiddlewareParams } from "../../src/prisma/prisma.interfaces.js";
 import { prismaLoggingMiddleware } from "../../src/prisma/prisma.middleware.js";
+import type { PrismaMiddlewareParams } from "../../src/prisma/prisma.types.js";
 
 describe( "Prisma Logging Middleware Function", () => {
 

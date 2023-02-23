@@ -1,8 +1,8 @@
 import type { NestMiddleware } from "@nestjs/common";
 import { Injectable } from "@nestjs/common";
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
+import type { AppConfig } from "../config/index.js";
 import { Config } from "../config/index.js";
-import type { AppConfig } from "../utils/index.js";
 import { JwtService } from "./jwt.service.js";
 
 @Injectable()

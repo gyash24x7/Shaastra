@@ -7,9 +7,8 @@ import { gql } from "graphql-tag";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
-import { Config } from "../config/index.js";
+import { type AppConfig, Config } from "../config/index.js";
 import { LoggerFactory } from "../logger/index.js";
-import type { AppConfig } from "../utils/index.js";
 import { ResolverExplorerService } from "./resolver.explorer.service.js";
 
 @Injectable()

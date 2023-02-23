@@ -4,10 +4,11 @@ import { LoggerFactory } from "../logger/index.js";
 import { GraphQLServer } from "./graphql.server.js";
 import { ResolverExplorerService } from "./resolver.explorer.service.js";
 import { SchemaBuilderService } from "./schema.builder.service.js";
+import { SchemaPublishService } from "./schema.publish.service.js";
 
 @Module( {
 	imports: [ DiscoveryModule ],
-	providers: [ GraphQLServer, SchemaBuilderService, ResolverExplorerService ]
+	providers: [ GraphQLServer, SchemaBuilderService, ResolverExplorerService, SchemaPublishService ]
 } )
 export class GraphQLModule implements NestModule {
 	private readonly logger = LoggerFactory.getLogger( GraphQLModule );

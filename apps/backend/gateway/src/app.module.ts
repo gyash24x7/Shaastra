@@ -1,16 +1,14 @@
-import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { PrismaClient } from "@prisma/client/identity/index.js";
 import {
-	ConfigModule as BaseConfigModule,
-	PrismaModule as BasePrismaModule,
-	RedisClientModule,
 	AuthModule,
+	ConfigModule as BaseConfigModule,
+	ExtractAuthMiddleware,
 	GraphQLModule,
 	LoggerFactory,
-	ExtractAuthMiddleware,
-	CONFIG_DATA,
-	AppConfig
+	PrismaModule as BasePrismaModule,
+	RedisClientModule
 } from "@shaastra/framework";
 import cookieParser from "cookie-parser";
 import commandHandlers from "./commands/index.js";
@@ -19,17 +17,8 @@ import eventHandlers from "./events/index.js";
 import { RequireAuthMiddleware } from "./middlewares/index.js";
 import queryHandlers from "./queries/index.js";
 
-export const prismaClientFactory = ( config: AppConfig ) => new PrismaClient( {
-	log: [ "query", "info", "warn", "error" ],
-	datasources: { db: config.db }
-} );
-
 const ConfigModule = BaseConfigModule.register( "gateway" );
-const PrismaModule = BasePrismaModule.registerAsync( {
-	imports: [ ConfigModule ],
-	inject: [ CONFIG_DATA ],
-	useFactory: prismaClientFactory
-} );
+const PrismaModule = BasePrismaModule.register( PrismaClient );
 
 @Module( {
 	imports: [ CqrsModule, RedisClientModule, AuthModule, GraphQLModule, PrismaModule, ConfigModule ],

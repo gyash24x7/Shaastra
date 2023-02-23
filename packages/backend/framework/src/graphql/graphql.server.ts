@@ -9,10 +9,11 @@ import {
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { Injectable } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
-import { Config } from "../config/index.js";
+import { type AppConfig, Config } from "../config/index.js";
 import { LoggerFactory } from "../logger/index.js";
-import type { ServiceContext, ContextFn, AppConfig } from "../utils/index.js";
+import type { ContextFn, ServiceContext } from "./graphql.types.js";
 import { SchemaBuilderService } from "./schema.builder.service.js";
+import { SchemaPublishService } from "./schema.publish.service.js";
 import { ServiceDataSource } from "./service.datasource.js";
 
 export const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );
@@ -29,6 +30,7 @@ export class GraphQLServer {
 	constructor(
 		private readonly httpAdapterHost: HttpAdapterHost,
 		private readonly schemaBuilder: SchemaBuilderService,
+		private readonly schemaPublisher: SchemaPublishService,
 		@Config() private readonly config: AppConfig
 	) {}
 
@@ -39,6 +41,10 @@ export class GraphQLServer {
 		const apolloServerConfig = this.config.appInfo.isGateway
 			? { gateway: new ApolloGateway( { buildService, logger: this.logger } ) }
 			: { schema: await this.schemaBuilder.buildSchema() };
+
+		if ( !this.config.appInfo.isGateway ) {
+			this.schemaPublisher.publishSchema();
+		}
 
 		this.apolloServer = new ApolloServer<ServiceContext>( { ...apolloServerConfig, plugins, logger: this.logger } );
 

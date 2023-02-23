@@ -1,6 +1,6 @@
-import { constantCase, capitalCase } from "change-case";
+import { capitalCase, constantCase } from "change-case";
 import process from "node:process";
-import type { AppConfig } from "../utils/index.js";
+import type { AppConfig } from "./config.types.js";
 
 export function generateConfig( id: string ): AppConfig {
 	const address = process.env[ "APP_HOST" ] || "localhost";
@@ -31,7 +31,8 @@ export function generateConfig( id: string ): AppConfig {
 			port: parseInt( process.env[ "REDIS_PORT" ] || "6379" )
 		},
 		graphql: {
-			schemaPath: `src/assets/schema.graphql`
+			schemaPath: `src/assets/schema.graphql`,
+			graphRef: process.env[ "APOLLO_GRAPH_REF" ]!
 		}
 	};
 }

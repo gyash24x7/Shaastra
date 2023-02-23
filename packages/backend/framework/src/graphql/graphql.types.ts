@@ -1,69 +1,15 @@
 import type { BaseContext, ContextFunction } from "@apollo/server";
 import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
 import type { Type } from "@nestjs/common";
-import type { NextFunction, Request, Response } from "express";
 import type { GraphQLResolveInfo } from "graphql";
 import type { IRule } from "graphql-shield";
-import type { JWTPayload } from "jose";
-
-export type ExpressMiddleware = ( req: Request, res: Response, next: NextFunction ) => unknown | Promise<unknown>
-
-export type ExpressErrorHandler = (
-	err: unknown,
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => unknown | Promise<unknown>
+import type { UserAuthInfo } from "../auth/index.js";
 
 export type ServiceContext = ExpressContextFunctionArgument & { authInfo?: UserAuthInfo; }
 
 export type ContextFn<Ctx extends BaseContext> = ContextFunction<[ ExpressContextFunctionArgument ], Ctx>;
 
 export type ServiceContextFn = ContextFn<ServiceContext>
-
-export interface UserAuthInfo {
-	id: string;
-	department?: string;
-	position?: string;
-}
-
-export interface JWTPayloadExtension {
-	id: string,
-	roles: string[],
-	verified: boolean
-}
-
-export type AuthPayload = JWTPayloadExtension & JWTPayload;
-
-export type AppInfo = {
-	id: string;
-	name: string;
-	url: string;
-	pkg: string;
-	port: number;
-	address: string;
-	isGateway: boolean;
-}
-
-export type AppConfig = {
-	appInfo: AppInfo,
-	db: {
-		url: string;
-	},
-	auth: {
-		audience: string;
-		domain: string;
-		privateKeyPath: string;
-		publicKeyPath: string;
-	},
-	redis: {
-		host: string;
-		port: number;
-	},
-	graphql: {
-		schemaPath?: string;
-	}
-}
 
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;

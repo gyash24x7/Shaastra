@@ -1,6 +1,7 @@
 import { rule } from "graphql-shield";
 import type { IRuleFunction } from "graphql-shield/typings/types.js";
-import type { UserAuthInfo, ServiceContext } from "../utils/index.js";
+import type { ServiceContext } from "../graphql/index.js";
+import type { UserAuthInfo } from "./auth.types.js";
 
 export const isAuthenticatedRuleFunction: IRuleFunction = async ( _parent, _args, ctx: ServiceContext ) => {
 	const authInfo: UserAuthInfo | undefined = ctx.res.locals[ "authInfo" ];

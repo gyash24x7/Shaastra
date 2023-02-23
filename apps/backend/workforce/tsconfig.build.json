@@ -1,5 +1,5 @@
 {
-	"extends": "@shaastra/tsconfig/backend.json",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"rootDir": "src",
 		"noEmit": true,

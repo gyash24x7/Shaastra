@@ -1,14 +1,13 @@
 import type { Request } from "express";
 import { unlink, writeFile } from "fs/promises";
-import type { KeyLike, JWK } from "jose";
-import { generateKeyPair, exportPKCS8, exportSPKI, exportJWK, jwtVerify } from "jose";
+import type { JWK, KeyLike } from "jose";
+import { exportJWK, exportPKCS8, exportSPKI, generateKeyPair, jwtVerify } from "jose";
 import nock from "nock";
 import { join } from "node:path";
-import { describe, expect, beforeAll, afterAll, afterEach, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 
 import { mockDeep, mockReset } from "vitest-mock-extended";
-import { generateConfig } from "../../src/config/config.generate.js";
-import { JwtService } from "../../src/index.js";
+import { generateConfig, JwtService } from "../../src/index.js";
 
 describe( "Jwt Service", () => {
 	let mockConfig = generateConfig( "test" );

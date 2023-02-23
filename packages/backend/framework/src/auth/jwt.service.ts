@@ -5,9 +5,10 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
 import superagent from "superagent";
+import type { AppConfig } from "../config/index.js";
 import { Config } from "../config/index.js";
 import { LoggerFactory } from "../logger/index.js";
-import type { AuthPayload, UserAuthInfo, AppConfig } from "../utils/index.js";
+import type { AuthPayload, UserAuthInfo } from "./auth.types.js";
 
 @Injectable()
 export class JwtService {

@@ -5,13 +5,14 @@ import type { HttpAdapterHost } from "@nestjs/common";
 import type { Request, Response } from "express";
 import type { GraphQLSchema } from "graphql";
 import type { Server } from "node:http";
-import { test, describe, expect, vi, afterEach, beforeEach, it } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import { generateConfig } from "../../src/config/config.generate.js";
-import { GraphQLServer, buildService, createContext } from "../../src/graphql/graphql.server.js";
+import { afterEach, beforeEach, describe, expect, it, test, vi } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import { buildService, createContext, GraphQLServer } from "../../src/graphql/graphql.server.js";
 import type { SchemaBuilderService } from "../../src/graphql/schema.builder.service.js";
+import type { SchemaPublishService } from "../../src/graphql/schema.publish.service.js";
 import { ServiceDataSource } from "../../src/graphql/service.datasource.js";
 import type { UserAuthInfo } from "../../src/index.js";
+import { generateConfig } from "../../src/index.js";
 
 vi.mock( "@apollo/server", () => {
 	return { ApolloServer: vi.fn().mockReturnValue( { start: vi.fn() } ) };
@@ -51,6 +52,7 @@ describe( "GraphQL Server", () => {
 
 	const mockHttpAdapterHost = mockDeep<HttpAdapterHost>();
 	const mockSchemaBuilder = mockDeep<SchemaBuilderService>();
+	const mockSchemaPublisher = mockDeep<SchemaPublishService>();
 	const mockSchema = mockDeep<GraphQLSchema>();
 	const mockHttpServer = mockDeep<Server>();
 
@@ -61,7 +63,12 @@ describe( "GraphQL Server", () => {
 
 	it( "should return 3 plugins when in service mode", () => {
 		const mockConfig = generateConfig( "test" );
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
+		const graphQLServer = new GraphQLServer(
+			mockHttpAdapterHost,
+			mockSchemaBuilder,
+			mockSchemaPublisher,
+			mockConfig
+		);
 		const plugins = graphQLServer.getPlugins();
 
 		expect( plugins ).toHaveLength( 3 );
@@ -70,7 +77,12 @@ describe( "GraphQL Server", () => {
 
 	it( "should return 2 plugin when in gateway mode", () => {
 		const mockConfig = generateConfig( "gateway" );
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
+		const graphQLServer = new GraphQLServer(
+			mockHttpAdapterHost,
+			mockSchemaBuilder,
+			mockSchemaPublisher,
+			mockConfig
+		);
 		const plugins = graphQLServer.getPlugins();
 
 		expect( plugins ).toHaveLength( 2 );
@@ -79,7 +91,12 @@ describe( "GraphQL Server", () => {
 
 	it( "should run apollo server with gateway in gateway mode", async () => {
 		const mockConfig = generateConfig( "gateway" );
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
+		const graphQLServer = new GraphQLServer(
+			mockHttpAdapterHost,
+			mockSchemaBuilder,
+			mockSchemaPublisher,
+			mockConfig
+		);
 		await graphQLServer.start();
 
 		expect( mockSchemaBuilder.buildSchema ).toHaveBeenCalledTimes( 0 );
@@ -98,7 +115,12 @@ describe( "GraphQL Server", () => {
 
 	it( "should return apollo server with schema in service mode", async () => {
 		const mockConfig = generateConfig( "test" );
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
+		const graphQLServer = new GraphQLServer(
+			mockHttpAdapterHost,
+			mockSchemaBuilder,
+			mockSchemaPublisher,
+			mockConfig
+		);
 		await graphQLServer.start();
 
 		expect( mockSchemaBuilder.buildSchema ).toHaveBeenCalledTimes( 1 );
@@ -113,7 +135,12 @@ describe( "GraphQL Server", () => {
 
 	it( "should return express middleware function", async () => {
 		const mockConfig = generateConfig( "test" );
-		const graphQLServer = new GraphQLServer( mockHttpAdapterHost, mockSchemaBuilder, mockConfig );
+		const graphQLServer = new GraphQLServer(
+			mockHttpAdapterHost,
+			mockSchemaBuilder,
+			mockSchemaPublisher,
+			mockConfig
+		);
 		await graphQLServer.start();
 		const middleware = graphQLServer.middleware();
 
@@ -131,6 +158,7 @@ describe( "GraphQL Server", () => {
 
 	afterEach( () => {
 		mockClear( mockSchemaBuilder );
+		mockClear( mockSchemaPublisher );
 		mockClear( ApolloServer );
 		mockClear( ApolloGateway );
 		mockClear( mockHttpAdapterHost );

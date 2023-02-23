@@ -1,9 +1,19 @@
 {
-	"extends": "@shaastra/tsconfig/backend.json",
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "@tsconfig/node18-strictest-esm",
 	"compilerOptions": {
 		"rootDir": ".",
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"types": [ "node" ],
+		"target": "ES2022",
+		"sourceMap": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"exactOptionalPropertyTypes": false,
+		"strictPropertyInitialization": false,
+		"noUncheckedIndexedAccess": false,
+		"importHelpers": true
 	},
-	"include": [ "test", "src", "vitest.config.ts" ],
-	"exclude": [ "node_modules", "dist", ".turbo", "coverage" ]
+	"include": [ "test", "src", "vitest.config.ts", "e2e" ],
+	"exclude": [ "node_modules", "dist", ".turbo", "coverage", "tmp" ]
 }

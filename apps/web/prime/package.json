@@ -12,8 +12,8 @@
 	"dependencies": {
 		"@fontsource/fjalla-one": "4.5.9",
 		"@fontsource/montserrat": "4.5.14",
-		"@headlessui/react": "1.7.10",
-		"@heroicons/react": "2.0.15",
+		"@headlessui/react": "1.7.11",
+		"@heroicons/react": "2.0.16",
 		"@shaastra/client": "workspace:*",
 		"@shaastra/ui": "workspace:*",
 		"react": "18.2.0",
@@ -23,12 +23,11 @@
 		"react-use": "17.4.0"
 	},
 	"devDependencies": {
-		"@shaastra/tsconfig": "workspace:*",
-		"@types/react": "18.0.27",
-		"@types/react-dom": "18.0.10",
-		"@vitejs/plugin-react-swc": "3.1.0",
+		"@types/react": "18.0.28",
+		"@types/react-dom": "18.0.11",
+		"@vitejs/plugin-react-swc": "3.2.0",
 		"autoprefixer": "10.4.13",
 		"postcss": "8.4.21",
-		"tailwindcss": "3.2.6"
+		"tailwindcss": "3.2.7"
 	}
 }

@@ -9,15 +9,14 @@
 		"build": "swc --config-file=../../../.swcrc --out-dir=dist --copy-files  --delete-dir-on-start src",
 		"typecheck": "tsc -p tsconfig.build.json"
 	},
-	"keywords": [ ],
+	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@tanstack/react-query": "4.24.4",
+		"@tanstack/react-query": "4.24.10",
 		"superagent": "8.0.9"
 	},
 	"devDependencies": {
-		"@shaastra/tsconfig": "workspace:*",
 		"@types/superagent": "4.1.16"
 	}
 }

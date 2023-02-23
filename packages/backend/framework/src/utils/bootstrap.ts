@@ -1,10 +1,9 @@
 import { NestFactory } from "@nestjs/core";
 import { RedisOptions, Transport } from "@nestjs/microservices";
 import bodyParser from "body-parser";
-import { CONFIG_DATA } from "../config/index.js";
+import { type AppConfig, CONFIG_DATA } from "../config/index.js";
 import { LoggerFactory, loggerMiddleware } from "../logger/index.js";
-import { PrismaService, PRISMA_SERVICE } from "../prisma/index.js";
-import type { AppConfig } from "./types.js";
+import { PRISMA_SERVICE, PrismaService } from "../prisma/index.js";
 
 export async function bootstrap( AppModule: any ) {
 	const logger = LoggerFactory.getLogger( AppModule );
@@ -30,7 +29,7 @@ export async function bootstrap( AppModule: any ) {
 		}
 	} );
 
-	app.get<PrismaService<any>>( PRISMA_SERVICE ).applyShutdownHooks( app );
+	app.get<PrismaService>( PRISMA_SERVICE ).applyShutdownHooks( app );
 
 	await app.startAllMicroservices();
 	await app.listen( config.appInfo.port );

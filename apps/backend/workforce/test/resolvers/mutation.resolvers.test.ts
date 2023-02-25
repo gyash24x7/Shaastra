@@ -1,17 +1,18 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import type { GraphQLResolverParams } from "@app/framework/graphql";
 import type { CommandBus } from "@nestjs/cqrs";
-import { Team, Department, MemberPosition, Member } from "@prisma/client/workforce/index.js";
-import type { UserAuthInfo, GraphQLResolverParams } from "@shaastra/framework";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import { Department, Member, MemberPosition, Team } from "../../prisma/generated";
 import {
 	CreateMemberCommand,
-	EnableMemberCommand,
+	CreateMemberInput,
 	CreateTeamCommand,
 	CreateTeamInput,
-	CreateMemberInput,
+	EnableMemberCommand,
 	EnableMemberInput
-} from "../../src/commands/index.js";
-import { MutationResolvers } from "../../src/resolvers/index.js";
+} from "../../src/commands";
+import { MutationResolvers } from "../../src/resolvers";
 
 describe( "Mutation Resolvers", () => {
 
@@ -98,5 +99,5 @@ describe( "Mutation Resolvers", () => {
 
 	afterEach( () => {
 		mockClear( mockCommandBus );
-	} )
+	} );
 } );

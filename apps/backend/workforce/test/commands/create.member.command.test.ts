@@ -1,13 +1,13 @@
+import type { PrismaService } from "@app/framework/prisma";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import type { EventBus } from "@nestjs/cqrs";
-import type { PrismaClient, Member } from "@prisma/client/workforce/index.js";
-import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
-import type { PrismaService } from "@shaastra/framework";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import { type CreateMemberInput, CreateMemberCommandHandler, CreateMemberCommand } from "../../src/commands/index.js";
-import { MemberMessages } from "../../src/constants/messages.js";
-import { MemberCreatedEvent } from "../../src/events/index.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { Member, PrismaClient } from "../../prisma/generated";
+import { Department, MemberPosition } from "../../prisma/generated";
+import { CreateMemberCommand, CreateMemberCommandHandler, type CreateMemberInput } from "../../src/commands";
+import { MemberMessages } from "../../src/constants";
+import { MemberCreatedEvent } from "../../src/events";
 
 describe( "Create Member Command Handler", () => {
 

@@ -1,13 +1,14 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import type { PrismaService } from "@app/framework/prisma";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import type { EventBus } from "@nestjs/cqrs";
-import type { PrismaClient, Team, Member } from "@prisma/client/workforce/index.js";
-import { Department, MemberPosition } from "@prisma/client/workforce/index.js";
-import type { PrismaService, UserAuthInfo } from "@shaastra/framework";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import { type CreateTeamInput, CreateTeamCommandHandler, CreateTeamCommand } from "../../src/commands/index.js";
-import { TeamMessages } from "../../src/constants/messages.js";
-import { TeamCreatedEvent } from "../../src/events/index.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { Member, PrismaClient, Team } from "../../prisma/generated";
+import { Department, MemberPosition } from "../../prisma/generated";
+import { CreateTeamCommand, CreateTeamCommandHandler, type CreateTeamInput } from "../../src/commands";
+import { TeamMessages } from "../../src/constants";
+import { TeamCreatedEvent } from "../../src/events";
 
 describe( "Create Team Command Handler", () => {
 

@@ -1,8 +1,8 @@
-import { Team, PrismaClient, Department } from "@prisma/client/workforce/index.js";
-import type { PrismaService } from "@shaastra/framework";
-import { describe, it, expect } from "vitest";
+import type { PrismaService } from "@app/framework/prisma";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { TeamQuery, TeamQueryHandler } from "../../src/queries/index.js";
+import { Department, PrismaClient, Team } from "../../prisma/generated";
+import { TeamQuery, TeamQueryHandler } from "../../src/queries";
 
 describe( "Team Query Handler", () => {
 

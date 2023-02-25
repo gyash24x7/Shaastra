@@ -1,12 +1,12 @@
-import { MemberResolvers } from "./member.resolvers.js";
-import { MutationResolvers } from "./mutation.resolvers.js";
-import { QueryResolvers } from "./query.resolvers.js";
-import { TeamResolvers } from "./team.resolvers.js";
+import { MemberResolvers } from "./member.resolvers";
+import { MutationResolvers } from "./mutation.resolvers";
+import { QueryResolvers } from "./query.resolvers";
+import { TeamResolvers } from "./team.resolvers";
 
-export * from "./query.resolvers.js";
-export * from "./mutation.resolvers.js";
-export * from "./member.resolvers.js";
-export * from "./team.resolvers.js";
+export * from "./query.resolvers";
+export * from "./mutation.resolvers";
+export * from "./member.resolvers";
+export * from "./team.resolvers";
 
 const resolvers = [ QueryResolvers, MutationResolvers, MemberResolvers, TeamResolvers ];
 export default resolvers;

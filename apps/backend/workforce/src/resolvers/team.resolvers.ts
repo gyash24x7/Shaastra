@@ -1,13 +1,8 @@
+import { FieldResolver, GraphQLResolverParams, Resolver, ResolveReference } from "@app/framework/graphql";
+import { LoggerFactory } from "@app/framework/logger";
 import { QueryBus } from "@nestjs/cqrs";
-import type { Member, Team } from "@prisma/client/workforce/index.js";
-import {
-	FieldResolver,
-	type GraphQLResolverParams,
-	LoggerFactory,
-	Resolver,
-	ResolveReference
-} from "@shaastra/framework";
-import { TeamQuery, MembersQuery } from "../queries/index.js";
+import type { Member, Team } from "../../prisma/generated";
+import { MembersQuery, TeamQuery } from "../queries";
 
 @Resolver( "Team" )
 export class TeamResolvers {

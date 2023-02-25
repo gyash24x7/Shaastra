@@ -1,7 +1,8 @@
+import { LoggerFactory } from "@app/framework/logger";
+import { Prisma, PrismaService } from "@app/framework/prisma";
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
-import type { Member, PrismaClient } from "@prisma/client/workforce/index.js";
-import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
+import type { Member, PrismaClient } from "../../prisma/generated";
 
 export class MemberQuery implements IQuery {
 	constructor( public readonly memberId: string ) {}

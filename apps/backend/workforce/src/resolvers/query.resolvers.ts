@@ -1,14 +1,9 @@
+import { isAuthenticated } from "@app/framework/auth";
+import { GraphQLResolverParams, GraphQLShield, Query, Resolver } from "@app/framework/graphql";
+import { LoggerFactory } from "@app/framework/logger";
 import { QueryBus } from "@nestjs/cqrs";
-import type { Member } from "@prisma/client/workforce/index.js";
-import {
-	type GraphQLResolverParams,
-	LoggerFactory,
-	Query,
-	Resolver,
-	GraphQLShield,
-	isAuthenticated
-} from "@shaastra/framework";
-import { MemberQuery } from "../queries/index.js";
+import type { Member } from "../../prisma/generated";
+import { MemberQuery } from "../queries";
 
 @Resolver( "Query" )
 export class QueryResolvers {

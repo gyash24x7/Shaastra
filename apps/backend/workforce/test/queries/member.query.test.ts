@@ -1,8 +1,8 @@
-import { PrismaClient, Member, Department, MemberPosition } from "@prisma/client/workforce/index.js";
-import type { PrismaService } from "@shaastra/framework";
-import { describe, it, expect } from "vitest";
+import type { PrismaService } from "@app/framework/prisma";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { MemberQuery, MemberQueryHandler } from "../../src/queries/index.js";
+import { Department, Member, MemberPosition, PrismaClient } from "../../prisma/generated";
+import { MemberQuery, MemberQueryHandler } from "../../src/queries";
 
 describe( "Member Query Handler", () => {
 

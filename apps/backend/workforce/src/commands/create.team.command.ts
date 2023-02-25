@@ -1,11 +1,12 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import { LoggerFactory } from "@app/framework/logger";
+import { Prisma, PrismaService } from "@app/framework/prisma";
 import { ConflictException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Department, Team, PrismaClient, Member } from "@prisma/client/workforce/index.js";
-import type { UserAuthInfo } from "@shaastra/framework";
-import { LoggerFactory, PrismaService, Prisma } from "@shaastra/framework";
-import { TeamMessages } from "../constants/messages.js";
-import { TeamCreatedEvent } from "../events/index.js";
+import type { Department, Member, PrismaClient, Team } from "../../prisma/generated";
+import { TeamMessages } from "../constants";
+import { TeamCreatedEvent } from "../events";
 
 export type CreateTeamInput = {
 	name: string;

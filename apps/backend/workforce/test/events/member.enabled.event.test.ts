@@ -1,9 +1,9 @@
 import type { ClientRedis } from "@nestjs/microservices";
-import { Member, Department, MemberPosition } from "@prisma/client/workforce";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { OutboundEvents } from "../../src/constants/outbound.events.js";
-import { MemberEnabledEventHandler, MemberEnabledEvent } from "../../src/events/index.js";
+import { Department, Member, MemberPosition } from "../../prisma/generated";
+import { OutboundEvents } from "../../src/constants";
+import { MemberEnabledEvent, MemberEnabledEventHandler } from "../../src/events";
 
 describe( "Member Enabled Event Handler", () => {
 

@@ -1,6 +1,7 @@
+import { GraphQLResolverParams, Mutation, Resolver } from "@app/framework/graphql";
+import { LoggerFactory } from "@app/framework/logger";
 import { CommandBus } from "@nestjs/cqrs";
-import type { Member, Team } from "@prisma/client/workforce/index.js";
-import { type GraphQLResolverParams, LoggerFactory, Mutation, Resolver } from "@shaastra/framework";
+import type { Member, Team } from "../../prisma/generated";
 import {
 	CreateMemberCommand,
 	CreateMemberInput,
@@ -8,7 +9,7 @@ import {
 	CreateTeamInput,
 	EnableMemberCommand,
 	EnableMemberInput
-} from "../commands/index.js";
+} from "../commands";
 
 @Resolver( "Mutation" )
 export class MutationResolvers {

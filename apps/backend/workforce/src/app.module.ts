@@ -1,19 +1,16 @@
+import { AuthModule, ExtractAuthMiddleware } from "@app/framework/auth";
+import { ConfigModule as BaseConfigModule } from "@app/framework/config";
+import { GraphQLModule } from "@app/framework/graphql";
+import { LoggerFactory } from "@app/framework/logger";
+import { PrismaModule as BasePrismaModule } from "@app/framework/prisma";
+import { RedisClientModule } from "@app/framework/redis";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { PrismaClient } from "@prisma/client/workforce/index.js";
-import {
-	AuthModule,
-	ConfigModule as BaseConfigModule,
-	ExtractAuthMiddleware,
-	GraphQLModule,
-	LoggerFactory,
-	PrismaModule as BasePrismaModule,
-	RedisClientModule
-} from "@shaastra/framework";
-import commandHandlers from "./commands/index.js";
-import eventHandlers from "./events/index.js";
-import queryHandlers from "./queries/index.js";
-import resolvers from "./resolvers/index.js";
+import { PrismaClient } from "../prisma/generated";
+import commandHandlers from "./commands";
+import eventHandlers from "./events";
+import queryHandlers from "./queries";
+import resolvers from "./resolvers";
 
 const ConfigModule = BaseConfigModule.register( "workforce" );
 const PrismaModule = BasePrismaModule.register( PrismaClient );

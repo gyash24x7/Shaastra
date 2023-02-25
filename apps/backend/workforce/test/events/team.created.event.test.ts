@@ -1,11 +1,10 @@
 import type { ClientRedis } from "@nestjs/microservices";
-import { Team, Department } from "@prisma/client/workforce";
-import type { Member } from "@prisma/client/workforce/index.js";
-import { MemberPosition } from "@prisma/client/workforce/index.js";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { OutboundEvents } from "../../src/constants/outbound.events.js";
-import { TeamCreatedEventHandler, TeamCreatedEvent } from "../../src/events/index.js";
+import type { Member } from "../../prisma/generated";
+import { Department, MemberPosition, Team } from "../../prisma/generated";
+import { OutboundEvents } from "../../src/constants";
+import { TeamCreatedEvent, TeamCreatedEventHandler } from "../../src/events";
 
 describe( "Team Created Event Handler", () => {
 

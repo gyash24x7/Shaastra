@@ -1,10 +1,10 @@
+import type { GraphQLResolverParams } from "@app/framework/graphql";
 import type { QueryBus } from "@nestjs/cqrs";
-import { Member, Department, MemberPosition, Team } from "@prisma/client/workforce";
-import type { GraphQLResolverParams } from "@shaastra/framework";
-import { describe, it, afterEach, expect } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import { MemberQuery, TeamsQuery } from "../../src/queries/index.js";
-import { MemberResolvers } from "../../src/resolvers/index.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import { Department, Member, MemberPosition, Team } from "../../prisma/generated";
+import { MemberQuery, TeamsQuery } from "../../src/queries";
+import { MemberResolvers } from "../../src/resolvers";
 
 describe( "Member Resolvers", () => {
 

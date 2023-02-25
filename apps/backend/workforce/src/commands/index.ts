@@ -1,10 +1,10 @@
-import { CreateMemberCommandHandler } from "./create.member.command.js";
-import { CreateTeamCommandHandler } from "./create.team.command.js";
-import { EnableMemberCommandHandler } from "./enable.member.command.js";
+import { CreateMemberCommandHandler } from "./create.member.command";
+import { CreateTeamCommandHandler } from "./create.team.command";
+import { EnableMemberCommandHandler } from "./enable.member.command";
 
-export * from "./create.member.command.js";
-export * from "./create.team.command.js";
-export * from "./enable.member.command.js";
+export * from "./create.member.command";
+export * from "./create.team.command";
+export * from "./enable.member.command";
 
 const commandHandlers = [ CreateTeamCommandHandler, CreateMemberCommandHandler, EnableMemberCommandHandler ];
 export default commandHandlers;

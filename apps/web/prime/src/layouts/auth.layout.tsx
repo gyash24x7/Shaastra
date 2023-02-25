@@ -1,4 +1,4 @@
-import { Flex } from "@shaastra/ui";
+import { Flex } from "@app/ui";
 import { useOutlet } from "react-router-dom";
 
 export default function AuthLayout() {

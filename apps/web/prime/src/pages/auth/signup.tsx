@@ -1,25 +1,25 @@
-import {
-	UserIcon,
-	LockClosedIcon,
-	ExclamationCircleIcon,
-	EnvelopeIcon,
-	CheckCircleIcon
-} from "@heroicons/react/24/solid";
-import { DevicePhoneMobileIcon } from "@heroicons/react/24/solid/index.js";
-import { useCreateMemberMutation, Department } from "@shaastra/client";
+import { Department, useCreateMemberMutation } from "@app/client";
 import {
 	Banner,
 	emailValidator,
+	Flex,
 	Form,
+	ListSelect,
 	minLengthValidator,
 	requiredValidator,
 	rollNumberValidator,
 	TextInput,
-	VStack,
-	Flex,
-	ListSelect
-} from "@shaastra/ui";
-import { When, If, Then, Else } from "react-if";
+	VStack
+} from "@app/ui";
+import {
+	CheckCircleIcon,
+	DevicePhoneMobileIcon,
+	EnvelopeIcon,
+	ExclamationCircleIcon,
+	LockClosedIcon,
+	UserIcon
+} from "@heroicons/react/24/solid";
+import { Else, If, Then, When } from "react-if";
 import { Link } from "react-router-dom";
 
 const departments: Department[] = [

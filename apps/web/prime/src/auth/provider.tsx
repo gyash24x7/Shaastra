@@ -1,5 +1,5 @@
-import type { MeQueryData } from "@shaastra/client";
-import { createContext, ReactNode, useMemo, useContext } from "react";
+import type { MeQueryData } from "@app/client";
+import { createContext, ReactNode, useContext, useMemo } from "react";
 
 export type AuthContextType =
 	{ isLoggedIn: true; loggedInMember: MeQueryData["me"]; refresh: () => Promise<void> }

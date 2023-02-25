@@ -1,5 +1,5 @@
-import { Button } from "@shaastra/ui";
-import { useAuth } from "../auth/provider.js";
+import { Button } from "@app/ui";
+import { useAuth } from "../auth/provider";
 
 export default function HomePage() {
 	const { refresh } = useAuth();

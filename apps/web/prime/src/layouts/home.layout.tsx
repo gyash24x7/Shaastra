@@ -1,7 +1,7 @@
-import { useClient, useMeQuery } from "@shaastra/client";
-import { Spinner, Flex } from "@shaastra/ui";
+import { useClient, useMeQuery } from "@app/client";
+import { Flex, Spinner } from "@app/ui";
 import { useOutlet } from "react-router-dom";
-import { AuthProvider } from "../auth/provider.js";
+import { AuthProvider } from "../auth/provider";
 
 export default function HomeLayout() {
 	const outlet = useOutlet();

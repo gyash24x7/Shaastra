@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import { Fragment } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useAuth } from "../auth/provider.js";
-import AuthLayout from "../layouts/auth.layout.js";
-import HomeLayout from "../layouts/home.layout.js";
-import LoginPage from "../pages/auth/login.js";
-import SignUpPage from "../pages/auth/signup.js";
-import HomePage from "../pages/index.js";
+import { useAuth } from "../auth/provider";
+import AuthLayout from "../layouts/auth.layout";
+import HomeLayout from "../layouts/home.layout";
+import HomePage from "../pages";
+import LoginPage from "../pages/auth/login";
+import SignUpPage from "../pages/auth/signup";
 
 export function PrivateRoute( props: { children: ReactNode } ) {
 	const { isLoggedIn } = useAuth();

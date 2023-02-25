@@ -1,6 +1,6 @@
-import { UserIcon, LockClosedIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { useLoginMutation } from "@shaastra/client";
-import { Banner, Button, Form, minLengthValidator, patternValidator, TextInput, VStack, Flex } from "@shaastra/ui";
+import { useLoginMutation } from "@app/client";
+import { Banner, Button, Flex, Form, minLengthValidator, patternValidator, TextInput, VStack } from "@app/ui";
+import { ExclamationCircleIcon, LockClosedIcon, UserIcon } from "@heroicons/react/24/solid";
 import { When } from "react-if";
 import { Link, useNavigate } from "react-router-dom";
 

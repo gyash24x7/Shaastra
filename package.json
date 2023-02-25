@@ -9,9 +9,9 @@
 		"packages/**/*"
 	],
 	"scripts": {
-		"dev": "env-cmd turbo run dev",
+		"dev": "turbo run dev",
 		"build": "turbo run build",
-		"start": "env-cmd turbo run start",
+		"start": "turbo run start",
 		"typecheck": "turbo run typecheck --parallel",
 		"test": "turbo run test --parallel"
 	},
@@ -23,7 +23,6 @@
 		"@tsconfig/node18-strictest-esm": "1.0.1",
 		"@types/node": "18.14.0",
 		"@vitest/coverage-istanbul": "0.28.5",
-		"env-cmd": "10.1.0",
 		"nock": "13.3.0",
 		"nodemon": "2.0.20",
 		"npm-run-all": "4.1.5",

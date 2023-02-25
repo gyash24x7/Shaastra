@@ -3,11 +3,6 @@
 	"version": "1.0.0",
 	"private": true,
 	"type": "module",
-	"workspaces": [
-		"apps/**/*",
-		"packages/*",
-		"packages/**/*"
-	],
 	"scripts": {
 		"dev": "nx run-many --target=serve",
 		"build": "nx run-many --target=build",

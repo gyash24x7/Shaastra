@@ -5,7 +5,9 @@ import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { anyObject, DeepMockProxy, mockClear, mockDeep } from "vitest-mock-extended";
-import { bootstrap, CONFIG_DATA, generateConfig, PRISMA_SERVICE } from "../../src/index.js";
+import { CONFIG_DATA, generateConfig } from "../../src/config";
+import { PRISMA_SERVICE } from "../../src/prisma";
+import { bootstrap } from "../../src/utils";
 
 class MockAppModule {}
 

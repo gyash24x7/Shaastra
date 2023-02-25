@@ -1,6 +1,6 @@
 import { Module, DynamicModule } from "@nestjs/common";
-import { CONFIG_DATA } from "./config.decorator.js";
-import { generateConfig } from "./config.generate.js";
+import { CONFIG_DATA } from "./config.decorator";
+import { generateConfig } from "./config.generate";
 
 @Module( {} )
 export class ConfigModule {

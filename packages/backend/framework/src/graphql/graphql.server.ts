@@ -9,12 +9,12 @@ import {
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { Injectable } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
-import { type AppConfig, Config } from "../config/index.js";
-import { LoggerFactory } from "../logger/index.js";
-import type { ContextFn, ServiceContext } from "./graphql.types.js";
-import { SchemaBuilderService } from "./schema.builder.service.js";
-import { SchemaPublishService } from "./schema.publish.service.js";
-import { ServiceDataSource } from "./service.datasource.js";
+import { AppConfig, Config } from "../config";
+import { LoggerFactory } from "../logger";
+import type { ContextFn, ServiceContext } from "./graphql.types";
+import { SchemaBuilderService } from "./schema.builder.service";
+import { SchemaPublishService } from "./schema.publish.service";
+import { ServiceDataSource } from "./service.datasource";
 
 export const buildService = ( { url }: ServiceEndpointDefinition ) => new ServiceDataSource( { url } );
 export const createContext: ContextFn<ServiceContext> = async ( { req, res } ) => {

@@ -1,10 +1,10 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/common";
 import { DiscoveryModule } from "@nestjs/core";
-import { LoggerFactory } from "../logger/index.js";
-import { GraphQLServer } from "./graphql.server.js";
-import { ResolverExplorerService } from "./resolver.explorer.service.js";
-import { SchemaBuilderService } from "./schema.builder.service.js";
-import { SchemaPublishService } from "./schema.publish.service.js";
+import { LoggerFactory } from "../logger";
+import { GraphQLServer } from "./graphql.server";
+import { ResolverExplorerService } from "./resolver.explorer.service";
+import { SchemaBuilderService } from "./schema.builder.service";
+import { SchemaPublishService } from "./schema.publish.service";
 
 @Module( {
 	imports: [ DiscoveryModule ],

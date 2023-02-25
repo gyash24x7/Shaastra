@@ -3,16 +3,14 @@ import type { Request } from "express";
 import { importJWK, importPKCS8, importSPKI, JWK, jwtVerify, SignJWT } from "jose";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import process from "node:process";
 import superagent from "superagent";
-import type { AppConfig } from "../config/index.js";
-import { Config } from "../config/index.js";
-import { LoggerFactory } from "../logger/index.js";
-import type { AuthPayload, UserAuthInfo } from "./auth.types.js";
+import { AppConfig, Config } from "../config";
+import { LoggerFactory } from "../logger";
+import type { AuthPayload, UserAuthInfo } from "./auth.types";
 
 @Injectable()
 export class JwtService {
-	private static readonly ALGORITHM = "RS256";
+	public static readonly ALGORITHM = "RS256";
 	private readonly logger = LoggerFactory.getLogger( JwtService );
 
 	constructor( @Config() private readonly config: AppConfig ) {}
@@ -24,12 +22,12 @@ export class JwtService {
 	}
 
 	async getPrivateKey() {
-		const privateKey = await readFile( join( process.cwd(), this.config.auth.privateKeyPath ), "utf-8" );
+		const privateKey = await readFile( join( __dirname, this.config.auth.privateKeyPath ), "utf-8" );
 		return importPKCS8( privateKey, JwtService.ALGORITHM );
 	}
 
 	async getPublicKey() {
-		const publicKey = await readFile( join( process.cwd(), this.config.auth.publicKeyPath ), "utf-8" );
+		const publicKey = await readFile( join( __dirname, this.config.auth.publicKeyPath ), "utf-8" );
 		return importSPKI( publicKey, JwtService.ALGORITHM );
 	}
 

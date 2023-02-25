@@ -6,10 +6,9 @@ import { shield } from "graphql-shield";
 import { gql } from "graphql-tag";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import process from "node:process";
-import { type AppConfig, Config } from "../config/index.js";
-import { LoggerFactory } from "../logger/index.js";
-import { ResolverExplorerService } from "./resolver.explorer.service.js";
+import { AppConfig, Config } from "../config";
+import { LoggerFactory } from "../logger";
+import { ResolverExplorerService } from "./resolver.explorer.service";
 
 @Injectable()
 export class SchemaBuilderService {
@@ -22,12 +21,12 @@ export class SchemaBuilderService {
 	) {}
 
 	async buildSchema(): Promise<GraphQLSchema> {
-		const typeDefsString = await readFile( join( process.cwd(), this.config.graphql.schemaPath! ), "utf-8" );
+		this.logger.trace( ">> buildSchema()" );
+		const typeDefsString = await readFile( join( __dirname, this.config.graphql.schemaPath! ), "utf-8" );
 		const typeDefs = gql( typeDefsString );
 
 		const { resolvers, permissions } = await this.resolverExplorer.buildResolversAndPermissions();
 
-		this.logger.debug( "Resolvers: %o", resolvers );
 		const schema = buildSubgraphSchema( { typeDefs, resolvers } as any );
 		return applyMiddleware( schema, shield( permissions ) );
 	}

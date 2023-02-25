@@ -1,6 +1,6 @@
 import { ClientsModule, RedisOptions, Transport } from "@nestjs/microservices";
-import { type AppConfig, CONFIG_DATA } from "../config/index.js";
-import { REDIS_CLIENT } from "./redis.decorator.js";
+import { AppConfig, CONFIG_DATA } from "../config";
+import { REDIS_CLIENT } from "./redis.decorator";
 
 export function redisClientFactory( { redis: { host, port } }: AppConfig ): RedisOptions {
 	return { transport: Transport.REDIS, options: { host, port } };

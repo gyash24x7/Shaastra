@@ -1,21 +1,21 @@
 import { Scope, Type } from "@nestjs/common";
 import { DiscoveryService, MetadataScanner } from "@nestjs/core";
-import { InstanceWrapper } from "@nestjs/core/injector/instance-wrapper.js";
+import { InstanceWrapper } from "@nestjs/core/injector/instance-wrapper";
 import type { GraphQLResolveInfo } from "graphql";
 import { not } from "graphql-shield";
-import { test, describe, expect, vi, it } from "vitest";
+import { describe, expect, it, test, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { ResolverExplorerService, buildResolverFn } from "../../src/graphql/resolver.explorer.service.js";
+import { isAuthenticated } from "../../src/auth";
 import {
-	Resolver,
-	Query,
-	Mutation,
 	FieldResolver,
-	ResolveReference,
 	GraphQLShield,
-	isAuthenticated,
+	Mutation,
+	Query,
+	Resolver,
+	ResolveReference,
 	ServiceContext
-} from "../../src/index.js";
+} from "../../src/graphql";
+import { buildResolverFn, ResolverExplorerService } from "../../src/graphql/resolver.explorer.service";
 
 @Resolver( "Query" )
 export class ExampleQueryResolver {

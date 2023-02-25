@@ -1,14 +1,14 @@
 import type { GraphQLResolveInfo } from "graphql";
-import { test, expect } from "vitest";
+import { expect, test } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import type { ServiceContext } from "../../src/index.js";
 import {
 	isAuthenticatedRuleFunction,
-	isMemberRuleFunction,
-	isCoreRuleFunction,
 	isCoordRuleFunction,
-	isHeadRuleFunction
-} from "../../src/index.js";
+	isCoreRuleFunction,
+	isHeadRuleFunction,
+	isMemberRuleFunction
+} from "../../src/auth";
+import type { ServiceContext } from "../../src/graphql";
 
 test( "IsAuthenticatedRuleFunction should check if authenticted", async () => {
 	const mockCtx = mockDeep<ServiceContext>();

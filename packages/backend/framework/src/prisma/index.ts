@@ -1,3 +1,3 @@
-export * from "./prisma.module.js";
-export * from "./prisma.decorator.js";
-export * from "./prisma.service.js";
+export * from "./prisma.module";
+export * from "./prisma.decorator";
+export * from "./prisma.service";

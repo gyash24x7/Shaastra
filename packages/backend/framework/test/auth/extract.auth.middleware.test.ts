@@ -1,8 +1,9 @@
 import type { Request, Response } from "express";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { JwtService } from "../../src/index.js";
-import { ExtractAuthMiddleware, generateConfig } from "../../src/index.js";
+import type { JwtService } from "../../src/auth";
+import { ExtractAuthMiddleware } from "../../src/auth";
+import { generateConfig } from "../../src/config";
 
 describe( "Extract Auth Middleware", function () {
 	let mockConfig = generateConfig( "test" );

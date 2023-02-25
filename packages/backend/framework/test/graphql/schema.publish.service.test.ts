@@ -1,12 +1,11 @@
-import shelljs from "shelljs";
+import { exec } from "shelljs";
 import { describe, expect, it, vi } from "vitest";
-import { SchemaPublishService } from "../../src/graphql/schema.publish.service.js";
-import { generateConfig } from "../../src/index.js";
+import { generateConfig } from "../../src/config";
+import { SchemaPublishService } from "../../src/graphql/schema.publish.service";
 
-vi.mock( "shelljs", async ( importOriginal ) => {
-	const actual = await importOriginal<typeof shelljs>();
-	const mocked = { ...actual, exec: vi.fn().mockReturnValue( { code: 0, stdout: "" } ) };
-	return { default: mocked };
+vi.mock( "shelljs", async () => {
+
+	return { exec: vi.fn().mockReturnValue( { code: 0, stdout: "" } ) };
 } );
 
 describe( "Schema Publish Service", () => {
@@ -15,6 +14,6 @@ describe( "Schema Publish Service", () => {
 	it( "should execute rover command to publish subgraph", async () => {
 		const schemaPublishService = new SchemaPublishService( config );
 		schemaPublishService.publishSchema();
-		expect( shelljs.exec ).toHaveBeenCalled();
+		expect( exec ).toHaveBeenCalled();
 	} );
 } );

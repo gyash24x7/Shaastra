@@ -1,5 +1,5 @@
 import { applyDecorators, SetMetadata, Injectable } from "@nestjs/common";
-import type { ShieldRule } from "graphql-shield/typings/types.js";
+import type { ShieldRule } from "graphql-shield/typings/types";
 
 export const GRAPHQL_RESOLVER_TYPE = "GRAPHQL_RESOLVER_TYPE";
 export const GRAPHQL_SHIELD_META = "GRAPHQL_SHIELD_META";

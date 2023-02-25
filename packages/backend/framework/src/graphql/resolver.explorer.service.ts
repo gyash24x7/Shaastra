@@ -1,9 +1,9 @@
 import { Injectable, Scope } from "@nestjs/common";
 import { DiscoveryService, MetadataScanner } from "@nestjs/core";
-import { STATIC_CONTEXT } from "@nestjs/core/injector/constants.js";
+import { STATIC_CONTEXT } from "@nestjs/core/injector/constants";
 import type { GraphQLResolveInfo } from "graphql";
 import type { IRule } from "graphql-shield";
-import { GRAPHQL_OPERATION_TYPE, GRAPHQL_RESOLVER_TYPE, GRAPHQL_SHIELD_META } from "./graphql.decorators.js";
+import { GRAPHQL_OPERATION_TYPE, GRAPHQL_RESOLVER_TYPE, GRAPHQL_SHIELD_META } from "./graphql.decorators";
 import type {
 	DiscoveredOperation,
 	DiscoveredProvider,
@@ -13,7 +13,7 @@ import type {
 	ResolverFn,
 	ResolverMap,
 	ServiceContext
-} from "./graphql.types.js";
+} from "./graphql.types";
 
 export function buildResolverFn( resolver: ResolverFn ) {
 	return ( parent: any, args: any, context: ServiceContext, info: GraphQLResolveInfo ) => {
@@ -59,7 +59,7 @@ export class ResolverExplorerService {
 	discoverOperations( { instance }: DiscoveredResolver ): Array<DiscoveredOperation> {
 		const prototype = Object.getPrototypeOf( instance );
 
-		const discoveredOperations = this.metadataScanner.getAllMethodNames( prototype ).map( ( name ) => {
+		const discoveredOperations = this.metadataScanner.scanFromPrototype( instance, prototype, ( name ) => {
 			const handler = prototype[ name ];
 			const operationType: OperationType = Reflect.getMetadata( GRAPHQL_OPERATION_TYPE, handler );
 			return { operationType, handler, name };

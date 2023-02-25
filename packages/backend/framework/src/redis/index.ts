@@ -1,2 +1,2 @@
-export * from "./redis.decorator.js";
-export * from "./redis.client.module.js";
+export * from "./redis.decorator";
+export * from "./redis.client.module";

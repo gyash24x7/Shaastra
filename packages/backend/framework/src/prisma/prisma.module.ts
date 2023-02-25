@@ -1,9 +1,9 @@
 import { DynamicModule, Module } from "@nestjs/common";
-import { CONFIG_DATA } from "../config/index.js";
-import { PRISMA_CLIENT, PRISMA_SERVICE } from "./prisma.decorator.js";
-import { prismaClientFactory } from "./prisma.factory.js";
-import { PrismaService } from "./prisma.service.js";
-import type { ClientType, PrismaClientLike } from "./prisma.types.js";
+import { CONFIG_DATA } from "../config";
+import { PRISMA_CLIENT, PRISMA_SERVICE } from "./prisma.decorator";
+import { prismaClientFactory } from "./prisma.factory";
+import { PrismaService } from "./prisma.service";
+import type { ClientType, PrismaClientLike } from "./prisma.types";
 
 @Module( {} )
 export class PrismaModule {

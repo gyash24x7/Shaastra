@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { join } from "node:path";
-import shelljs from "shelljs";
-import { type AppConfig, Config } from "../config/index.js";
-import { LoggerFactory } from "../logger/index.js";
+import { exec } from "shelljs";
+import { AppConfig, Config } from "../config";
+import { LoggerFactory } from "../logger";
 
 @Injectable()
 export class SchemaPublishService {
@@ -16,7 +16,7 @@ export class SchemaPublishService {
 		const routingUrl = this.config.appInfo.url + "/api/graphql";
 		const schemaPath = join( __dirname, this.config.graphql.schemaPath! );
 
-		const { stdout } = shelljs.exec(
+		const { code, stdout } = exec(
 			`rover subgraph publish \
 			--name ${ this.config.appInfo.id } \
 			--routing-url ${ routingUrl } \
@@ -25,6 +25,9 @@ export class SchemaPublishService {
 		);
 
 		this.logger.log( stdout );
-		this.logger.info( "Schema Published to Apollo Studio!" );
+
+		if ( !code ) {
+			this.logger.info( "Schema Published to Apollo Studio!" );
+		}
 	}
 }

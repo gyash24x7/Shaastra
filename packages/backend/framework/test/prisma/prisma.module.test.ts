@@ -1,7 +1,8 @@
 import { Injectable, ModuleMetadata } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { describe, expect, it, vi } from "vitest";
-import { ConfigModule, Prisma, PrismaModule, PrismaService } from "../../src/index.js";
+import { ConfigModule } from "../../src/config";
+import { Prisma, PrismaModule, PrismaService } from "../../src/prisma";
 
 class MockPrismaClientType {
 	$connect = vi.fn().mockImplementation( () => "$connect" );

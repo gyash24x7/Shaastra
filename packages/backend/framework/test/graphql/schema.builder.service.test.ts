@@ -1,15 +1,15 @@
 import type { GraphQLResolveInfo } from "graphql";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import type { ResolverExplorerService } from "../../src/graphql/resolver.explorer.service.js";
-import { SchemaBuilderService } from "../../src/graphql/schema.builder.service.js";
-import { generateConfig } from "../../src/index.js";
+import { generateConfig } from "../../src/config";
+import type { ResolverExplorerService } from "../../src/graphql/resolver.explorer.service";
+import { SchemaBuilderService } from "../../src/graphql/schema.builder.service";
 
 describe( "Schema Builder Service", () => {
 	const mockGraphQLResolveInfo = mockDeep<GraphQLResolveInfo>();
 
 	const mockConfig = generateConfig( "test" );
-	mockConfig.graphql.schemaPath = "test/graphql/__mocks__/schema.graphql";
+	mockConfig.graphql.schemaPath = "../../test/graphql/__mocks__/schema.graphql";
 
 	const mockResolverExplorer = mockDeep<ResolverExplorerService>();
 	mockResolverExplorer.buildResolversAndPermissions.mockResolvedValue( {

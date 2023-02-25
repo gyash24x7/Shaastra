@@ -1,6 +1,6 @@
 import process from "node:process";
 import { describe, expect, it } from "vitest";
-import { generateConfig } from "../../src/index.js";
+import { generateConfig } from "../../src/config";
 
 describe( "GenerateConfig", () => {
 
@@ -21,7 +21,7 @@ describe( "GenerateConfig", () => {
 			appInfo: {
 				id: "test",
 				name: "Shaastra Test",
-				pkg: "@shaastra/test",
+				pkg: "@app/test",
 				port: 8000,
 				url: "http://localhost:8000",
 				address: "localhost",
@@ -33,15 +33,15 @@ describe( "GenerateConfig", () => {
 			auth: {
 				audience: "audience.test.app",
 				domain: "domain.test.app",
-				privateKeyPath: "src/assets/keys/.private.key",
-				publicKeyPath: "src/assets/keys/.public.key.pem"
+				privateKeyPath: "assets/keys/.private.key",
+				publicKeyPath: "assets/keys/.public.key.pem"
 			},
 			redis: {
 				host: "redishost",
 				port: 1234
 			},
 			graphql: {
-				schemaPath: "src/assets/schema.graphql"
+				schemaPath: "assets/schema.graphql"
 			}
 		} );
 	} );
@@ -63,7 +63,7 @@ describe( "GenerateConfig", () => {
 			appInfo: {
 				id: "gateway",
 				name: "Shaastra Gateway",
-				pkg: "@shaastra/gateway",
+				pkg: "@app/gateway",
 				port: 12345,
 				url: "http://127.0.0.1:12345",
 				address: "127.0.0.1",
@@ -75,15 +75,15 @@ describe( "GenerateConfig", () => {
 			auth: {
 				audience: "audience.test.app",
 				domain: "domain.test.app",
-				privateKeyPath: "src/assets/keys/.private.key",
-				publicKeyPath: "src/assets/keys/.public.key.pem"
+				privateKeyPath: "assets/keys/.private.key",
+				publicKeyPath: "assets/keys/.public.key.pem"
 			},
 			redis: {
 				host: "redishost",
 				port: 1234
 			},
 			graphql: {
-				schemaPath: "src/assets/schema.graphql"
+				schemaPath: "assets/schema.graphql"
 			}
 		} );
 

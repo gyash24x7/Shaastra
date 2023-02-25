@@ -7,12 +7,12 @@ import type { GraphQLSchema } from "graphql";
 import type { Server } from "node:http";
 import { afterEach, beforeEach, describe, expect, it, test, vi } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import { buildService, createContext, GraphQLServer } from "../../src/graphql/graphql.server.js";
-import type { SchemaBuilderService } from "../../src/graphql/schema.builder.service.js";
-import type { SchemaPublishService } from "../../src/graphql/schema.publish.service.js";
-import { ServiceDataSource } from "../../src/graphql/service.datasource.js";
-import type { UserAuthInfo } from "../../src/index.js";
-import { generateConfig } from "../../src/index.js";
+import type { UserAuthInfo } from "../../src/auth";
+import { generateConfig } from "../../src/config";
+import { buildService, createContext, GraphQLServer } from "../../src/graphql/graphql.server";
+import type { SchemaBuilderService } from "../../src/graphql/schema.builder.service";
+import type { SchemaPublishService } from "../../src/graphql/schema.publish.service";
+import { ServiceDataSource } from "../../src/graphql/service.datasource";
 
 vi.mock( "@apollo/server", () => {
 	return { ApolloServer: vi.fn().mockReturnValue( { start: vi.fn() } ) };
@@ -100,6 +100,7 @@ describe( "GraphQL Server", () => {
 		await graphQLServer.start();
 
 		expect( mockSchemaBuilder.buildSchema ).toHaveBeenCalledTimes( 0 );
+		expect( mockSchemaPublisher.publishSchema ).toHaveBeenCalledTimes( 0 );
 		expect( mockHttpAdapterHost.httpAdapter.getHttpServer ).toHaveBeenCalled();
 		expect( ApolloGateway ).toHaveBeenCalledWith(
 			expect.objectContaining( {
@@ -124,6 +125,7 @@ describe( "GraphQL Server", () => {
 		await graphQLServer.start();
 
 		expect( mockSchemaBuilder.buildSchema ).toHaveBeenCalledTimes( 1 );
+		expect( mockSchemaPublisher.publishSchema ).toHaveBeenCalledTimes( 1 );
 		expect( mockHttpAdapterHost.httpAdapter.getHttpServer ).toHaveBeenCalled();
 		expect( ApolloGateway ).toHaveBeenCalledTimes( 0 );
 		expect( ApolloServer ).toHaveBeenCalledWith(

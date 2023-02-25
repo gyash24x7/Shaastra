@@ -1,8 +1,8 @@
 import type { GraphQLDataSourceProcessOptions } from "@apollo/gateway";
-import { describe, expect, afterEach, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { mockDeep, mockReset } from "vitest-mock-extended";
-import { ServiceDataSource } from "../../src/graphql/service.datasource.js";
-import type { ServiceContext } from "../../src/index.js";
+import type { ServiceContext } from "../../src/graphql";
+import { ServiceDataSource } from "../../src/graphql/service.datasource";
 
 describe( "Service Data Source", () => {
 	const mockOptions = mockDeep<GraphQLDataSourceProcessOptions<ServiceContext>>();

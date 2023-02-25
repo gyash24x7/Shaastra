@@ -1,13 +1,17 @@
 import type { Ogma } from "@ogma/logger";
-import { describe, expect, it } from "vitest";
-import { mockDeep } from "vitest-mock-extended";
-import { LoggerService } from "../../src/logger/logger.service.js";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { DeepMockProxy, mockDeep, mockReset } from "vitest-mock-extended";
+import { LoggerService } from "../../src/logger/logger.service";
 
 describe( "Logger Service", () => {
-	const mockOgma = mockDeep<Ogma>();
+	let mockOgma: DeepMockProxy<Ogma>;
+
+	beforeEach( () => {
+		mockOgma = mockDeep<Ogma>();
+	} );
 
 	it( "should call log methods on base ogma logger", () => {
-		const loggerService = new LoggerService( mockOgma );
+		const loggerService = new LoggerService( mockOgma, "test" );
 
 		loggerService.log( "Test Log: %o", { key: "value" } );
 		expect( mockOgma.info ).toHaveBeenCalled();
@@ -32,9 +36,13 @@ describe( "Logger Service", () => {
 	} );
 
 	it( "should set context in ogma if scope is provided", () => {
-		const loggerService = new LoggerService( mockOgma, "MockScope" );
+		const loggerService = new LoggerService( mockOgma, "test", "MockScope" );
 
 		loggerService.log( "Some Message" );
-		expect( mockOgma.info ).toHaveBeenCalledWith( "Some Message", { context: "MockScope" } );
+		expect( mockOgma.info ).toHaveBeenCalledWith( "Some Message", { context: "MockScope", application: "test" } );
+	} );
+
+	afterEach( () => {
+		mockReset( mockOgma );
 	} );
 } );

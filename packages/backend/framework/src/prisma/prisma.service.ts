@@ -1,8 +1,8 @@
 import { INestApplicationContext, Inject, Injectable } from "@nestjs/common";
-import { LoggerFactory } from "../logger/index.js";
-import { PRISMA_CLIENT } from "./prisma.decorator.js";
-import { prismaLoggingMiddleware } from "./prisma.middleware.js";
-import type { PrismaClientLike } from "./prisma.types.js";
+import { LoggerFactory } from "../logger";
+import { PRISMA_CLIENT } from "./prisma.decorator";
+import { prismaLoggingMiddleware } from "./prisma.middleware";
+import type { PrismaClientLike } from "./prisma.types";
 
 @Injectable()
 export class PrismaService<P extends PrismaClientLike = any> {

@@ -1,5 +1,5 @@
-import type { LoggerService } from "../logger/logger.service.js";
-import type { PrismaMiddleware } from "./prisma.types.js";
+import type { LoggerService } from "../logger/logger.service";
+import type { PrismaMiddleware } from "./prisma.types";
 
 export function prismaLoggingMiddleware( logger: LoggerService ): PrismaMiddleware {
 	return async ( params, next ) => {

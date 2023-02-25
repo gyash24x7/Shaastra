@@ -3,7 +3,7 @@ import type { ExpressContextFunctionArgument } from "@apollo/server/express4";
 import type { Type } from "@nestjs/common";
 import type { GraphQLResolveInfo } from "graphql";
 import type { IRule } from "graphql-shield";
-import type { UserAuthInfo } from "../auth/index.js";
+import type { UserAuthInfo } from "../auth/auth.types";
 
 export type ServiceContext = ExpressContextFunctionArgument & { authInfo?: UserAuthInfo; }
 

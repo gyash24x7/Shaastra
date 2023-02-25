@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Flex, { FlexProps } from "./flex.js";
+import Flex, { FlexProps } from "./flex";
 
 const meta: Meta<FlexProps> = {
 	component: Flex,

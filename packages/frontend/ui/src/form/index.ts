@@ -1,8 +1,8 @@
-import Field from "./field.js";
-import Form from "./form.js";
+import Field from "./field";
+import Form from "./form";
 
 export default Form;
 export { Field };
-export * from "./field.js";
-export * from "./form.js";
-export * from "./validations.js";
+export * from "./field";
+export * from "./form";
+export * from "./validations";

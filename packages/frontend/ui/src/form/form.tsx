@@ -1,11 +1,11 @@
-import { useState, FormEvent } from "react";
-import type { ButtonProps } from "../button/index.js";
-import { Button } from "../index.js";
-import { VStack } from "../stack/index.js";
-import type { FieldOf, FieldRenderFn, FieldValueOf } from "./field.js";
-import Field from "./field.js";
-import type { ValidatorFn } from "./validations.js";
-import { validate } from "./validations.js";
+import { FormEvent, useState } from "react";
+import { Button } from "..";
+import type { ButtonProps } from "../button";
+import { VStack } from "../stack";
+import type { FieldOf, FieldRenderFn, FieldValueOf } from "./field";
+import Field from "./field";
+import type { ValidatorFn } from "./validations";
+import { validate } from "./validations";
 
 type FieldData<P, V = any> = Record<FieldOf<P>, V>;
 

@@ -1,5 +1,5 @@
-import type { User } from "./entities.js";
-import type { MemberPosition, Department } from "./enums.js";
+import type { User } from "./entities";
+import type { Department, MemberPosition } from "./enums";
 
 export type CreateMemberMutationData = {
 	createMember: {

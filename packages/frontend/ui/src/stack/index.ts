@@ -1,7 +1,7 @@
-import HStack from "./h-stack.js";
-import VStack from "./v-stack.js";
+import HStack from "./h-stack";
+import VStack from "./v-stack";
 
 export { HStack, VStack };
 
-export * from "./h-stack.js";
-export * from "./v-stack.js";
+export * from "./h-stack";
+export * from "./v-stack";

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { If, Then, Else } from "react-if";
-import Spinner from "../spinner/spinner.js";
-import HStack from "../stack/h-stack.js";
+import { Else, If, Then } from "react-if";
+import Spinner from "../spinner/spinner";
+import HStack from "../stack/h-stack";
 import type { Appearance, RenderIcon } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
 

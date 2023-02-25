@@ -1,6 +1,6 @@
-import { useMemo, ReactNode } from "react";
-import type { Size } from "../utils/types.js";
-import { VariantSchema } from "../utils/variant.js";
+import { ReactNode, useMemo } from "react";
+import type { Size } from "../utils/types";
+import { VariantSchema } from "../utils/variant";
 
 export interface VStackProps {
 	spacing?: Size;

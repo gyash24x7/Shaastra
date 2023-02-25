@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import Avatar from "../avatar/avatar.js";
-import SingleSelect, { SingleSelectProps } from "./single-select.js";
+import Avatar from "../avatar/avatar";
+import SingleSelect, { SingleSelectProps } from "./single-select";
 
 const meta: Meta<SingleSelectProps<string>> = { component: SingleSelect, title: "Single Select" };
 

@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { useMemo, Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import { When } from "react-if";
-import { VariantSchema } from "../utils/variant.js";
+import { VariantSchema } from "../utils/variant";
 
 export interface ModalProps {
 	isOpen: boolean;

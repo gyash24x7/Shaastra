@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import { If, Then, Else } from "react-if";
-import type { Size } from "../utils/types.js";
-import { VariantSchema } from "../utils/variant.js";
+import { Else, If, Then } from "react-if";
+import { type Size, VariantSchema } from "../utils";
 
 export interface AvatarProps {
 	size?: Size;

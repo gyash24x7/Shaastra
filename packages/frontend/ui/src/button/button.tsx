@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { If, Else, Then, When } from "react-if";
-import Spinner from "../spinner/spinner.js";
-import type { Appearance, Size, RenderIcon } from "../utils/types";
+import { Else, If, Then, When } from "react-if";
+import Spinner from "../spinner/spinner";
+import type { Appearance, RenderIcon, Size } from "../utils/types";
 import { VariantSchema } from "../utils/variant";
 
 export interface ButtonProps {

@@ -1,4 +1,4 @@
-import Banner from "./banner.js";
+import Banner from "./banner";
 
 export default Banner;
-export * from "./banner.js";
+export * from "./banner";

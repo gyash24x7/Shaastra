@@ -1,4 +1,4 @@
-import type { Department, ChannelType } from "./enums.js";
+import type { ChannelType, Department } from "./enums";
 
 export type CreateMemberInput = {
 	name: string;

@@ -1,6 +1,6 @@
 import { RadioGroup } from "@headlessui/react";
-import HStack from "../stack/h-stack.js";
-import { VariantSchema } from "../utils/variant.js";
+import HStack from "../stack/h-stack";
+import { VariantSchema } from "../utils/variant";
 
 export interface SingleSelectProps<T> {
 	value: T;

@@ -1,7 +1,7 @@
-import { ExclamationCircleIcon } from "@heroicons/react/24/solid/index.js";
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import type { Meta, StoryObj } from "@storybook/react";
-import type { Appearance, RenderIconProps } from "../utils/index.js";
-import Banner, { BannerProps } from "./banner.js";
+import type { Appearance, RenderIconProps } from "../utils";
+import Banner, { BannerProps } from "./banner";
 
 const meta: Meta<BannerProps> = {
 	component: Banner,

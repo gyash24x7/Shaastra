@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type { Appearance } from "../utils/index.js";
-import TextArea, { TextAreaProps } from "./text-area.js";
+import type { Appearance } from "../utils";
+import TextArea, { TextAreaProps } from "./text-area";
 
 const meta: Meta<TextAreaProps> = {
 	component: TextArea,

@@ -1,9 +1,9 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { ChevronUpDownIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { Fragment } from "react";
 import { When } from "react-if";
-import { VariantSchema } from "../utils/variant.js";
-import InputMessage from "./input-message.js";
+import { VariantSchema } from "../utils/variant";
+import InputMessage from "./input-message";
 
 export type SelectOption<T = any> = { label: string, value: T };
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import HStack, { HStackProps } from "./h-stack.js";
+import HStack, { HStackProps } from "./h-stack";
 
 const meta: Meta<HStackProps> = {
 	component: HStack,

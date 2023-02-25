@@ -1,7 +1,7 @@
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { useMemo } from "react";
-import { When, Then } from "react-if";
-import { VariantSchema } from "../utils/variant.js";
+import { Then, When } from "react-if";
+import { VariantSchema } from "../utils/variant";
 
 export interface InputMessageProps {
 	appearance?: "default" | "danger" | "success";

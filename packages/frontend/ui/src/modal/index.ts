@@ -1,4 +1,4 @@
-import Modal from "./modal.js";
+import Modal from "./modal";
 
 export default Modal;
-export * from "./modal.js";
+export * from "./modal";

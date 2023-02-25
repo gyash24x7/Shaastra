@@ -1,6 +1,6 @@
-import HStack from "../stack/h-stack.js";
-import { VariantSchema } from "../utils/variant.js";
-import type { SelectOption } from "./list-select.js";
+import HStack from "../stack/h-stack";
+import { VariantSchema } from "../utils/variant";
+import type { SelectOption } from "./list-select";
 
 export interface MultiSelectProps<T> {
 	values: SelectOption<T>[];

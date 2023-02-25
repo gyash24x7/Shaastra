@@ -1,6 +1,6 @@
-import { useMemo, ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { When } from "react-if";
-import { VariantSchema } from "../utils/variant.js";
+import { VariantSchema } from "../utils/variant";
 
 export interface CardProps {
 	title?: string;

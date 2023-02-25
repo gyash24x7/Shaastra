@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Button from "../button/index.js";
-import { TextInput } from "../input/index.js";
-import Form, { FormProps } from "./form.js";
+import Button from "../button";
+import { TextInput } from "../input";
+import Form, { FormProps } from "./form";
 
 interface DemoFormData {
 	name: string;

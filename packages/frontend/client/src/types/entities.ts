@@ -1,4 +1,4 @@
-import type { Department, MemberPosition, ChannelType } from "./enums.js";
+import type { ChannelType, Department, MemberPosition } from "./enums";
 
 export type Channel = {
 	id: string;

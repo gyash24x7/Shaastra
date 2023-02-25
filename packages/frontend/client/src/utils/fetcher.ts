@@ -1,4 +1,4 @@
-import superagent, { ResponseError, Response } from "superagent";
+import superagent, { Response, ResponseError } from "superagent";
 
 const BASE_URL = "http://localhost:9000/api/";
 

@@ -1,6 +1,6 @@
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import type { MeQueryData } from "../types/index.js";
-import { gqlFetcher } from "../utils/index.js";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import type { MeQueryData } from "../types";
+import { gqlFetcher } from "../utils";
 
 const query = `
 	query me {

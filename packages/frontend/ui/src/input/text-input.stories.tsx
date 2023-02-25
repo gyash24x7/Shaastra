@@ -1,7 +1,7 @@
-import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
+import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/solid";
 import type { Meta, StoryObj } from "@storybook/react";
-import type { Appearance } from "../utils/index.js";
-import TextInput, { TextInputProps } from "./text-input.js";
+import type { Appearance } from "../utils";
+import TextInput, { TextInputProps } from "./text-input";
 
 const meta: Meta<TextInputProps> = {
 	component: TextInput,

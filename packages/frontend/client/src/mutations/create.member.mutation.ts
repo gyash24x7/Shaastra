@@ -1,7 +1,6 @@
-import { UseMutationOptions, useMutation } from "@tanstack/react-query";
-import type { CreateMemberMutationData } from "../types/index.js";
-import type { CreateMemberInput } from "../types/inputs.js";
-import { gqlFetcher } from "../utils/fetcher.js";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import type { CreateMemberInput, CreateMemberMutationData } from "../types";
+import { gqlFetcher } from "../utils";
 
 export const query = `
     mutation createMember(

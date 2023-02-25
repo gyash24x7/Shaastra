@@ -1,4 +1,4 @@
-import Card from "./card.js";
+import Card from "./card";
 
 export default Card;
-export * from "./card.js";
+export * from "./card";

@@ -2,8 +2,8 @@ import { LoggerFactory } from "@app/framework/logger";
 import { Prisma, PrismaService } from "@app/framework/prisma";
 import { ConflictException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommand, ICommandHandler } from "@nestjs/cqrs";
+import type { PrismaClient } from "@prisma/client/gateway";
 import bcrypt from "bcryptjs";
-import type { PrismaClient } from "../../prisma/generated";
 import { UserMessages } from "../constants";
 import { UserCreatedEvent } from "../events";
 

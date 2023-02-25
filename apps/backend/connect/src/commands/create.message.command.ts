@@ -3,7 +3,7 @@ import { LoggerFactory } from "@app/framework/logger";
 import { Prisma, PrismaService } from "@app/framework/prisma";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Message, PrismaClient } from "../../prisma/generated";
+import type { Message, PrismaClient } from "@prisma/client/connect";
 import { MessageCreatedEvent } from "../events";
 
 export type CreateMessageInput = {

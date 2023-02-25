@@ -4,7 +4,7 @@ import { Prisma, PrismaService } from "@app/framework/prisma";
 import { ConflictException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Channel, ChannelType, PrismaClient } from "../../prisma/generated";
+import type { Channel, ChannelType, PrismaClient } from "@prisma/client/connect";
 import { ChannelMessages } from "../constants";
 import { ChannelCreatedEvent } from "../events";
 

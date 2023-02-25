@@ -1,7 +1,7 @@
 import type { PrismaService } from "@app/framework/prisma";
+import type { PrismaClient, Token } from "@prisma/client/gateway";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import type { PrismaClient, Token } from "../../prisma/generated";
 import { CreateTokenCommandHandler } from "../../src/commands";
 
 describe( "Create Token Command Handler", () => {

@@ -1,8 +1,8 @@
 import type { GraphQLResolverParams } from "@app/framework/graphql";
 import type { QueryBus } from "@nestjs/cqrs";
+import { Channel, ChannelType, Message } from "@prisma/client/connect";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import { Channel, ChannelType, Message } from "../../prisma/generated";
 import { ChannelQuery, MessageQuery } from "../../src/queries";
 import { MessageResolvers } from "../../src/resolvers";
 

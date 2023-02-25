@@ -1,9 +1,9 @@
 import type { PrismaService } from "@app/framework/prisma";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import type { EventBus } from "@nestjs/cqrs";
+import type { PrismaClient, User } from "@prisma/client/gateway";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { PrismaClient, User } from "../../prisma/generated";
 import type { CreateUserInput } from "../../src/commands";
 import { CreateUserCommandHandler } from "../../src/commands";
 import { UserMessages } from "../../src/constants";

@@ -1,8 +1,8 @@
 import type { PrismaService } from "@app/framework/prisma";
+import type { PrismaClient, User } from "@prisma/client/gateway";
 import bcrypt from "bcryptjs";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import type { PrismaClient, User } from "../../prisma/generated";
 import { UserQueryHandler } from "../../src/queries";
 
 describe( "User Query Handler", () => {

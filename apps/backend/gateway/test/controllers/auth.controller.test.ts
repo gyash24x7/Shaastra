@@ -1,11 +1,11 @@
 import type { JwtService } from "@app/framework/auth";
 import type { CommandBus } from "@nestjs/cqrs";
+import type { User } from "@prisma/client/gateway";
 import bcrypt from "bcryptjs";
 import type { Response } from "express";
 import { generateKeyPair } from "jose";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { User } from "../../prisma/generated";
 import { LoginCommand, LoginInput, VerifyUserCommand, VerifyUserInput } from "../../src/commands";
 import { accessTokenCookieOptions, AuthController } from "../../src/controllers";
 

@@ -1,7 +1,7 @@
 import type { PrismaService } from "@app/framework/prisma";
+import { Channel, ChannelType, Message, PrismaClient } from "@prisma/client/connect";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { Channel, ChannelType, Message, PrismaClient } from "../../prisma/generated";
 import { MessagesQuery, MessagesQueryHandler } from "../../src/queries";
 
 describe( "Messages Query Handler", () => {

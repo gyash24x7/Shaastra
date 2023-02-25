@@ -1,8 +1,8 @@
 import type { CommandBus } from "@nestjs/cqrs";
+import type { Token, User } from "@prisma/client/gateway";
 import dayjs from "dayjs";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import type { Token, User } from "../../prisma/generated";
 import { CreateTokenCommand } from "../../src/commands";
 import { UserCreatedEventHandler } from "../../src/events";
 

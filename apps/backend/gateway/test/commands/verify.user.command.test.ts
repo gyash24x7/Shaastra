@@ -1,10 +1,10 @@
 import type { PrismaService } from "@app/framework/prisma";
 import { HttpException, HttpStatus } from "@nestjs/common";
+import type { PrismaClient, Token, User } from "@prisma/client/gateway";
 import bcrypt from "bcryptjs";
 import dayjs from "dayjs";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { PrismaClient, Token, User } from "../../prisma/generated";
 import { VerifyUserCommandHandler, VerifyUserInput } from "../../src/commands";
 import { TokenMessages, UserMessages } from "../../src/constants";
 

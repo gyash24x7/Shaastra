@@ -1,9 +1,9 @@
 import type { UserAuthInfo } from "@app/framework/auth";
 import type { GraphQLResolverParams } from "@app/framework/graphql";
 import type { QueryBus } from "@nestjs/cqrs";
+import type { Message } from "@prisma/client/connect";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { Message } from "../../prisma/generated";
 import { MessagesQuery } from "../../src/queries";
 import { QueryResolvers } from "../../src/resolvers";
 

@@ -1,9 +1,9 @@
 import type { PrismaService } from "@app/framework/prisma";
 import type { EventBus } from "@nestjs/cqrs";
+import type { PrismaClient } from "@prisma/client/workforce";
+import { Department, Member, MemberPosition } from "@prisma/client/workforce";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { PrismaClient } from "../../prisma/generated";
-import { Department, Member, MemberPosition } from "../../prisma/generated";
 import { EnableMemberCommand, EnableMemberCommandHandler, type EnableMemberInput } from "../../src/commands";
 import { MemberEnabledEvent } from "../../src/events";
 

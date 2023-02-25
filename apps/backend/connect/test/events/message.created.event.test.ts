@@ -1,7 +1,7 @@
 import type { ClientRedis } from "@nestjs/microservices";
+import type { Message } from "@prisma/client/connect";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import type { Message } from "../../prisma/generated";
 import { OutboundEvents } from "../../src/constants";
 import { MessageCreatedEvent, MessageCreatedEventHandler } from "../../src/events";
 

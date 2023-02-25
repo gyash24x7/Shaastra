@@ -1,7 +1,7 @@
 import { FieldResolver, GraphQLResolverParams, Resolver, ResolveReference } from "@app/framework/graphql";
 import { LoggerFactory } from "@app/framework/logger";
 import { QueryBus } from "@nestjs/cqrs";
-import type { Member, Team } from "../../prisma/generated";
+import type { Member, Team } from "@prisma/client/workforce";
 import { MemberQuery, TeamsQuery } from "../queries";
 
 @Resolver( "Member" )

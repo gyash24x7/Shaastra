@@ -3,8 +3,8 @@ import { LoggerFactory } from "@app/framework/logger";
 import { Prisma, PrismaService } from "@app/framework/prisma";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
+import type { PrismaClient, User } from "@prisma/client/gateway";
 import bcrypt from "bcryptjs";
-import type { PrismaClient, User } from "../../prisma/generated";
 import { UserMessages } from "../constants";
 
 export class LoginInput {

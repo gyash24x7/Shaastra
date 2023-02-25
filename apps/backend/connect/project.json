@@ -37,8 +37,7 @@
 				"outputPath": "apps/backend/connect/dist",
 				"main": "apps/backend/connect/src/main.ts",
 				"tsConfig": "apps/backend/connect/tsconfig.build.json",
-				"assets": [ "apps/backend/connect/src/assets" ],
-				"generatePackageJson": true
+				"assets": [ "apps/backend/connect/src/assets" ]
 			},
 			"configurations": {
 				"production": {

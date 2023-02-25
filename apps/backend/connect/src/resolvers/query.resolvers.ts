@@ -1,7 +1,7 @@
 import { GraphQLResolverParams, Query, Resolver } from "@app/framework/graphql";
 import { LoggerFactory } from "@app/framework/logger";
 import { QueryBus } from "@nestjs/cqrs";
-import type { Channel, Message } from "../../prisma/generated";
+import type { Channel, Message } from "@prisma/client/connect";
 import { MessagesQuery } from "../queries";
 
 @Resolver( "Query" )

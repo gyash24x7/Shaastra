@@ -2,7 +2,7 @@ import { isAuthenticated } from "@app/framework/auth";
 import { GraphQLResolverParams, GraphQLShield, Query, Resolver } from "@app/framework/graphql";
 import { LoggerFactory } from "@app/framework/logger";
 import { QueryBus } from "@nestjs/cqrs";
-import type { Member } from "../../prisma/generated";
+import type { Member } from "@prisma/client/workforce";
 import { MemberQuery } from "../queries";
 
 @Resolver( "Query" )

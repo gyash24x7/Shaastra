@@ -3,8 +3,8 @@ import { Prisma, PrismaService } from "@app/framework/prisma";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
+import type { PrismaClient, User } from "@prisma/client/gateway";
 import dayjs from "dayjs";
-import type { PrismaClient, User } from "../../prisma/generated";
 import { TokenMessages, UserMessages } from "../constants";
 
 export class VerifyUserInput {

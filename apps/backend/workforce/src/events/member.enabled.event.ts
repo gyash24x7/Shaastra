@@ -4,7 +4,7 @@ import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { EventsHandler } from "@nestjs/cqrs";
 import { ClientProxy } from "@nestjs/microservices";
 
-import type { Member } from "../../prisma/generated";
+import type { Member } from "@prisma/client/workforce";
 import { OutboundEvents } from "../constants";
 
 export class MemberEnabledEvent implements IEvent {

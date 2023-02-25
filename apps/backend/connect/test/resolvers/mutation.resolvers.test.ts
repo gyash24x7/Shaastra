@@ -1,9 +1,9 @@
 import type { UserAuthInfo } from "@app/framework/auth";
 import type { GraphQLResolverParams } from "@app/framework/graphql";
 import type { CommandBus } from "@nestjs/cqrs";
+import { Channel, ChannelType, Message } from "@prisma/client/connect";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import { Channel, ChannelType, Message } from "../../prisma/generated";
 import { CreateChannelCommand, CreateChannelInput, CreateMessageCommand, CreateMessageInput } from "../../src/commands";
 import { MutationResolvers } from "../../src/resolvers";
 

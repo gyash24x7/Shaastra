@@ -4,7 +4,7 @@ import { Prisma, PrismaService } from "@app/framework/prisma";
 import { ConflictException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Department, Member, PrismaClient, Team } from "../../prisma/generated";
+import type { Department, Member, PrismaClient, Team } from "@prisma/client/workforce";
 import { TeamMessages } from "../constants";
 import { TeamCreatedEvent } from "../events";
 

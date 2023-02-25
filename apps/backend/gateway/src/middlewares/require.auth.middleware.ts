@@ -3,8 +3,8 @@ import { LoggerFactory } from "@app/framework/logger";
 import type { NestMiddleware } from "@nestjs/common";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
+import type { User } from "@prisma/client/gateway";
 import type { NextFunction, Request, Response } from "express";
-import type { User } from "../../prisma/generated";
 import { UserQuery } from "../queries";
 
 @Injectable()

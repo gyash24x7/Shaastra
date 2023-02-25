@@ -6,7 +6,7 @@ import { PrismaModule as BasePrismaModule } from "@app/framework/prisma";
 import { RedisClientModule } from "@app/framework/redis";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { PrismaClient } from "../prisma/generated";
+import { PrismaClient } from "@prisma/client/connect";
 import commandHandlers from "./commands";
 import eventHandlers from "./events";
 import queryHandlers from "./queries";

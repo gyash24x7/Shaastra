@@ -4,8 +4,8 @@ import { RedisClient } from "@app/framework/redis";
 import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { EventsHandler } from "@nestjs/cqrs";
 import { ClientProxy } from "@nestjs/microservices";
-import type { PrismaClient } from "../../prisma/generated";
-import { type Member, MemberPosition } from "../../prisma/generated";
+import type { PrismaClient } from "@prisma/client/workforce";
+import { type Member, MemberPosition } from "@prisma/client/workforce";
 import { OutboundEvents } from "../constants";
 
 export class MemberCreatedEvent implements IEvent {

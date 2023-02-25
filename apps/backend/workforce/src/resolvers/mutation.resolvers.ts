@@ -1,7 +1,7 @@
 import { GraphQLResolverParams, Mutation, Resolver } from "@app/framework/graphql";
 import { LoggerFactory } from "@app/framework/logger";
 import { CommandBus } from "@nestjs/cqrs";
-import type { Member, Team } from "../../prisma/generated";
+import type { Member, Team } from "@prisma/client/workforce";
 import {
 	CreateMemberCommand,
 	CreateMemberInput,

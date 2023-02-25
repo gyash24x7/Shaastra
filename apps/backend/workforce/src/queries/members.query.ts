@@ -2,7 +2,7 @@ import { LoggerFactory } from "@app/framework/logger";
 import { Prisma, PrismaService } from "@app/framework/prisma";
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
-import type { Member, PrismaClient } from "../../prisma/generated";
+import type { Member, PrismaClient } from "@prisma/client/workforce";
 
 export class MembersQuery implements IQuery {
 	constructor( public readonly teamId: string ) {}

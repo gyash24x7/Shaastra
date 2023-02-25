@@ -1,7 +1,7 @@
 import type { ClientRedis } from "@nestjs/microservices";
+import { Department, Member, MemberPosition } from "@prisma/client/workforce";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { Department, Member, MemberPosition } from "../../prisma/generated";
 import { OutboundEvents } from "../../src/constants";
 import { MemberEnabledEvent, MemberEnabledEventHandler } from "../../src/events";
 

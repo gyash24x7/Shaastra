@@ -1,10 +1,10 @@
 import type { JwtService } from "@app/framework/auth";
 import type { PrismaService } from "@app/framework/prisma";
 import { HttpException, HttpStatus } from "@nestjs/common";
+import type { PrismaClient, User } from "@prisma/client/gateway";
 import bcrypt from "bcryptjs";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { PrismaClient, User } from "../../prisma/generated";
 import type { LoginInput } from "../../src/commands";
 import { LoginCommandHandler } from "../../src/commands";
 import { UserMessages } from "../../src/constants";

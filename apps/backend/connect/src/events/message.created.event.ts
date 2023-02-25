@@ -3,7 +3,7 @@ import { RedisClient } from "@app/framework/redis";
 import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { EventsHandler } from "@nestjs/cqrs";
 import { ClientProxy } from "@nestjs/microservices";
-import type { Message } from "../../prisma/generated";
+import type { Message } from "@prisma/client/connect";
 import { OutboundEvents } from "../constants";
 
 export class MessageCreatedEvent implements IEvent {

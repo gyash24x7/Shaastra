@@ -1,8 +1,8 @@
 import type { GraphQLResolverParams } from "@app/framework/graphql";
 import type { QueryBus } from "@nestjs/cqrs";
+import { Department, Member, MemberPosition, Team } from "@prisma/client/workforce";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import { Department, Member, MemberPosition, Team } from "../../prisma/generated";
 import { MembersQuery, TeamQuery } from "../../src/queries";
 import { TeamResolvers } from "../../src/resolvers";
 

@@ -1,10 +1,10 @@
 import type { HttpException } from "@nestjs/common";
 import type { QueryBus } from "@nestjs/cqrs";
+import type { User } from "@prisma/client/gateway";
 import bcrypt from "bcryptjs";
 import type { Request, Response } from "express";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { User } from "../../prisma/generated";
 import { RequireAuthMiddleware } from "../../src/middlewares";
 import { UserQuery } from "../../src/queries";
 

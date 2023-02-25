@@ -2,7 +2,7 @@ import { LoggerFactory } from "@app/framework/logger";
 import { Prisma, PrismaService } from "@app/framework/prisma";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Member, PrismaClient } from "../../prisma/generated";
+import type { Member, PrismaClient } from "@prisma/client/workforce";
 import { MemberEnabledEvent } from "../events";
 
 export type EnableMemberInput = {

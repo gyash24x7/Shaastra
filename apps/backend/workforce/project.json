@@ -37,8 +37,7 @@
 				"outputPath": "apps/backend/workforce/dist",
 				"main": "apps/backend/workforce/src/main.ts",
 				"tsConfig": "apps/backend/workforce/tsconfig.build.json",
-				"assets": [ "apps/backend/workforce/src/assets" ],
-				"generatePackageJson": true
+				"assets": [ "apps/backend/workforce/src/assets" ]
 			},
 			"configurations": {
 				"production": {

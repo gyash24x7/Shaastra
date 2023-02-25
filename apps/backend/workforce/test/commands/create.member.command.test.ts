@@ -1,10 +1,10 @@
 import type { PrismaService } from "@app/framework/prisma";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import type { EventBus } from "@nestjs/cqrs";
+import type { Member, PrismaClient } from "@prisma/client/workforce";
+import { Department, MemberPosition } from "@prisma/client/workforce";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import type { Member, PrismaClient } from "../../prisma/generated";
-import { Department, MemberPosition } from "../../prisma/generated";
 import { CreateMemberCommand, CreateMemberCommandHandler, type CreateMemberInput } from "../../src/commands";
 import { MemberMessages } from "../../src/constants";
 import { MemberCreatedEvent } from "../../src/events";

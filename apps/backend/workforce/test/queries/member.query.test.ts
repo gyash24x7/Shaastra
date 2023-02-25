@@ -1,7 +1,7 @@
 import type { PrismaService } from "@app/framework/prisma";
+import { Department, Member, MemberPosition, PrismaClient } from "@prisma/client/workforce";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { Department, Member, MemberPosition, PrismaClient } from "../../prisma/generated";
 import { MemberQuery, MemberQueryHandler } from "../../src/queries";
 
 describe( "Member Query Handler", () => {

@@ -1,7 +1,7 @@
 import type { PrismaService } from "@app/framework/prisma";
+import { Department, Member, MemberPosition, PrismaClient, Team } from "@prisma/client/workforce";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { Department, Member, MemberPosition, PrismaClient, Team } from "../../prisma/generated";
 import { TeamsQuery, TeamsQueryHandler } from "../../src/queries";
 
 describe( "Teams Query Handler", () => {

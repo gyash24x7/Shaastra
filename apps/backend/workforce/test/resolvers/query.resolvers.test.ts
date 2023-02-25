@@ -1,9 +1,9 @@
 import type { UserAuthInfo } from "@app/framework/auth";
 import type { GraphQLResolverParams } from "@app/framework/graphql";
 import type { QueryBus } from "@nestjs/cqrs";
+import { Department, Member, MemberPosition } from "@prisma/client/workforce";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import { Department, Member, MemberPosition } from "../../prisma/generated";
 import { MemberQuery } from "../../src/queries";
 import { QueryResolvers } from "../../src/resolvers";
 

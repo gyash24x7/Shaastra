@@ -1,12 +1,13 @@
-import { HttpStatus, HttpException } from "@nestjs/common";
-import type { User, PrismaClient } from "@prisma/client/identity/index.js";
-import type { JwtService, PrismaService } from "@shaastra/framework";
+import type { JwtService } from "@app/framework/auth";
+import type { PrismaService } from "@app/framework/prisma";
+import { HttpException, HttpStatus } from "@nestjs/common";
 import bcrypt from "bcryptjs";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import type { LoginInput } from "../../src/commands/login.command.js";
-import { LoginCommandHandler } from "../../src/commands/login.command.js";
-import { UserMessages } from "../../src/constants/messages.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { PrismaClient, User } from "../../prisma/generated";
+import type { LoginInput } from "../../src/commands";
+import { LoginCommandHandler } from "../../src/commands";
+import { UserMessages } from "../../src/constants";
 
 describe( "Login Command Handler", () => {
 

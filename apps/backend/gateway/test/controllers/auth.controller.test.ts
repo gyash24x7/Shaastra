@@ -1,14 +1,13 @@
+import type { JwtService } from "@app/framework/auth";
 import type { CommandBus } from "@nestjs/cqrs";
-import type { User } from "@prisma/client/identity/index.js";
-import type { JwtService } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
 import type { Response } from "express";
 import { generateKeyPair } from "jose";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import { LoginCommand, LoginInput } from "../../src/commands/login.command.js";
-import { VerifyUserInput, VerifyUserCommand } from "../../src/commands/verify.user.command.js";
-import { AuthController, accessTokenCookieOptions } from "../../src/controllers/auth.controller.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { User } from "../../prisma/generated";
+import { LoginCommand, LoginInput, VerifyUserCommand, VerifyUserInput } from "../../src/commands";
+import { accessTokenCookieOptions, AuthController } from "../../src/controllers";
 
 describe( "Auth Controller", () => {
 	const mockJwtService = mockDeep<JwtService>();

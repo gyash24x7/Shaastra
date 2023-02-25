@@ -1,8 +1,8 @@
 import type { CommandBus } from "@nestjs/cqrs";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { CreateUserCommand } from "../../src/commands/create.user.command.js";
-import { InboundController, MemberCreatedInboundData } from "../../src/controllers/inbound.controller.js";
+import { CreateUserCommand } from "../../src/commands";
+import { InboundController, MemberCreatedInboundData } from "../../src/controllers";
 
 describe( "Inbound Controller", () => {
 	const mockCommandBus = mockDeep<CommandBus>();

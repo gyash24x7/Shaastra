@@ -2,15 +2,15 @@ import type { MiddlewareConsumer } from "@nestjs/common";
 import type { MiddlewareConfigProxy } from "@nestjs/common/interfaces";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { AppModule } from "../src/app.module.js";
+import { AppModule } from "../src/app.module";
 
 describe( "App Module", () => {
 
-	const mockMiddlwareConfigProxy = mockDeep<MiddlewareConfigProxy>();
+	const mockMiddlewareConfigProxy = mockDeep<MiddlewareConfigProxy>();
 	const mockMiddlewareConsumer = mockDeep<MiddlewareConsumer>();
 
 	it( "should apply all the middlewares", () => {
-		mockMiddlewareConsumer.apply.mockReturnValue( mockMiddlwareConfigProxy );
+		mockMiddlewareConsumer.apply.mockReturnValue( mockMiddlewareConfigProxy );
 		const appModule = new AppModule();
 
 		appModule.configure( mockMiddlewareConsumer );
@@ -20,8 +20,8 @@ describe( "App Module", () => {
 			.toHaveBeenNthCalledWith( 1, expect.any( Function ), expect.any( Function ) );
 		expect( mockMiddlewareConsumer.apply ).toHaveBeenNthCalledWith( 2, expect.any( Function ) );
 
-		expect( mockMiddlwareConfigProxy.forRoutes ).toHaveBeenCalledTimes( 2 );
-		expect( mockMiddlwareConfigProxy.forRoutes ).toHaveBeenNthCalledWith( 1, "*" );
-		expect( mockMiddlwareConfigProxy.forRoutes ).toHaveBeenNthCalledWith( 2, "/api/auth/logout" );
+		expect( mockMiddlewareConfigProxy.forRoutes ).toHaveBeenCalledTimes( 2 );
+		expect( mockMiddlewareConfigProxy.forRoutes ).toHaveBeenNthCalledWith( 1, "*" );
+		expect( mockMiddlewareConfigProxy.forRoutes ).toHaveBeenNthCalledWith( 2, "/api/auth/logout" );
 	} );
 } );

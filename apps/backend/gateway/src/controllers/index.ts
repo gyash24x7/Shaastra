@@ -1,10 +1,10 @@
-import { AuthController } from "./auth.controller.js";
-import { GraphQLController } from "./graphql.controller.js";
-import { InboundController } from "./inbound.controller.js";
+import { AuthController } from "./auth.controller";
+import { GraphQLController } from "./graphql.controller";
+import { InboundController } from "./inbound.controller";
 
-export * from "./auth.controller.js";
-export * from "./graphql.controller.js";
-export * from "./inbound.controller.js";
+export * from "./auth.controller";
+export * from "./graphql.controller";
+export * from "./inbound.controller";
 
 const controllers = [ AuthController, GraphQLController, InboundController ];
 export default controllers;

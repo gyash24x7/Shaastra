@@ -1,10 +1,10 @@
 import type { CommandBus } from "@nestjs/cqrs";
-import type { Token, User } from "@prisma/client/identity/index.js";
 import dayjs from "dayjs";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { CreateTokenCommand } from "../../src/commands/create.token.command.js";
-import { UserCreatedEventHandler } from "../../src/events/user.created.event.js";
+import type { Token, User } from "../../prisma/generated";
+import { CreateTokenCommand } from "../../src/commands";
+import { UserCreatedEventHandler } from "../../src/events";
 
 describe( "User Created Event Handler", () => {
 	const mockCommandBus = mockDeep<CommandBus>();

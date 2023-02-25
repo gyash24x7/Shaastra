@@ -1,8 +1,8 @@
-import type { Token, PrismaClient } from "@prisma/client/identity/index.js";
-import type { PrismaService } from "@shaastra/framework";
-import { describe, it, expect } from "vitest";
+import type { PrismaService } from "@app/framework/prisma";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { CreateTokenCommandHandler } from "../../src/commands/create.token.command.js";
+import type { PrismaClient, Token } from "../../prisma/generated";
+import { CreateTokenCommandHandler } from "../../src/commands";
 
 describe( "Create Token Command Handler", () => {
 

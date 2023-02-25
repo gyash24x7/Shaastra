@@ -1,27 +1,27 @@
 generator client {
-    provider = "prisma-client-js"
-    output   = "../node_modules/@prisma/client/identity"
+	provider = "prisma-client-js"
+	output   = "./generated"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("GATEWAY_DB_URL")
+	provider = "postgresql"
+	url      = env("GATEWAY_DB_URL")
 }
 
 model User {
-    id       String   @id @default(cuid())
-    name     String
-    email    String   @unique
-    username String   @unique
-    password String
-    verified Boolean  @default(false)
-    roles    String[]
+	id       String   @id @default(cuid())
+	name     String
+	email    String   @unique
+	username String   @unique
+	password String
+	verified Boolean  @default(false)
+	roles    String[]
 }
 
 model Token {
-    id        String   @id @default(cuid())
-    hash      String
-    userId    String
-    expiry    DateTime
-    createdAt DateTime @default(now())
+	id        String   @id @default(cuid())
+	hash      String
+	userId    String
+	expiry    DateTime
+	createdAt DateTime @default(now())
 }

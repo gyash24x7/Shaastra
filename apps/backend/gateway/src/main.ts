@@ -1,4 +1,4 @@
-import { bootstrap } from "@shaastra/framework";
-import { AppModule } from "./app.module.js";
+import { bootstrap } from "@app/framework/utils";
+import { AppModule } from "./app.module";
 
-await bootstrap( AppModule );
+bootstrap( AppModule, "gateway" ).then();

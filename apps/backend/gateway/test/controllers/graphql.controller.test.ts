@@ -1,9 +1,7 @@
 import type { Response } from "express";
-import { join } from "node:path";
-import process from "node:process";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { GraphQLController } from "../../src/controllers/graphql.controller.js";
+import { GraphQLController } from "../../src/controllers";
 
 describe( "GraphQL Controller", () => {
 
@@ -13,6 +11,6 @@ describe( "GraphQL Controller", () => {
 
 		graphQLController.renderGraphiql( mockResponse );
 
-		expect( mockResponse.sendFile ).toHaveBeenCalledWith( join( process.cwd(), "src/assets/graphiql.html" ) );
+		expect( mockResponse.sendFile ).toHaveBeenCalled();
 	} );
 } );

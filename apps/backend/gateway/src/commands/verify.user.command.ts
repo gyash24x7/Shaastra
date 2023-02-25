@@ -1,10 +1,11 @@
+import { LoggerFactory } from "@app/framework/logger";
+import { Prisma, PrismaService } from "@app/framework/prisma";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
-import type { PrismaClient, User } from "@prisma/client/identity/index.js";
-import { LoggerFactory, Prisma, PrismaService } from "@shaastra/framework";
 import dayjs from "dayjs";
-import { TokenMessages, UserMessages } from "../constants/messages.js";
+import type { PrismaClient, User } from "../../prisma/generated";
+import { TokenMessages, UserMessages } from "../constants";
 
 export class VerifyUserInput {
 	userId: string;

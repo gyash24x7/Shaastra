@@ -1,9 +1,10 @@
+import { LoggerFactory } from "@app/framework/logger";
+import { Prisma, PrismaService } from "@app/framework/prisma";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler } from "@nestjs/cqrs";
-import type { PrismaClient, Token } from "@prisma/client/identity/index.js";
-import { PrismaService, Prisma, LoggerFactory } from "@shaastra/framework";
 import crypto from "crypto";
 import dayjs from "dayjs";
+import type { PrismaClient, Token } from "../../prisma/generated";
 
 export type CreateTokenInput = { userId: string };
 

@@ -1,9 +1,11 @@
+import { JwtService } from "@app/framework/auth";
+import { LoggerFactory } from "@app/framework/logger";
+import { Prisma, PrismaService } from "@app/framework/prisma";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { CommandHandler, ICommand, ICommandHandler } from "@nestjs/cqrs";
-import type { PrismaClient, User } from "@prisma/client/identity/index.js";
-import { JwtService, LoggerFactory, Prisma, PrismaService } from "@shaastra/framework";
 import bcrypt from "bcryptjs";
-import { UserMessages } from "../constants/messages.js";
+import type { PrismaClient, User } from "../../prisma/generated";
+import { UserMessages } from "../constants";
 
 export class LoginInput {
 	username: string;

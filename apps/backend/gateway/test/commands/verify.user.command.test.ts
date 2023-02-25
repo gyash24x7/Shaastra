@@ -1,12 +1,12 @@
-import { HttpStatus, HttpException } from "@nestjs/common";
-import type { User, Token, PrismaClient } from "@prisma/client/identity/index.js";
-import type { PrismaService } from "@shaastra/framework";
+import type { PrismaService } from "@app/framework/prisma";
+import { HttpException, HttpStatus } from "@nestjs/common";
 import bcrypt from "bcryptjs";
 import dayjs from "dayjs";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import { VerifyUserCommandHandler, VerifyUserInput } from "../../src/commands/verify.user.command.js";
-import { TokenMessages, UserMessages } from "../../src/constants/messages.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { PrismaClient, Token, User } from "../../prisma/generated";
+import { VerifyUserCommandHandler, VerifyUserInput } from "../../src/commands";
+import { TokenMessages, UserMessages } from "../../src/constants";
 
 describe( "Verify User Command Handler", () => {
 

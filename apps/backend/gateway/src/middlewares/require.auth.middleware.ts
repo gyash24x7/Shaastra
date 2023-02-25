@@ -1,10 +1,11 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import { LoggerFactory } from "@app/framework/logger";
 import type { NestMiddleware } from "@nestjs/common";
-import { UnauthorizedException, Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
-import type { User } from "@prisma/client/identity/index.js";
-import { UserAuthInfo, LoggerFactory } from "@shaastra/framework";
-import type { Request, Response, NextFunction } from "express";
-import { UserQuery } from "../queries/user.query.js";
+import type { NextFunction, Request, Response } from "express";
+import type { User } from "../../prisma/generated";
+import { UserQuery } from "../queries";
 
 @Injectable()
 export class RequireAuthMiddleware implements NestMiddleware {

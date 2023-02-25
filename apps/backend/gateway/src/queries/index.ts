@@ -1,6 +1,6 @@
-import { UserQueryHandler } from "./user.query.js";
+import { UserQueryHandler } from "./user.query";
 
-export * from "./user.query.js";
+export * from "./user.query";
 
 const queryHandlers = [ UserQueryHandler ];
 export default queryHandlers;

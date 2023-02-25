@@ -1,8 +1,8 @@
+import { LoggerFactory } from "@app/framework/logger";
 import type { IEvent, IEventHandler } from "@nestjs/cqrs";
 import { CommandBus, EventsHandler } from "@nestjs/cqrs";
-import type { Token, User } from "@prisma/client/identity/index.js";
-import { LoggerFactory } from "@shaastra/framework";
-import { CreateTokenCommand } from "../commands/create.token.command.js";
+import type { Token, User } from "../../prisma/generated";
+import { CreateTokenCommand } from "../commands";
 
 export class UserCreatedEvent implements IEvent {
 	constructor( public readonly data: User ) {}

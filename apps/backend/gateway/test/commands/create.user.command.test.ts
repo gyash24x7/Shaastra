@@ -1,13 +1,13 @@
-import { HttpStatus, HttpException } from "@nestjs/common";
+import type { PrismaService } from "@app/framework/prisma";
+import { HttpException, HttpStatus } from "@nestjs/common";
 import type { EventBus } from "@nestjs/cqrs";
-import type { User, PrismaClient } from "@prisma/client/identity/index.js";
-import type { PrismaService } from "@shaastra/framework";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import type { CreateUserInput } from "../../src/commands/create.user.command.js";
-import { CreateUserCommandHandler } from "../../src/commands/create.user.command.js";
-import { UserMessages } from "../../src/constants/messages.js";
-import { UserCreatedEvent } from "../../src/events/user.created.event.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { PrismaClient, User } from "../../prisma/generated";
+import type { CreateUserInput } from "../../src/commands";
+import { CreateUserCommandHandler } from "../../src/commands";
+import { UserMessages } from "../../src/constants";
+import { UserCreatedEvent } from "../../src/events";
 
 describe( "Create User Command Handler", () => {
 

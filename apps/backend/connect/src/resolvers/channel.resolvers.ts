@@ -1,14 +1,8 @@
+import { FieldResolver, GraphQLResolverParams, Resolver, ResolveReference } from "@app/framework/graphql";
+import { LoggerFactory } from "@app/framework/logger";
 import { QueryBus } from "@nestjs/cqrs";
-import type { Message, Channel } from "@prisma/client/connect/index.js";
-import {
-	FieldResolver,
-	type GraphQLResolverParams,
-	LoggerFactory,
-	Resolver,
-	ResolveReference
-} from "@shaastra/framework";
-import { ChannelQuery } from "../queries/channel.query.js";
-import { MessagesQuery } from "../queries/messages.query.js";
+import type { Channel, Message } from "../../prisma/generated";
+import { ChannelQuery, MessagesQuery } from "../queries";
 
 @Resolver( "Channel" )
 export class ChannelResolvers {

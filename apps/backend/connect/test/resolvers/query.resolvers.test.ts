@@ -1,10 +1,11 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import type { GraphQLResolverParams } from "@app/framework/graphql";
 import type { QueryBus } from "@nestjs/cqrs";
-import type { Message } from "@prisma/client/connect/index.js";
-import type { UserAuthInfo, GraphQLResolverParams } from "@shaastra/framework";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import { MessagesQuery } from "../../src/queries/index.js";
-import { QueryResolvers } from "../../src/resolvers/index.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { Message } from "../../prisma/generated";
+import { MessagesQuery } from "../../src/queries";
+import { QueryResolvers } from "../../src/resolvers";
 
 describe( "Query Resolvers", () => {
 

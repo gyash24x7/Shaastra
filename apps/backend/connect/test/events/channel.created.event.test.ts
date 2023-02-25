@@ -1,11 +1,11 @@
+import type { PrismaService } from "@app/framework/prisma";
 import type { ClientRedis } from "@nestjs/microservices";
-import { ChannelType } from "@prisma/client/connect";
-import type { PrismaClient, Channel } from "@prisma/client/connect/index.js";
-import type { PrismaService } from "@shaastra/framework";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { OutboundEvents } from "../../src/constants/outbound.events.js";
-import { ChannelCreatedEventHandler, ChannelCreatedEvent } from "../../src/events/index.js";
+import type { Channel, PrismaClient } from "../../prisma/generated";
+import { ChannelType } from "../../prisma/generated";
+import { OutboundEvents } from "../../src/constants";
+import { ChannelCreatedEvent, ChannelCreatedEventHandler } from "../../src/events";
 
 describe( "Channel Created Event Handler", () => {
 

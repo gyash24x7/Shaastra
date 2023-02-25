@@ -1,9 +1,9 @@
 import type { ClientRedis } from "@nestjs/microservices";
-import type { Message } from "@prisma/client/connect/index.js";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { OutboundEvents } from "../../src/constants/outbound.events.js";
-import { MessageCreatedEventHandler, MessageCreatedEvent } from "../../src/events/index.js";
+import type { Message } from "../../prisma/generated";
+import { OutboundEvents } from "../../src/constants";
+import { MessageCreatedEvent, MessageCreatedEventHandler } from "../../src/events";
 
 describe( "Message Created Event Handler", () => {
 

@@ -1,9 +1,10 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import { LoggerFactory } from "@app/framework/logger";
+import { Prisma, PrismaService } from "@app/framework/prisma";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Message, PrismaClient } from "@prisma/client/connect/index.js";
-import type { UserAuthInfo } from "@shaastra/framework";
-import { LoggerFactory, Prisma, PrismaService } from "@shaastra/framework";
-import { MessageCreatedEvent } from "../events/message.created.event.js";
+import type { Message, PrismaClient } from "../../prisma/generated";
+import { MessageCreatedEvent } from "../events";
 
 export type CreateMessageInput = {
 	content: string;

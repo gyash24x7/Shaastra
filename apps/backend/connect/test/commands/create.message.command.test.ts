@@ -1,14 +1,11 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import type { PrismaService } from "@app/framework/prisma";
 import type { EventBus } from "@nestjs/cqrs";
-import type { PrismaClient, Message } from "@prisma/client/connect/index.js";
-import type { PrismaService, UserAuthInfo } from "@shaastra/framework";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import {
-	type CreateMessageInput,
-	CreateMessageCommandHandler,
-	CreateMessageCommand
-} from "../../src/commands/index.js";
-import { MessageCreatedEvent } from "../../src/events/index.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { Message, PrismaClient } from "../../prisma/generated";
+import { CreateMessageCommand, CreateMessageCommandHandler, type CreateMessageInput } from "../../src/commands";
+import { MessageCreatedEvent } from "../../src/events";
 
 describe( "Create Message Command Handler", () => {
 

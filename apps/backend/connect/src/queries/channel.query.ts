@@ -1,7 +1,8 @@
+import { LoggerFactory } from "@app/framework/logger";
+import { Prisma, PrismaService } from "@app/framework/prisma";
 import type { IQuery, IQueryHandler } from "@nestjs/cqrs";
 import { QueryHandler } from "@nestjs/cqrs";
-import type { Channel, PrismaClient } from "@prisma/client/connect/index.js";
-import { LoggerFactory, Prisma, PrismaService } from "@shaastra/framework";
+import type { Channel, PrismaClient } from "../../prisma/generated";
 
 export class ChannelQuery implements IQuery {
 	constructor( public readonly channelId: string ) {}

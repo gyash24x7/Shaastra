@@ -1,17 +1,13 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import type { PrismaService } from "@app/framework/prisma";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import type { EventBus } from "@nestjs/cqrs";
-import type { PrismaClient, Channel } from "@prisma/client/connect/index.js";
-import { ChannelType } from "@prisma/client/connect/index.js";
-import type { PrismaService, UserAuthInfo } from "@shaastra/framework";
-import { describe, it, expect, afterEach } from "vitest";
-import { mockDeep, mockClear } from "vitest-mock-extended";
-import {
-	type CreateChannelInput,
-	CreateChannelCommandHandler,
-	CreateChannelCommand
-} from "../../src/commands/index.js";
-import { ChannelMessages } from "../../src/constants/messages.js";
-import { ChannelCreatedEvent } from "../../src/events/index.js";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
+import { Channel, ChannelType, PrismaClient } from "../../prisma/generated";
+import { CreateChannelCommand, CreateChannelCommandHandler, type CreateChannelInput } from "../../src/commands";
+import { ChannelMessages } from "../../src/constants";
+import { ChannelCreatedEvent } from "../../src/events";
 
 describe( "Create Channel Command Handler", () => {
 

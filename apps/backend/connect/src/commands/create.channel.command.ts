@@ -1,10 +1,12 @@
+import type { UserAuthInfo } from "@app/framework/auth";
+import { LoggerFactory } from "@app/framework/logger";
+import { Prisma, PrismaService } from "@app/framework/prisma";
 import { ConflictException } from "@nestjs/common";
 import type { ICommand, ICommandHandler } from "@nestjs/cqrs";
 import { CommandHandler, EventBus } from "@nestjs/cqrs";
-import type { Channel, ChannelType, PrismaClient } from "@prisma/client/connect/index.js";
-import { LoggerFactory, UserAuthInfo, Prisma, PrismaService } from "@shaastra/framework";
-import { ChannelMessages } from "../constants/messages.js";
-import { ChannelCreatedEvent } from "../events/channel.created.event.js";
+import type { Channel, ChannelType, PrismaClient } from "../../prisma/generated";
+import { ChannelMessages } from "../constants";
+import { ChannelCreatedEvent } from "../events";
 
 export type CreateChannelInput = {
 	name: string;

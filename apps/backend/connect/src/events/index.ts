@@ -1,8 +1,8 @@
-import { ChannelCreatedEventHandler } from "./channel.created.event.js";
-import { MessageCreatedEventHandler } from "./message.created.event.js";
+import { ChannelCreatedEventHandler } from "./channel.created.event";
+import { MessageCreatedEventHandler } from "./message.created.event";
 
-export * from "./channel.created.event.js";
-export * from "./message.created.event.js";
+export * from "./channel.created.event";
+export * from "./message.created.event";
 
 const eventHandlers = [ MessageCreatedEventHandler, ChannelCreatedEventHandler ];
 export default eventHandlers;

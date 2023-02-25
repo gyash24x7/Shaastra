@@ -1,8 +1,8 @@
-import { Message, PrismaClient, Channel, ChannelType } from "@prisma/client/connect/index.js";
-import type { PrismaService } from "@shaastra/framework";
-import { describe, it, expect } from "vitest";
+import type { PrismaService } from "@app/framework/prisma";
+import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
-import { MessagesQueryHandler, MessagesQuery } from "../../src/queries/index.js";
+import { Channel, ChannelType, Message, PrismaClient } from "../../prisma/generated";
+import { MessagesQuery, MessagesQueryHandler } from "../../src/queries";
 
 describe( "Messages Query Handler", () => {
 

@@ -1,8 +1,8 @@
+import { GraphQLResolverParams, Mutation, Resolver } from "@app/framework/graphql";
+import { LoggerFactory } from "@app/framework/logger";
 import { CommandBus } from "@nestjs/cqrs";
-import type { Message, Channel } from "@prisma/client/connect/index.js";
-import { type GraphQLResolverParams, LoggerFactory, Mutation, Resolver } from "@shaastra/framework";
-import { CreateChannelCommand, CreateChannelInput } from "../commands/create.channel.command.js";
-import { CreateMessageCommand, CreateMessageInput } from "../commands/create.message.command.js";
+import type { Channel, Message } from "../../prisma/generated";
+import { CreateChannelCommand, CreateChannelInput, CreateMessageCommand, CreateMessageInput } from "../commands";
 
 @Resolver( "Mutation" )
 export class MutationResolvers {

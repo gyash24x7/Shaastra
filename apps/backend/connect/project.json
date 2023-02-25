@@ -1,0 +1,65 @@
+{
+	"name": "connect",
+	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/backend/connect/src",
+	"projectType": "application",
+	"targets": {
+		"docker:build": {
+			"dependsOn": [ "build" ],
+			"command": "docker build -f apps/backend/connect/Dockerfile . -t ghcr.io/gyash24x7/shaastra-connect"
+		},
+		"db:push": {
+			"command": "prisma db push --schema=apps/backend/connect/prisma/schema.prisma --skip-generate --accept-data-loss"
+		},
+		"db:generate": {
+			"inputs": [ "{projectRoot}/prisma/schema.prisma" ],
+			"outputs": [ "{workspaceRoot}/node_modules/@prisma/connect/**" ],
+			"command": "prisma generate --schema=apps/backend/connect/prisma/schema.prisma"
+		},
+		"test": {
+			"dependsOn": [ "db:generate" ],
+			"executor": "@nrwl/vite:test",
+			"outputs": [ "apps/backend/framework/coverage" ],
+			"options": {
+				"passWithNoTests": true,
+				"reportsDirectory": "coverage",
+				"config": "vitest.config.ts"
+			}
+		},
+		"build": {
+			"inputs": [ "{projectRoot}/prisma", "{projectRoot}/src" ],
+			"dependsOn": [ "db:generate" ],
+			"executor": "@nrwl/webpack:webpack",
+			"outputs": [ "{options.outputPath}" ],
+			"options": {
+				"target": "node",
+				"compiler": "tsc",
+				"outputPath": "apps/backend/connect/dist",
+				"main": "apps/backend/connect/src/main.ts",
+				"tsConfig": "apps/backend/connect/tsconfig.build.json",
+				"assets": [ "apps/backend/connect/src/assets" ],
+				"generatePackageJson": true
+			},
+			"configurations": {
+				"production": {
+					"optimization": true,
+					"extractLicenses": true,
+					"inspect": false
+				}
+			}
+		},
+		"serve": {
+			"executor": "@nrwl/js:node",
+			"options": {
+				"inspect": false,
+				"buildTarget": "connect:build"
+			},
+			"configurations": {
+				"production": {
+					"buildTarget": "connect:build:production"
+				}
+			}
+		}
+	},
+	"tags": [ ]
+}

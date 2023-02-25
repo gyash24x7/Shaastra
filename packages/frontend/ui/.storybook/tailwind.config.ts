@@ -1,6 +1,7 @@
-import { join } from "path";
+import { join } from "node:path";
+import type { Config } from "tailwindcss";
 
-const config = {
+const config: Config = {
 	content: [ join( __dirname, "../src/**/*!(*.stories|*.spec).{ts,tsx,html}" ) ],
 	theme: {
 		fontWeight: {

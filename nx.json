@@ -1,0 +1,40 @@
+{
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"npmScope": "shaastra",
+	"workspaceLayout": {
+		"libsDir": "packages"
+	},
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "nx/tasks-runners/default",
+			"options": {
+				"cacheableOperations": [ "build", "lint", "test", "e2e", "db:generate" ]
+			}
+		}
+	},
+	"targetDefaults": {
+		"build": {
+			"dependsOn": [ "^build" ],
+			"inputs": [ "production", "^production" ]
+		},
+		"test": {
+			"inputs": [ "default", "^production" ]
+		},
+		"build-storybook": {
+			"inputs": [ "default", "^production", "!{projectRoot}/.storybook/**/*" ]
+		}
+	},
+	"namedInputs": {
+		"default": [
+			"{projectRoot}/**/*", "sharedGlobals"
+		],
+		"production": [
+			"default",
+			"!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+			"!{projectRoot}/.storybook/**/*",
+			"!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+			"!{projectRoot}/tsconfig.spec.json"
+		],
+		"sharedGlobals": [ ]
+	}
+}

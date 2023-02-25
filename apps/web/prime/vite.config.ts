@@ -1,11 +1,21 @@
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
-import tailwindConfig from "./tailwind.config.js";
+import viteTsConfigPaths from "vite-tsconfig-paths";
+import tailwindConfig from "./tailwind.config";
 
 export default defineConfig( {
-	plugins: [ react() ],
+	cacheDir: "../../../node_modules/.vite/prime",
+	server: {
+		port: 3000,
+		host: "localhost",
+		fs: { allow: [ "../../../" ] }
+	},
+	plugins: [ react(), viteTsConfigPaths( { root: "../../../" } ) ],
+	define: {
+		"import.meta.vitest": undefined
+	},
 	css: {
 		postcss: {
 			plugins: [
@@ -13,8 +23,5 @@ export default defineConfig( {
 				autoprefixer()
 			]
 		}
-	},
-	server: {
-		port: 3000
 	}
 } );

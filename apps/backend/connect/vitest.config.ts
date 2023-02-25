@@ -1,9 +1,12 @@
+import viteTsConfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig( {
+	plugins: [ viteTsConfigPaths( { root: "../../../" } ) ],
 	test: {
-		include: [ "test/**/*.test.ts" ],
+		cache: false,
 		environment: "node",
+		include: [ "test/**/*.test.ts" ],
 		coverage: {
 			reporter: [ "text", "json", "html" ],
 			provider: "istanbul",

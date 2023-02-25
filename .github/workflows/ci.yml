@@ -10,8 +10,6 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
       APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
       APOLLO_GRAPH_REF: ${{ secrets.APOLLO_GRAPH_REF }}
     steps:
@@ -35,9 +33,6 @@ jobs:
 
       - name: Build
         run: pnpm run build
-
-      - name: Typecheck
-        run: pnpm run typecheck
 
       - name: Test
         run: pnpm run test

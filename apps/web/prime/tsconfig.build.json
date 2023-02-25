@@ -1,20 +1,18 @@
 {
 	"extends": "./tsconfig.json",
-	"compilerOptions": {
-		"rootDir": "src",
-		"resolveJsonModule": true,
-		"noEmit": true
-	},
-	"include": [ "src" ],
+	"files": [
+		"../../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
+		"../../../node_modules/@nrwl/react/typings/image.d.ts"
+	],
 	"exclude": [
-		"dist",
-		"build",
-		"node_modules",
-		".storybook",
-		"**/*.spec.(ts|tsx|js|jsx)",
-		"**/*.test.(ts|tsx|js|jsx)",
-		"**/*.stories.(ts|tsx|js|jsx)",
-		"vite.config.ts",
-		".storybook/tailwind.config.js"
-	]
+		"src/**/*.spec.ts",
+		"src/**/*.test.ts",
+		"src/**/*.spec.tsx",
+		"src/**/*.test.tsx",
+		"src/**/*.spec.js",
+		"src/**/*.test.js",
+		"src/**/*.spec.jsx",
+		"src/**/*.test.jsx"
+	],
+	"include": [ "src" ]
 }

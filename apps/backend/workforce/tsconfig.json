@@ -1,19 +1,14 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": "@tsconfig/node18-strictest-esm",
+	"extends": "../../../tsconfig.base.json",
 	"compilerOptions": {
-		"rootDir": ".",
-		"esModuleInterop": true,
-		"types": [ "node" ],
+		"module": "commonjs",
 		"target": "ES2022",
+		"esModuleInterop": true,
 		"sourceMap": true,
 		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
-		"exactOptionalPropertyTypes": false,
-		"strictPropertyInitialization": false,
-		"noUncheckedIndexedAccess": false,
-		"importHelpers": true
+		"emitDecoratorMetadata": true
 	},
-	"include": [ "test", "src", "vitest.config.ts", "e2e" ],
-	"exclude": [ "node_modules", "dist", ".turbo", "coverage", "tmp" ]
+	"include": [ "src", "prisma", "test", "vitest.config.ts" ],
+	"references": [ { "path": "./tsconfig.build.json" } ]
 }

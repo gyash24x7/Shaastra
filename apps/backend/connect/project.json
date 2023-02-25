@@ -13,7 +13,7 @@
 		},
 		"db:generate": {
 			"inputs": [ "{projectRoot}/prisma/schema.prisma" ],
-			"outputs": [ "{workspaceRoot}/node_modules/@prisma/connect/**" ],
+			"outputs": [ "{workspaceRoot}/node_modules/@prisma/client/connect/**" ],
 			"command": "prisma generate --schema=apps/backend/connect/prisma/schema.prisma"
 		},
 		"test": {

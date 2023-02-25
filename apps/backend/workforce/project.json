@@ -13,7 +13,7 @@
 		},
 		"db:generate": {
 			"inputs": [ "{projectRoot}/prisma/schema.prisma" ],
-			"outputs": [ "{workspaceRoot}/node_modules/@prisma/workforce/**" ],
+			"outputs": [ "{workspaceRoot}/node_modules/@prisma/client/workforce/**" ],
 			"command": "prisma generate --schema=apps/backend/workforce/prisma/schema.prisma"
 		},
 		"test": {

@@ -6,7 +6,6 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 import tailwindConfig from "./tailwind.config";
 
 export default defineConfig( {
-	cacheDir: "../../../node_modules/.vite/prime",
 	server: {
 		port: 3000,
 		host: "localhost",

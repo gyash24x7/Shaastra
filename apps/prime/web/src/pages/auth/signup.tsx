@@ -1,4 +1,12 @@
-import { Department, useCreateMemberMutation } from "@app/client";
+import {
+	CheckCircleIcon,
+	DevicePhoneMobileIcon,
+	EnvelopeIcon,
+	ExclamationCircleIcon,
+	LockClosedIcon,
+	UserIcon
+} from "@heroicons/react/24/solid";
+import { Department, useCreateMemberMutation } from "@prime/client";
 import {
 	Banner,
 	emailValidator,
@@ -10,15 +18,7 @@ import {
 	rollNumberValidator,
 	TextInput,
 	VStack
-} from "@app/ui";
-import {
-	CheckCircleIcon,
-	DevicePhoneMobileIcon,
-	EnvelopeIcon,
-	ExclamationCircleIcon,
-	LockClosedIcon,
-	UserIcon
-} from "@heroicons/react/24/solid";
+} from "@prime/ui";
 import { Else, If, Then, When } from "react-if";
 import { Link } from "react-router-dom";
 

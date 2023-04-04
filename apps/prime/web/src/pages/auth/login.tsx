@@ -1,6 +1,6 @@
-import { useLoginMutation } from "@app/client";
-import { Banner, Button, Flex, Form, minLengthValidator, patternValidator, TextInput, VStack } from "@app/ui";
 import { ExclamationCircleIcon, LockClosedIcon, UserIcon } from "@heroicons/react/24/solid";
+import { useLoginMutation } from "@prime/client";
+import { Banner, Button, Flex, Form, minLengthValidator, patternValidator, TextInput, VStack } from "@prime/ui";
 import { When } from "react-if";
 import { Link, useNavigate } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import { Button } from "@app/ui";
+import { Button } from "@prime/ui";
 import { useAuth } from "../auth/provider";
 
 export default function HomePage() {

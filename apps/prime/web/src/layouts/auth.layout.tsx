@@ -1,4 +1,4 @@
-import { Flex } from "@app/ui";
+import { Flex } from "@prime/ui";
 import { useOutlet } from "react-router-dom";
 
 export default function AuthLayout() {

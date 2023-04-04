@@ -1,5 +1,5 @@
-import { useClient, useMeQuery } from "@app/client";
-import { Flex, Spinner } from "@app/ui";
+import { useClient, useMeQuery } from "@prime/client";
+import { Flex, Spinner } from "@prime/ui";
 import { useOutlet } from "react-router-dom";
 import { AuthProvider } from "../auth/provider";
 

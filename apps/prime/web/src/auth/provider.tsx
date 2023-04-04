@@ -1,4 +1,4 @@
-import type { MeQueryData } from "@app/client";
+import type { MeQueryData } from "@prime/client";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 
 export type AuthContextType =

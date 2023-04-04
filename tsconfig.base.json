@@ -13,8 +13,8 @@
 		"rootDir": ".",
 		"baseUrl": ".",
 		"paths": {
-			"@app/ui": [ "packages/frontend/ui/src/index.ts" ],
-			"@app/client": [ "packages/frontend/client/src/index.ts" ],
+			"@prime/ui": [ "packages/prime/ui/src/index.ts" ],
+			"@prime/client": [ "packages/prime/client/src/index.ts" ],
 			"@api/common": [ "packages/api/common/src/index.ts" ],
 			"@api/domain": [ "packages/api/domain/src/index.ts" ]
 		}

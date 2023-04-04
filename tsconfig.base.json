@@ -7,6 +7,7 @@
 		"exactOptionalPropertyTypes": false,
 		"strictPropertyInitialization": false,
 		"noUncheckedIndexedAccess": false,
+		"ignoreDeprecations": "5.0",
 		"importHelpers": true,
 		"esModuleInterop": true,
 		"rootDir": ".",
@@ -14,7 +15,8 @@
 		"paths": {
 			"@app/ui": [ "packages/frontend/ui/src/index.ts" ],
 			"@app/client": [ "packages/frontend/client/src/index.ts" ],
-			"@app/framework/*": [ "packages/backend/framework/src/*" ]
+			"@api/common": [ "packages/api/common/src/index.ts" ],
+			"@api/domain": [ "packages/api/domain/src/index.ts" ]
 		}
 	},
 	"exclude": [ "node_modules", "tmp", "dist", "coverage" ]

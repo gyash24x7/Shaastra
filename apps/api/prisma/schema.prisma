@@ -1,0 +1,73 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id       String   @id
+    name     String
+    email    String   @unique
+    username String   @unique
+    password String
+    verified Boolean  @default(false)
+    roles    String[]
+}
+
+model Token {
+    id        String   @id @default(cuid())
+    hash      String
+    userId    String
+    expiry    DateTime
+    createdAt DateTime @default(now())
+}
+
+enum Department {
+    WEBOPS
+    SPONSORSHIP_AND_PR
+    SHOWS_AND_EXHIBITIONS
+    EVENTS_AND_WORKSHOPS
+    OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+    EVOLVE
+    ENVISAGE
+    FINANCE
+    CONCEPT_AND_DESIGN
+    PUBLICITY
+    QMS
+}
+
+enum MemberPosition {
+    COORD
+    HEAD
+    CORE
+    COCAS
+}
+
+model Member {
+    id           String         @id @default(cuid())
+    name         String
+    email        String         @unique
+    rollNumber   String         @unique
+    profilePic   String         @default("")
+    coverPic     String         @default("")
+    mobile       String
+    upi          String         @default("")
+    about        String         @default("")
+    department   Department
+    position     MemberPosition
+    enabled      Boolean        @default(false)
+    teams        Team[]
+    teamsCreated Team[]         @relation("TeamCreatedBy")
+}
+
+model Team {
+    id          String     @id @default(cuid())
+    name        String     @unique
+    department  Department
+    members     Member[]
+    createdBy   Member     @relation("TeamCreatedBy", fields: [createdById], references: [id])
+    createdById String
+}

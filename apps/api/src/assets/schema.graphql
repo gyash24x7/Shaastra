@@ -1,0 +1,102 @@
+type User {
+	id: ID!
+	name: String!
+	email: String!
+	username: String!
+	roles: [String!]!
+	verified: Boolean!
+}
+
+enum Department {
+	WEBOPS
+	SPONSORSHIP_AND_PR
+	SHOWS_AND_EXHIBITIONS
+	EVENTS_AND_WORKSHOPS
+	OPERATIONS_AND_INFRASTRUCTURE_PLANNING
+	EVOLVE
+	ENVISAGE
+	FINANCE
+	CONCEPT_AND_DESIGN
+	PUBLICITY
+	QMS
+}
+
+enum MemberPosition {
+	COORD
+	HEAD
+	CORE
+	COCAS
+}
+
+type Member {
+	id: ID!
+	about: String!
+	coverPic: String!
+	department: Department!
+	email: String!
+	enabled: Boolean!
+	mobile: String!
+	name: String!
+	position: MemberPosition!
+	profilePic: String!
+	rollNumber: String!
+	upi: String!
+	teams: [Team!]!
+}
+
+type Team {
+	id: ID!
+	createdById: String!
+	department: Department!
+	name: String!
+	members: [Member!]!
+	createdBy: Member!
+}
+
+type Query {
+	me: Member!
+	teams(department:Department!): [Team!]!
+}
+
+type Mutation {
+	login(data: LoginInput!): String!
+	logout: String!
+	verifyUser(data:VerifyUserInput!): User!
+	createMember(data: CreateMemberInput!): Member!
+	enableMember(data: EnableMemberInput!): Member!
+	createTeam(data: CreateTeamInput!): Team!
+	addTeamMembers(data: AddTeamMembersInput!): Team!
+}
+
+input LoginInput {
+	username: String!
+	password: String!
+}
+
+input VerifyUserInput {
+	userId: String!
+	hash: String!
+}
+
+input CreateMemberInput {
+	name: String!
+	email: String!
+	password: String!
+	rollNumber: String!
+	department: Department!
+	mobile: String!
+}
+
+input EnableMemberInput {
+	id: String!
+}
+
+input CreateTeamInput {
+	name: String!
+	department: Department!
+}
+
+input AddTeamMembersInput {
+	teamId: String!
+	memberIds: [String!]!
+}

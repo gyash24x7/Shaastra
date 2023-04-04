@@ -5,7 +5,6 @@ import {
 	Injectable,
 	InternalServerErrorException,
 	NotFoundException,
-	OnApplicationBootstrap,
 	Type
 } from "@nestjs/common";
 import { Prisma, PrismaClient } from "@prisma/client";
@@ -19,9 +18,7 @@ export enum PrismaExceptionCode {
 }
 
 @Injectable()
-export class PrismaService
-	extends PrismaClient
-	implements OnApplicationBootstrap {
+export class PrismaService extends PrismaClient {
 	private readonly logger = LoggerFactory.getLogger( PrismaService );
 
 	private readonly codeExceptionMapping: Record<PrismaExceptionCode, Type<HttpException>> = {
@@ -34,6 +31,8 @@ export class PrismaService
 			datasources: { db: config.db },
 			log: [ "query", "info", "warn", "error" ]
 		} );
+		
+		this.$use( prismaLoggingMiddleware( this.logger ) );
 	}
 
 	handleException( ...codeMessageMap: Array<{ code: PrismaExceptionCode; message: string; }> ) {
@@ -53,10 +52,6 @@ export class PrismaService
 
 			throw new InternalServerErrorException();
 		};
-	}
-
-	onApplicationBootstrap() {
-		this.$use( prismaLoggingMiddleware( this.logger ) );
 	}
 
 	closeApp( app: INestApplicationContext ) {

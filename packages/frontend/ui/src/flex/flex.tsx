@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { VariantSchema } from "../utils/variant";
+import { VariantSchema } from "../utils";
 
 export interface FlexProps {
 	className?: string;

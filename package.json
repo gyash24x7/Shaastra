@@ -36,7 +36,6 @@
 		"@types/node": "18.15.11",
 		"@types/react": "18.0.33",
 		"@types/react-dom": "18.0.11",
-		"@types/superagent": "4.1.16",
 		"@vitejs/plugin-react-swc": "3.2.0",
 		"@vitest/coverage-istanbul": "0.29.8",
 		"@vitest/ui": "0.29.8",
@@ -86,7 +85,6 @@
 		"react-router-dom": "6.10.0",
 		"reflect-metadata": "0.1.13",
 		"rxjs": "7.8.0",
-		"superagent": "8.0.9",
 		"tslib": "2.5.0"
 	},
 	"engines": {

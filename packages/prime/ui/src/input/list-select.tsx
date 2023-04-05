@@ -62,7 +62,7 @@ function ListSelectOption<T>( { option }: ListSelectOptionProps<T> ) {
 export default function ListSelect<T>( props: ListSelectProps<T> ) {
 	return (
 		<div className={ "w-full" }>
-			<Listbox<"div", SelectOption<T>> value={ props.value || props.options[ 0 ] } onChange={ props.onChange }>
+			<Listbox<"div", SelectOption<T>> value={ props.value } onChange={ props.onChange }>
 				<When condition={ !!props.label }>
 					<label className={ "text-sm text-dark-100 font-semibold" } htmlFor={ props.name }>
 						{ props.label }
@@ -75,8 +75,8 @@ export default function ListSelect<T>( props: ListSelectProps<T> ) {
 						+ "border-2 border-light-700 text-dark p-2 text-base"
 					}
 				>
-					<Listbox.Button className={ "h-5 text-light-700 flex items-center w-full justify-between" }>
-						<span>{ props.placeholder }</span>
+					<Listbox.Button className={ "h-5 flex items-center w-full justify-between" }>
+						<span>{ props.value?.label }</span>
 						<ChevronUpDownIcon aria-hidden="true" className={ "w-3 h-3" }/>
 					</Listbox.Button>
 				</div>
@@ -87,7 +87,7 @@ export default function ListSelect<T>( props: ListSelectProps<T> ) {
 					leaveTo={ "opacity-0" }
 				>
 					<Listbox.Options
-						className={ "py-1 mt-1 bg-light-100 rounded-md border border-light-700 max-h-60 text-base" }
+						className={ "py-1 mt-1 bg-light-100 rounded-md border border-light-700 max-h-60 text-base absolute overflow-auto" }
 					>
 						{ props.options.map( ( option ) => (
 							<ListSelectOption option={ option } key={ option.label }/>

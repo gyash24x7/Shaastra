@@ -1,3 +1,4 @@
+import { createMemberMutationFn } from "@api/client";
 import {
 	CheckCircleIcon,
 	DevicePhoneMobileIcon,
@@ -6,7 +7,6 @@ import {
 	LockClosedIcon,
 	UserIcon
 } from "@heroicons/react/24/solid";
-import { Department, useCreateMemberMutation } from "@prime/client";
 import {
 	Banner,
 	emailValidator,
@@ -19,8 +19,11 @@ import {
 	TextInput,
 	VStack
 } from "@prime/ui";
+import { Department } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
 import { Else, If, Then, When } from "react-if";
 import { Link } from "react-router-dom";
+import { genqlClient } from "../../utils/client";
 
 const departments: Department[] = [
 	Department.ENVISAGE,
@@ -37,7 +40,9 @@ const departments: Department[] = [
 ];
 
 export default function SignUpPage() {
-	const { mutateAsync, data, isLoading, isError } = useCreateMemberMutation();
+	const { mutateAsync, data, isLoading, isError } = useMutation( {
+		mutationFn: createMemberMutationFn( genqlClient )
+	} );
 
 	return (
 		<VStack className={ "h-screen p-8" }>

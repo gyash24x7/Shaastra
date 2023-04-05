@@ -1,7 +1,8 @@
 import type { ServiceContext, UserAuthInfo } from "@api/common";
-import { Res } from "@nestjs/common";
+import { AuthGuard, AuthInfo } from "@api/common";
+import { UseGuards } from "@nestjs/common";
 import { Args, Context, Mutation, Resolver } from "@nestjs/graphql";
-import type { CookieOptions, Response } from "express";
+import type { CookieOptions } from "express";
 import {
 	AddTeamMembersInput,
 	CreateMemberInput,
@@ -11,6 +12,15 @@ import {
 	VerifyUserInput
 } from "../inputs";
 import { MemberService, TeamService, UserService } from "../services";
+
+const cookieOptions: CookieOptions = {
+	maxAge: 9000000,
+	httpOnly: true,
+	domain: "localhost",
+	path: "/",
+	sameSite: "lax",
+	secure: false
+};
 
 @Resolver()
 export class MutationResolver {
@@ -24,18 +34,7 @@ export class MutationResolver {
 	@Mutation()
 	async login( @Args( "data" ) data: LoginInput, @Context() ctx: ServiceContext ) {
 		const { user, token } = await this.userService.login( data );
-
-		const cookieOptions: CookieOptions = {
-			maxAge: 9000000,
-			httpOnly: true,
-			domain: "localhost",
-			path: "/",
-			sameSite: "lax",
-			secure: false
-		};
-
 		ctx.res.cookie( "auth-cookie", token, cookieOptions );
-
 		return user.id;
 	}
 
@@ -45,8 +44,9 @@ export class MutationResolver {
 	}
 
 	@Mutation()
-	async logout( @Res( { passthrough: true } ) res: Response, authInfo: UserAuthInfo ) {
-		res.clearCookie( "auth-cookie" );
+	@UseGuards( AuthGuard )
+	async logout( @Context() ctx: ServiceContext, @AuthInfo() authInfo: UserAuthInfo ) {
+		ctx.res.clearCookie( "auth-cookie", cookieOptions );
 		return authInfo.id;
 	}
 

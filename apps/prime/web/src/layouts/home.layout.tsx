@@ -1,28 +1,14 @@
-import { useClient, useMeQuery } from "@prime/client";
-import { Flex, Spinner } from "@prime/ui";
-import { useOutlet } from "react-router-dom";
-import { AuthProvider } from "../auth/provider";
+import { Fragment } from "react";
+import { Navigate, useOutlet } from "react-router-dom";
+import { useAuth } from "../utils/auth";
 
 export default function HomeLayout() {
 	const outlet = useOutlet();
-	const { data, isLoading, isError, error } = useMeQuery();
-	const client = useClient();
+	const { isLoggedIn } = useAuth();
 
-	const refresh = async () => {
-		await client.invalidateQueries( { queryKey: [ "me" ] } );
-	};
-
-	if ( isLoading ) {
-		return (
-			<Flex justify={ "center" } align={ "center" }>
-				<Spinner size={ "2xl" } appearance={ "primary" }/>
-			</Flex>
-		);
+	if ( !isLoggedIn ) {
+		return <Navigate to={ "/auth/login" }/>;
 	}
 
-	if ( isError ) {
-		console.log( `Me Query Error: ${ error }` );
-	}
-
-	return <AuthProvider data={ data?.me } refresh={ refresh }>{ outlet }</AuthProvider>;
+	return <Fragment>{ outlet }</Fragment>;
 }

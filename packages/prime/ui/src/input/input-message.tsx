@@ -9,7 +9,7 @@ export interface InputMessageProps {
 }
 
 const inputMessageVS = new VariantSchema(
-	"text-sm text-dark-100 mt-1 flex items-center",
+	"text-sm mt-1 flex items-center",
 	{
 		valid: { true: "text-success", false: "" },
 		invalid: { true: "text-danger", false: "" }

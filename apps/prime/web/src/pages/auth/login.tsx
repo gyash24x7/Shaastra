@@ -1,15 +1,24 @@
+import { loginMutationFn } from "@api/client";
 import { ExclamationCircleIcon, LockClosedIcon, UserIcon } from "@heroicons/react/24/solid";
-import { useLoginMutation } from "@prime/client";
 import { Banner, Button, Flex, Form, minLengthValidator, patternValidator, TextInput, VStack } from "@prime/ui";
+import { useMutation } from "@tanstack/react-query";
 import { When } from "react-if";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../utils/auth";
+import { genqlClient } from "../../utils/client";
 
 export const rollNumberRegex = /^[a-z]{2}[0-9]{2}[a-z][0-9]{3}$/;
 
 export default function LoginPage() {
 	const navigate = useNavigate();
-	const { mutateAsync, isLoading, isError } = useLoginMutation( {
-		onSuccess: () => navigate( "/" )
+	const { login } = useAuth();
+
+	const { mutateAsync, isLoading, isError } = useMutation( {
+		mutationFn: loginMutationFn( genqlClient ),
+		onSuccess: async () => {
+			await login();
+			navigate( "/" );
+		}
 	} );
 
 	return (

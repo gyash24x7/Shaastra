@@ -60,7 +60,8 @@ export class UserService {
 			throw new BadRequestException( UserMessages.INVALID_CREDENTIALS );
 		}
 
-		const token = this.jwtService.sign( { id: user.id, verified: user.verified, roles: user.roles } );
+		const token = await this.jwtService.sign( { id: user.id, verified: user.verified, roles: user.roles } );
+		this.logger.debug( "Token Created: %s", token );
 		return { user, token };
 	}
 

@@ -34,7 +34,7 @@ describe( "Logger Service", () => {
 		loggerService.trace( "Test Log: %o", { key: "value" } );
 		expect( mockOgma.verbose ).toHaveBeenCalled();
 	} );
-	
+
 	afterEach( () => {
 		mockReset( mockOgma );
 	} );

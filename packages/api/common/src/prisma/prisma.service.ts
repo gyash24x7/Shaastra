@@ -31,7 +31,7 @@ export class PrismaService extends PrismaClient {
 			datasources: { db: config.db },
 			log: [ "query", "info", "warn", "error" ]
 		} );
-		
+
 		this.$use( prismaLoggingMiddleware( this.logger ) );
 	}
 

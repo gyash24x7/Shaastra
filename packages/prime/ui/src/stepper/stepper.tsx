@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 
-import { useState, Fragment } from "react";
-import { If, Else, Then } from "react-if";
+import { Fragment, useState } from "react";
+import { Else, If, Then } from "react-if";
 import Button from "../button/button";
 import HStack from "../stack/h-stack";
 

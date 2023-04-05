@@ -1,8 +1,12 @@
 {
-	"name": "api-client",
+	"name": "client",
 	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "packages/api/client/src",
 	"projectType": "library",
-	"targets": { },
+	"targets": {
+		"generate": {
+			"command": "genql --schema=apps/api/src/assets/schema.graphql --output=packages/api/client/src/generated"
+		}
+	},
 	"tags": [ ]
 }

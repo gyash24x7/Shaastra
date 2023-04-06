@@ -9,7 +9,7 @@ export default function AuthLayout() {
 	if ( isLoggedIn ) {
 		return <Navigate to={ "/" }/>;
 	}
-	
+
 	return (
 		<Flex className={ "h-screen" }>
 			<div className={ "flex-grow auth-bg h-screen" }></div>

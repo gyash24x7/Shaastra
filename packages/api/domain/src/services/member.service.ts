@@ -2,7 +2,7 @@ import type { UserAuthInfo } from "@api/common";
 import { LoggerFactory, PrismaExceptionCode, PrismaService } from "@api/common";
 import { Injectable } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
-import { MemberPosition } from "@prisma/client";
+import { Department, MemberPosition } from "@prisma/client";
 import { MemberMessages } from "../constants";
 import { MemberEvents } from "../events";
 import type { CreateMemberInput, EnableMemberInput } from "../inputs";
@@ -16,14 +16,37 @@ export class MemberService {
 		private readonly eventEmitter: EventEmitter2
 	) { }
 
+	async getDepartmentCores( department: Department ) {
+		this.logger.debug( ">> getDepartmentCores()" );
+		this.logger.debug( "Data: %o", department );
+
+		return this.prismaService.member.findMany( {
+			where: { department, position: MemberPosition.CORE }
+		} );
+	}
+
 	async getTeamsPartOf( memberId: string ) {
+		this.logger.debug( ">> getTeamsPartOf()" );
+		this.logger.debug( "Data: %o", memberId );
+
 		return this.prismaService.member
 			.findUniqueOrThrow( { where: { id: memberId } } )
 			.teams()
-			.catch( this.prismaService.handleException( {
-				code: PrismaExceptionCode.RECORD_NOT_FOUND,
-				message: MemberMessages.NOT_FOUND
-			} ) );
+			.catch(
+				this.prismaService.handleException( {
+					code: PrismaExceptionCode.RECORD_NOT_FOUND,
+					message: MemberMessages.NOT_FOUND
+				} )
+			);
+	}
+
+	async getMembers( memberIds: string[] ) {
+		this.logger.debug( ">> getMembers()" );
+		this.logger.debug( "Data: %o", memberIds );
+
+		return this.prismaService.member.findMany( {
+			where: { id: { in: memberIds } }
+		} );
 	}
 
 	async getAuthenticatedMember( authInfo: UserAuthInfo ) {

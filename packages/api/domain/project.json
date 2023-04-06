@@ -8,6 +8,7 @@
 			"executor": "@nrwl/vite:test",
 			"outputs": [ "packages/api/domain/coverage" ],
 			"options": {
+				"coverageProvider": "istanbul",
 				"passWithNoTests": true,
 				"reportsDirectory": "coverage",
 				"config": "vitest.config.ts"

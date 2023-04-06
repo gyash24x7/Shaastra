@@ -8,7 +8,7 @@ describe( "Prisma Module", () => {
 
 	it( "should allow injection of prisma service", async () => {
 		const testModuleMetadata: ModuleMetadata = {
-			imports: [ ConfigModule.register(), PrismaModule ]
+			imports: [ ConfigModule, PrismaModule ]
 		};
 
 		const testModule = await Test.createTestingModule( testModuleMetadata ).compile();

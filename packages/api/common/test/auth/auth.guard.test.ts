@@ -1,34 +1,28 @@
 import type { ExecutionContext } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
+import { Department, MemberPosition } from "@prisma/client";
 import type { Request, Response } from "express";
-import { describe, expect, it, Mock, vi } from "vitest";
-import { DeepMockProxy, mockDeep } from "vitest-mock-extended";
+import { describe, expect, it, vi } from "vitest";
+import { mockDeep } from "vitest-mock-extended";
 import { AuthGuard, JwtService, ServiceContext } from "../../src";
 
 describe( "Auth Guard", () => {
 
-	const mockJwtService = mockDeep<JwtService>();
-	const mockRequest = mockDeep<Request>();
-	const mockResponse = mockDeep<Response>();
-	const mockAuthInfo = { id: "userId", position: "CORE", department: "WEBOPS" };
-	const mockServiceContext = mockDeep<ServiceContext>();
-	let mockExecutionContext: DeepMockProxy<ExecutionContext>;
-	let mockGqlExecutionContext: DeepMockProxy<GqlExecutionContext>;
-	let mockGqlContextCreateFn: Mock<[ ExecutionContext ], GqlExecutionContext>;
+	it( "should extract token from cookies and set authInfo", async () => {
+		const mockJwtService = mockDeep<JwtService>();
+		const mockRequest = mockDeep<Request>();
+		const mockResponse = mockDeep<Response>();
+		const mockAuthInfo = { id: "userId", position: MemberPosition.CORE, department: Department.WEBOPS };
+		const mockServiceContext = mockDeep<ServiceContext>();
+		const mockExecutionContext = mockDeep<ExecutionContext>();
+		const mockGqlExecutionContext = mockDeep<GqlExecutionContext>();
+		const mockGqlContextCreateFn = vi.fn().mockReturnValue( mockGqlExecutionContext );
 
-	function buildMocks() {
+		mockRequest.cookies = { "auth-cookie": "some_jwt_token" };
 		mockServiceContext.req = mockRequest;
 		mockServiceContext.res = mockResponse;
-		mockExecutionContext = mockDeep<ExecutionContext>();
-		mockGqlExecutionContext = mockDeep<GqlExecutionContext>();
 		mockGqlExecutionContext.getContext.mockReturnValue( mockServiceContext );
-		mockGqlContextCreateFn = vi.fn().mockReturnValue( mockGqlExecutionContext );
 		GqlExecutionContext.create = mockGqlContextCreateFn;
-	}
-
-	it( "should extract token from cookies when app is gateway", async () => {
-		mockRequest.cookies = { "auth-cookie": "some_jwt_token" };
-		buildMocks();
 		mockJwtService.verify.calledWith( "some_jwt_token" ).mockResolvedValue( mockAuthInfo );
 
 		const middleware = new AuthGuard( mockJwtService );

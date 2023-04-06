@@ -6,6 +6,7 @@ export function generateConfig(): AppConfig {
 	const address = process.env[ "APP_HOST" ] || "localhost";
 	const port = parseInt( process.env[ "APP_PORT" ] || "8000" );
 	const dbUrl = process.env[ "DATABASE_URL" ];
+
 	return {
 		appInfo: {
 			id: createId(),

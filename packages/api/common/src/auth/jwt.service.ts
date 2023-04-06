@@ -39,7 +39,6 @@ export class JwtService {
 	}
 
 	async verify( token: string ): Promise<UserAuthInfo | null> {
-		this.logger.debug( "Received Cookie Token: %s", token );
 		const publicKey = await this.getPublicKey();
 
 		const { payload } = await jwtVerify(

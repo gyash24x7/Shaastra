@@ -13,7 +13,7 @@ import {
 } from "../inputs";
 import { MemberService, TeamService, UserService } from "../services";
 
-const cookieOptions: CookieOptions = {
+export const cookieOptions: CookieOptions = {
 	maxAge: 9000000,
 	httpOnly: true,
 	domain: "localhost",

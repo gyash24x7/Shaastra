@@ -3,6 +3,16 @@
 	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "packages/api/domain/src",
 	"projectType": "library",
-	"targets": { },
+	"targets": {
+		"test": {
+			"executor": "@nrwl/vite:test",
+			"outputs": [ "packages/api/domain/coverage" ],
+			"options": {
+				"passWithNoTests": true,
+				"reportsDirectory": "coverage",
+				"config": "vitest.config.ts"
+			}
+		}
+	},
 	"tags": [ ]
 }

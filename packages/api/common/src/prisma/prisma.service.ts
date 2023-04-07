@@ -48,8 +48,6 @@ export class PrismaService extends PrismaClient {
 				}
 			}
 
-			console.log( err );
-
 			throw new InternalServerErrorException();
 		};
 	}

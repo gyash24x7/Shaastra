@@ -92,13 +92,14 @@ export class UserService {
 			throw new BadRequestException( TokenMessages.EXPIRED );
 		}
 
+		await this.prismaService.token.delete( { where: { id: token.id } } );
+
 		const updatedUser = await this.prismaService.user.update( {
 			where: { id: userId },
 			data: { verified: true }
 		} );
 
-		await this.prismaService.token.delete( { where: { id: token.id } } );
-
+		this.logger.debug( "User Updated! Username: %s", updatedUser.username );
 		return updatedUser;
 	}
 }

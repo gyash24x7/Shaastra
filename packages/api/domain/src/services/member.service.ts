@@ -16,6 +16,20 @@ export class MemberService {
 		private readonly eventEmitter: EventEmitter2
 	) { }
 
+	async getTasksCreated( createdById: string ) {
+		this.logger.debug( ">> getTasksCreated()" );
+		this.logger.debug( "Data: %o", createdById );
+
+		return this.prismaService.task.findMany( { where: { createdById } } );
+	}
+
+	async getTasksAssigned( assigneeId: string ) {
+		this.logger.debug( ">> getTasksAssigned()" );
+		this.logger.debug( "Data: %o", assigneeId );
+
+		return this.prismaService.task.findMany( { where: { assigneeId } } );
+	}
+
 	async getDepartmentCores( department: Department ) {
 		this.logger.debug( ">> getDepartmentCores()" );
 		this.logger.debug( "Data: %o", department );

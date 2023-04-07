@@ -19,3 +19,7 @@ export class TeamMessages {
 	public static readonly ALREADY_EXISTS = "Team with same name already exists!";
 	public static readonly NOT_FOUND = "Team Not Found!";
 }
+
+export class TaskMessages {
+	public static readonly NOT_FOUND = "Task Not Found!";
+}

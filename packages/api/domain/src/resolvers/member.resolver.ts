@@ -10,4 +10,14 @@ export class MemberResolver {
 	async teams( @Parent() { id }: { id: string; } ) {
 		return this.memberService.getTeamsPartOf( id );
 	}
+
+	@ResolveField()
+	async tasksCreated( @Parent() { id }: { id: string; } ) {
+		return this.memberService.getTasksCreated( id );
+	}
+
+	@ResolveField()
+	async tasksAssigned( @Parent() { id }: { id: string; } ) {
+		return this.memberService.getTasksAssigned( id );
+	}
 }

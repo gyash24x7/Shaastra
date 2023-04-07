@@ -42,6 +42,8 @@ type Member {
 	rollNumber: String!
 	upi: String!
 	teams: [Team!]!
+	tasksCreated: [Task!]!
+	tasksAssigned: [Task!]!
 }
 
 type Team {
@@ -53,9 +55,47 @@ type Team {
 	createdBy: Member!
 }
 
+enum ActivityType {
+	CREATED
+	STATUS_CHANGED
+	UPDATED
+	DELETED
+}
+
+enum TaskStatus {
+	NOT_ASSIGNED
+	ASSIGNED
+	IN_PROGRESS
+	SUBMITTED
+	APPROVED
+	COMPLETED
+}
+
+type Task {
+	id: ID!
+	title: String!
+	description: String!
+	status: TaskStatus!
+	createdBy: Member!
+	assignee: Member!
+	createdAt: String!
+	deadline: String!
+	taskActivity: TaskActivity[]
+}
+
+type TaskActivity {
+	id: ID!
+	type: ActivityType!
+	title: String!
+	description: String!
+	task: Task!
+}
+
 type Query {
 	me: Member!
 	teams(department:Department!): [Team!]!
+	tasks: [Task!]!
+	taskActivity(taskId: String!): [TaskActivity!]!
 }
 
 type Mutation {
@@ -66,6 +106,13 @@ type Mutation {
 	enableMember(data: EnableMemberInput!): Member!
 	createTeam(data: CreateTeamInput!): Team!
 	addTeamMembers(data: AddTeamMembersInput!): Team!
+	createTask(data: CreateTaskInput!): Task!
+	updateTask(data: UpdateTaskInput!): Task!
+	assignTask(data: AssignTaskInput!): Task!
+	startTaskProgress(data: TaskIdInput!): Task!
+	submitTask(data: TaskIdInput!): Task!
+	approveTask(data: TaskIdInput!): Task!
+	completeTask(data: TaskIdInput!): Task!
 }
 
 input LoginInput {
@@ -100,3 +147,25 @@ input AddTeamMembersInput {
 	teamId: String!
 	memberIds: [String!]!
 }
+
+input CreateTaskInput {
+	title: String!
+	description: String!
+	deadline: String!
+}
+
+input UpdateTaskInput {
+	title: String
+	description: String
+	deadline: String
+}
+
+input AssignTaskInput {
+	taskId: String!
+	assigneeId: String!
+}
+
+input TaskIdInput {
+	taskId: String!
+}
+

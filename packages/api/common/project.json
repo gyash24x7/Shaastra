@@ -6,7 +6,7 @@
 	"targets": {
 		"test": {
 			"executor": "@nrwl/vite:test",
-			"outputs": [ "packages/api/common/coverage" ],
+			"outputs": [ "<projectRoot>/coverage/**" ],
 			"options": {
 				"coverageProvider": "istanbul",
 				"passWithNoTests": true,

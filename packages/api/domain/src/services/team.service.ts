@@ -54,7 +54,6 @@ export class TeamService {
 			.create( {
 				data: {
 					...data,
-					department: authInfo.department!,
 					members: { connect: { id: authInfo.id } },
 					createdBy: { connect: { id: authInfo.id } }
 				}

@@ -1,10 +1,10 @@
-import { afterEach, describe, expect, it } from "vitest";
-import { mockClear, mockDeep } from "vitest-mock-extended";
 import type { PrismaService, UserAuthInfo } from "@api/common";
+import { AddTeamMembersInput, CreateTeamInput, TeamEvents, TeamService } from "@api/domain";
 import type { EventEmitter2 } from "@nestjs/event-emitter";
 import type { Member, Prisma, Team } from "@prisma/client";
 import { Department } from "@prisma/client";
-import { AddTeamMembersInput, CreateTeamInput, TeamEvents, TeamService } from "@api/domain";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
 
 describe( "Team Service", () => {
 

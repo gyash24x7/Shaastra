@@ -1,5 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
-import { mockClear, mockDeep } from "vitest-mock-extended";
+import type { ServiceContext, UserAuthInfo } from "@api/common";
 import {
 	AddTeamMembersInput,
 	cookieOptions,
@@ -13,9 +12,10 @@ import {
 	UserService,
 	VerifyUserInput
 } from "@api/domain";
-import type { ServiceContext, UserAuthInfo } from "@api/common";
 import type { Team, User } from "@prisma/client";
 import { Department, Member } from "@prisma/client";
+import { afterEach, describe, expect, it } from "vitest";
+import { mockClear, mockDeep } from "vitest-mock-extended";
 
 describe( "MutationResolver", () => {
 

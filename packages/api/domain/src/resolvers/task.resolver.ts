@@ -1,6 +1,6 @@
 import { Parent, ResolveField, Resolver } from "@nestjs/graphql";
-import type { TaskService } from "../services/task.service";
 import type { Member, TaskActivity } from "@prisma/client";
+import type { TaskService } from "../services/task.service";
 
 @Resolver()
 export class TaskResolver {

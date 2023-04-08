@@ -1,10 +1,10 @@
+import { UserMessages } from "@api/domain";
 import type { INestApplication } from "@nestjs/common";
 import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
 import { describe, expect, it } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { generateConfig, PrismaExceptionCode, PrismaService } from "../../src";
-import { UserMessages } from "@api/domain";
-import { Prisma } from "@prisma/client";
 
 describe( "PrismaService", () => {
 

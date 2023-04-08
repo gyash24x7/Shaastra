@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": "../../tsconfig.base.json",
+	"extends": [ "../../tsconfig.base.json" ],
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "ES2022",
@@ -9,10 +9,5 @@
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true
 	},
-	"include": [
-		"src",
-		"prisma",
-		"test",
-		"vitest.config.ts"
-	]
+	"include": [ "src", "prisma", "test", "vitest.config.ts" ]
 }

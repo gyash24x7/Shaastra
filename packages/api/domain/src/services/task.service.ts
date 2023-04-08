@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
 import { LoggerFactory, PrismaExceptionCode, PrismaService } from "@api/common";
 import { TaskMessages } from "@api/domain";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class TaskService {

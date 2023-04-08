@@ -47,22 +47,22 @@ enum MemberPosition {
 }
 
 model Member {
-    id              String         @id @default(cuid())
-    name            String
-    email           String         @unique
-    rollNumber      String         @unique
-    profilePic      String         @default("")
-    coverPic        String         @default("")
-    mobile          String
-    upi             String         @default("")
-    about           String         @default("")
-    department      Department
-    position        MemberPosition
-    enabled         Boolean        @default(false)
-    teams           Team[]
-    teamsCreated    Team[]         @relation("TeamCreatedBy")
-    tasksCreated    Task[]         @relation("TaskCreatedBy")
-    tasksAssigned   Task[]         @relation("TaskAssignee")
+    id            String         @id @default(cuid())
+    name          String
+    email         String         @unique
+    rollNumber    String         @unique
+    profilePic    String         @default("")
+    coverPic      String         @default("")
+    mobile        String
+    upi           String         @default("")
+    about         String         @default("")
+    department    Department
+    position      MemberPosition
+    enabled       Boolean        @default(false)
+    teams         Team[]
+    teamsCreated  Team[]         @relation("TeamCreatedBy")
+    tasksCreated  Task[]         @relation("TaskCreatedBy")
+    tasksAssigned Task[]         @relation("TaskAssignee")
 }
 
 model Team {
@@ -91,24 +91,24 @@ enum ActivityType {
 }
 
 model Task {
-    id              String          @id @default(cuid())
-    title           String
-    description     String
-    status          TaskStatus      @default(NOT_ASSIGNED)
-    createdById     String
-    createdBy       Member          @relation("TaskCreatedBy", fields: [createdById], references: [id])
-    assigneeId      String?
-    assignee        Member?         @relation("TaskAssignee", fields: [assigneeId], references: [id])
-    createdAt       DateTime        @default(now())
-    deadline        DateTime
-    taskActivity    TaskActivity[]  @relation("TaskRelatedTo")
+    id           String         @id @default(cuid())
+    title        String
+    description  String
+    status       TaskStatus     @default(NOT_ASSIGNED)
+    createdById  String
+    createdBy    Member         @relation("TaskCreatedBy", fields: [createdById], references: [id])
+    assigneeId   String?
+    assignee     Member?        @relation("TaskAssignee", fields: [assigneeId], references: [id])
+    createdAt    DateTime       @default(now())
+    deadline     DateTime
+    taskActivity TaskActivity[] @relation("TaskRelatedTo")
 }
 
 model TaskActivity {
-    id              String          @id @default(cuid())
-    title           String
-    description     String
-    taskId          String
-    task            Task            @relation("TaskRelatedTo", fields: [taskId], references: [id])
-    activityType    ActivityType
+    id           String       @id @default(cuid())
+    title        String
+    description  String
+    taskId       String
+    task         Task         @relation("TaskRelatedTo", fields: [taskId], references: [id])
+    activityType ActivityType
 }

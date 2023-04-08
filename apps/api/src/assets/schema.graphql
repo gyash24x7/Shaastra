@@ -80,7 +80,7 @@ type Task {
 	assignee: Member!
 	createdAt: String!
 	deadline: String!
-	taskActivity: TaskActivity[]
+	taskActivity: [TaskActivity!]!
 }
 
 type TaskActivity {

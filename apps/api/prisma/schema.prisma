@@ -91,17 +91,19 @@ enum ActivityType {
 }
 
 model Task {
-    id           String         @id @default(cuid())
-    title        String
-    description  String
-    status       TaskStatus     @default(NOT_ASSIGNED)
-    createdById  String
-    createdBy    Member         @relation("TaskCreatedBy", fields: [createdById], references: [id])
-    assigneeId   String?
-    assignee     Member?        @relation("TaskAssignee", fields: [assigneeId], references: [id])
-    createdAt    DateTime       @default(now())
-    deadline     DateTime
-    taskActivity TaskActivity[] @relation("TaskRelatedTo")
+    id            String         @id @default(cuid())
+    title         String
+    description   String
+    status        TaskStatus     @default(NOT_ASSIGNED)
+    createdById   String
+    createdBy     Member         @relation("TaskCreatedBy", fields: [createdById], references: [id])
+    assigneeId    String?
+    assignee      Member?        @relation("TaskAssignee", fields: [assigneeId], references: [id])
+    createdAt     DateTime       @default(now())
+    deadline      DateTime
+    byDepartment  Department
+    forDepartment Department
+    taskActivity  TaskActivity[] @relation("TaskRelatedTo")
 }
 
 model TaskActivity {

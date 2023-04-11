@@ -5,5 +5,6 @@ import { UserEventsListener } from "./user.events.listener";
 export * from "./member.events.listener";
 export * from "./team.events.listener";
 export * from "./user.events.listener";
+export * from "./task.events.listener";
 
 export const eventListeners = [ MemberEventsListener, TeamEventsListener, UserEventsListener ];

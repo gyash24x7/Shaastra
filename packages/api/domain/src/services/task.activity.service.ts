@@ -1,7 +1,7 @@
 import { LoggerFactory, PrismaExceptionCode, PrismaService } from "@api/common";
 import { Injectable } from "@nestjs/common";
 import type { TaskActivity } from "@prisma/client";
-import { TaskMessages } from "../constants";
+import { TaskActivityMessages, TaskMessages } from "../constants";
 
 @Injectable()
 export class TaskActivityService {
@@ -20,6 +20,21 @@ export class TaskActivityService {
 				this.prismaService.handleException( {
 					code: PrismaExceptionCode.RECORD_NOT_FOUND,
 					message: TaskMessages.NOT_FOUND
+				} )
+			);
+	}
+
+	async getTask( taskActivityId: string ) {
+		this.logger.debug( ">> getTask()" );
+		this.logger.debug( "TaskActivityId: %s", taskActivityId );
+
+		return this.prismaService.taskActivity
+			.findUniqueOrThrow( { where: { id: taskActivityId } } )
+			.task()
+			.catch(
+				this.prismaService.handleException( {
+					code: PrismaExceptionCode.RECORD_NOT_FOUND,
+					message: TaskActivityMessages.NOT_FOUND
 				} )
 			);
 	}

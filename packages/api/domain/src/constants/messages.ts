@@ -23,3 +23,7 @@ export class TeamMessages {
 export class TaskMessages {
 	public static readonly NOT_FOUND = "Task Not Found!";
 }
+
+export class TaskActivityMessages {
+	public static readonly NOT_FOUND = "Task Activity Not Found!";
+}

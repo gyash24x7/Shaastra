@@ -82,7 +82,8 @@ type Task {
 	deadline: String!
 	byDepartment: Department!
 	forDepartment: Department!
-	taskActivity: [TaskActivity!]!
+	activity: [TaskActivity!]!
+	comments: [TaskComment!]!
 }
 
 type TaskActivity {
@@ -91,6 +92,15 @@ type TaskActivity {
 	title: String!
 	description: String!
 	task: Task!
+	createdAt: String!
+}
+
+type TaskComment {
+	id: ID!
+	content: String!
+	createdBy: Member!
+	task: Task!
+	createdAt: String!
 }
 
 type Query {
@@ -99,6 +109,7 @@ type Query {
 	tasks: [Task!]!
 	tasksRequested: [Task!]!
 	taskActivity(taskId: String!): [TaskActivity!]!
+	taskComments(taskId: String!): [TaskComment!]!
 }
 
 type Mutation {
@@ -116,6 +127,7 @@ type Mutation {
 	submitTask(data: TaskIdInput!): Task!
 	approveTask(data: TaskIdInput!): Task!
 	completeTask(data: TaskIdInput!): Task!
+	addTaskComment(data: AddTaskCommentInput!): Task!
 }
 
 input LoginInput {
@@ -172,5 +184,10 @@ input AssignTaskInput {
 
 input TaskIdInput {
 	taskId: String!
+}
+
+input AddTaskCommentInput {
+	taskId: String!
+	content: String!
 }
 

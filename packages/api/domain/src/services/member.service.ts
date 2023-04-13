@@ -1,8 +1,8 @@
 import type { UserAuthInfo } from "@api/common";
-import { LoggerFactory, PrismaExceptionCode, PrismaService } from "@api/common";
-import { Injectable } from "@nestjs/common";
+import { LoggerFactory, PrismaService } from "@api/common";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
-import { Department, MemberPosition } from "@prisma/client";
+import { Department, Member, MemberPosition, Task, Team } from "@prisma/client";
 import { MemberMessages } from "../constants";
 import { MemberEvents } from "../events";
 import type { CreateMemberInput, EnableMemberInput } from "../inputs";
@@ -16,86 +16,125 @@ export class MemberService {
 		private readonly eventEmitter: EventEmitter2
 	) { }
 
-	async getTasksCreated( createdById: string ) {
+	async getTasksCreated( createdById: string ): Promise<Task[]> {
 		this.logger.debug( ">> getTasksCreated()" );
 		this.logger.debug( "Data: %o", createdById );
 
-		return this.prismaService.task.findMany( { where: { createdById } } );
+		const member = await this.prismaService.member.findUnique( {
+			where: { id: createdById },
+			include: { tasksCreated: true }
+		} );
+
+		if ( !member ) {
+			this.logger.debug( "Member Not Found! Id: %s", createdById );
+			throw new NotFoundException( MemberMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTasksCreated()" );
+		return member.tasksCreated;
 	}
 
-	async getTasksAssigned( assigneeId: string ) {
+	async getTasksAssigned( assigneeId: string ): Promise<Task[]> {
 		this.logger.debug( ">> getTasksAssigned()" );
 		this.logger.debug( "Data: %o", assigneeId );
 
-		return this.prismaService.task.findMany( { where: { assigneeId } } );
+		const member = await this.prismaService.member.findUnique( {
+			where: { id: assigneeId },
+			include: { tasksAssigned: true }
+		} );
+
+		if ( !member ) {
+			this.logger.debug( "Member Not Found! Id: %s", assigneeId );
+			throw new NotFoundException( MemberMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTasksAssigned()" );
+		return member.tasksAssigned;
 	}
 
-	async getDepartmentCores( department: Department ) {
+	async getDepartmentCores( department: Department ): Promise<Member[]> {
 		this.logger.debug( ">> getDepartmentCores()" );
 		this.logger.debug( "Data: %o", department );
 
-		return this.prismaService.member.findMany( {
+		const cores = await this.prismaService.member.findMany( {
 			where: { department, position: MemberPosition.CORE }
 		} );
+
+		this.logger.debug( "<< getDepartmentCores()" );
+		return cores;
 	}
 
-	async getTeamsPartOf( memberId: string ) {
+	async getTeamsPartOf( memberId: string ): Promise<Team[]> {
 		this.logger.debug( ">> getTeamsPartOf()" );
 		this.logger.debug( "Data: %o", memberId );
 
-		return this.prismaService.member
-			.findUniqueOrThrow( { where: { id: memberId } } )
-			.teams()
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: MemberMessages.NOT_FOUND
-				} )
-			);
+		const member = await this.prismaService.member.findUnique( {
+			where: { id: memberId },
+			include: { teams: true }
+		} );
+
+		if ( !member ) {
+			this.logger.debug( "Member Not Found! Id: %s", memberId );
+			throw new NotFoundException( MemberMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTeamsPartOf()" );
+		return member.teams;
 	}
 
-	async getMembers( memberIds: string[] ) {
+	async getMembers( memberIds: string[] ): Promise<Member[]> {
 		this.logger.debug( ">> getMembers()" );
 		this.logger.debug( "Data: %o", memberIds );
 
-		return this.prismaService.member.findMany( {
+		const members = await this.prismaService.member.findMany( {
 			where: { id: { in: memberIds } }
 		} );
+
+		this.logger.debug( "<< getMembers()" );
+		return members;
 	}
 
-	async getAuthenticatedMember( authInfo: UserAuthInfo ) {
+	async getAuthenticatedMember( authInfo: UserAuthInfo ): Promise<Member> {
 		this.logger.debug( ">> getAuthenticatedUser()" );
 		this.logger.debug( "Data: %o", authInfo );
 
-		const member = await this.prismaService.member
-			.findUniqueOrThrow( { where: { id: authInfo.id } } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: MemberMessages.NOT_FOUND
-				} )
-			);
+		const member = await this.prismaService.member.findUnique( { where: { id: authInfo.id } } );
+		if ( !member ) {
+			this.logger.error( "Member Not Found! Id: %s", authInfo.id );
+			throw new NotFoundException( MemberMessages.NOT_FOUND );
+		}
 
 		this.logger.debug( "Member Found! Id: %s", member.id );
+		this.logger.debug( "<< getAuthenticatedMember()" );
 		return member;
 	}
 
-	async createMember( { password, ...data }: CreateMemberInput ) {
+	async createMember( { password, ...data }: CreateMemberInput ): Promise<Member> {
 		this.logger.debug( ">> createMember()" );
 		this.logger.debug( "Data: %o", data );
 
-		const member = await this.prismaService.member
-			.create( { data: { ...data, position: MemberPosition.COORD } } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.UNIQUE_CONSTRAINT_FAILED,
-					message: MemberMessages.ALREADY_EXISTS
-				} )
-			);
+		const existingMember = await this.prismaService.member.findFirst( {
+			where: {
+				OR: {
+					email: data.email,
+					rollNumber: data.rollNumber
+				}
+			}
+		} );
+
+		if ( !!existingMember ) {
+			this.logger.debug( "Member with RollNumber/Email Already Exists! RollNumber: %s", data.rollNumber );
+			throw new ConflictException( MemberMessages.ALREADY_EXISTS );
+		}
+
+		const member = await this.prismaService.member.create( {
+			data: { ...data, position: MemberPosition.COORD }
+		} );
 
 		this.eventEmitter.emit( MemberEvents.CREATED, { ...member, password } );
 		this.logger.debug( "Member Created Successfully! Id: %s", member.id );
 
+		this.logger.debug( "<< createMember()" );
 		return member;
 	}
 
@@ -103,21 +142,20 @@ export class MemberService {
 		this.logger.debug( ">> enableMember()" );
 		this.logger.debug( "Data: %o", data );
 
-		const member = await this.prismaService.member
-			.update( {
-				where: { id: data.id },
-				data: { enabled: true }
-			} )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: MemberMessages.NOT_FOUND
-				} )
-			);
+		let member = await this.prismaService.member.findUnique( { where: { id: data.id } } );
+		if ( !member ) {
+			this.logger.debug( "Member Not Found! Id: %s", data.id );
+			throw new NotFoundException( MemberMessages.NOT_FOUND );
+		}
+
+		member = await this.prismaService.member.update( {
+			where: { id: data.id },
+			data: { enabled: true }
+		} );
 
 		this.eventEmitter.emit( MemberEvents.ENABLED, member );
 		this.logger.debug( "Member Enabled Successfully! Id: %s", member.id );
-
+		this.logger.debug( "<< enableMember()" );
 		return member;
 	}
 }

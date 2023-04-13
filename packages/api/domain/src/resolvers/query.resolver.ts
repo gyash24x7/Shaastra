@@ -3,8 +3,7 @@ import { AuthGuard, AuthInfo } from "@api/common";
 import { UseGuards } from "@nestjs/common";
 import { Args, Query, Resolver } from "@nestjs/graphql";
 import { Department } from "@prisma/client";
-import { MemberService, TaskService, TeamService } from "../services";
-import type { TaskActivityService } from "../services/task.activity.service";
+import { MemberService, TaskActivityService, TaskService, TeamService } from "../services";
 
 @Resolver()
 export class QueryResolver {

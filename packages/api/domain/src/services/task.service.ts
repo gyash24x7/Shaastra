@@ -1,8 +1,8 @@
-import { LoggerFactory, PrismaExceptionCode, PrismaService, UserAuthInfo } from "@api/common";
+import { LoggerFactory, PrismaService, UserAuthInfo } from "@api/common";
 import { TaskEvents, TaskMessages } from "@api/domain";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import type { EventEmitter2 } from "@nestjs/event-emitter";
-import { MemberPosition, Prisma, TaskStatus } from "@prisma/client";
+import { Member, MemberPosition, Prisma, Task, TaskActivity, TaskStatus } from "@prisma/client";
 import type { AssignTaskInput, CreateTaskInput, TaskIdInput, UpdateTaskInput } from "../inputs";
 
 @Injectable()
@@ -12,54 +12,63 @@ export class TaskService {
 	constructor(
 		private readonly prismaService: PrismaService,
 		private readonly eventEmitter: EventEmitter2
-	) {}
+	) { }
 
-	async getTaskCreator( taskId: string ) {
+	async getTaskCreator( taskId: string ): Promise<Member> {
 		this.logger.debug( ">> getTaskCreator()" );
 		this.logger.debug( "TaskId: %s", taskId );
 
-		return this.prismaService.task
-			.findUniqueOrThrow( { where: { id: taskId } } )
-			.createdBy()
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: TaskMessages.NOT_FOUND
-				} )
-			);
+		const task = await this.prismaService.task.findUnique( {
+			where: { id: taskId },
+			include: { createdBy: true }
+		} );
+
+		if ( !task ) {
+			this.logger.error( "Task Not Found! Id: %s", taskId );
+			throw new NotFoundException( TaskMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTaskCreator()" );
+		return task.createdBy;
 	}
 
-	async getTaskAssignee( taskId: string ) {
+	async getTaskAssignee( taskId: string ): Promise<Member | null> {
 		this.logger.debug( ">> getTaskAssignee()" );
 		this.logger.debug( "TaskId: %s", taskId );
 
-		return this.prismaService.task
-			.findUniqueOrThrow( { where: { id: taskId } } )
-			.assignee()
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: TaskMessages.NOT_FOUND
-				} )
-			);
+		const task = await this.prismaService.task.findUnique( {
+			where: { id: taskId },
+			include: { assignee: true }
+		} );
+
+		if ( !task ) {
+			this.logger.error( "Task Not Found! Id: %s", taskId );
+			throw new NotFoundException( TaskMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTaskAssignee()" );
+		return task.assignee;
 	}
 
-	async getTaskActivity( taskId: string ) {
+	async getTaskActivity( taskId: string ): Promise<TaskActivity[]> {
 		this.logger.debug( ">> getTaskActivity()" );
 		this.logger.debug( "TaskId: %s", taskId );
 
-		return this.prismaService.task
-			.findUniqueOrThrow( { where: { id: taskId } } )
-			.taskActivity()
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: TaskMessages.NOT_FOUND
-				} )
-			);
+		const task = await this.prismaService.task.findUnique( {
+			where: { id: taskId },
+			include: { activity: true }
+		} );
+
+		if ( !task ) {
+			this.logger.error( "Task Not Found! Id: %s", taskId );
+			throw new NotFoundException( TaskMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTaskActivity()" );
+		return task.activity;
 	}
 
-	async createTask( data: CreateTaskInput, authInfo: UserAuthInfo ) {
+	async createTask( data: CreateTaskInput, authInfo: UserAuthInfo ): Promise<Task> {
 		this.logger.debug( ">> createTask()" );
 		this.logger.debug( "Data: %o", data );
 
@@ -72,80 +81,88 @@ export class TaskService {
 		} );
 
 		this.eventEmitter.emit( TaskEvents.CREATED, task );
+		this.logger.debug( "<< createTask()" );
 		return task;
 	}
 
-	async updateTask( { taskId, ...data }: UpdateTaskInput ) {
+	async updateTask( { taskId, ...data }: UpdateTaskInput ): Promise<Task> {
 		this.logger.debug( ">> updateTask()" );
 		this.logger.debug( "Data: %o", data );
 
-		const updatedTask = await this.prismaService.task
-			.update( { where: { id: taskId }, data } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: TaskMessages.NOT_FOUND
-				} )
-			);
+		const task = await this.prismaService.task.findUnique( { where: { id: taskId } } );
+		if ( !task ) {
+			this.logger.error( "Task Not Found! Id: %s", taskId );
+			throw new NotFoundException( TaskMessages.NOT_FOUND );
+		}
+
+		const updatedTask = await this.prismaService.task.update( { where: { id: taskId }, data } );
 
 		this.eventEmitter.emit( TaskEvents.UPDATED, updatedTask );
+		this.logger.debug( "<< updateTask()" );
 		return updatedTask;
 	}
 
-	async assignTask( { taskId, ...data }: AssignTaskInput ) {
+	async assignTask( { taskId, ...data }: AssignTaskInput ): Promise<Task> {
 		this.logger.debug( ">> assignTask()" );
 		this.logger.debug( "Data: %o", data );
 
-		const updatedTask = await this.prismaService.task
-			.update( { where: { id: taskId }, data: { ...data, status: TaskStatus.ASSIGNED } } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: TaskMessages.NOT_FOUND
-				} )
-			);
+		const task = await this.prismaService.task.findUnique( { where: { id: taskId } } );
+		if ( !task ) {
+			this.logger.error( "Task Not Found! Id: %s", taskId );
+			throw new NotFoundException( TaskMessages.NOT_FOUND );
+		}
+
+		const updatedTask = await this.prismaService.task.update( {
+			where: { id: taskId },
+			data: { ...data, status: TaskStatus.ASSIGNED }
+		} );
 
 		this.eventEmitter.emit( TaskEvents.ASSIGNED, updatedTask );
+		this.logger.debug( "<< assignTask()" );
 		return updatedTask;
 	}
 
-	async startTaskProgress( { taskId }: TaskIdInput ) {
+	async startTaskProgress( { taskId }: TaskIdInput ): Promise<Task> {
 		this.logger.debug( ">> startTaskProgress()" );
 		this.logger.debug( "Data: %o", { taskId } );
 
 		const updatedTask = await this.updateTaskStatus( taskId, TaskStatus.IN_PROGRESS );
 		this.eventEmitter.emit( TaskEvents.PROGRESS_STARTED, updatedTask );
+		this.logger.debug( "<< startTaskProgress()" );
 		return updatedTask;
 	}
 
-	async submitTask( { taskId }: TaskIdInput ) {
+	async submitTask( { taskId }: TaskIdInput ): Promise<Task> {
 		this.logger.debug( ">> submitTask()" );
 		this.logger.debug( "Data: %o", { taskId } );
 
 		const updatedTask = await this.updateTaskStatus( taskId, TaskStatus.SUBMITTED );
 		this.eventEmitter.emit( TaskEvents.SUBMITTED, updatedTask );
+		this.logger.debug( "<< submitTask()" );
 		return updatedTask;
 	}
 
-	async approveTask( { taskId }: TaskIdInput ) {
+	async approveTask( { taskId }: TaskIdInput ): Promise<Task> {
 		this.logger.debug( ">> approveTask()" );
 		this.logger.debug( "Data: %o", { taskId } );
 
 		const updatedTask = await this.updateTaskStatus( taskId, TaskStatus.APPROVED );
 		this.eventEmitter.emit( TaskEvents.APPROVED, updatedTask );
+		this.logger.debug( "<< approveTask()" );
 		return updatedTask;
 	}
 
-	async completeTask( { taskId }: TaskIdInput ) {
+	async completeTask( { taskId }: TaskIdInput ): Promise<Task> {
 		this.logger.debug( ">> completeTask()" );
 		this.logger.debug( "Data: %o", { taskId } );
 
 		const updatedTask = await this.updateTaskStatus( taskId, TaskStatus.COMPLETED );
 		this.eventEmitter.emit( TaskEvents.COMPLETED, updatedTask );
+		this.logger.debug( "<< completeTask()" );
 		return updatedTask;
 	}
 
-	async getTasks( authInfo: UserAuthInfo, isTasksRequested: boolean ) {
+	async getTasks( authInfo: UserAuthInfo, isTasksRequested: boolean ): Promise<Task[]> {
 		this.logger.debug( ">> getTasks()" );
 		this.logger.debug( "AuthInfo: %o, IsTasksRequested: %s", authInfo, isTasksRequested );
 
@@ -163,19 +180,22 @@ export class TaskService {
 			}
 		}
 
-		return this.prismaService.task.findMany( { where } );
+		const tasks = await this.prismaService.task.findMany( { where } );
+		this.logger.debug( "<< getTasks()" );
+		return tasks;
 	}
 
-	private async updateTaskStatus( taskId: string, status: TaskStatus ) {
+	private async updateTaskStatus( taskId: string, status: TaskStatus ): Promise<Task> {
 		this.logger.debug( ">> updateTaskStatus()" );
 
-		return await this.prismaService.task
-			.update( { where: { id: taskId }, data: { status } } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: TaskMessages.NOT_FOUND
-				} )
-			);
+		let task = await this.prismaService.task.findUnique( { where: { id: taskId } } );
+		if ( !task ) {
+			this.logger.error( "Task Not Found! Id: %s", taskId );
+			throw new NotFoundException( TaskMessages.NOT_FOUND );
+		}
+
+		task = await this.prismaService.task.update( { where: { id: taskId }, data: { status } } );
+		this.logger.debug( "<< updateTaskStatus()" );
+		return task;
 	}
 }

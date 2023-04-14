@@ -12,7 +12,7 @@ export class UserEvents {
 export class UserEventsListener {
 	private readonly logger = LoggerFactory.getLogger( UserEventsListener );
 
-	constructor( private readonly tokenService: TokenService ) { }
+	constructor( private readonly tokenService: TokenService ) {}
 
 	@OnEvent( UserEvents.CREATED )
 	async handleUserCreatedEvent( data: User ) {

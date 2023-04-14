@@ -1,5 +1,5 @@
-import { JwtService, LoggerFactory, PrismaExceptionCode, PrismaService } from "@api/common";
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { JwtService, LoggerFactory, PrismaService } from "@api/common";
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import bcrypt from "bcryptjs";
 import dayjs from "dayjs";
@@ -21,18 +21,25 @@ export class UserService {
 		this.logger.debug( ">> createUser()" );
 		this.logger.debug( "Data: %o", data );
 
+		const existingUser = await this.prismaService.user.findFirst( {
+			where: {
+				OR: {
+					email: data.email,
+					username: data.username
+				}
+			}
+		} );
+
+		if ( !!existingUser ) {
+			this.logger.error( "User with same email/username already exists! Email: %s", data.email );
+			throw new ConflictException( UserMessages.ALREADY_EXISTS );
+		}
+
 		data.password = await bcrypt.hash( data.password, 10 );
-		const user = await this.prismaService.user
-			.create( { data } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.UNIQUE_CONSTRAINT_FAILED,
-					message: UserMessages.ALREADY_EXISTS
-				} )
-			);
+		const user = await this.prismaService.user.create( { data } );
 
 		this.eventEmitter.emit( UserEvents.CREATED, user );
-		this.logger.debug( "User Created! Username: %s", user.username );
+		this.logger.debug( "<< createUser()" );
 		return user;
 	}
 
@@ -40,14 +47,12 @@ export class UserService {
 		this.logger.debug( ">> login()" );
 		this.logger.debug( "Data: %o", { username, password } );
 
-		const user = await this.prismaService.user
-			.findUniqueOrThrow( { where: { username } } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: UserMessages.NOT_FOUND
-				} )
-			);
+		const user = await this.prismaService.user.findUnique( { where: { username } } );
+
+		if ( !user ) {
+			this.logger.error( "User Not Found! Username: %s", username );
+			throw new NotFoundException( UserMessages.NOT_FOUND );
+		}
 
 		if ( !user.verified ) {
 			this.logger.error( UserMessages.NOT_VERIFIED + " Username: %s", username );
@@ -61,7 +66,7 @@ export class UserService {
 		}
 
 		const token = await this.jwtService.sign( { id: user.id, verified: user.verified, roles: user.roles } );
-		this.logger.debug( "Token Created: %s", token );
+		this.logger.debug( "<< login()" );
 		return { user, token };
 	}
 
@@ -69,23 +74,17 @@ export class UserService {
 		this.logger.debug( ">> verifyUser()" );
 		this.logger.debug( "Data: %o", { userId, hash } );
 
-		await this.prismaService.user
-			.findUniqueOrThrow( { where: { id: userId } } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: UserMessages.NOT_FOUND
-				} )
-			);
+		const user = await this.prismaService.user.findUnique( { where: { id: userId } } );
+		if ( !user ) {
+			this.logger.error( "User Not Found! Id: %s", userId );
+			throw new NotFoundException( UserMessages.NOT_FOUND );
+		}
 
-		const token = await this.prismaService.token
-			.findFirstOrThrow( { where: { userId, hash } } )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.RECORD_NOT_FOUND,
-					message: TokenMessages.NOT_FOUND
-				} )
-			);
+		const token = await this.prismaService.token.findFirst( { where: { userId, hash } } );
+		if ( !token ) {
+			this.logger.error( "Token Not Found! UserId: %s", userId );
+			throw new NotFoundException( TokenMessages.NOT_FOUND );
+		}
 
 		if ( dayjs().isAfter( token.expiry ) ) {
 			this.logger.error( TokenMessages.EXPIRED + " TokenId: %s", token.id );

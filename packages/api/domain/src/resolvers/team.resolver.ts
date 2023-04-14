@@ -4,7 +4,7 @@ import { TeamService } from "../services";
 @Resolver( "Team" )
 export class TeamResolver {
 
-	constructor( private readonly teamService: TeamService ) { }
+	constructor( private readonly teamService: TeamService ) {}
 
 	@ResolveField()
 	async createdBy( @Parent() { id }: { id: string; } ) {

@@ -4,16 +4,16 @@
 <head>
     <title>GraphiQL</title>
     <style>
-		body {
-			height: 100%;
-			margin: 0;
-			overflow: hidden;
-			width: 100%;
-		}
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            width: 100%;
+        }
 
-		#graphiql {
-			height: 100vh;
-		}
+        #graphiql {
+            height: 100vh;
+        }
 
     </style>
 
@@ -32,16 +32,16 @@
 <script src="https://unpkg.com/graphiql/graphiql.min.js"
         type="application/javascript"></script>
 <script>
-	ReactDOM.render(
-		React.createElement( GraphiQL, {
-			fetcher: GraphiQL.createFetcher( {
-				url: "http://localhost:8000/api/graphql",
-				credentials: "include"
-			} ),
-			defaultEditorToolsVisibility: true
-		} ),
-		document.getElementById( "graphiql" )
-	);
+    ReactDOM.render(
+        React.createElement(GraphiQL, {
+            fetcher: GraphiQL.createFetcher({
+                url: "http://localhost:8000/api/graphql",
+                credentials: "include"
+            }),
+            defaultEditorToolsVisibility: true
+        }),
+        document.getElementById("graphiql")
+    );
 </script>
 </body>
 

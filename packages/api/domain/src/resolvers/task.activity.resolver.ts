@@ -1,5 +1,5 @@
 import { Parent, ResolveField, Resolver } from "@nestjs/graphql";
-import type { TaskActivityService } from "../services/task.activity.service";
+import type { TaskActivityService } from "../services";
 
 @Resolver()
 export class TaskActivityResolver {

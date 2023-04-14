@@ -1,11 +1,11 @@
 import { Parent, ResolveField, Resolver } from "@nestjs/graphql";
 import type { Member, TaskActivity } from "@prisma/client";
-import type { TaskService } from "../services/task.service";
+import type { TaskService } from "../services";
 
 @Resolver()
 export class TaskResolver {
 
-	constructor( private readonly taskService: TaskService ) {}
+	constructor( private readonly taskService: TaskService ) { }
 
 	@ResolveField()
 	async createdBy( @Parent() { id }: { id: string; } ): Promise<Member> {
@@ -13,7 +13,7 @@ export class TaskResolver {
 	}
 
 	@ResolveField()
-	async assignee( @Parent() { id }: { id: string; } ): Promise<Member> {
+	async assignee( @Parent() { id }: { id: string; } ): Promise<Member | null> {
 		return this.taskService.getTaskAssignee( id );
 	}
 

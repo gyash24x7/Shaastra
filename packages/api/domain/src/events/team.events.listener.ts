@@ -15,7 +15,7 @@ export class TeamEventsListener {
 	constructor( private readonly memberService: MemberService ) { }
 
 	@OnEvent( TeamEvents.MEMBERS_ADDED )
-	async handleMembersAddedEvent( data: Team & { memberIds: string[]; } ) {
+	async handleMembersAddedEvent( data: Team & { memberIds: string[] } ) {
 		this.logger.debug( ">> handleMembersAddedEvent()" );
 		this.logger.debug( "Data: %o", data );
 

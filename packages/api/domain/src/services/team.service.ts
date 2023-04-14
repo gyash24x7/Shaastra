@@ -1,6 +1,6 @@
 import type { UserAuthInfo } from "@api/common";
-import { LoggerFactory, PrismaExceptionCode, PrismaService } from "@api/common";
-import { Injectable } from "@nestjs/common";
+import { LoggerFactory, PrismaService } from "@api/common";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import type { Department } from "@prisma/client";
 import { TeamMessages } from "../constants";
@@ -17,23 +17,39 @@ export class TeamService {
 	) { }
 
 	async getTeamCreator( teamId: string ) {
-		return this.prismaService.team
-			.findUniqueOrThrow( { where: { id: teamId } } )
-			.createdBy()
-			.catch( this.prismaService.handleException( {
-				code: PrismaExceptionCode.RECORD_NOT_FOUND,
-				message: TeamMessages.NOT_FOUND
-			} ) );
+		this.logger.debug( ">> getTeamCreator()" );
+		this.logger.debug( "TeamId: %s", teamId );
+
+		const team = await this.prismaService.team.findUnique( {
+			where: { id: teamId },
+			include: { createdBy: true }
+		} );
+
+		if ( !team ) {
+			this.logger.error( "Team Not Found! Id: %s", teamId );
+			throw new NotFoundException( TeamMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTeamCreator()" );
+		return team.createdBy;
 	}
 
 	async getTeamMembers( teamId: string ) {
-		return this.prismaService.team
-			.findUniqueOrThrow( { where: { id: teamId } } )
-			.members()
-			.catch( this.prismaService.handleException( {
-				code: PrismaExceptionCode.RECORD_NOT_FOUND,
-				message: TeamMessages.NOT_FOUND
-			} ) );
+		this.logger.debug( ">> getTeamMembers()" );
+		this.logger.debug( "TeamId: %s", teamId );
+
+		const team = await this.prismaService.team.findUnique( {
+			where: { id: teamId },
+			include: { members: true }
+		} );
+
+		if ( !team ) {
+			this.logger.error( "Team Not Found! Id: %s", teamId );
+			throw new NotFoundException( TeamMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTeamMembers()" );
+		return team.members;
 	}
 
 	async getDepartmentTeams( department: Department ) {
@@ -42,7 +58,7 @@ export class TeamService {
 
 		const teams = await this.prismaService.team.findMany( { where: { department } } );
 
-		this.logger.debug( "Found Teams: %o", teams );
+		this.logger.debug( "<< getDepartmentTeams()" );
 		return teams;
 	}
 
@@ -50,22 +66,24 @@ export class TeamService {
 		this.logger.debug( ">> createTeam()" );
 		this.logger.debug( "Data: %o", data );
 
-		const team = await this.prismaService.team
-			.create( {
-				data: {
-					...data,
-					members: { connect: { id: authInfo.id } },
-					createdBy: { connect: { id: authInfo.id } }
-				}
-			} )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.UNIQUE_CONSTRAINT_FAILED,
-					message: TeamMessages.ALREADY_EXISTS
-				} )
-			);
+		const existingTeam = await this.prismaService.team.findUnique( {
+			where: { name: data.name }
+		} );
 
-		this.logger.debug( "Team Created Successfully! Id: %s", team.id );
+		if ( !!existingTeam ) {
+			this.logger.error( "Team with same name already exists! Name: %s", data.name );
+			throw new ConflictException( TeamMessages.ALREADY_EXISTS );
+		}
+
+		const team = await this.prismaService.team.create( {
+			data: {
+				...data,
+				members: { connect: { id: authInfo.id } },
+				createdBy: { connect: { id: authInfo.id } }
+			}
+		} );
+
+		this.logger.debug( "<< createTeam()" );
 		return team;
 	}
 
@@ -73,27 +91,28 @@ export class TeamService {
 		this.logger.debug( ">> addTeamMembers()" );
 		this.logger.debug( "Data: %o", data );
 
-		const team = await this.prismaService.team
-			.update( {
-				where: { id: data.teamId },
-				data: {
-					members: {
-						connect: data.memberIds.map( id => {
-							return { id };
-						} )
-					}
+		const existingTeam = await this.prismaService.team.findUnique( {
+			where: { id: data.teamId }
+		} );
+
+		if ( !existingTeam ) {
+			this.logger.error( "Team Not Found! TeamId: %s", data.teamId );
+			throw new NotFoundException( TeamMessages.NOT_FOUND );
+		}
+
+		const team = await this.prismaService.team.update( {
+			where: { id: data.teamId },
+			data: {
+				members: {
+					connect: data.memberIds.map( id => {
+						return { id };
+					} )
 				}
-			} )
-			.catch(
-				this.prismaService.handleException( {
-					code: PrismaExceptionCode.UNIQUE_CONSTRAINT_FAILED,
-					message: TeamMessages.NOT_FOUND
-				} )
-			);
+			}
+		} );
 
 		this.eventEmitter.emit( TeamEvents.MEMBERS_ADDED, { ...team, memberIds: data.memberIds } );
-		this.logger.debug( "Team Created Successfully! Id: %s", team.id );
-
+		this.logger.debug( "<< addTeamMembers()" );
 		return team;
 	}
 }

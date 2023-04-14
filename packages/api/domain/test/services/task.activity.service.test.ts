@@ -1,44 +1,47 @@
 import type { PrismaService } from "@api/common";
-import { TaskActivityService } from "@api/domain";
-import type { Prisma, Task, TaskActivity } from "@prisma/client";
+import { TaskActivityMessages, TaskActivityService } from "@api/domain";
+import type { Task, TaskActivity } from "@prisma/client";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
+import { NotFoundException } from "@nestjs/common";
 
 describe( "TaskActivity Service", () => {
 
 	const mockPrismaService = mockDeep<PrismaService>();
-	const mockPrismaTaskActivityClient = mockDeep<Prisma.Prisma__TaskActivityClient<TaskActivity>>();
-	const mockPrismaTaskClient = mockDeep<Prisma.Prisma__TaskClient<Task>>();
 	const mockTask = mockDeep<Task>();
 	const mockTaskActivity = mockDeep<TaskActivity>();
 
 	it( "should return the associated task when getTask is called", async () => {
-		mockPrismaTaskActivityClient.task.mockResolvedValue( mockTask );
-		mockPrismaService.taskActivity.findUniqueOrThrow.mockReturnValue( mockPrismaTaskActivityClient );
+		mockPrismaService.taskActivity.findUnique.mockResolvedValue( { ...mockTaskActivity, task: mockTask } as any );
 		const taskActivityService = new TaskActivityService( mockPrismaService );
 		const task = await taskActivityService.getTask( "some_task_activity_id" );
 
 		expect( task ).toBe( mockTask );
-		expect( mockPrismaService.taskActivity.findUniqueOrThrow )
-			.toHaveBeenCalledWith( { where: { id: "some_task_activity_id" } } );
-		expect( mockPrismaTaskActivityClient.task ).toHaveBeenCalled();
+		expect( mockPrismaService.taskActivity.findUnique ).toHaveBeenCalledWith( {
+			where: { id: "some_task_activity_id" },
+			include: { task: true }
+		} );
 	} );
 
-	it( "should return the task activity when getTaskActivity is called", async () => {
-		mockPrismaTaskClient.taskActivity.mockResolvedValue( [ mockTaskActivity ] );
-		mockPrismaService.task.findUniqueOrThrow.mockReturnValue( mockPrismaTaskClient );
+	it( "should throw error when getTask is called and task activity is not found", async () => {
+		mockPrismaService.taskActivity.findUnique.mockResolvedValue( null );
 		const taskActivityService = new TaskActivityService( mockPrismaService );
-		const taskActivity = await taskActivityService.getTaskActivity( "some_task_id" );
 
-		expect( taskActivity.length ).toBe( 1 );
-		expect( taskActivity[ 0 ] ).toBe( mockTaskActivity );
-		expect( mockPrismaService.task.findUniqueOrThrow )
-			.toHaveBeenCalledWith( { where: { id: "some_task_id" } } );
-		expect( mockPrismaTaskClient.taskActivity ).toHaveBeenCalled();
+
+		expect.assertions( 4 );
+		return taskActivityService.getTask( "some_task_activity_id" )
+			.catch( e => {
+				expect( e ).toBeInstanceOf( NotFoundException );
+				expect( e.getStatus() ).toBe( 404 );
+				expect( e.message ).toBe( TaskActivityMessages.NOT_FOUND );
+				expect( mockPrismaService.taskActivity.findUnique ).toHaveBeenCalledWith( {
+					where: { id: "some_task_activity_id" },
+					include: { task: true }
+				} )
+			} )
 	} );
 
 	afterEach( () => {
-		mockClear( mockPrismaTaskActivityClient );
 		mockClear( mockPrismaService );
 	} );
 } );

@@ -3,7 +3,7 @@ import { AuthGuard, AuthInfo } from "@api/common";
 import { UseGuards } from "@nestjs/common";
 import { Args, Query, Resolver } from "@nestjs/graphql";
 import { Department } from "@prisma/client";
-import { MemberService, TaskActivityService, TaskService, TeamService } from "../services";
+import { MemberService, TaskService, TeamService } from "../services";
 
 @Resolver()
 export class QueryResolver {
@@ -11,8 +11,7 @@ export class QueryResolver {
 	constructor(
 		private readonly memberService: MemberService,
 		private readonly teamService: TeamService,
-		private readonly taskService: TaskService,
-		private readonly taskActivityService: TaskActivityService
+		private readonly taskService: TaskService
 	) { }
 
 	@UseGuards( AuthGuard )
@@ -41,6 +40,6 @@ export class QueryResolver {
 	@Query()
 	@UseGuards( AuthGuard )
 	async taskActivity( @Args( "taskId" ) taskId: string ) {
-		return this.taskActivityService.getTaskActivity( taskId );
+		return this.taskService.getTaskActivity( taskId );
 	}
 }

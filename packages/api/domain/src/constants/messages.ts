@@ -27,3 +27,7 @@ export class TaskMessages {
 export class TaskActivityMessages {
 	public static readonly NOT_FOUND = "Task Activity Not Found!";
 }
+
+export class TaskCommentMessages {
+	public static readonly NOT_FOUND = "Task Comment Not Found!";
+}

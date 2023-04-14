@@ -1,5 +1,6 @@
 import type { ServiceContext, UserAuthInfo } from "@api/common";
 import {
+	AddTaskCommentInput,
 	AddTeamMembersInput,
 	AssignTaskInput,
 	cookieOptions,
@@ -10,6 +11,7 @@ import {
 	LoginInput,
 	MemberService,
 	MutationResolver,
+	TaskCommentService,
 	TaskIdInput,
 	TaskService,
 	TeamService,
@@ -17,7 +19,7 @@ import {
 	UserService,
 	VerifyUserInput
 } from "@api/domain";
-import { Department, Member, Task, Team, User } from "@prisma/client";
+import { Department, Member, Task, TaskComment, Team, User } from "@prisma/client";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
 import dayjs from "dayjs";
@@ -28,11 +30,13 @@ describe( "MutationResolver", () => {
 	const mockUserService = mockDeep<UserService>();
 	const mockTeamService = mockDeep<TeamService>();
 	const mockTaskService = mockDeep<TaskService>();
+	const mockTaskCommentService = mockDeep<TaskCommentService>();
 	const mockServiceContext = mockDeep<ServiceContext>();
 	const mockUser = mockDeep<User>();
 	const mockTeam = mockDeep<Team>();
 	const mockMember = mockDeep<Member>();
-	const mockTask = mockDeep<Task>()
+	const mockTask = mockDeep<Task>();
+	const mockTaskComment = mockDeep<TaskComment>();
 	const mockAuthInfo = mockDeep<UserAuthInfo>();
 
 	it( "should login user, set cookies and return user id when login is called", async () => {
@@ -42,7 +46,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: LoginInput = { username: "some_username", password: "some_password" };
 		const userId = await mutationResolver.login( data, mockServiceContext );
@@ -59,7 +64,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const userId = await mutationResolver.logout( mockServiceContext, mockAuthInfo );
 
@@ -73,7 +79,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: VerifyUserInput = { userId: "some_user_id", hash: "some_token_hash" };
 		const userId = await mutationResolver.verifyUser( data );
@@ -88,7 +95,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: CreateMemberInput = mockDeep<CreateMemberInput>();
 		const member = await mutationResolver.createMember( data );
@@ -103,7 +111,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: EnableMemberInput = { id: "some_id" };
 		const member = await mutationResolver.enableMember( data );
@@ -118,7 +127,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: CreateTeamInput = { name: "some_team_name", department: Department.CONCEPT_AND_DESIGN };
 		const team = await mutationResolver.createTeam( data, mockAuthInfo );
@@ -133,7 +143,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: AddTeamMembersInput = { teamId: "some_user_id", memberIds: [ "some_member_id" ] };
 		const team = await mutationResolver.addTeamMembers( data );
@@ -148,7 +159,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: CreateTaskInput = {
 			title: "task title",
@@ -168,7 +180,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: UpdateTaskInput = { taskId: "some_task_id" };
 		const task = await mutationResolver.updateTask( data );
@@ -183,7 +196,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: AssignTaskInput = { taskId: "some_task_id", assigneeId: "some_member_id" };
 		const task = await mutationResolver.assignTask( data );
@@ -198,7 +212,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: TaskIdInput = { taskId: "some_task_id" };
 		const task = await mutationResolver.startTask( data );
@@ -213,7 +228,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: TaskIdInput = { taskId: "some_task_id" };
 		const task = await mutationResolver.submitTask( data );
@@ -228,7 +244,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: TaskIdInput = { taskId: "some_task_id" };
 		const task = await mutationResolver.approveTask( data );
@@ -243,7 +260,8 @@ describe( "MutationResolver", () => {
 			mockMemberService,
 			mockTeamService,
 			mockUserService,
-			mockTaskService
+			mockTaskService,
+			mockTaskCommentService
 		);
 		const data: TaskIdInput = { taskId: "some_task_id" };
 		const task = await mutationResolver.completeTask( data );
@@ -252,10 +270,27 @@ describe( "MutationResolver", () => {
 		expect( mockTaskService.completeTask ).toHaveBeenCalledWith( data );
 	} );
 
+	it( "should add new comment to the task when addTaskComment is called", async () => {
+		mockTaskCommentService.addTaskComment.mockResolvedValue( mockTaskComment );
+		const mutationResolver = new MutationResolver(
+			mockMemberService,
+			mockTeamService,
+			mockUserService,
+			mockTaskService,
+			mockTaskCommentService
+		);
+		const data: AddTaskCommentInput = { taskId: "some_task_id", content: "task comment content" };
+		const taskComment = await mutationResolver.addTaskComment( data, mockAuthInfo );
+
+		expect( taskComment ).toBe( mockTaskComment );
+		expect( mockTaskCommentService.addTaskComment ).toHaveBeenCalledWith( data, mockAuthInfo );
+	} );
+
 	afterEach( () => {
 		mockClear( mockServiceContext );
 		mockClear( mockMemberService );
 		mockClear( mockUserService );
 		mockClear( mockTeamService );
+		mockClear( mockTaskCommentService );
 	} );
 } );

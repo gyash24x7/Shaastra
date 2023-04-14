@@ -42,4 +42,10 @@ export class QueryResolver {
 	async taskActivity( @Args( "taskId" ) taskId: string ) {
 		return this.taskService.getTaskActivity( taskId );
 	}
+
+	@Query()
+	@UseGuards( AuthGuard )
+	async taskComments( @Args( "taskId" ) taskId: string ) {
+		return this.taskService.getTaskComments( taskId );
+	}
 }

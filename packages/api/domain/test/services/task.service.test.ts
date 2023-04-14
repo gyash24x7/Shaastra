@@ -10,7 +10,7 @@ import {
 } from "@api/domain";
 import type { EventEmitter2 } from "@nestjs/event-emitter";
 import type { Member, Prisma, Task, TaskActivity } from "@prisma/client";
-import { TaskStatus } from "@prisma/client";
+import { TaskComment, TaskStatus } from "@prisma/client";
 import dayjs from "dayjs";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
@@ -23,6 +23,7 @@ describe( "Task Service", () => {
 	const mockEventEmitter = mockDeep<EventEmitter2>();
 	const mockMember = mockDeep<Member>();
 	const mockTaskActivity = mockDeep<TaskActivity>();
+	const mockTaskComment = mockDeep<TaskComment>();
 	const mockTask = mockDeep<Task>();
 	const mockAuthInfo = mockDeep<UserAuthInfo>();
 
@@ -85,10 +86,7 @@ describe( "Task Service", () => {
 	} );
 
 	it( "should return the task activity when getTaskActivity is called", async () => {
-		mockPrismaService.task.findUnique.mockResolvedValue( {
-			...mockTask,
-			activity: [ mockTaskActivity ]
-		} as any );
+		mockPrismaService.task.findUnique.mockResolvedValue( { ...mockTask, activity: [ mockTaskActivity ] } as any );
 		const taskService = new TaskService( mockPrismaService, mockEventEmitter );
 		const activity = await taskService.getTaskActivity( "some_id" );
 
@@ -113,6 +111,36 @@ describe( "Task Service", () => {
 				expect( mockPrismaService.task.findUnique ).toHaveBeenCalledWith( {
 					where: { id: "some_id" },
 					include: { activity: true }
+				} );
+			} );
+	} );
+
+	it( "should return the task comment when getTaskComment is called", async () => {
+		mockPrismaService.task.findUnique.mockResolvedValue( { ...mockTask, comments: [ mockTaskComment ] } as any );
+		const taskService = new TaskService( mockPrismaService, mockEventEmitter );
+		const comment = await taskService.getTaskComments( "some_id" );
+
+		expect( comment.length ).toBe( 1 );
+		expect( comment[ 0 ] ).toBe( mockTaskComment );
+		expect( mockPrismaService.task.findUnique ).toHaveBeenCalledWith( {
+			where: { id: "some_id" },
+			include: { comments: true }
+		} );
+	} );
+
+	it( "should throw error when getTaskComment is called and task is not found", async () => {
+		mockPrismaService.task.findUnique.mockResolvedValue( null );
+		const taskService = new TaskService( mockPrismaService, mockEventEmitter );
+
+		expect.assertions( 4 );
+		return taskService.getTaskComments( "some_id" )
+			.catch( e => {
+				expect( e ).toBeInstanceOf( NotFoundException );
+				expect( e.getStatus() ).toBe( 404 );
+				expect( e.message ).toBe( TaskMessages.NOT_FOUND );
+				expect( mockPrismaService.task.findUnique ).toHaveBeenCalledWith( {
+					where: { id: "some_id" },
+					include: { comments: true }
 				} );
 			} );
 	} );

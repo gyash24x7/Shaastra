@@ -2,7 +2,7 @@ import { LoggerFactory, PrismaService, UserAuthInfo } from "@api/common";
 import { TaskEvents, TaskMessages } from "@api/domain";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import type { EventEmitter2 } from "@nestjs/event-emitter";
-import { Member, MemberPosition, Prisma, Task, TaskActivity, TaskStatus } from "@prisma/client";
+import { Member, MemberPosition, Prisma, Task, TaskActivity, TaskComment, TaskStatus } from "@prisma/client";
 import type { AssignTaskInput, CreateTaskInput, TaskIdInput, UpdateTaskInput } from "../inputs";
 
 @Injectable()
@@ -66,6 +66,24 @@ export class TaskService {
 
 		this.logger.debug( "<< getTaskActivity()" );
 		return task.activity;
+	}
+
+	async getTaskComments( taskId: string ): Promise<TaskComment[]> {
+		this.logger.debug( ">> getTaskComment()" );
+		this.logger.debug( "TaskId: %s", taskId );
+
+		const task = await this.prismaService.task.findUnique( {
+			where: { id: taskId },
+			include: { comments: true }
+		} );
+
+		if ( !task ) {
+			this.logger.error( "Task Not Found! Id: %s", taskId );
+			throw new NotFoundException( TaskMessages.NOT_FOUND );
+		}
+
+		this.logger.debug( "<< getTaskComment()" );
+		return task.comments;
 	}
 
 	async createTask( data: CreateTaskInput, authInfo: UserAuthInfo ): Promise<Task> {

@@ -4,6 +4,7 @@ import { UseGuards } from "@nestjs/common";
 import { Args, Context, Mutation, Resolver } from "@nestjs/graphql";
 import type { CookieOptions } from "express";
 import {
+	AddTaskCommentInput,
 	AddTeamMembersInput,
 	AssignTaskInput,
 	CreateMemberInput,
@@ -15,7 +16,7 @@ import {
 	UpdateTaskInput,
 	VerifyUserInput
 } from "../inputs";
-import { MemberService, TaskService, TeamService, UserService } from "../services";
+import { MemberService, TaskCommentService, TaskService, TeamService, UserService } from "../services";
 
 export const cookieOptions: CookieOptions = {
 	maxAge: 9000000,
@@ -33,7 +34,8 @@ export class MutationResolver {
 		private readonly memberService: MemberService,
 		private readonly teamService: TeamService,
 		private readonly userService: UserService,
-		private readonly taskService: TaskService
+		private readonly taskService: TaskService,
+		private readonly taskCommentService: TaskCommentService
 	) { }
 
 	@Mutation()
@@ -93,7 +95,7 @@ export class MutationResolver {
 	async assignTask( @Args( "data" ) data: AssignTaskInput ) {
 		return this.taskService.assignTask( data );
 	}
-	
+
 	@Mutation()
 	@UseGuards( AuthGuard )
 	async startTask( @Args( "data" ) data: TaskIdInput ) {
@@ -116,5 +118,11 @@ export class MutationResolver {
 	@UseGuards( AuthGuard )
 	async completeTask( @Args( "data" ) data: TaskIdInput ) {
 		return this.taskService.completeTask( data );
+	}
+
+	@Mutation()
+	@UseGuards( AuthGuard )
+	async addTaskComment( @Args( "data" ) data: AddTaskCommentInput, @AuthInfo() authInfo: UserAuthInfo ) {
+		return this.taskCommentService.addTaskComment( data, authInfo );
 	}
 }

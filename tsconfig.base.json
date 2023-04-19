@@ -4,6 +4,7 @@
 	"compileOnSave": false,
 	"extends": [ "@tsconfig/node18", "@tsconfig/strictest" ],
 	"compilerOptions": {
+		"verbatimModuleSyntax": false,
 		"exactOptionalPropertyTypes": false,
 		"strictPropertyInitialization": false,
 		"noUncheckedIndexedAccess": false,

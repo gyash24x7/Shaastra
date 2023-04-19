@@ -1,6 +1,5 @@
 import type { UserAuthInfo } from "@api/common";
-import { AuthGuard, AuthInfo } from "@api/common";
-import { UseGuards } from "@nestjs/common";
+import { AuthInfo, RequiresAuth } from "@api/common";
 import { Args, Query, Resolver } from "@nestjs/graphql";
 import { Department } from "@prisma/client";
 import { MemberService, TaskService, TeamService } from "../services";
@@ -14,37 +13,38 @@ export class QueryResolver {
 		private readonly taskService: TaskService
 	) { }
 
-	@UseGuards( AuthGuard )
 	@Query()
+	@RequiresAuth()
 	async me( @AuthInfo() authInfo: UserAuthInfo ) {
 		return this.memberService.getAuthenticatedMember( authInfo );
 	}
 
 	@Query()
+	@RequiresAuth()
 	async teams( @Args( "department" ) department: Department ) {
 		return this.teamService.getDepartmentTeams( department );
 	}
 
 	@Query()
-	@UseGuards( AuthGuard )
+	@RequiresAuth()
 	async tasks( @AuthInfo() authInfo: UserAuthInfo ) {
 		return this.taskService.getTasks( authInfo, false );
 	}
 
 	@Query()
-	@UseGuards( AuthGuard )
+	@RequiresAuth()
 	async tasksRequested( @AuthInfo() authInfo: UserAuthInfo ) {
 		return this.taskService.getTasks( authInfo, true );
 	}
 
 	@Query()
-	@UseGuards( AuthGuard )
+	@RequiresAuth()
 	async taskActivity( @Args( "taskId" ) taskId: string ) {
 		return this.taskService.getTaskActivity( taskId );
 	}
 
 	@Query()
-	@UseGuards( AuthGuard )
+	@RequiresAuth()
 	async taskComments( @Args( "taskId" ) taskId: string ) {
 		return this.taskService.getTaskComments( taskId );
 	}

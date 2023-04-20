@@ -3,7 +3,7 @@ import { CreateMemberInput, EnableMemberInput, MemberEvents, MemberMessages, Mem
 import { ConflictException, NotFoundException } from "@nestjs/common";
 import type { EventEmitter2 } from "@nestjs/event-emitter";
 import type { Member, Team } from "@prisma/client";
-import { MemberPosition, Task } from "@prisma/client";
+import { Position, Task } from "@prisma/client";
 import { afterEach, describe, expect, it } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
 
@@ -167,7 +167,7 @@ describe( "Member Service", () => {
 
 		expect( member ).toBe( mockMember );
 		expect( mockPrismaService.member.create )
-			.toHaveBeenCalledWith( { data: { ...input, position: MemberPosition.COORD } } );
+			.toHaveBeenCalledWith( { data: { ...input, position: Position.COORD } } );
 		expect( mockEventEmitter.emit ).toHaveBeenCalledWith( MemberEvents.CREATED, { ...member, password } );
 	} );
 

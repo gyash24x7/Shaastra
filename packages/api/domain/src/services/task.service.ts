@@ -2,7 +2,7 @@ import { LoggerFactory, PrismaService, UserAuthInfo } from "@api/common";
 import { TaskEvents, TaskMessages } from "@api/domain";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import type { EventEmitter2 } from "@nestjs/event-emitter";
-import { Member, MemberPosition, Prisma, Task, TaskActivity, TaskComment, TaskStatus } from "@prisma/client";
+import { Member, Position, Prisma, Task, TaskActivity, TaskComment, TaskStatus } from "@prisma/client";
 import type { AssignTaskInput, CreateTaskInput, TaskIdInput, UpdateTaskInput } from "../inputs";
 
 @Injectable()
@@ -186,14 +186,14 @@ export class TaskService {
 
 		const where: Prisma.TaskWhereInput = {};
 
-		if ( authInfo.position !== MemberPosition.COCAS ) {
+		if ( authInfo.position !== Position.COCAS ) {
 			if ( isTasksRequested ) {
 				where.byDepartment = authInfo.department;
 			} else {
 				where.forDepartment = authInfo.department;
 			}
 
-			if ( authInfo.position !== MemberPosition.CORE ) {
+			if ( authInfo.position !== Position.CORE ) {
 				where.assigneeId = authInfo.id;
 			}
 		}

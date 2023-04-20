@@ -21,7 +21,7 @@ enum Department {
 	QMS
 }
 
-enum MemberPosition {
+enum Position {
 	COORD
 	HEAD
 	CORE
@@ -37,7 +37,7 @@ type Member {
 	enabled: Boolean!
 	mobile: String!
 	name: String!
-	position: MemberPosition!
+	position: Position!
 	profilePic: String!
 	rollNumber: String!
 	upi: String!

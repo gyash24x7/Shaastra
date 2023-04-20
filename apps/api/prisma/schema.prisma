@@ -39,7 +39,7 @@ enum Department {
     QMS
 }
 
-enum MemberPosition {
+enum Position {
     COORD
     HEAD
     CORE
@@ -57,7 +57,7 @@ model Member {
     upi                 String         @default("")
     about               String         @default("")
     department          Department
-    position            MemberPosition
+    position            Position
     enabled             Boolean        @default(false)
     teams               Team[]
     teamsCreated        Team[]         @relation("TeamCreatedBy")

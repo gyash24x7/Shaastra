@@ -16,7 +16,7 @@ import {
 	VerifyUserInput
 } from "../inputs";
 import { MemberService, TaskCommentService, TaskService, TeamService, UserService } from "../services";
-import { MemberPosition } from "@prisma/client";
+import { Position } from "@prisma/client";
 
 export const cookieOptions: CookieOptions = {
 	maxAge: 9000000,
@@ -64,21 +64,21 @@ export class MutationResolver {
 
 	@Mutation()
 	@RequiresAuth()
-	@RequiresPosition( MemberPosition.CORE )
+	@RequiresPosition( Position.CORE )
 	async enableMember( @Args( "data" ) data: EnableMemberInput ) {
 		return this.memberService.enableMember( data );
 	}
 
 	@Mutation()
 	@RequiresAuth()
-	@RequiresPosition( MemberPosition.CORE )
+	@RequiresPosition( Position.CORE )
 	async addTeamMembers( @Args( "data" ) data: AddTeamMembersInput ) {
 		return this.teamService.addTeamMembers( data );
 	}
 
 	@Mutation()
 	@RequiresAuth()
-	@RequiresPosition( MemberPosition.CORE )
+	@RequiresPosition( Position.CORE )
 	async createTeam( @Args( "data" ) data: CreateTeamInput, @AuthInfo() authInfo: UserAuthInfo ) {
 		return this.teamService.createTeam( data, authInfo );
 	}

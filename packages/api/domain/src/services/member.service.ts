@@ -2,7 +2,7 @@ import type { UserAuthInfo } from "@api/common";
 import { LoggerFactory, PrismaService } from "@api/common";
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
-import { Department, Member, MemberPosition, Task, Team } from "@prisma/client";
+import { Department, Member, Position, Task, Team } from "@prisma/client";
 import { MemberMessages } from "../constants";
 import { MemberEvents } from "../events";
 import type { CreateMemberInput, EnableMemberInput } from "../inputs";
@@ -57,7 +57,7 @@ export class MemberService {
 		this.logger.debug( "Data: %o", department );
 
 		const cores = await this.prismaService.member.findMany( {
-			where: { department, position: MemberPosition.CORE }
+			where: { department, position: Position.CORE }
 		} );
 
 		this.logger.debug( "<< getDepartmentCores()" );
@@ -128,7 +128,7 @@ export class MemberService {
 		}
 
 		const member = await this.prismaService.member.create( {
-			data: { ...data, position: MemberPosition.COORD }
+			data: { ...data, position: Position.COORD }
 		} );
 
 		this.eventEmitter.emit( MemberEvents.CREATED, { ...member, password } );

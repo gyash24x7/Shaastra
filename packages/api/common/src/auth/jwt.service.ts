@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import type { Department, MemberPosition } from "@prisma/client";
+import type { Department, Position } from "@prisma/client";
 import type { Request } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
 import { readFile } from "node:fs/promises";
@@ -65,7 +65,7 @@ export class JwtService {
 		return {
 			id: authPayload.sub!,
 			department: departmentRole?.substring( 7 ) as Department | undefined,
-			position: positionRole?.substring( 9 ) as MemberPosition | undefined
+			position: positionRole?.substring( 9 ) as Position | undefined
 		};
 	}
 

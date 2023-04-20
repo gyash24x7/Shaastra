@@ -1,4 +1,4 @@
-import type { Department, MemberPosition } from "@prisma/client";
+import type { Department, Position } from "@prisma/client";
 
 export type JWTPayload = {
 	iss: string;
@@ -12,7 +12,7 @@ export type JWTPayload = {
 export type UserAuthInfo = {
 	id: string;
 	department?: Department;
-	position?: MemberPosition;
+	position?: Position;
 };
 
 export type JWTPayloadExtension = {

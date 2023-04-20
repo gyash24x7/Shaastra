@@ -1,6 +1,6 @@
 import type { ExecutionContext } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
-import { Department, MemberPosition } from "@prisma/client";
+import { Department, Position } from "@prisma/client";
 import type { Request, Response } from "express";
 import { describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
@@ -12,7 +12,7 @@ describe( "Auth Guard", () => {
 		const mockJwtService = mockDeep<JwtService>();
 		const mockRequest = mockDeep<Request>();
 		const mockResponse = mockDeep<Response>();
-		const mockAuthInfo = { id: "userId", position: MemberPosition.CORE, department: Department.WEBOPS };
+		const mockAuthInfo = { id: "userId", position: Position.CORE, department: Department.WEBOPS };
 		const mockServiceContext = mockDeep<ServiceContext>();
 		const mockExecutionContext = mockDeep<ExecutionContext>();
 		const mockGqlExecutionContext = mockDeep<GqlExecutionContext>();

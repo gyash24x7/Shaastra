@@ -8,6 +8,11 @@ import { AppConfig, Config } from "../config";
 import { LoggerFactory } from "../logger";
 import type { AuthPayload, UserAuthInfo } from "./auth.types";
 
+export interface JwtVerifyResponse {
+	authInfo?: UserAuthInfo;
+	authPayload?: AuthPayload;
+}
+
 @Injectable()
 export class JwtService {
 	public static readonly ALGORITHM = "RS256";
@@ -38,7 +43,7 @@ export class JwtService {
 			.sign( privateKey );
 	}
 
-	async verify( token: string ): Promise<UserAuthInfo | null> {
+	async verify( token: string ): Promise<JwtVerifyResponse> {
 		const publicKey = await this.getPublicKey();
 
 		const { payload } = await jwtVerify(
@@ -55,18 +60,20 @@ export class JwtService {
 		} );
 
 		if ( !payload ) {
-			return null;
+			return {};
 		}
 
 		const authPayload = { ...payload as AuthPayload };
 		const departmentRole = authPayload.roles.find( role => role.startsWith( "MEMBER_" ) );
 		const positionRole = authPayload.roles.find( role => role.startsWith( "POSITION_" ) );
 
-		return {
+		const authInfo = {
 			id: authPayload.sub!,
 			department: departmentRole?.substring( 7 ) as Department | undefined,
 			position: positionRole?.substring( 9 ) as Position | undefined
 		};
+
+		return { authInfo, authPayload };
 	}
 
 	extractTokenFromRequestHeaders( req: Request ) {

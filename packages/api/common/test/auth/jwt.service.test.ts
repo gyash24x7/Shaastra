@@ -48,17 +48,17 @@ describe( "Jwt Service", () => {
 
 	it( "should return UserAuthInfo after successful token verification", async () => {
 		const jwtService = new JwtService( mockConfig );
-		const authInfo = await jwtService.verify( signedToken );
+		const { authInfo } = await jwtService.verify( signedToken );
 		expect( authInfo?.id ).toBe( signPayload.id );
 		expect( authInfo?.department ).toBe( "WEBOPS" );
 		expect( authInfo?.position ).toBe( "CORE" );
 	} );
 
-	it( "should return null when token verification is unsuccessful", async () => {
+	it( "should return undefined when token verification is unsuccessful", async () => {
 		const jwtService = new JwtService( mockConfig );
 		const randomToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-		const authInfo = await jwtService.verify( randomToken );
-		expect( authInfo ).toBeNull();
+		const { authInfo } = await jwtService.verify( randomToken );
+		expect( authInfo ).toBeUndefined();
 	} );
 
 	it( "should be able to extract token from request headers", async () => {

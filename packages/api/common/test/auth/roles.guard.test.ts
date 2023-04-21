@@ -2,36 +2,39 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
 import { Request, Response } from "express";
 import { Department, Position } from "@prisma/client";
-import { DepartmentGuard, ServiceContext } from "@api/common";
+import { AuthPayload, RolesGuard, ServiceContext } from "@api/common";
 import { ExecutionContext } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
 import { Reflector } from "@nestjs/core";
 
-describe( "Department Guard", () => {
+describe( "Roles Guard", () => {
 	const mockRequest = mockDeep<Request>();
 	const mockResponse = mockDeep<Response>();
-	const mockAuthInfo = { id: "userId", position: Position.CORE, department: Department.WEBOPS };
+	const mockAuthInfo = { id: "userId", position: Position.CORE, roles: Department.WEBOPS };
 	const mockServiceContext = mockDeep<ServiceContext>();
 	const mockExecutionContext = mockDeep<ExecutionContext>();
 	const mockGqlExecutionContext = mockDeep<GqlExecutionContext>();
 	const mockGqlContextCreateFn = vi.fn().mockReturnValue( mockGqlExecutionContext );
 	const mockReflector = mockDeep<Reflector>();
+	const mockAuthPayload = mockDeep<AuthPayload>();
+	mockAuthPayload.roles = [ "MEMBER_WEBOPS", "POSITION_CORE" ];
 
 	beforeEach( () => {
 		mockRequest.cookies = { "auth-cookie": "some_jwt_token" };
 		mockServiceContext.req = mockRequest;
 		mockResponse.locals[ "authInfo" ] = mockAuthInfo;
+		mockResponse.locals[ "authPayload" ] = mockAuthPayload;
 		mockServiceContext.res = mockResponse;
 		mockGqlExecutionContext.getContext.mockReturnValue( mockServiceContext );
 		mockGqlExecutionContext.getHandler.mockReturnValue( vi.fn() );
 		GqlExecutionContext.create = mockGqlContextCreateFn;
 	} );
 
-	it( "should return true when authenticated user is part of specified departments", async () => {
-		mockReflector.get.mockReturnValue( [ Department.WEBOPS ] );
+	it( "should return true when authenticated user is part of specified roles", async () => {
+		mockReflector.get.mockReturnValue( [ "MEMBER_WEBOPS" ] );
 
-		const departmentGuard = new DepartmentGuard( mockReflector );
-		const isAuthorized = await departmentGuard.canActivate( mockExecutionContext );
+		const rolesGuard = new RolesGuard( mockReflector );
+		const isAuthorized = await rolesGuard.canActivate( mockExecutionContext );
 
 		expect( isAuthorized ).toBeTruthy();
 		expect( mockReflector.get ).toHaveBeenCalled();
@@ -39,11 +42,11 @@ describe( "Department Guard", () => {
 		expect( mockExecutionContext.getHandler ).toHaveBeenCalled();
 	} );
 
-	it( "should return false when authenticated user is not part of specified departments", async () => {
-		mockReflector.get.mockReturnValue( [ Department.ENVISAGE ] );
+	it( "should return false when authenticated user is not part of specified roles", async () => {
+		mockReflector.get.mockReturnValue( [ "MEMBER_ENVISAGE" ] );
 
-		const departmentGuard = new DepartmentGuard( mockReflector );
-		const isAuthorized = await departmentGuard.canActivate( mockExecutionContext );
+		const rolesGuard = new RolesGuard( mockReflector );
+		const isAuthorized = await rolesGuard.canActivate( mockExecutionContext );
 
 		expect( isAuthorized ).toBeFalsy();
 		expect( mockReflector.get ).toHaveBeenCalled();
@@ -55,10 +58,10 @@ describe( "Department Guard", () => {
 		mockResponse.locals[ "authInfo" ] = undefined;
 		mockServiceContext.res = mockResponse;
 		mockGqlExecutionContext.getContext.mockReturnValue( mockServiceContext );
-		mockReflector.get.mockReturnValue( [ Department.ENVISAGE ] );
+		mockReflector.get.mockReturnValue( [ "MEMBER_ENVISAGE" ] );
 
-		const departmentGuard = new DepartmentGuard( mockReflector );
-		const isAuthorized = await departmentGuard.canActivate( mockExecutionContext );
+		const rolesGuard = new RolesGuard( mockReflector );
+		const isAuthorized = await rolesGuard.canActivate( mockExecutionContext );
 
 		expect( isAuthorized ).toBeFalsy();
 		expect( mockReflector.get ).toHaveBeenCalled();
@@ -66,14 +69,14 @@ describe( "Department Guard", () => {
 		expect( mockExecutionContext.getHandler ).toHaveBeenCalled();
 	} );
 
-	it( "should return false when department not present in authInfo", async () => {
+	it( "should return false when roles not present in authInfo", async () => {
 		mockResponse.locals[ "authInfo" ] = { id: "some_id" };
 		mockServiceContext.res = mockResponse;
 		mockGqlExecutionContext.getContext.mockReturnValue( mockServiceContext );
-		mockReflector.get.mockReturnValue( [ Department.ENVISAGE ] );
+		mockReflector.get.mockReturnValue( [ "MEMBER_ENVISAGE" ] );
 
-		const departmentGuard = new DepartmentGuard( mockReflector );
-		const isAuthorized = await departmentGuard.canActivate( mockExecutionContext );
+		const rolesGuard = new RolesGuard( mockReflector );
+		const isAuthorized = await rolesGuard.canActivate( mockExecutionContext );
 
 		expect( isAuthorized ).toBeFalsy();
 		expect( mockReflector.get ).toHaveBeenCalled();

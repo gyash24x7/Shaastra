@@ -14,9 +14,10 @@ export class AuthGuard implements CanActivate {
 		const ctx = gqlContext.getContext<ServiceContext>();
 
 		const authCookie: string = ctx.req.cookies[ "auth-cookie" ];
-		const authInfo = await this.jwtService.verify( authCookie );
-		ctx.res.locals[ "authInfo" ] = authInfo;
+		const response = await this.jwtService.verify( authCookie );
+		ctx.res.locals[ "authInfo" ] = response?.authInfo;
+		ctx.res.locals[ "authPayload" ] = response?.authPayload;
 
-		return !!authInfo;
+		return !!response;
 	}
 }

@@ -1,10 +1,31 @@
 import type { CanActivate, ExecutionContext } from "@nestjs/common";
 import { Injectable } from "@nestjs/common";
-import { GqlExecutionContext } from "@nestjs/graphql";
-import type { ServiceContext } from "../utils";
 import { Reflector } from "@nestjs/core";
+import { GqlExecutionContext } from "@nestjs/graphql";
+import { Department, Position } from "@prisma/client";
+import { AuthPayload } from "../auth";
+import { LoggerFactory } from "../logger";
+import type { ServiceContext } from "../utils";
 import { ROLES_KEY } from "./roles.decorator";
-import { AuthPayload, LoggerFactory } from "@api/common";
+
+export const ALL_DEPARTMENTS = [
+	Department.WEBOPS,
+	Department.ENVISAGE,
+	Department.QMS,
+	Department.EVOLVE,
+	Department.FINANCE,
+	Department.CONCEPT_AND_DESIGN,
+	Department.EVENTS_AND_WORKSHOPS,
+	Department.OPERATIONS_AND_INFRASTRUCTURE_PLANNING,
+	Department.PUBLICITY,
+	Department.SHOWS_AND_EXHIBITIONS,
+	Department.SPONSORSHIP_AND_PR
+] as const;
+
+export const ALL_POSITIONS = [ Position.COORD, Position.HEAD, Position.CORE, Position.COCAS ] as const;
+
+export const ALL_ROLES = ALL_DEPARTMENTS.map( department => `MEMBER_${ department }` )
+	.concat( ALL_POSITIONS.map( position => `POSITION_${ position }` ) );
 
 @Injectable()
 export class RolesGuard implements CanActivate {

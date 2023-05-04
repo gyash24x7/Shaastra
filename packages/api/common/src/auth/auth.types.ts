@@ -1,4 +1,5 @@
 import type { Department, Position } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export type JWTPayload = {
 	iss: string;
@@ -15,9 +16,16 @@ export type UserAuthInfo = {
 	position?: Position;
 };
 
+export type Permission = {
+	model: Prisma.ModelName,
+	action: Prisma.PrismaAction,
+	possession: "any" | "own"
+}
+
 export type JWTPayloadExtension = {
 	id: string;
 	roles: string[];
+	permissions: Permission[];
 	verified: boolean;
 };
 

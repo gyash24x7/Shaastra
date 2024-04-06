@@ -1,0 +1,43 @@
+generator client {
+	provider = "prisma-client-js"
+	output   = "../generated"
+}
+
+generator pothos {
+	provider     = "prisma-pothos-types"
+	clientOutput = "./"
+	output       = "../generated/pothos.ts"
+}
+
+datasource db {
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
+}
+
+model Member {
+	id         String  @id
+	name       String
+	email      String  @unique
+	rollNumber String  @unique
+	department String
+	position   String  @default("COORD")
+	enabled    Boolean @default(false)
+
+	profilePic String @default("")
+	coverPic   String @default("")
+	mobile     String
+	upi        String @default("")
+	about      String @default("")
+
+	teams        Team[] @relation("TeamsPartOf")
+	teamsCreated Team[] @relation("TeamCreator")
+}
+
+model Team {
+	id          String   @id @default(cuid())
+	name        String   @unique
+	department  String
+	createdBy   Member   @relation("TeamCreator", fields: [createdById], references: [id])
+	createdById String
+	members     Member[] @relation("TeamsPartOf")
+}

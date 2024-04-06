@@ -1,0 +1,63 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.7", import: ["@key"])
+
+input AddMembersInput {
+  teamId: String!
+  memberIds: [String!]!
+}
+
+input CreateMemberInput {
+  id: String!
+  name: String!
+  email: String!
+  rollNumber: String!
+  department: String!
+  mobile: String!
+}
+
+input CreateTeamInput {
+  name: String!
+  department: String!
+}
+
+input EnableMemberInput {
+  id: String!
+}
+
+type Member
+  @key(fields: "id")
+{
+  id: ID!
+  name: String!
+  email: String!
+  rollNumber: String!
+  department: String!
+  position: String!
+  profilePic: String!
+  coverPic: String!
+  mobile: String!
+  upi: String!
+  about: String!
+  teams: [Team!]!
+}
+
+type Mutation {
+  createMember(data: CreateMemberInput!): Member!
+  enableMember(data: EnableMemberInput!): Member!
+  createTeam(data: CreateTeamInput!): Team!
+  addMembers(data: AddMembersInput!): Team!
+}
+
+type Query {
+  memberInfo: Member!
+}
+
+type Team
+  @key(fields: "id")
+{
+  id: ID!
+  name: String!
+  department: String!
+  members: [Member!]!
+  createdBy: Member!
+}

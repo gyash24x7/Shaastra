@@ -1,0 +1,49 @@
+generator client {
+	provider = "prisma-client-js"
+	output   = "../generated"
+}
+
+generator pothos {
+	provider     = "prisma-pothos-types"
+	clientOutput = "./"
+	output       = "../generated/pothos.ts"
+}
+
+datasource db {
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
+}
+
+model Task {
+	id            String         @id @default(cuid())
+	title         String
+	description   String
+	status        String         @default("REQUESTED")
+	createdBy     String
+	assigneeId    String?
+	createdAt     DateTime       @default(now())
+	deadline      DateTime
+	byDepartment  String
+	forDepartment String
+	activity      TaskActivity[] @relation("TaskActivityRelatedTo")
+	comments      TaskComment[]  @relation("TaskCommentRelatedTo")
+}
+
+model TaskActivity {
+	id          String   @id @default(cuid())
+	title       String
+	description String
+	taskId      String
+	task        Task     @relation("TaskActivityRelatedTo", fields: [taskId], references: [id])
+	type        String
+	createdAt   DateTime
+}
+
+model TaskComment {
+	id        String   @id @default(cuid())
+	content   String
+	createdBy String
+	task      Task     @relation("TaskCommentRelatedTo", fields: [taskId], references: [id])
+	taskId    String
+	createdAt DateTime @default(now())
+}

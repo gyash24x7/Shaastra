@@ -1,0 +1,26 @@
+{
+	"name": "@gateway/app",
+	"type": "module",
+	"module": "src/index.ts",
+	"types": "src/index.ts",
+	"scripts": {
+		"compose": "rover supergraph compose --config ./supergraph.yaml --output ./graphql/schema.graphql --elv2-license accept",
+		"dev": "bun run src/index.ts"
+	},
+	"dependencies": {
+		"@apollo/gateway": "2.7.2",
+		"@apollo/server": "4.10.2",
+		"@backend/utils": "workspace:*",
+		"cors": "2.8.5",
+		"express": "4.19.2",
+		"graphql": "16.8.1",
+		"supertokens-node": "17.0.2"
+	},
+	"devDependencies": {
+		"@apollo/rover": "0.23.0",
+		"@equip/app": "workspace:*",
+		"@types/cors": "2.8.17",
+		"@types/express": "4.17.21",
+		"@workforce/app": "workspace:*"
+	}
+}

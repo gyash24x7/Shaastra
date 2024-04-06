@@ -1,0 +1,10 @@
+federation_version: =2.7.2
+subgraphs:
+  workforce:
+    routing_url: http://localhost:8000/api/graphql
+    schema:
+      file: ../workforce/graphql/schema.graphql
+  equip:
+    routing_url: http://localhost:8010/api/graphql
+    schema:
+      file: ../equip/graphql/schema.graphql

@@ -1,0 +1,5 @@
+{
+	"extends": [ "@tsconfig/bun", "@tsconfig/strictest" ],
+	"include": [ "src", "tests", "generated" ],
+	"exclude": [ "node_modules" ]
+}

@@ -1,0 +1,100 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.7", import: ["@extends", "@external", "@key"])
+
+input AddTaskCommentInput {
+  taskId: String!
+  content: String!
+}
+
+input AssignTaskInput {
+  taskId: String!
+  assigneeId: String!
+}
+
+input CreateTaskInput {
+  title: String!
+  description: String!
+  deadline: String!
+  forDepartment: String!
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+type Member
+  @key(fields: "id")
+  @extends
+{
+  id: ID! @external
+  tasksAssigned: [Task!]!
+  tasksCreated: [Task!]!
+}
+
+type Mutation {
+  createTask(data: CreateTaskInput!): Task!
+  updateTask(data: UpdateTaskInput!): Task!
+  assignTask(data: AssignTaskInput!): Task!
+  startTaskProgress(data: TaskIdInput!): Task!
+  submitTask(data: TaskIdInput!): Task!
+  approveTask(data: TaskIdInput!): Task!
+  completeTask(data: TaskIdInput!): Task!
+  addTaskComment(data: AddTaskCommentInput!): TaskComment!
+}
+
+type Query {
+  tasks: [Task!]!
+  tasksRequested: [Task!]!
+  taskActivity(data: TaskIdInput!): [TaskActivity!]!
+  taskComments(data: TaskIdInput!): [TaskComment!]!
+}
+
+type Task
+  @key(fields: "id")
+{
+  id: ID!
+  title: String!
+  description: String!
+  status: String!
+  byDepartment: String!
+  forDepartment: String!
+  deadline: DateTime!
+  createdAt: DateTime!
+  activity: [TaskActivity!]!
+  comments: [TaskComment!]!
+  assignee: Member
+  createdBy: Member!
+}
+
+type TaskActivity
+  @key(fields: "id")
+{
+  id: ID!
+  title: String!
+  description: String!
+  type: String!
+  createdAt: DateTime!
+  task: Task!
+}
+
+type TaskComment
+  @key(fields: "id")
+{
+  id: ID!
+  content: String!
+  createdAt: DateTime!
+  task: Task!
+  createdBy: Member!
+}
+
+input TaskIdInput {
+  taskId: String!
+}
+
+input UpdateTaskInput {
+  taskId: String!
+  title: String!
+  description: String!
+  deadline: String!
+}
